@@ -1,9 +1,10 @@
 ﻿<#
 /*
 T4MVC Version 2.6.13
-Find latest version and documentation at http://aspnet.codeplex.com/wikipage?title=T4MVC
+Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
+T4MVC is part of the MvcContrib project (http://mvccontrib.codeplex.com)
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
 david.ebbo@microsoft.com
 http://twitter.com/davidebbo
@@ -11,7 +12,7 @@ http://blogs.msdn.com/davidebb
 
 Related blog posts: http://blogs.msdn.com/davidebb/archive/tags/T4MVC/default.aspx
 
-Feel free to use and modify to fit your needs.
+Please use in accordance to the MvcContrib license (http://mvccontrib.codeplex.com/license)
 */
 #>
 <#@ template language="C#v3.5" debug="true" hostspecific="true" #>
