@@ -326,6 +326,7 @@ namespace <#=controller.Namespace #> {
 <#} #>
 
         static readonly ViewNames s_views = new ViewNames();
+        [<#= GeneratedCode #>, DebuggerNonUserCode]
         public ViewNames Views { get { return s_views; } }
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public class ViewNames {
