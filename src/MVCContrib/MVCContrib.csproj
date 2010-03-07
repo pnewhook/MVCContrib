@@ -97,7 +97,10 @@
     <Compile Include="Attributes\DeserializeAttribute.cs" />
     <Compile Include="Binders\DerivedTypeModelBinder.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
+    <Compile Include="Binders\IPropertyNameProvider.cs" />
+    <Compile Include="Binders\ITypeStampOperator.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
+    <Compile Include="Binders\TypeStampOperator.cs" />
     <Compile Include="ConversionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Filters\DebugAttribute.cs" />

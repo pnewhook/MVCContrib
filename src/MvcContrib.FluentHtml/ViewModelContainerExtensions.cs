@@ -278,6 +278,29 @@ namespace MvcContrib.FluentHtml
 			return new SubmitButton(text, view.Behaviors);
 		}
 
+        /// <summary>
+        /// Generate a hidden field that contains a type stamp of the model
+        /// </summary>
+        /// <typeparam name="T">Model</typeparam>
+        /// <param name="view">extended view</param>
+        /// <returns>Hidden text field containing type information</returns>
+        public static TypeStamp TypeStamp<T>(this IViewModelContainer<T> view) where T : class
+        {
+            return new TypeStamp(view.HtmlNamePrefix, typeof(T));
+        }
+
+        public static void RenderTypedPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, Expression<Func<T, TPartialViewModel>> modelExpression)
+            where T : class
+            where TPartialViewModel : class
+        {
+            var instanceType = modelExpression.Compile().Invoke(view.ViewModel).GetType();
+
+            var viewName = PartialNameConventionService.GeneratePartialName(instanceType);
+
+            new PartialRenderer<T, TPartialViewModel>(view, viewName, modelExpression).RenderTypedPartial(instanceType);
+        }
+
+
 		/// <summary>
 		/// Renders a partial
 		/// </summary>

@@ -11,7 +11,7 @@ namespace MvcContrib.Binders
 	/// </summary>
 	public static class DerivedTypeModelBinderCache
 	{
-		private static ThreadSafeDictionary<Type, IEnumerable<Type>> typeCache =
+		private static readonly ThreadSafeDictionary<Type, IEnumerable<Type>> TypeCache =
 			new ThreadSafeDictionary<Type, IEnumerable<Type>>();
 
 		/// <summary>
@@ -23,7 +23,7 @@ namespace MvcContrib.Binders
 		{
 			try
 			{
-				typeCache.Add(baseType, derivedTypes);
+				TypeCache.Add(baseType, derivedTypes);
 
 				return true;
 			}
@@ -40,8 +40,8 @@ namespace MvcContrib.Binders
 		/// <returns>the set of matching alternate types or null when a set is not found</returns>
 		public static IEnumerable<Type> GetDerivedTypes(Type baseType)
 		{
-			if( typeCache.ContainsKey(baseType))
-				return typeCache[baseType];
+			if( TypeCache.ContainsKey(baseType))
+				return TypeCache[baseType];
 
 			// next we'll search for the derived type aware attributes on the type.
 			// letting go of the lock as this operation can be longer lived
@@ -62,7 +62,7 @@ namespace MvcContrib.Binders
 		/// </summary>
 		public static void Reset()
 		{
-			typeCache.Clear();
+			TypeCache.Clear();
 		}
 	}
 }

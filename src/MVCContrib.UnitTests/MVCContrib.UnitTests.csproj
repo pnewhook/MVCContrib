@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -153,6 +154,8 @@
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="Binders\DerivedTypeBinderAwareAttributeTests.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCacheTests.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinderTests.cs" />
+    <Compile Include="Binders\TypeStampOperatorTests.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
     <Compile Include="Filters\DebugAttributeTester.cs" />
@@ -194,9 +197,11 @@
     <Compile Include="FluentHtml\ModelExpressionHelperTests.cs" />
     <Compile Include="FluentHtml\ModelMasterViewPageTests.cs" />
     <Compile Include="FluentHtml\ModelStateDictionaryExtensionsTests.cs" />
+    <Compile Include="FluentHtml\PartialNameConventionServiceTests.cs" />
     <Compile Include="FluentHtml\RadioButtonTests.cs" />
     <Compile Include="FluentHtml\RadioSetTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
+    <Compile Include="FluentHtml\TypeStampTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />
     <Compile Include="FluentHtml\ModelViewPageTests.cs" />
     <Compile Include="FluentHtml\ModelViewUserControlPageTests.cs" />
