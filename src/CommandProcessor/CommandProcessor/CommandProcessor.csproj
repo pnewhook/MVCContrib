@@ -90,6 +90,7 @@
     <Compile Include="Validation\Rules\ValidateGreaterOrEqualTo.cs" />
     <Compile Include="Validation\Rules\ValidateGreaterThanZero.cs" />
     <Compile Include="Validation\Rules\ValidateNotNull.cs" />
+    <Compile Include="Validation\Rules\ValidateUSPhoneNumber.cs" />
     <Compile Include="Validation\ValidationEngine.cs" />
     <Compile Include="Validation\ValidationRule.cs" />
     <Compile Include="Validation\ValidationRuleFactory.cs" />

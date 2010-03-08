@@ -58,6 +58,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="IndexReplacerVisitorTester.cs" />
     <Compile Include="Validation\Rules\RegexValidationTester.cs" />
+    <Compile Include="Validation\Rules\ValidateUSPhoneNumberTester.cs" />
     <Compile Include="Validation\ValidationTestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
