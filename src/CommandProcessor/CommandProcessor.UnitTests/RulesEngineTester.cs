@@ -4,7 +4,6 @@ using Microsoft.Practices.ServiceLocation;
 using MvcContrib.CommandProcessor.Commands;
 using MvcContrib.CommandProcessor.Configuration;
 using MvcContrib.CommandProcessor.Interfaces;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace MvcContrib.CommandProcessor.UnitTests
@@ -21,7 +20,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 
 			rulesEngine.Initialize(typeof (TestMessage).Assembly, new FakeMessageMapper());
 			ExecutionResult result = rulesEngine.Process(new TestMessage(), typeof (TestMessage));
-			result.Successful.ShouldBeTrue();
+			Assert.True(result.Successful);
 		}
 
 		[Test]
@@ -29,7 +28,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 		{
 			var rulesEngine = new RulesEngine();
 			rulesEngine.Initialize(typeof (TestMessage).Assembly, new FakeMessageMapper());
-			rulesEngine.Configuration.ShouldNotBeNull();
+			Assert.NotNull(rulesEngine.Configuration);
 		}
 	}
 

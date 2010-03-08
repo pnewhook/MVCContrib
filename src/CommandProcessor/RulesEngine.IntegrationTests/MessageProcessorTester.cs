@@ -4,8 +4,7 @@ using MvcContrib.CommandProcessor.Commands;
 using MvcContrib.CommandProcessor.Configuration;
 using MvcContrib.CommandProcessor.Interfaces;
 using MvcContrib.CommandProcessor.Validation;
-using NBehave.Spec.NUnit;
-using NUnit.Framework;
+using  NUnit.Framework;
 using Rhino.Mocks;
 
 namespace MvcContrib.CommandProcessor.IntegrationTests
@@ -39,9 +38,9 @@ namespace MvcContrib.CommandProcessor.IntegrationTests
 
 			ExecutionResult result = processor.Process(new TestViewModel {Message = "foo"}, typeof (TestViewModel));
 
-			result.Successful.ShouldBeTrue();
-			result.Messages.Count().ShouldEqual(0);
-			result.ReturnItems.Get<TestCommandMessage>().ShouldNotBeNull();
+			Assert.True(result.Successful);
+			Assert.AreEqual(0, result.Messages.Count());
+			Assert.NotNull(result.ReturnItems.Get<TestCommandMessage>());
 		}
 	}
 

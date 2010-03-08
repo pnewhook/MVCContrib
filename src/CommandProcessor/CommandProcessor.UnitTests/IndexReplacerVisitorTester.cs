@@ -1,7 +1,6 @@
 using System;
 using System.Linq.Expressions;
 using MvcContrib.CommandProcessor.Helpers;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace MvcContrib.CommandProcessor.UnitTests
@@ -16,7 +15,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 
 			var result = new IndexReplacerVisitor(5).Visit(expr);
 
-			result.ToString().ShouldEqual("f => f.DrugTestDrugTestResults[5].SubstanceTested");
+			Assert.AreEqual("f => f.DrugTestDrugTestResults[5].SubstanceTested", result.ToString());
 		}
 	}
 

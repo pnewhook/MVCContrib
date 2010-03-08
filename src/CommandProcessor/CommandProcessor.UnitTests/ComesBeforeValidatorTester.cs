@@ -1,6 +1,5 @@
 using System;
 using MvcContrib.CommandProcessor.Validation.Rules;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace MvcContrib.CommandProcessor.UnitTests
@@ -34,7 +33,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -49,7 +48,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -63,7 +62,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -77,7 +76,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -91,7 +90,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -105,7 +104,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -119,7 +118,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -133,7 +132,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -147,7 +146,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -161,7 +160,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -175,7 +174,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -189,7 +188,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -203,7 +202,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -217,7 +216,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -231,7 +230,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			ValidateDateComesBefore rule = CreateValidator(operation);
 
 			string result = rule.IsValid(operation.EarlierDate);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 	}
 }

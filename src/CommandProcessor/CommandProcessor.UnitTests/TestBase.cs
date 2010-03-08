@@ -1,11 +1,10 @@
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace MvcContrib.CommandProcessor.UnitTests
 {
 	[TestFixture]
-	public abstract class TestBase : SpecBase
+	public abstract class TestBase
 	{
 		/// <summary>
 		/// Create a mock

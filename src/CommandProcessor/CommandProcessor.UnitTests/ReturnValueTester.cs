@@ -1,5 +1,4 @@
 using System;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace MvcContrib.CommandProcessor.UnitTests
@@ -10,11 +9,13 @@ namespace MvcContrib.CommandProcessor.UnitTests
 		[Test]
 		public void Can_set_value()
 		{
-			var value = new ReturnValue();
-			value.SetValue(new DateTime());
+			var expected = DateTime.Now;
 
-			value.Type.ShouldEqual(typeof (DateTime));
-			value.Value.ShouldEqual(value.Value);
+			var value = new ReturnValue();
+			value.SetValue(expected);
+
+			Assert.AreEqual(typeof (DateTime), value.Type);
+			Assert.AreEqual(expected, value.Value);
 		}
 	}
 }

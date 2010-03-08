@@ -1,6 +1,5 @@
 using System;
 using MvcContrib.CommandProcessor.Validation.Rules;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace MvcContrib.CommandProcessor.UnitTests
@@ -49,7 +48,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -64,7 +63,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -78,7 +77,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -92,7 +91,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -106,7 +105,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -120,7 +119,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -134,7 +133,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -148,7 +147,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldNotBeNull();
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -162,7 +161,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -176,7 +175,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -190,7 +189,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -204,7 +203,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -218,7 +217,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -232,7 +231,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 
 		[Test]
@@ -246,7 +245,7 @@ namespace MvcContrib.CommandProcessor.UnitTests
 			};
 
 			string result = rule.IsValid(operation);
-			result.ShouldBeNull();
+			Assert.Null(result);
 		}
 	}
 }
