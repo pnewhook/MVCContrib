@@ -84,6 +84,7 @@
     <Compile Include="Validation\Rules\DateSequenceRule.cs" />
     <Compile Include="Validation\IValidationRule.cs" />
     <Compile Include="Validation\Rules\PropertyIsNotDefaultValueRule.cs" />
+    <Compile Include="Validation\Rules\RegexValidation.cs" />
     <Compile Include="Validation\Rules\ValidateDateComesBefore.cs" />
     <Compile Include="Validation\Rules\ValidateEqualTo.cs" />
     <Compile Include="Validation\Rules\ValidateGreaterOrEqualTo.cs" />
