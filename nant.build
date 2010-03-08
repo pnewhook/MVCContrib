@@ -99,10 +99,13 @@
 	</target>
 
 	<target name="test" depends="init" if="${runtests}">
+		<property name="main.unit" value="${build.dir}/MvcContrib.UnitTests.dll"/>
+		<property name="command.unit" value="${build.dir}/MvcContrib.CommandProcessor.UnitTests.dll"/>
+		<property name="command.integration" value="${build.dir}/MvcContrib.CommandProcessor.IntegrationTests.dll"/>
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
 		<exec program="${nunit.path}" 
-			commandline="${build.dir}/MvcContrib.UnitTests.dll ${build.dir}/MvcContrib.CommandProcessor.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
+			commandline="${main.unit} ${command.unit} ${command.integration} /xml:${results.dir}\TestResult.xml" 
 			workingdir="." />
 
 		<!--<nunit2 failonerror="true" verbose="true">
