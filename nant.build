@@ -102,7 +102,7 @@
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
 		<exec program="${nunit.path}" 
-			commandline="${build.dir}/MvcContrib.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
+			commandline="${build.dir}/MvcContrib.UnitTests.dll ${build.dir}/MvcContrib.CommandProcessor.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
 			workingdir="." />
 
 		<!--<nunit2 failonerror="true" verbose="true">
