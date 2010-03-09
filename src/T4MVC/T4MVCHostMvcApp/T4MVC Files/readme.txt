@@ -55,12 +55,13 @@ TODO:
 
 HISTORY:
 
-2.6.13 (03-??-2010):
-- Added AddTimestampToStaticLinks flag to T4MVC.settings.t4 to  generate static links that change when the file changes.
+2.6.13 (03-08-2010):
+- Added AddTimestampToStaticLinks flag to T4MVC.settings.t4 to generate static links that change when the file changes.
 - Added support for [Bind(Prefix = "newParamName")] attribute so it generates the correct route value
 - Added an AddRouteValues overload that takes NameValueCollection, e.g.
 	- MVC.Home.About().AddRouteValues(Request.QueryString)
 - Added MapRoute overload that supports contraints
+- Removed some logic to support VS2010 Beta 2.  VS2010 RC or later should now be used.
 
 2.6.12 (01-15-2010):
 - Fixed issue where some special project types (e.g. DB projects) were throwing while enumerating over the list
