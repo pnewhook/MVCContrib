@@ -187,6 +187,11 @@ namespace T4MVCHostMvcApp.Tests
             Assert.AreEqual("~/Areas/break/Views/Shared/SharedAreaView.txt", MVC.@break.Shared.Views.SharedAreaView);
         }
 
+        [TestMethod()]
+        public void TestViewFolderWithNoMatchingController() {
+            Assert.AreEqual("~/Views/NoControllerMatchingFolder/Abcd.txt", MVC.NoControllerMatchingFolder.Views.Abcd);
+        }
+
 
 
         // ROUTE VALUES TESTS

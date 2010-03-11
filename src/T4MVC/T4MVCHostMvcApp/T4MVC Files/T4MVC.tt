@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.13
+T4MVC Version 2.6.14
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -282,8 +282,8 @@ namespace <#=controller.Namespace #> {
 <#if (!String.IsNullOrEmpty(controller.Namespace)) { #>
 namespace <#=controller.Namespace #> {
 <#} #>
-    public <#if (!controller.SharedViewFolder) { #>partial <#} #>class <#=controller.ClassName #> {
-<#if (!controller.SharedViewFolder) { #>
+    public <#if (!controller.NotRealController) { #>partial <#} #>class <#=controller.ClassName #> {
+<#if (!controller.NotRealController) { #>
 <#if (!controller.HasExplicitConstructor) { #>
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public <#=controller.ClassName #>() { }
@@ -334,7 +334,7 @@ namespace <#=controller.Namespace #> {
         }
     }
 
-<#if (!controller.SharedViewFolder) { #>
+<#if (!controller.NotRealController) { #>
     [<#= GeneratedCode #>, DebuggerNonUserCode]
     public class <#=controller.DerivedClassName #>: <#=controller.FullClassName #> {
         public <#=controller.DerivedClassName #>() : base(Dummy.Instance) { }
@@ -676,25 +676,18 @@ void ProcessAllViews(ProjectItem viewsProjectItem, AreaInfo area) {
         if (!IsFolder(item))
             continue;
 
-        ControllerInfo controller;
-        // Treat Shared as a pseudo-controller for consistency
-        if (item.Name.Equals("Shared", StringComparison.OrdinalIgnoreCase)) {
+        // Find the controller for this view folder
+        ControllerInfo controller = area.Controllers.SingleOrDefault(c => c.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase));
+
+        if (controller == null) {
+            // If it doesn't match a controller, treat as a pseudo-controller for consistency
             controller = new ControllerInfo {
                 Area = area,
-                SharedViewFolder = true,
+                NotRealController = true,
                 Namespace = MakeClassName(T4MVCNamespace, area.Name),
-                ClassName = "Shared" + ControllerSuffix
+                ClassName = item.Name + ControllerSuffix
             };
             area.Controllers.Add(controller);
-        }
-        else {
-            // Find the controller for this view folder
-            controller = area.Controllers.SingleOrDefault(c => c.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase));
-
-            if (controller == null) {
-                Error(String.Format("The Views folder has a sub-folder named '{0}', but there is no matching controller", item.Name));
-                continue;
-            }
         }
 
         AddViewsRecursive(item.ProjectItems, controller.ViewsFolder);
@@ -955,8 +948,8 @@ class ControllerInfo {
         }
     }
 
-    // True when this is not a real controller, but a placeholder for the Shared views folder
-    public bool SharedViewFolder { get; set; }
+    // True when this is not a real controller, but a placeholder for views folders that don't match a controller
+    public bool NotRealController { get; set; }
 
     public bool HasExplicitConstructor { get; set; }
     public bool HasExplicitDefaultConstructor { get; set; }
@@ -987,7 +980,7 @@ class ControllerInfo {
 
     public string FullDerivedClassName {
         get {
-            if (SharedViewFolder)
+            if (NotRealController)
                 return FullClassName;
             return MakeClassName(Namespace, DerivedClassName);
         }

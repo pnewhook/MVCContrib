@@ -140,6 +140,7 @@
     <Content Include="Views\Home\Sub Home\Nested-Sub\99 Super~Nested-View.txt" />
     <Content Include="Views\Home\Sub Home\Qqq.txt" />
     <Content Include="Views\Home\Sub Home\string.txt" />
+    <Content Include="Views\NoControllerMatchingFolder\Abcd.txt" />
     <None Include="Content\Sub Content-folder.test\SomeT4.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SomeT41.txt</LastGenOutput>
@@ -148,6 +149,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4Ctrl.cs</LastGenOutput>
     </None>
+    <Compile Include="T4MVC Files\NoControllerMatchingFolderController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <None Include="T4MVC Files\T4MVC.settings.t4" />
     <Compile Include="Areas\break\Controllers\PostController.cs" />
     <Compile Include="Areas\Home\Controllers\HomeController.cs" />
