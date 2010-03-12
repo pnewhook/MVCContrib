@@ -151,6 +151,8 @@
     <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
     <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="Binders\DerivedTypeBinderAwareAttributeTests.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinderCacheTests.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
     <Compile Include="Filters\DebugAttributeTester.cs" />
@@ -262,6 +264,7 @@
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
+    <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />
