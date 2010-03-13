@@ -185,6 +185,7 @@
     <Compile Include="UI\Grid\GridRowViewData.cs" />
     <Compile Include="UI\Grid\GridSections.cs" />
     <Compile Include="UI\Grid\GridSortOptions.cs" />
+    <Compile Include="UI\Grid\GridSortOptionsBinder.cs" />
     <Compile Include="UI\Grid\HtmlTableGridRenderer.cs" />
     <Compile Include="UI\Grid\IGridColumn.cs" />
     <Compile Include="UI\Grid\IGridModel.cs" />

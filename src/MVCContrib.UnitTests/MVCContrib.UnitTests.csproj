@@ -278,6 +278,7 @@
     <Compile Include="UI\Grid\GridExtensionTester.cs" />
     <Compile Include="UI\Grid\GridModelTester.cs" />
     <Compile Include="UI\Grid\GridRendererTester.cs" />
+    <Compile Include="UI\Grid\GridSortOptionsBinderTester.cs" />
     <Compile Include="UI\Grid\GridTester.cs" />
     <Compile Include="UI\Grid\Person.cs" />
     <Compile Include="UI\Html\HtmlHelperTests.cs" />
