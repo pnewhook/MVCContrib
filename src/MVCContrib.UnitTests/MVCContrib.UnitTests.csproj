@@ -280,8 +280,6 @@
     <Compile Include="UI\Grid\GridRendererTester.cs" />
     <Compile Include="UI\Grid\GridTester.cs" />
     <Compile Include="UI\Grid\Person.cs" />
-    <Compile Include="UI\Grid\SortableColumnRenderTester.cs" />
-    <Compile Include="UI\Grid\SortableGridRendererTests.cs" />
     <Compile Include="UI\Html\HtmlHelperTests.cs" />
     <Compile Include="UI\Html\ModelVisualizerTester.cs" />
     <Compile Include="UI\Html\Person.cs" />
