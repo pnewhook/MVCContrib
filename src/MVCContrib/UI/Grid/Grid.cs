@@ -80,6 +80,12 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridWithOptions<T> Sort(GridSortOptions sortOptions)
+		{
+			_gridModel.SortOptions = sortOptions;
+			return this;
+		}
+
 		/// <summary>
 		/// Renders to the TextWriter, and returns null. 
 		/// This is by design so that it can be used with inline syntax in views.

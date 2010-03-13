@@ -14,6 +14,8 @@ namespace MvcContrib.UI.Grid
 		private string _emptyText;
 		private IDictionary<string, object> _attributes = new Dictionary<string, object>();
 
+		public GridSortOptions SortOptions { get; set; }
+
 		ICollection<GridColumn<T>> IGridModel<T>.Columns
 		{
 			get { return _columnBuilder; }

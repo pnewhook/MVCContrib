@@ -77,10 +77,6 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +184,7 @@
     <Compile Include="UI\Grid\GridRow.cs" />
     <Compile Include="UI\Grid\GridRowViewData.cs" />
     <Compile Include="UI\Grid\GridSections.cs" />
+    <Compile Include="UI\Grid\GridSortOptions.cs" />
     <Compile Include="UI\Grid\HtmlTableGridRenderer.cs" />
     <Compile Include="UI\Grid\IGridColumn.cs" />
     <Compile Include="UI\Grid\IGridModel.cs" />

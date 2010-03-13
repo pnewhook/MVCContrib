@@ -64,6 +64,12 @@ namespace MvcContrib.UI.Grid.Syntax
 		/// <returns></returns>
 		IGridWithOptions<T> HeaderRowAttributes(IDictionary<string, object> attributes);
 
+
+		/// <summary>
+		/// Specifies that the grid is currently sorted
+		/// </summary>
+		IGridWithOptions<T> Sort(GridSortOptions sortOptions);
+
 		/// <summary>
 		/// Renders the grid to the TextWriter specified at creation
 		/// </summary>
