@@ -1,4 +1,4 @@
-using System.Web.Mvc;
+using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid
 {
@@ -9,10 +9,5 @@ namespace MvcContrib.UI.Grid
 	{
 		public string Column { get; set; }
 		public SortDirection SortDirection { get; set; }
-	}
-
-	public enum SortDirection
-	{
-		Ascending, Descending
 	}
 }

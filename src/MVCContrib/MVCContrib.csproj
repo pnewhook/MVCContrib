@@ -160,6 +160,8 @@
     <Compile Include="SimplyRestful\RestfulGetAction.cs" />
     <Compile Include="SimplyRestful\RestfulPostAction.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
+    <Compile Include="Sorting\SortDirection.cs" />
+    <Compile Include="Sorting\SortExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />

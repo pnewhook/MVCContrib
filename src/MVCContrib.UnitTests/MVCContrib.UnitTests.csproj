@@ -261,6 +261,7 @@
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandlerTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteMatchTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulSpecs.cs" />
+    <Compile Include="SortingExtensionsTester.cs" />
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using MvcContrib.Sorting;
 using MvcContrib.UI.Grid.Syntax;
 
 namespace MvcContrib.UI.Grid

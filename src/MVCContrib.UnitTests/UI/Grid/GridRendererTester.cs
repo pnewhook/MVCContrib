@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MvcContrib.Sorting;
 using MvcContrib.UI.Grid;
 using MvcContrib.UI.Grid.ActionSyntax;
 using NUnit.Framework;

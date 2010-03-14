@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid
 {
