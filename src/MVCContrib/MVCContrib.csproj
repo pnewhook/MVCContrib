@@ -257,6 +257,12 @@
     <Compile Include="UI\MenuBuilder\SecureActionMenuItem.cs" />
     <Compile Include="UI\Pager\Pager.cs" />
     <Compile Include="UI\Pager\PaginationExtensions.cs" />
+    <Compile Include="UI\ParamBuilder\ExplicitFacadeDictionary.cs" />
+    <Compile Include="UI\ParamBuilder\ParamBuilder.cs" />
+    <Compile Include="UI\ParamBuilder\ParamNames.cs" />
+    <Compile Include="UI\ParamBuilder\Params.cs" />
+    <Compile Include="UI\ReturnUrl\IReturnUrlManager.cs" />
+    <Compile Include="UI\ReturnUrl\ReturnUrlManager.cs" />
     <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="ViewDataExtensions.cs" />
     <Compile Include="ViewFactories\FileSystemViewSourceLoader.cs" />
@@ -333,8 +339,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayAddButton.aspx" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayRemoveButton.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayAddButton.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayRemoveButton.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
