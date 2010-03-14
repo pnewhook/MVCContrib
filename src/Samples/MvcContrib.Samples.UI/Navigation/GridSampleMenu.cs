@@ -23,7 +23,9 @@ namespace MvcContrib.Samples.UI.Navigation
 							Menu.Action<GridController>(c => c.UsingGridModel(), "Using a GridModel"),
 							Menu.Action<GridController>(c => c.WithSections(), "Using Grid Sections"),
 							Menu.Action<GridController>(c => c.WithActionSections(), "Using Grid Action Sections"),
-							Menu.Action<GridController>(c => c.AutoColumns(), "Auto-Generated Columns")
+							Menu.Action<GridController>(c => c.AutoColumns(), "Auto-Generated Columns"),
+							Menu.Action<GridController>(c => c.Sorting(null), "Sorting"),
+							Menu.Action<GridController>(c => c.SortingAndPaging(null,null), "Sorting and Paging")
 						),
 
 						Menu.Items("FluentHtml Samples", 

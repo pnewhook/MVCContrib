@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B2E419B6-E126-4B68-93CB-39FE0FAED786}</ProjectGuid>
     <ProjectTypeGuids>{603c0e0b-db56-11dc-be95-000d561079b0};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Dynamic.cs" />
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Controllers\FluentHtmlController.cs" />
     <Compile Include="Controllers\GridController.cs" />
@@ -113,6 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\blarg.gif" />
+    <Content Include="Content\down.png" />
+    <Content Include="Content\up.png" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery.bgiframe.js" />
@@ -125,6 +128,8 @@
     <Content Include="Views\FluentHtml\ViewParent.ascx" />
     <Content Include="Views\FluentHtml\ViewPerson.aspx" />
     <Content Include="Views\Grid\AutoColumns.aspx" />
+    <Content Include="Views\Grid\Sorting.aspx" />
+    <Content Include="Views\Grid\SortingAndPaging.aspx" />
     <Content Include="Views\Grid\WithActionSections.aspx" />
     <Content Include="Views\Grid\Index.aspx" />
     <Content Include="Views\Grid\Paged.aspx" />
@@ -175,6 +180,9 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

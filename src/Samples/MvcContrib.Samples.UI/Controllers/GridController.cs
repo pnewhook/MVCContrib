@@ -2,7 +2,8 @@ using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.Samples.UI.Models;
 using MvcContrib.Pagination;
-
+using MvcContrib.UI.Grid;
+using System.Linq.Dynamic;
 namespace MvcContrib.Samples.UI.Controllers
 {
 	using System;
@@ -45,6 +46,32 @@ namespace MvcContrib.Samples.UI.Controllers
 
 		public ActionResult AutoColumns() {
 			return View(_peopleFactory.CreatePeople());
+		}
+
+		public ActionResult Sorting(GridSortOptions sort) 
+		{
+			ViewData["sort"] = sort;
+			var people = _peopleFactory.CreatePeople();
+
+			if(!string.IsNullOrEmpty(sort.Column)) {
+				people = people.AsQueryable().OrderBy(sort.Column + " " + (sort.SortDirection == SortDirection.Ascending ? "asc" : "desc"));
+			}
+
+			return View(people);
+		}
+
+		public ActionResult SortingAndPaging(int? page, GridSortOptions sort) 
+		{
+			ViewData["sort"] = sort;
+			var people = _peopleFactory.CreatePeople();
+
+			if (!string.IsNullOrEmpty(sort.Column)) {
+				people = people.AsQueryable().OrderBy(sort.Column + " " + (sort.SortDirection == SortDirection.Ascending ? "asc" : "desc"));
+			}
+
+			people = people.AsPagination(page ?? 1, 10);
+
+			return View(people);
 		}
 	}
 }
