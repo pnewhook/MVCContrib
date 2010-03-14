@@ -3,11 +3,9 @@ using System.Web.Mvc;
 using MvcContrib.Samples.UI.Models;
 using MvcContrib.Pagination;
 using MvcContrib.UI.Grid;
-using System.Linq.Dynamic;
+using MvcContrib.Sorting;
 namespace MvcContrib.Samples.UI.Controllers
 {
-	using System;
-
 	public class GridController : Controller
 	{
 		private readonly PeopleFactory _peopleFactory = new PeopleFactory();
@@ -54,7 +52,7 @@ namespace MvcContrib.Samples.UI.Controllers
 			var people = _peopleFactory.CreatePeople();
 
 			if(!string.IsNullOrEmpty(sort.Column)) {
-				people = people.AsQueryable().OrderBy(sort.Column + " " + (sort.SortDirection == SortDirection.Ascending ? "asc" : "desc"));
+				people = people.OrderBy(sort.Column, sort.Direction);
 			}
 
 			return View(people);
@@ -66,7 +64,7 @@ namespace MvcContrib.Samples.UI.Controllers
 			var people = _peopleFactory.CreatePeople();
 
 			if (!string.IsNullOrEmpty(sort.Column)) {
-				people = people.AsQueryable().OrderBy(sort.Column + " " + (sort.SortDirection == SortDirection.Ascending ? "asc" : "desc"));
+				people = people.OrderBy(sort.Column, sort.Direction);
 			}
 
 			people = people.AsPagination(page ?? 1, 10);

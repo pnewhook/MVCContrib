@@ -364,7 +364,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		{
 			ColumnFor(x => x.Name);
 			_model.Sort(new GridSortOptions());
-			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;SortDirection=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
@@ -373,7 +373,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		{
 			ColumnFor(x => x.Name);
 			_model.Sort(new GridSortOptions() { Column = "Name" });
-			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_asc\"><a href=\"/?Column=Name&amp;SortDirection=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_asc\"><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
@@ -381,8 +381,8 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Should_render_grid_with_sort_direction_descending()
 		{
 			ColumnFor(x => x.Name);
-			_model.Sort(new GridSortOptions() { Column = "Name", SortDirection = SortDirection.Descending });
-			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_desc\"><a href=\"/?Column=Name&amp;SortDirection=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			_model.Sort(new GridSortOptions() { Column = "Name", Direction = SortDirection.Descending });
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_desc\"><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
@@ -392,7 +392,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 			_querystring["foo"] = "bar";
 			ColumnFor(x => x.Name);
 			_model.Sort(new GridSortOptions());
-			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;SortDirection=Ascending&amp;foo=bar\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Ascending&amp;foo=bar\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 

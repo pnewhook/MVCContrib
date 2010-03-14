@@ -8,6 +8,6 @@ namespace MvcContrib.UI.Grid
 	public class GridSortOptions
 	{
 		public string Column { get; set; }
-		public SortDirection SortDirection { get; set; }
+		public SortDirection Direction { get; set; }
 	}
 }
