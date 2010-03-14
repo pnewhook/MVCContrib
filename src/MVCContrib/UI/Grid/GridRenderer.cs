@@ -168,6 +168,11 @@ namespace MvcContrib.UI.Grid
 			}
 		}
 
+		protected bool IsSortingEnabled
+		{
+			get { return GridModel.SortOptions != null; }
+		}
+
 		protected abstract void RenderHeaderCellEnd();
 		protected abstract void RenderHeaderCellStart(GridColumn<T> column);
 		protected abstract void RenderRowStart(GridRowViewData<T> rowData);

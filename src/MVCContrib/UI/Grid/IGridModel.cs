@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MvcContrib.Sorting;
 using MvcContrib.UI.Grid.Syntax;
 
 namespace MvcContrib.UI.Grid
@@ -13,5 +14,6 @@ namespace MvcContrib.UI.Grid
 		IGridSections<T> Sections { get; }
 		string EmptyText { get; set; }
 		IDictionary<string, object> Attributes { get; set; }
+		GridSortOptions SortOptions { get; set; }
 	}
 }
