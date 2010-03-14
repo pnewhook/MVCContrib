@@ -31,8 +31,19 @@ namespace MvcContrib.Sorting
 		{
 			//http://msdn.microsoft.com/en-us/library/bb882637.aspx
 
+			if(string.IsNullOrEmpty(propertyName))
+			{
+				return datasource;
+			}
+
 			var type = typeof(T);
 			var property = type.GetProperty(propertyName);
+
+			if(property == null)
+			{
+				throw new InvalidOperationException(string.Format("Could not find a property called '{0}' on type {1}", propertyName, type));
+			}
+
 			var parameter = Expression.Parameter(type, "p");
 			var propertyAccess = Expression.MakeMemberAccess(parameter, property);
 			var orderByExp = Expression.Lambda(propertyAccess, parameter);

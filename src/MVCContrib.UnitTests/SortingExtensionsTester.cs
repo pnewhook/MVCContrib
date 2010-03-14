@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -58,6 +59,20 @@ namespace MvcContrib.UnitTests
 			data.ElementAt(2).Id.ShouldEqual(1);
 		}
 
+		[Test]
+		public void Does_not_perform_sort_if_column_null()
+		{
+			var data = _data.OrderBy(null, SortDirection.Ascending);
+			data.ElementAt(0).Name.ShouldEqual("B");
+			data.ElementAt(1).Name.ShouldEqual("C");
+			data.ElementAt(2).Name.ShouldEqual("A");
+		}
+
+		[Test]
+		public void Throws_when_property_name_invalid()
+		{
+			Assert.Throws<InvalidOperationException>(() => _data.OrderBy("foo", SortDirection.Ascending));
+		}
 
 
 		private class Person
