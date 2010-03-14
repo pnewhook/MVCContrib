@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq.Expressions;
 using System.Web;
@@ -20,6 +21,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		private IViewEngine _viewEngine;
 		private ViewEngineCollection _engines;
 		private StringWriter _writer;
+		private NameValueCollection _querystring;
 
 		[SetUp]
 		public void Setup()
@@ -29,6 +31,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 			_viewEngine = MockRepository.GenerateMock<IViewEngine>();
 			_engines = new ViewEngineCollection(new List<IViewEngine> { _viewEngine });
 			_writer = new StringWriter();
+			_querystring= new NameValueCollection();
 			RouteTable.Routes.MapRoute("default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 		}
 
@@ -382,6 +385,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Sorting_Maintains_existing_querystring_parameters()
+		{
+			_querystring["foo"] = "bar";
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;SortDirection=Ascending&amp;foo=bar\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);
@@ -404,6 +417,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 			context.Stub(x => x.Request).Return(request);
 			response.Stub(x => x.Output).Return(_writer);
 			request.Stub(x => x.ApplicationPath).Return("/");
+			request.Stub(x => x.QueryString).Return(_querystring);
 			response.Expect(x => x.ApplyAppPathModifier(Arg<string>.Is.Anything))
 				.Do(new Func<string,string>(x => x))
 				.Repeat.Any();

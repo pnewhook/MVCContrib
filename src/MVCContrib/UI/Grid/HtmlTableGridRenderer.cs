@@ -70,6 +70,16 @@ namespace MvcContrib.UI.Grid
 				}
 
 				var routeValues = new RouteValueDictionary(sortOptions);
+
+				//Re-add existing querystring
+				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys)
+				{
+					if(! routeValues.ContainsKey(key))
+					{
+						routeValues[key] = Context.RequestContext.HttpContext.Request.QueryString[key];
+					}
+				}
+
 				var link = HtmlHelper.GenerateLink(Context.RequestContext, RouteTable.Routes, column.DisplayName, null, null, null, routeValues, null);
 				RenderText(link);
 			}
