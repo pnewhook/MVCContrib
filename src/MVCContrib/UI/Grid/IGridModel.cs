@@ -13,6 +13,5 @@ namespace MvcContrib.UI.Grid
 		IGridSections<T> Sections { get; }
 		string EmptyText { get; set; }
 		IDictionary<string, object> Attributes { get; set; }
-		GridSortOptions SortOptions { get; set; }
-	}
+		GridSortOptions SortOptions { get; set; }	}
 }

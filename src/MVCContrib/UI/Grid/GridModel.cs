@@ -13,8 +13,13 @@ namespace MvcContrib.UI.Grid
 		private IGridRenderer<T> _renderer = new HtmlTableGridRenderer<T>();
 		private string _emptyText;
 		private IDictionary<string, object> _attributes = new Dictionary<string, object>();
+		private GridSortOptions _sortOptions;
 
-		public GridSortOptions SortOptions { get; set; }
+		GridSortOptions IGridModel<T>.SortOptions
+		{
+			get { return _sortOptions; }
+			set { _sortOptions = value; }
+		}
 
 		ICollection<GridColumn<T>> IGridModel<T>.Columns
 		{
@@ -106,6 +111,14 @@ namespace MvcContrib.UI.Grid
 		public void RenderUsing(IGridRenderer<T> renderer)
 		{
 			_renderer = renderer;
+		}
+
+		/// <summary>
+		/// Secifies that the grid is currently being sorted by the specified column in a particular direction.
+		/// </summary>
+		public void Sort(GridSortOptions sortOptions)
+		{
+			_sortOptions = sortOptions;
 		}
 
 		protected virtual ColumnBuilder<T> CreateColumnBuilder()
