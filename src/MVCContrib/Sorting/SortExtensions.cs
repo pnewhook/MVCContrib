@@ -61,17 +61,5 @@ namespace MvcContrib.Sorting
 
 			return datasource.Provider.CreateQuery<T>(orderByCall);
 		}
-
-		private static Func<T, IComparable> CreateOrderer<T>(string prop)
-		{
-			var sourceParameter = Expression.Parameter(typeof(T), "source");
-			var property = Expression.Property(sourceParameter, prop);
-
-			var orderExpression = Expression.Lambda<Func<T, IComparable>>(
-				Expression.Convert(property, typeof(IComparable)), sourceParameter
-			);
-
-			return orderExpression.Compile();
-		}
 	}
 }
