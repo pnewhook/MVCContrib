@@ -79,7 +79,7 @@ namespace <#=T4MVCNamespace #> {
 <#foreach (var area in Areas.Where(a => !string.IsNullOrEmpty(a.Name))) { #>
     [<#= GeneratedCode #>, DebuggerNonUserCode]
     public class <#=area.Name #>Class {
-        public readonly string Name = "<#=area.Name #>";
+        public readonly string Name = "<#=ProcessAreaOrControllerName(area.Name) #>";
 <#foreach (var controller in area.GetControllers()) { #>
         public <#=controller.FullClassName #> <#=controller.Name #> = new <#=controller.FullDerivedClassName #>();
 <#} #>
@@ -309,9 +309,9 @@ namespace <#=controller.Namespace #> {
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public <#=controller.ClassName #> Actions { get { return <#=controller.T4MVCControllerFullName #>; } }
         [<#= GeneratedCode #>]
-        public readonly string Area = "<#=controller.AreaName #>";
+        public readonly string Area = "<#=ProcessAreaOrControllerName(controller.AreaName) #>";
         [<#= GeneratedCode #>]
-        public readonly string Name = "<#=controller.Name #>";
+        public readonly string Name = "<#=ProcessAreaOrControllerName(controller.Name) #>";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [<#= GeneratedCode #>, DebuggerNonUserCode]
@@ -319,8 +319,12 @@ namespace <#=controller.Namespace #> {
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public class ActionNamesClass {
 <#foreach (var method in controller.ActionMethodsWithUniqueNames) { #>
+<#  if (UseLowercaseRoutes) { #>
+            public readonly string <#=method.ActionName #> = (<#=method.ActionNameValueExpression #>).ToLowerInvariant();
+<#  } else { #>
             public readonly string <#=method.ActionName #> = <#=method.ActionNameValueExpression #>;
-<#} #>
+<#  }
+} #>
         }
 
 <#} #>
@@ -823,6 +827,10 @@ static string GetVirtualPath(ProjectItem item) {
 
     // Make a virtual path from the physical path
     return "~/" + fileFullPath.Substring(AppRoot.Length).Replace('\\', '/');
+}
+
+static string ProcessAreaOrControllerName(string name) {
+    return UseLowercaseRoutes ? name.ToLowerInvariant() : name;
 }
 
 // Return all the CodeFunction2 in the CodeElements collection
