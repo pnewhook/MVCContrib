@@ -174,7 +174,7 @@ namespace MvcContrib.TestHelper
             //check action
             var methodCall = (MethodCallExpression) action.Body;
             string actualAction = routeData.Values.GetValue("action").ToString();
-            string expectedAction = methodCall.Method.Name;
+            string expectedAction = methodCall.Method.ActionName();
             actualAction.AssertSameStringAs(expectedAction);
                         
             //check parameters
