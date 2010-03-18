@@ -52,6 +52,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -149,10 +150,12 @@
     <Compile Include="Routing\UrlRouteAttribute.cs" />
     <Compile Include="Routing\UrlRouteParameterConstraintAttribute.cs" />
     <Compile Include="Routing\UrlRouteParameterDefaultAttribute.cs" />
+    <Compile Include="Services\EmailMetadata.cs" />
     <Compile Include="Services\EmailTemplateService.cs" />
     <Compile Include="MetaData\DefaultConvertible.cs" />
     <Compile Include="MetaData\NameValueDeserializer.cs" />
     <Compile Include="Services\DependencyResolver.cs" />
+    <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
     <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />
     <Compile Include="SimplyRestful\RestfulAction.cs" />
