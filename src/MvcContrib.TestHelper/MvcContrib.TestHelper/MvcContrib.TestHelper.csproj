@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
+    <Compile Include="Extensions\AttributeExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="NameAndDescriptionIdentifier.cs" />
     <Compile Include="FluentController\ActionExpectations.cs" />
