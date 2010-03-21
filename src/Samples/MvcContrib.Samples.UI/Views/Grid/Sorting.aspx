@@ -30,7 +30,8 @@
      		column.For(x => x.Id).Named("Person ID");
      		column.For(x => x.Name);
      		column.For(x => x.Gender);
-     		column.For(x => x.DateOfBirth).Format("{0:d}");
+			//We can exclude certain columns from being sorted
+     		column.For(x => x.DateOfBirth).Format("{0:d}").Sortable(false);
      	}) %>
 </asp:Content>
 
