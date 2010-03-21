@@ -396,6 +396,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable() {
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name).Sortable(false);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);

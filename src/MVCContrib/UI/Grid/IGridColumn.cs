@@ -59,6 +59,14 @@ namespace MvcContrib.UI.Grid
 		IGridColumn<T> Attributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes);
 
 		/// <summary>
+		/// Specifies whether or not this column should be sortable. 
+		/// The default is true. 
+		/// </summary>
+		/// <param name="isColumnSortable"></param>
+		/// <returns></returns>
+		IGridColumn<T> Sortable(bool isColumnSortable);
+
+		/// <summary>
 		/// Custom header renderer
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface

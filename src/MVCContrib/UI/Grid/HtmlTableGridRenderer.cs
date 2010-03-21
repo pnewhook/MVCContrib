@@ -33,7 +33,7 @@ namespace MvcContrib.UI.Grid
 		{
 			var attributes = new Dictionary<string, object>(column.HeaderAttributes);
 
-			if(IsSortingEnabled)
+			if(IsSortingEnabled && column.Sortable)
 			{
 				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
 
@@ -55,7 +55,7 @@ namespace MvcContrib.UI.Grid
 
 		protected override void RenderHeaderText(GridColumn<T> column) 
 		{
-			if(IsSortingEnabled)
+			if(IsSortingEnabled && column.Sortable)
 			{
 				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
 
