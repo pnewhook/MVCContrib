@@ -2,167 +2,95 @@ using System;
 using System.IO;
 using System.Net.Mail;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MvcContrib.Services
 {
-	/// <remarks>
-	/// Inspired by Castle's EmailTemplateService.
-	/// </remarks>
-	public class EmailTemplateService : IEmailTemplateService
-	{
-		private static readonly String HeaderPattern = @"[ \t]*(?<header>(to|from|cc|bcc|subject|reply-to|X-\w+)):[ \t]*(?<value>(.)+)(\r*\n*)?";
-		private static readonly Regex HeaderRegEx = new Regex(HeaderPattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    /// <remarks>
+    /// Inspired by Castle's EmailTemplateService.
+    /// </remarks>
+    public class EmailTemplateService : IEmailTemplateService
+    {
+        private readonly IViewStreamReader _viewReader;
 
-		#region Message Processing
+        public EmailTemplateService()
+        {
+            _viewReader = new ViewStreamReader();
+        }
 
-		private bool IsLineAHeader(string line, out string header, out string value)
-		{
-			Match match = HeaderRegEx.Match(line);
+        public EmailTemplateService(IViewStreamReader viewReader)
+        {
+            _viewReader = viewReader;
+        }
 
-			if(match.Success)
-			{
-				header = match.Groups["header"].ToString();
-				value = match.Groups["value"].ToString();
-				return true;
-			}
-			else
-			{
-				header = value = null;
-				return false;
-			}
-		}
+        public MailMessage RenderMessage(string viewName, EmailMetadata metadata, ControllerContext context)
+        {
+            var details = GetEmailDetails(viewName, metadata, context);
+            
+            var result = new MailMessage { From = metadata.From, Subject = details.Subject, Body = details.Body, IsBodyHtml = metadata.IsHtmlEmail };
+            metadata.To.ForEach(x => result.To.Add(x));
+            metadata.Cc.ForEach(x => result.CC.Add(x));
+            metadata.Bcc.ForEach(x => result.Bcc.Add(x));
 
-		private void ProcessHeader(MailMessage message, string header, string value)
-		{
-			switch(header.ToLowerInvariant())
-			{
-				case "to":
-					message.To.Add(BuildMailAddress(value));
-					break;
+            return result;
+        }
 
-				case "cc":
-					message.CC.Add(BuildMailAddress(value));
-					break;
+        private EmailDetails GetEmailDetails(string viewName, EmailMetadata metadata, ControllerContext context)
+        {
+            using(var stream = _viewReader.GetViewStream(viewName, metadata, context)) {
+                string subject = "";
+                string body = "";
 
-				case "bcc":
-					message.Bcc.Add(BuildMailAddress(value));
-					break;
+                using (var reader = new StreamReader(stream)) {
+                    bool subjectProcessed = false;
+                    string line;
+                    while ((line = reader.ReadLine()) != null) {
+                        if (!subjectProcessed) {
+                            if (string.IsNullOrEmpty(line)) continue;
 
-				case "subject":
-					message.Subject = value;
-					break;
+                            subject = line;
+                            subjectProcessed = true;
+                            continue;
+                        }
+                        body += line;
+                    }
+                }
 
-				case "from":
-					message.From = BuildMailAddress(value);
-					break;
+                return new EmailDetails { Body = body, Subject = subject };
+            }
+        }
 
-				case "reply-to":
-					message.ReplyTo = BuildMailAddress(value);
-					break;
+        /// <summary>
+        /// The only information that comes from the email template is subject and body. 
+        /// 
+        /// Everything else ("to", "from", etc) is known when we call the service. 
+        /// But subject/body are localizable and can contain placeholders - so they need 
+        /// to get fetched from the email template view. 
+        /// </summary>
+        private class EmailDetails
+        {
+            public string Subject { get; set; }
+            public string Body { get; set; }
+        }
 
-				default:
-					message.Headers[header] = value;
-					break;
-			}
-		}
+        private class ViewStreamReader : IViewStreamReader
+        {
+            public Stream GetViewStream(string viewName, object model, ControllerContext context)
+            {
+                var view = ViewEngines.Engines.FindPartialView(context, viewName).View;
+                if (view == null) {
+                    throw new InvalidOperationException(string.Format("Could not find a view named '{0}'", viewName));
+                }
 
-		private static MailAddress BuildMailAddress(string value)
-		{
-			int indexOfOpeningParenthesis = value.IndexOf('(');
-			if(indexOfOpeningParenthesis < 0)
-			{
-				return new MailAddress(value);
-			}
-			else
-			{
-				int indexOfClosingParenthesis = value.IndexOf(')');
-				int length = indexOfClosingParenthesis - indexOfOpeningParenthesis - 1;
+                var sb = new StringBuilder();
+                using (var writer = new StringWriter(sb)) {
+                    var viewContext = new ViewContext(context, view, new ViewDataDictionary(model), new TempDataDictionary(), writer);
+                    view.Render(viewContext, writer);
 
-				string email = value.Substring(0, indexOfOpeningParenthesis);
-				string name = value.Substring(indexOfOpeningParenthesis + 1, length);
-
-				return new MailAddress(email, name);
-			}
-		}
-
-		private MailMessage ProcessContentStream(Stream stream, Encoding encoding)
-		{
-			var message = new MailMessage();
-
-			stream.Position = 0;
-			using(var reader = new StreamReader(stream, encoding))
-			{
-				bool isInBody = false;
-				var body = new StringBuilder();
-				string line, header, value;
-
-				while((line = reader.ReadLine()) != null)
-				{
-					if(!isInBody && String.IsNullOrEmpty(line))
-						continue; //skip blank lines in beginning of message
-
-					if(!isInBody && IsLineAHeader(line, out header, out value))
-					{
-						ProcessHeader(message, header, value);
-					}
-					else
-					{
-						isInBody = true;
-						body.AppendLine(line);
-					}
-				}
-
-				message.Body = body.ToString();
-			}
-
-			if(message.Body.ToLowerInvariant().Contains("<html>"))
-				message.IsBodyHtml = true;
-
-			return message;
-		}
-
-		#endregion
-
-		public virtual MailMessage RenderMessage(ControllerContext controllerContext, string viewName)
-		{
-			HttpResponseBase response = controllerContext.HttpContext.Response;
-
-			response.Flush(); //clear out anything that is in there already
-
-			MailMessage message;
-			Stream filter = null;
-
-			Stream oldFilter = response.Filter;
-			try
-			{
-				filter = new MemoryStream();
-				response.Filter = filter;
-
-				var view = ViewEngines.Engines.FindPartialView(controllerContext, viewName).View;
-
-				if(view == null)
-				{
-					throw new InvalidOperationException(string.Format("Could not find a view named '{0}'", viewName));
-				}
-
-				var viewContext = new ViewContext(controllerContext, view, controllerContext.Controller.ViewData, controllerContext.Controller.TempData, response.Output);
-                view.Render(viewContext, controllerContext.HttpContext.Response.Output);
-
-				response.Flush(); //flush content to our filter
-				message = ProcessContentStream(filter, response.ContentEncoding);
-			}
-			finally
-			{
-				if(filter != null)
-					filter.Dispose();
-
-				response.Filter = oldFilter;
-			}
-
-			return message;
-		}
-	}
+                    writer.Flush();
+                }
+                return new MemoryStream(Encoding.UTF8.GetBytes(sb.ToString()));
+            }
+        }
+    }
 }
