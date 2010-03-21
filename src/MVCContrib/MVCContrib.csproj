@@ -77,10 +77,6 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +163,8 @@
     <Compile Include="SimplyRestful\RestfulGetAction.cs" />
     <Compile Include="SimplyRestful\RestfulPostAction.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
+    <Compile Include="Sorting\SortDirection.cs" />
+    <Compile Include="Sorting\SortExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />
@@ -181,12 +179,6 @@
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
-    <Compile Include="UI\Grid\Sortable\ColumnSortOptions.cs" />
-    <Compile Include="UI\Grid\Sortable\ISortableDataSource.cs" />
-    <Compile Include="UI\Grid\Sortable\ComparableSortList.cs" />
-    <Compile Include="UI\Grid\Sortable\ISortableGridRenderer.cs" />
-    <Compile Include="UI\Grid\Sortable\SortableLinkRenderer.cs" />
-    <Compile Include="UI\Grid\Sortable\SortableHtmlGridRenderer.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
     <Compile Include="UI\Grid\GridColumn.cs" />
@@ -197,6 +189,7 @@
     <Compile Include="UI\Grid\GridRow.cs" />
     <Compile Include="UI\Grid\GridRowViewData.cs" />
     <Compile Include="UI\Grid\GridSections.cs" />
+    <Compile Include="UI\Grid\GridSortOptions.cs" />
     <Compile Include="UI\Grid\HtmlTableGridRenderer.cs" />
     <Compile Include="UI\Grid\IGridColumn.cs" />
     <Compile Include="UI\Grid\IGridModel.cs" />

@@ -66,6 +66,12 @@ namespace MvcContrib.UnitTests.TestHelper
 			{
 				return null;
 			}
+
+            [ActionName("ActionName")]
+            public ActionResult MethodNameDoesntMatch()
+            {
+                return null;
+            }
 		}
 		public class Bar
 		{
@@ -301,5 +307,12 @@ namespace MvcContrib.UnitTests.TestHelper
 		{
 			"~/funky/NullableDateTime/2009-1-1".Route().ShouldMapTo<FunkyController>(x => x.NullableDateTime(new DateTime(2009, 1, 1)));
 		}
+
+        [Test]
+        public void should_match_method_with_different_name_than_action()
+        {
+            "~/funky/ActionName".Route().ShouldMapTo<FunkyController>(x => x.MethodNameDoesntMatch());
+        }
+
 	}
 }
