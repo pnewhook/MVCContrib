@@ -36,6 +36,9 @@ const string ActionResultInterfaceName = "IT4MVCActionResult";
 // If false, the namespace of the interface must be referenced in the 'ReferencedNamespaces' setting
 const bool GenerateActionResultInterface = true;
 
+// If true, use lower case tokens in routes for the area, controller and action names
+const bool UseLowercaseRoutes = false;
+
 // The namespace that the links are generated in (e.g. "Links", as in Links.Content.nerd_jpg)
 const string LinksNamespace = "Links";
 
@@ -59,7 +62,7 @@ readonly string[] ExcludedStaticFileExtensions = new string[] {
 // This way it will be saved and update itself next time the project is built.
 // Basically, it keeps marking itself as unsaved to make the next build work.
 // Note: this is certainly hacky, but is the best I could come up with so far.
-static bool AlwaysKeepTemplateDirty = true;
+static bool AlwaysKeepTemplateDirty = false;
 
 // If true,the template output will be split into multiple files.
 static bool SplitIntoMultipleFiles = true;

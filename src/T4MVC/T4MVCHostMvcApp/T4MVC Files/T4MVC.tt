@@ -79,7 +79,7 @@ namespace <#=T4MVCNamespace #> {
 <#foreach (var area in Areas.Where(a => !string.IsNullOrEmpty(a.Name))) { #>
     [<#= GeneratedCode #>, DebuggerNonUserCode]
     public class <#=area.Name #>Class {
-        public readonly string Name = "<#=area.Name #>";
+        public readonly string Name = "<#=ProcessAreaOrControllerName(area.Name) #>";
 <#foreach (var controller in area.GetControllers()) { #>
         public <#=controller.FullClassName #> <#=controller.Name #> = new <#=controller.FullDerivedClassName #>();
 <#} #>
@@ -284,6 +284,13 @@ namespace <#=controller.Namespace #> {
 <#} #>
 
 <#foreach (var controller in GetControllers()) { #>
+<#
+    // Don't generate the file at all if the existing one is up to date
+    if (controller.GeneratedCodeIsUpToDate) {
+        manager.KeepGeneratedFile(controller.GeneratedFileName);
+        continue;
+    }
+#>
 <#manager.StartNewFile(controller.GeneratedFileName); #>
 <#if (!String.IsNullOrEmpty(controller.Namespace)) { #>
 namespace <#=controller.Namespace #> {
@@ -315,9 +322,9 @@ namespace <#=controller.Namespace #> {
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public <#=controller.ClassName #> Actions { get { return <#=controller.T4MVCControllerFullName #>; } }
         [<#= GeneratedCode #>]
-        public readonly string Area = "<#=controller.AreaName #>";
+        public readonly string Area = "<#=ProcessAreaOrControllerName(controller.AreaName) #>";
         [<#= GeneratedCode #>]
-        public readonly string Name = "<#=controller.Name #>";
+        public readonly string Name = "<#=ProcessAreaOrControllerName(controller.Name) #>";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [<#= GeneratedCode #>, DebuggerNonUserCode]
@@ -325,8 +332,12 @@ namespace <#=controller.Namespace #> {
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public class ActionNamesClass {
 <#foreach (var method in controller.ActionMethodsWithUniqueNames) { #>
+<#  if (UseLowercaseRoutes) { #>
+            public readonly string <#=method.ActionName #> = (<#=method.ActionNameValueExpression #>).ToLowerInvariant();
+<#  } else { #>
             public readonly string <#=method.ActionName #> = <#=method.ActionNameValueExpression #>;
-<#} #>
+<#  }
+} #>
         }
 
 <#} #>
@@ -395,6 +406,7 @@ static AreaInfo DefaultArea;
 static Dictionary<string, ResultTypeInfo> ResultTypes;
 static TextTransformation TT;
 static string T4FileName;
+static string T4Folder;
 static string GeneratedCode = @"GeneratedCode(""T4MVC"", ""2.0"")";
 static float MvcVersion;
 static string HtmlStringType;
@@ -423,6 +435,7 @@ IEnumerable<ControllerInfo> GetAbstractControllers() {
 void PrepareDataToRender(TextTransformation tt) {
     TT = tt;
     T4FileName = Path.GetFileName(Host.TemplateFile);
+    T4Folder = Path.GetDirectoryName(Host.TemplateFile);
     Areas = new HashSet<AreaInfo>();
     ResultTypes = new Dictionary<string, ResultTypeInfo>();
 
@@ -539,19 +552,20 @@ void ProcessControllersRecursive(ProjectItem projectItem, AreaInfo area) {
     }
 
     if (projectItem.FileCodeModel != null) {
+        DateTime controllerLastWriteTime = File.GetLastWriteTime(projectItem.get_FileNames(0));
         foreach (var type in projectItem.FileCodeModel.CodeElements.OfType<CodeClass2>()) {
-            ProcessControllerType(type, area);
+            ProcessControllerType(type, area, controllerLastWriteTime);
         }
         // Process all the elements that are namespaces
         foreach (var ns in projectItem.FileCodeModel.CodeElements.OfType<CodeNamespace>()) {
             foreach (var type in ns.Members.OfType<CodeClass2>()) {
-                ProcessControllerType(type, area);
+                ProcessControllerType(type, area, controllerLastWriteTime);
             }
         }
     }
 }
 
-void ProcessControllerType(CodeClass2 type, AreaInfo area) {
+void ProcessControllerType(CodeClass2 type, AreaInfo area, DateTime controllerLastWriteTime) {
     // Only process types that end with Controller
     // REVIEW: this check is not super reliable. Should look at base class.
     if (!type.Name.EndsWith(ControllerSuffix, StringComparison.OrdinalIgnoreCase))
@@ -580,6 +594,12 @@ void ProcessControllerType(CodeClass2 type, AreaInfo area) {
         Namespace = type.Namespace != null ? type.Namespace.Name : String.Empty,
         ClassName = type.Name
     };
+
+    // Check if the controller has changed since the generated file was last created
+    DateTime lastGenerationTime = File.GetLastWriteTime(controllerInfo.GeneratedFileFullPath);
+    if (lastGenerationTime > controllerLastWriteTime) {
+        controllerInfo.GeneratedCodeIsUpToDate = true;
+    }
 
     // Either process new ControllerInfo or integrate results into existing object for partially defined controllers
     var target = area.Controllers.Add(controllerInfo) ? controllerInfo : area.Controllers.First(c => c.Equals(controllerInfo));
@@ -835,6 +855,10 @@ static string GetVirtualPath(ProjectItem item) {
     return "~/" + fileFullPath.Substring(AppRoot.Length).Replace('\\', '/');
 }
 
+static string ProcessAreaOrControllerName(string name) {
+    return UseLowercaseRoutes ? name.ToLowerInvariant() : name;
+}
+
 // Return all the CodeFunction2 in the CodeElements collection
 static IEnumerable<CodeFunction2> GetMethods(CodeClass2 codeClass) {
     // Only look at regular method (e.g. ignore things like contructors)
@@ -966,6 +990,8 @@ class ControllerInfo {
     public bool HasDefaultConstructor { get { return !HasExplicitConstructor || HasExplicitDefaultConstructor; } }
     public bool IsAbstract { get; set; }
 
+    public bool GeneratedCodeIsUpToDate { get; set; }
+
     public string ClassName { get; set; }
     public string Name {
         get {
@@ -999,6 +1025,12 @@ class ControllerInfo {
     public string GeneratedFileName {
         get {
             return MakeClassName(AreaName, ClassName + ".generated.cs");
+        }
+    }
+
+    public string GeneratedFileFullPath {
+        get {
+            return Path.Combine(T4Folder, GeneratedFileName);
         }
     }
 
@@ -1233,6 +1265,11 @@ class Manager {
         return (host is IServiceProvider) ? new VSManager(host, template) : new Manager(host, template);
     }
 
+    public void KeepGeneratedFile(String name) {
+        name = Path.Combine(Path.GetDirectoryName(host.TemplateFile), name);
+        generatedFileNames.Add(name);
+    }
+    
     public void StartNewFile(String name) {
         if (name == null)
             throw new ArgumentNullException("name");

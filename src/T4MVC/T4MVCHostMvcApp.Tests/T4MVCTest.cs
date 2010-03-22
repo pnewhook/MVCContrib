@@ -4,10 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using System.Collections.Specialized;
 
-namespace T4MVCHostMvcApp.Tests
-{
-    
-    
+namespace T4MVCHostMvcApp.Tests {
     /// <summary>
     ///This is a test class for T4ExtensionsTest and is intended
     ///to contain all T4ExtensionsTest Unit Tests
@@ -16,6 +13,9 @@ namespace T4MVCHostMvcApp.Tests
     public class T4MVCTest {
         private TestContext testContextInstance;
         private static HtmlHelper Html { get; set; }
+
+        // Change to true if testing 'UseLowercaseRoutes = true' mode (in T4MVC.settings.t4)
+        const bool UseLowerCaseNames = false;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -77,15 +77,15 @@ namespace T4MVCHostMvcApp.Tests
 
         [TestMethod()]
         public void TestAreaNameConstants() {
-            Assert.AreEqual("Home", MVC.HomeArea.Name);
-            Assert.AreEqual("break", MVC.@break.Name);
+            TestAreaControllerActionName("Home", MVC.HomeArea.Name);
+            TestAreaControllerActionName("break", MVC.@break.Name);
         }
 
         [TestMethod()]
         public void TestAreaNameConstantsViewController() {
-            Assert.AreEqual("", MVC.T4Ctrl.Area);
-            Assert.AreEqual("Home", MVC.HomeArea.Home.Area);
-            Assert.AreEqual("break", MVC.@break.Post.Area);
+            TestAreaControllerActionName("", MVC.T4Ctrl.Area);
+            TestAreaControllerActionName("Home", MVC.HomeArea.Home.Area);
+            TestAreaControllerActionName("break", MVC.@break.Post.Area);
         }
 
 
@@ -93,18 +93,18 @@ namespace T4MVCHostMvcApp.Tests
 
         [TestMethod()]
         public void TestControllerName() {
-            Assert.AreEqual("Home", MVC.Home.Name);
+            TestAreaControllerActionName("Home", MVC.Home.Name);
         }
 
         [TestMethod()]
         public void TestAreaControllerName() {
-            Assert.AreEqual("Home", MVC.HomeArea.Home.Name);
-            Assert.AreEqual("Post", MVC.@break.Post.Name);
+            TestAreaControllerActionName("Home", MVC.HomeArea.Home.Name);
+            TestAreaControllerActionName("Post", MVC.@break.Post.Name);
         }
 
         [TestMethod()]
         public void TestT4SubFolderControllerName() {
-            Assert.AreEqual("T4Ctrl", MVC.T4Ctrl.Name);
+            TestAreaControllerActionName("T4Ctrl", MVC.T4Ctrl.Name);
         }
 
 
@@ -112,23 +112,23 @@ namespace T4MVCHostMvcApp.Tests
 
         [TestMethod()]
         public void TestSimpleActionName() {
-            Assert.AreEqual("Index", MVC.Home.ActionNames.Index);
+            TestAreaControllerActionName("Index", MVC.Home.ActionNames.Index);
         }
 
         [TestMethod()]
         public void TestRenamedActionName() {
-            Assert.AreEqual("The About Action", MVC.Home.ActionNames.About);
-            Assert.AreEqual("New-Name for Blah", MVC.Home.ActionNames.Blah);
+            TestAreaControllerActionName("The About Action", MVC.Home.ActionNames.About);
+            TestAreaControllerActionName("New-Name for Blah", MVC.Home.ActionNames.Blah);
         }
 
         [TestMethod()]
         public void TestT4SubFolderControlleActionName() {
-            Assert.AreEqual("Qqq", MVC.T4Ctrl.ActionNames.Qqq);
+            TestAreaControllerActionName("Qqq", MVC.T4Ctrl.ActionNames.Qqq);
         }
 
         [TestMethod()]
         public void TestAreaActionName() {
-            Assert.AreEqual("The Index", MVC.HomeArea.Home.ActionNames.Index);
+            TestAreaControllerActionName("The Index", MVC.HomeArea.Home.ActionNames.Index);
         }
 
 
@@ -392,9 +392,23 @@ namespace T4MVCHostMvcApp.Tests
         // HELPER METHODS
 
         private void TestAreaControllerActionNames(IT4MVCActionResult actionResult, string area, string controller, string action) {
+            if (UseLowerCaseNames) {
+                area = area.ToLowerInvariant();
+                controller = controller.ToLowerInvariant();
+                action = action.ToLowerInvariant();
+            }
+
             TestRouteValue(actionResult, "area", area);
             TestRouteValue(actionResult, "controller", controller);
             TestRouteValue(actionResult, "action", action);
+        }
+
+        private void TestAreaControllerActionName(string expected, string actual) {
+            if (UseLowerCaseNames) {
+                expected = expected.ToLowerInvariant();
+            }
+
+            Assert.AreEqual(expected, actual);
         }
 
         private void TestRouteValue(IT4MVCActionResult actionResult, string name, object value) {
