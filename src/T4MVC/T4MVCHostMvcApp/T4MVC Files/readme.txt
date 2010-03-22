@@ -58,6 +58,8 @@ HISTORY:
 2.6.14 (03-??-2010):
 - Added UseLowercaseRoutes flag to lower case the area, controller and action names in routes
 - Added support for Views folders that don't match a controller name.
+- Added optimization to not regenerate files when the controller has not changed since the last generation
+- Turn AlwaysKeepTemplateDirty to false by default. We now have an AddIn which provides a better solution to this
 
 2.6.13 (03-08-2010):
 - Added AddTimestampToStaticLinks flag to T4MVC.settings.t4 to generate static links that change when the file changes.
