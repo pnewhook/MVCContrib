@@ -130,6 +130,11 @@ namespace System.Web.Mvc {
             return urlHelper.RouteUrl(result.GetRouteValueDictionary());
         }
 
+        public static string ActionAbsolute(this UrlHelper urlHelper, ActionResult result) {
+            return string.Format("{0}{1}",urlHelper.RequestContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority),
+                urlHelper.RouteUrl(result.GetRouteValueDictionary()));
+        }
+
         public static <#=HtmlStringType #> ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions) {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions);
         }
@@ -221,10 +226,11 @@ namespace System.Web.Mvc {
             return System.IO.File.Exists(filePath);
         }
 
+        static DateTime CenturyBegin=new DateTime(2001,1,1);
         public static string TimestampString(string virtualPath) {
             if (!HostingEnvironment.IsHosted) return string.Empty;
             string filePath = HostingEnvironment.MapPath(virtualPath);
-            return System.IO.File.GetLastWriteTimeUtc(filePath).ToString("s");
+            return Convert.ToString((System.IO.File.GetLastWriteTimeUtc(filePath).Ticks-CenturyBegin.Ticks)/1000000000,16);            
         }
     }
 }
@@ -775,8 +781,12 @@ PopIndent();
 <#+
 if (!ExcludedStaticFileExtensions.Any(extension => projectItem.Name.EndsWith(extension, StringComparison.OrdinalIgnoreCase))) {
     // if it's a non-minified javascript file
-    if (projectItem.Name.EndsWith(".js") && !projectItem.Name.EndsWith(".min.js")) { #>
+    if (projectItem.Name.EndsWith(".js") && !projectItem.Name.EndsWith(".min.js")) { 
+        if (AddTimestampToStaticLinks) { #>
+    public static readonly string <#=Sanitize(projectItem.Name)#> = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/<#=projectItem.Name.Replace(".js", ".min.js")#>") ? Url("<#=projectItem.Name.Replace(".js", ".min.js")#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>") : Url("<#=projectItem.Name#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>");
+        <#+} else {#>
     public static readonly string <#=Sanitize(projectItem.Name)#> = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/<#=projectItem.Name.Replace(".js", ".min.js")#>") ? Url("<#=projectItem.Name.Replace(".js", ".min.js")#>") : Url("<#=projectItem.Name#>");
+        <#+}  #>          
 <#+}
     else if (AddTimestampToStaticLinks) { #>
     public static readonly string <#=Sanitize(projectItem.Name)#> = Url("<#=projectItem.Name#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>");
