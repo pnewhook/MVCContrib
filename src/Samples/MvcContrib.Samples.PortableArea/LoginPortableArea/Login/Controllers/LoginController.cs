@@ -17,18 +17,20 @@ namespace LoginPortableArea.Login.Controllers
 		[HttpPost]
 		public ActionResult Index(LoginInput loginInput)
 		{
-			var message = new LoginInputMessage {Input = loginInput, Result = new LoginResult()};
+            if (ModelState.IsValid)
+            {
+                var message = new LoginInputMessage {Input = loginInput, Result = new LoginResult()};
 
-			PortableArea.Bus.Send(message);
+                MvcContrib.Bus.Send(message);
 
-			if (message.Result.Success)
-			{
-				FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
-			}
+                if (message.Result.Success)
+                {
+                    FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
+                }
 
-			ModelState.AddModelError("model", message.Result.Message);
-
-			return View(loginInput);
+                ModelState.AddModelError("model", message.Result.Message);
+            }
+		    return View(loginInput);
 		}
 	}
 }

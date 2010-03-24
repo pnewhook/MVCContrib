@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MvcContrib;
 using MvcContrib.PortableAreas;
 using MvcContrib.UI.InputBuilder;
 
@@ -25,9 +26,9 @@ namespace PortableAreaSpike
 		protected void Application_Start()
 		{
 			//wire up a sample observer
-			PortableArea.Bus.Add(typeof (LogAllMessagesObserver));
+			Bus.AddMessageHandler(typeof (LogAllMessagesObserver));
 			//wire up a handler that validates a login for the Login Area.
-			PortableArea.Bus.Add(typeof (LoginHandler));
+			Bus.AddMessageHandler(typeof (LoginHandler));
 
 			//Default MVC2 registration syntax
 			AreaRegistration.RegisterAllAreas();
