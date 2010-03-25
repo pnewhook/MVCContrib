@@ -52,6 +52,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -77,10 +78,6 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -89,13 +86,19 @@
     </Compile>
     <Compile Include="ActionResults\PermanentRedirectResult.cs" />
     <Compile Include="ActionResults\PermanentRedirectToActionResult.cs" />
+    <Compile Include="ActionResults\RedirectToRouteResult.cs" />
     <Compile Include="ActionResults\XmlResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
-    <Compile Include="Attributes\AcceptGetAttribute.cs" />
-    <Compile Include="Attributes\AcceptPostAttribute.cs" />
+    <Compile Include="Attributes\DerivedTypeBinderAwareAttribute.cs" />
     <Compile Include="Attributes\DeserializeAttribute.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinder.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
+    <Compile Include="Binders\IPropertyNameProvider.cs" />
+    <Compile Include="Binders\ITypeStampOperator.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
+    <Compile Include="Binders\TypeStampOperator.cs" />
+    <Compile Include="ConversionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Filters\DebugAttribute.cs" />
     <Compile Include="Filters\LayoutAttribute.cs" />
@@ -108,6 +111,11 @@
     <Compile Include="Filters\RegExPreconditionFilter.cs" />
     <Compile Include="Filters\SubControllerActionToViewDataAttribute.cs" />
     <Compile Include="Filters\TempDataToViewData.cs" />
+    <Compile Include="FluentController\AbstractFluentController.cs" />
+    <Compile Include="FluentController\AbstractRestfulFluentController.cs" />
+    <Compile Include="FluentController\FluentControllerAction.cs" />
+    <Compile Include="HeadResult.cs" />
+    <Compile Include="FluentController\IRestfulController.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="HttpContextProvider.cs" />
@@ -117,6 +125,7 @@
     <Compile Include="ControllerFactories\IoCControllerFactory.cs" />
     <Compile Include="ISubController.cs" />
     <Compile Include="MimeTypes.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Pagination\CustomPagination.cs" />
     <Compile Include="Pagination\IPagination.cs" />
     <Compile Include="Pagination\LazyPagination.cs" />
@@ -126,23 +135,30 @@
     <Compile Include="PortableAreas\IEventMessage.cs" />
     <Compile Include="PortableAreas\IMessageHandler.cs" />
     <Compile Include="PortableAreas\IMessageHandlerFactory.cs" />
-    <Compile Include="PortableAreas\PortableArea.cs" />
+    <Compile Include="Bus.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistration.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Routing\CompressResponseAttribute.cs" />
     <Compile Include="Routing\DebugHttpHandler.cs" />
     <Compile Include="Routing\DebugRoute.cs" />
     <Compile Include="Routing\DebugRouteHandler.cs" />
     <Compile Include="Routing\MvcRoute.cs" />
     <Compile Include="Routing\RegexRoute.cs" />
+    <Compile Include="Routing\RouteAttributeUtility.cs" />
     <Compile Include="Routing\RouteDebugger.cs" />
+    <Compile Include="Routing\UrlRouteAttribute.cs" />
+    <Compile Include="Routing\UrlRouteParameterConstraintAttribute.cs" />
+    <Compile Include="Routing\UrlRouteParameterDefaultAttribute.cs" />
+    <Compile Include="Services\EmailMetadata.cs" />
     <Compile Include="Services\EmailTemplateService.cs" />
     <Compile Include="MetaData\DefaultConvertible.cs" />
     <Compile Include="MetaData\NameValueDeserializer.cs" />
     <Compile Include="Services\DependencyResolver.cs" />
+    <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
     <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />
     <Compile Include="SimplyRestful\RestfulAction.cs" />
@@ -150,8 +166,11 @@
     <Compile Include="SimplyRestful\RestfulGetAction.cs" />
     <Compile Include="SimplyRestful\RestfulPostAction.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
+    <Compile Include="Sorting\SortDirection.cs" />
+    <Compile Include="Sorting\SortExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
+    <Compile Include="ThreadSafeDictionary.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -159,19 +178,10 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\ASPXViewEngine\AutoTypingHelper.cs" />
-    <Compile Include="UI\BlockRenderer.cs" />
-    <Compile Include="UI\CapturingResponseFilter.cs" />
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
-    <Compile Include="UI\Grid\Sortable\ColumnSortOptions.cs" />
-    <Compile Include="UI\Grid\Sortable\ISortableDataSource.cs" />
-    <Compile Include="UI\Grid\Sortable\ComparableSortList.cs" />
-    <Compile Include="UI\Grid\Sortable\ISortableGridRenderer.cs" />
-    <Compile Include="UI\Grid\Sortable\SortableLinkRenderer.cs" />
-    <Compile Include="UI\Grid\Sortable\SortableHtmlGridRenderer.cs" />
-    <Compile Include="UI\HtmlAttributeRendererExtensions.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
     <Compile Include="UI\Grid\GridColumn.cs" />
@@ -182,21 +192,22 @@
     <Compile Include="UI\Grid\GridRow.cs" />
     <Compile Include="UI\Grid\GridRowViewData.cs" />
     <Compile Include="UI\Grid\GridSections.cs" />
+    <Compile Include="UI\Grid\GridSortOptions.cs" />
     <Compile Include="UI\Grid\HtmlTableGridRenderer.cs" />
     <Compile Include="UI\Grid\IGridColumn.cs" />
     <Compile Include="UI\Grid\IGridModel.cs" />
     <Compile Include="UI\Grid\IGridRenderer.cs" />
     <Compile Include="UI\Grid\RenderingContext.cs" />
     <Compile Include="UI\Grid\Syntax.cs" />
-    <Compile Include="UI\HtmlAttributes.cs" />
-    <Compile Include="UI\DomQuery.cs" />
-    <Compile Include="UI\DomQueryBuilder.cs" />
-    <Compile Include="UI\Element.cs" />
-    <Compile Include="UI\ElementRenderTool.cs" />
     <Compile Include="UI\Html\ModelVisualizerExtension.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\CanDeleteAllAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\DisplayOrderAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\ExampleAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\LabelAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\NoAddAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\NoDeleteAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\PartialViewAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\ArrayPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\DateTimePropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\DefaultNameConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\DefaultProperyConvention.cs" />
@@ -204,8 +215,9 @@
     <Compile Include="UI\InputBuilder\Conventions\Property\GuidPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\IPropertyViewModelNameConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\IPropertyViewModelFactory.cs" />
-    <Compile Include="UI\InputBuilder\DefaultConventionsFactory.cs" />
+    <Compile Include="UI\InputBuilder\DefaultPropertyConventionsFactory.cs" />
     <Compile Include="UI\InputBuilder\DefaultTypeConventionsFactory.cs" />
+    <Compile Include="UI\InputBuilder\Helpers\DisplayOrderExtensions.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ExpressionHelper.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ReflectionHelper.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Type\DefaultTypeViewModelFactoryConvention.cs" />
@@ -228,21 +240,9 @@
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceVirtualFile.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
-    <Compile Include="UI\LegacyGrid\GridColumn.cs" />
-    <Compile Include="UI\LegacyGrid\GridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\GridHelper.cs" />
-    <Compile Include="UI\LegacyGrid\Grid.cs" />
-    <Compile Include="UI\LegacyGrid\IExpressionColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\IGridSections.cs" />
-    <Compile Include="UI\LegacyGrid\INestedGridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\IRootGridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\ISimpleColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\GridBase.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
     <Compile Include="UI\Html\HtmlStringExtensions.cs" />
-    <Compile Include="UI\IHtmlAttributes.cs" />
-    <Compile Include="UI\IElement.cs" />
-    <Compile Include="UI\IScriptableElement.cs" />
+    <Compile Include="UI\InputBuilder\Views\TypeViewModelExtensions.asax.cs" />
     <Compile Include="UI\MenuBuilder\ActionMenuItem.cs" />
     <Compile Include="UI\MenuBuilder\MenuHelpText.cs" />
     <Compile Include="UI\MenuBuilder\MenuTitle.cs" />
@@ -253,26 +253,12 @@
     <Compile Include="UI\MenuBuilder\SecureActionMenuItem.cs" />
     <Compile Include="UI\Pager\Pager.cs" />
     <Compile Include="UI\Pager\PaginationExtensions.cs" />
-    <Compile Include="UI\ScriptableElement.cs" />
-    <Compile Include="UI\Tags\CheckBoxField.cs" />
-    <Compile Include="UI\Tags\CheckBoxList.cs" />
-    <Compile Include="UI\Tags\Password.cs" />
-    <Compile Include="UI\Tags\Form.cs" />
-    <Compile Include="UI\Tags\HiddenField.cs" />
-    <Compile Include="UI\Tags\Image.cs" />
-    <Compile Include="UI\Tags\Input.cs" />
-    <Compile Include="UI\Tags\InputButton.cs" />
-    <Compile Include="UI\Tags\InputElementList.cs" />
-    <Compile Include="UI\Tags\InputImage.cs" />
-    <Compile Include="UI\Tags\Link.cs" />
-    <Compile Include="UI\Tags\Option.cs" />
-    <Compile Include="UI\Tags\RadioField.cs" />
-    <Compile Include="UI\Tags\RadioList.cs" />
-    <Compile Include="UI\Tags\Script.cs" />
-    <Compile Include="UI\Tags\Select.cs" />
-    <Compile Include="UI\Tags\SubmitButton.cs" />
-    <Compile Include="UI\Tags\TextArea.cs" />
-    <Compile Include="UI\Tags\TextBox.cs" />
+    <Compile Include="UI\ParamBuilder\ExplicitFacadeDictionary.cs" />
+    <Compile Include="UI\ParamBuilder\ParamBuilder.cs" />
+    <Compile Include="UI\ParamBuilder\ParamNames.cs" />
+    <Compile Include="UI\ParamBuilder\Params.cs" />
+    <Compile Include="UI\ReturnUrl\IReturnUrlManager.cs" />
+    <Compile Include="UI\ReturnUrl\ReturnUrlManager.cs" />
     <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="ViewDataExtensions.cs" />
     <Compile Include="ViewFactories\FileSystemViewSourceLoader.cs" />
@@ -280,15 +266,21 @@
     <Compile Include="ViewFactories\IViewSourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Row.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Display.Master">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master">
       <SubType>ASPXCodeBehind</SubType>
@@ -305,6 +297,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Int32.aspx">
     </EmbeddedResource>
@@ -333,6 +326,19 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayParagraph.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayAddButton.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayRemoveButton.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>

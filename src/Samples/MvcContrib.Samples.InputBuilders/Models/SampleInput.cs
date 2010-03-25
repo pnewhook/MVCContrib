@@ -28,5 +28,22 @@ namespace Web.Models
 		public string Html { get; set; }
 
 		public bool IsNeeded { get; set; }
+
+		public ChildInput[] ChildrenForms { get; set; }
+		[NoAdd]
+		public ChildInput[] ChildrenFormsNoAdd { get; set; }
+		[NoDelete]
+		public ChildInput[] ChildrenFormsNoDelete { get; set; }
+		
+		[CanDeleteAll]
+		public ChildInput[] ChildrenFormsCanDeleteAll { get; set; }
+
+	}
+
+	public class ChildInput
+	{
+		public string Name { get; set; }
+		public bool IsActive { get; set; }
+		public NumberOfTypeEnum TheEnum { get; set; }
 	}
 }

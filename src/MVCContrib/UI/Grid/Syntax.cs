@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid.Syntax
 {
@@ -63,6 +63,12 @@ namespace MvcContrib.UI.Grid.Syntax
 		/// <param name="attributes">Attributes for the header row</param>
 		/// <returns></returns>
 		IGridWithOptions<T> HeaderRowAttributes(IDictionary<string, object> attributes);
+
+
+		/// <summary>
+		/// Specifies that the grid is currently sorted
+		/// </summary>
+		IGridWithOptions<T> Sort(GridSortOptions sortOptions);
 
 		/// <summary>
 		/// Renders the grid to the TextWriter specified at creation

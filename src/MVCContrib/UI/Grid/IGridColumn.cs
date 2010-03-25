@@ -44,12 +44,6 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		IGridColumn<T> DoNotEncode();
 
-        /// <summary>
-        /// Render column with sort link in header.
-        /// </summary>
-        /// <returns></returns>
-        IGridColumn<T> Sortable(bool isDefaultSort);
-
 		/// <summary>
 		/// Defines additional attributes for the column heading.
 		/// </summary>
@@ -63,6 +57,14 @@ namespace MvcContrib.UI.Grid
 		/// <param name="attributes">Lambda expression that should return a dictionary containing the attributes for the cell</param>
 		/// <returns></returns>
 		IGridColumn<T> Attributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes);
+
+		/// <summary>
+		/// Specifies whether or not this column should be sortable. 
+		/// The default is true. 
+		/// </summary>
+		/// <param name="isColumnSortable"></param>
+		/// <returns></returns>
+		IGridColumn<T> Sortable(bool isColumnSortable);
 
 		/// <summary>
 		/// Custom header renderer

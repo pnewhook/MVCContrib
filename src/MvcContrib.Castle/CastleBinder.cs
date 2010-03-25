@@ -14,6 +14,7 @@ namespace MvcContrib.Castle
 	/// }
 	/// ]]>
 	/// </summary>
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false), Serializable]
 	public class CastleBindAttribute : AbstractParameterBinderAttribute
 	{
@@ -66,7 +67,14 @@ namespace MvcContrib.Castle
 		{
             IDataBinder binder = LocateBinder(controllerContext);
             string modelName = Prefix ?? bindingContext.ModelName;
-            object instance = binder.BindObject(bindingContext.ModelType, modelName, Exclude, null, new TreeBuilder().BuildSourceNode(GetStore(controllerContext)));
+			var tree = new TreeBuilder().BuildSourceNode(GetStore(controllerContext));
+
+			if(tree.GetChildNode(modelName) == null)
+			{
+				return null;	
+			}
+
+			object instance = binder.BindObject(bindingContext.ModelType, modelName, Exclude, null, tree);
             return instance;
 		}
 

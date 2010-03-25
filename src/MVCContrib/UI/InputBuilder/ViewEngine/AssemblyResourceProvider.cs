@@ -15,7 +15,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 		public Type TypeToLocateAssembly { get; set; }
 		public string GetFullyQualifiedTypeFromPath(string path)
 		{
-			string replace = path.ToLower().Replace("~/", Namespace.ToLower());
+			string replace = path.ToLower().Replace("~", Namespace.ToLower());
 			if(!string.IsNullOrEmpty(VirtualPath))
 				replace = replace.Replace(VirtualPath.ToLower(), "");
 			return replace.Replace("/", ".").ToLower();
@@ -34,7 +34,10 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 		static AssemblyResourceProvider()
 		{
 			ResourcePaths = new Dictionary<string, AssemblyResource>();
-			var resource = new AssemblyResource() { VirtualPath = "/views/inputbuilders", TypeToLocateAssembly = typeof(AssemblyResourceProvider), Namespace = "MvcContrib.UI.InputBuilder." };
+			var resource = new AssemblyResource() { 
+				VirtualPath = "/views/inputbuilders", 
+				TypeToLocateAssembly = typeof(AssemblyResourceProvider), 
+				Namespace = "MvcContrib.UI.InputBuilder.Views.InputBuilders" };
 			AddResource(resource);
 		}
 		public static void AddResource(AssemblyResource assemblyResource)
@@ -87,7 +90,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 
 		public override VirtualFile GetFile(string virtualPath)
 		{
-			if(IsAppResourcePath(virtualPath))
+            if (IsAppResourcePath(virtualPath) && !base.FileExists(virtualPath))
 			{
 				var resource = GetResource(virtualPath);// ResourcePaths[virtualPath.ToLower()];
 				return new AssemblyResourceVirtualFile(virtualPath, resource);

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using MvcContrib.Sorting;
 using MvcContrib.UI.Grid;
 using MvcContrib.UI.Grid.ActionSyntax;
 using NUnit.Framework;
@@ -19,6 +22,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		private IViewEngine _viewEngine;
 		private ViewEngineCollection _engines;
 		private StringWriter _writer;
+		private NameValueCollection _querystring;
 
 		[SetUp]
 		public void Setup()
@@ -28,6 +32,14 @@ namespace MvcContrib.UnitTests.UI.Grid
 			_viewEngine = MockRepository.GenerateMock<IViewEngine>();
 			_engines = new ViewEngineCollection(new List<IViewEngine> { _viewEngine });
 			_writer = new StringWriter();
+			_querystring= new NameValueCollection();
+			RouteTable.Routes.MapRoute("default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+		}
+
+		[TearDown]
+		public void Teardown()
+		{
+			RouteTable.Routes.Clear();
 		}
 
 		private IGridColumn<Person> ColumnFor(Expression<Func<Person, object>> expression)
@@ -347,24 +359,78 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Should_render_grid_with_sort_links()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_render_grid_with_sort_direction_ascending()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions() { Column = "Name" });
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_asc\"><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_render_grid_with_sort_direction_descending()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions() { Column = "Name", Direction = SortDirection.Descending });
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_desc\"><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Sorting_Maintains_existing_querystring_parameters()
+		{
+			_querystring["foo"] = "bar";
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Ascending&amp;foo=bar\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable() {
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name).Sortable(false);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);
 		}
-		
 
 		private string RenderGrid(IEnumerable<Person> dataSource)
 		{
 			var renderer = new HtmlTableGridRenderer<Person>(_engines);
 
 			var viewContext = MockRepository.GenerateStub<ViewContext>();
+			viewContext.Writer = _writer;
 			viewContext.View = MockRepository.GenerateStub<IView>();
 			viewContext.TempData = new TempDataDictionary();
 			var response = MockRepository.GenerateStub<HttpResponseBase>();
 			var context = MockRepository.GenerateStub<HttpContextBase>();
+			var request = MockRepository.GenerateStub<HttpRequestBase>();
+
 			viewContext.HttpContext = context;
-			context.Stub(p =>p.Response).Return(response);
-			response.Stub(p => p.Output).Return(_writer);
+			context.Stub(x =>x.Response).Return(response);
+			context.Stub(x => x.Request).Return(request);
+			response.Stub(x => x.Output).Return(_writer);
+			request.Stub(x => x.ApplicationPath).Return("/");
+			request.Stub(x => x.QueryString).Return(_querystring);
+			response.Expect(x => x.ApplyAppPathModifier(Arg<string>.Is.Anything))
+				.Do(new Func<string,string>(x => x))
+				.Repeat.Any();
 
 			renderer.Render(_model, dataSource, _writer, viewContext);
             

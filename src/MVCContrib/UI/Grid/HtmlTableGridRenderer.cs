@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
+using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid
 {
@@ -22,17 +24,71 @@ namespace MvcContrib.UI.Grid
 			RenderText("</th>");
 		}
 
-        protected void RenderHeaderCellStart()
-        {
-            RenderText("<th>");
-        }
-		protected override void RenderHeaderCellStart(GridColumn<T> column)
+		protected virtual void RenderEmptyHeaderCellStart()
 		{
-			string attrs = BuildHtmlAttributes(column.HeaderAttributes);
-			if(attrs.Length > 0)
+			RenderText("<th>");
+		}
+
+		protected override void RenderHeaderCellStart(GridColumn<T> column) 
+		{
+			var attributes = new Dictionary<string, object>(column.HeaderAttributes);
+
+			if(IsSortingEnabled && column.Sortable)
+			{
+				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+
+				if (isSortedByThisColumn) 
+				{
+					string sortClass = GridModel.SortOptions.Direction == SortDirection.Ascending ? "sort_asc" : "sort_desc";
+					attributes["class"] = sortClass;
+				}
+			}
+
+			string attrs = BuildHtmlAttributes(attributes);
+
+			if (attrs.Length > 0)
 				attrs = " " + attrs;
 
 			RenderText(string.Format("<th{0}>", attrs));
+		}
+
+
+		protected override void RenderHeaderText(GridColumn<T> column) 
+		{
+			if(IsSortingEnabled && column.Sortable)
+			{
+				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+
+				var sortOptions = new GridSortOptions 
+				{
+					Column = column.Name
+				};
+
+				if(isSortedByThisColumn)
+				{
+					sortOptions.Direction = (GridModel.SortOptions.Direction == SortDirection.Ascending)
+						? SortDirection.Descending 
+						: SortDirection.Ascending;
+				}
+
+				var routeValues = new RouteValueDictionary(sortOptions);
+
+				//Re-add existing querystring
+				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys)
+				{
+					if(! routeValues.ContainsKey(key))
+					{
+						routeValues[key] = Context.RequestContext.HttpContext.Request.QueryString[key];
+					}
+				}
+
+				var link = HtmlHelper.GenerateLink(Context.RequestContext, RouteTable.Routes, column.DisplayName, null, null, null, routeValues, null);
+				RenderText(link);
+			}
+			else
+			{
+				base.RenderHeaderText(column);
+			}
 		}
 
 		protected override void RenderRowStart(GridRowViewData<T> rowData)
@@ -113,7 +169,7 @@ namespace MvcContrib.UI.Grid
 		protected override void RenderEmpty()
 		{
 		    RenderHeadStart();
-		    RenderHeaderCellStart();
+		    RenderEmptyHeaderCellStart();
 		    RenderHeaderCellEnd();
             RenderHeadEnd();            
 		    RenderBodyStart();

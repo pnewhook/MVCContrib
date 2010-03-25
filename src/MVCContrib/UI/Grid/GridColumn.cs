@@ -22,10 +22,10 @@ namespace MvcContrib.UI.Grid
 		private string _format;
 		private bool _visible = true;
 		private bool _htmlEncode = true;
-        private bool _sortable = false;
-        private ColumnSortOptions _sortOptions;
 		private readonly IDictionary<string, object> _headerAttributes = new Dictionary<string, object>();
 		private List<Func<GridRowViewData<T>, IDictionary<string, object>>> _attributes = new List<Func<GridRowViewData<T>, IDictionary<string, object>>>();
+		private bool _sortable = true;
+
 
 		/// <summary>
 		/// Creates a new instance of the GridColumn class
@@ -36,6 +36,11 @@ namespace MvcContrib.UI.Grid
 			_displayName = name;
 			_dataType = type;
 			_columnValueFunc = columnValueFunc;
+		}
+
+		public bool Sortable
+		{
+			get { return _sortable; }
 		}
 
 		public bool Visible
@@ -75,11 +80,15 @@ namespace MvcContrib.UI.Grid
             get { return _dataType; }
         }
 
-        public bool IsSortable { get { return _sortable; } }
-
         IGridColumn<T> IGridColumn<T>.Attributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes)
 		{
 			_attributes.Add(attributes);
+			return this;
+		}
+
+		IGridColumn<T> IGridColumn<T>.Sortable(bool isColumnSortable)
+		{
+			_sortable = isColumnSortable;
 			return this;
 		}
 
@@ -158,16 +167,6 @@ namespace MvcContrib.UI.Grid
 			_htmlEncode = false;
 			return this;
 		}
-
-        IGridColumn<T> IGridColumn<T>.Sortable(bool isDefault)
-        {
-            _sortable = true;
-            _sortOptions = new ColumnSortOptions();
-            _sortOptions.IsDefault = isDefault;
-            return this;
-        }
-
-        public ColumnSortOptions SortOptions { get { return _sortOptions; } }
 
 		IGridColumn<T> IGridColumn<T>.HeaderAttributes(IDictionary<string, object> attributes)
 		{

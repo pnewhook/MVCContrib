@@ -89,21 +89,7 @@
 				<include name="*.config"/>
 			</fileset>
 		</copy>
-		
-		<!-- copy files required by view engine tests -->
-		
-		<copy todir="${build.dir}/BrailViewEngine">
-			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/BrailViewEngine">
-				<include name="**/*.brail" />
-			</fileset>
-		</copy>
 
-		<copy todir="${build.dir}/SparkViewEngine">
-			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/SparkViewEngine">
-				<include name="**/*.spark" />
-			</fileset>
-		</copy>
-		
 		<copy todir="${build.dir}/IncludeHandling">
 			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/IncludeHandling">
 				<include name="**/*.xml" />
@@ -113,10 +99,13 @@
 	</target>
 
 	<target name="test" depends="init" if="${runtests}">
+		<property name="main.unit" value="${build.dir}/MvcContrib.UnitTests.dll"/>
+		<property name="command.unit" value="${build.dir}/MvcContrib.CommandProcessor.UnitTests.dll"/>
+		<property name="command.integration" value="${build.dir}/MvcContrib.CommandProcessor.IntegrationTests.dll"/>
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
 		<exec program="${nunit.path}" 
-			commandline="${build.dir}/MvcContrib.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
+			commandline="${main.unit} ${command.unit} ${command.integration} /xml:${results.dir}\TestResult.xml" 
 			workingdir="." />
 
 		<!--<nunit2 failonerror="true" verbose="true">
@@ -151,7 +140,14 @@
 				workingdir="." />
 	</target>
 
-	<target name="package">
+  <target name="merge">
+    <exec program="bin\ilmerge\ilmerge.exe"
+          commandline="/t:library /out:src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.WatiN.dll  .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.TestHelper.WatiN.dll .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\watin.core.dll .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.TestHelper.dll"
+					                                                     
+          workingdir="." />
+  </target>
+
+  <target name="package" depends="merge">
 		<!-- TODO: How do we generate ChangeLog now that we're using git?-->
 		<!-- 		
 		  MvcContrib
@@ -179,7 +175,8 @@
 				<include name="/**/bin/${project.config}/mvccontrib.testhelper.xml" />
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.dll"/>
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.xml"/>
-			</fileset>
+        <include name="/**/bin/${project.config}/mvccontrib.watin.dll"/>
+      </fileset>
 		</copy>
 		<copy todir="${ContribRelease}" >
 			<fileset basedir=".">
@@ -229,7 +226,6 @@
 				<include name="Boo/*.dll" />
 				<include name="Castle/*.dll" />
 				<include name="mvpxml/*.dll" />
-				<include name="spark/*.dll" />
 				<include name="spring.net/*.dll" />
 				<include name="structuremap/*.dll" />
 				<include name="unity/*.dll" />

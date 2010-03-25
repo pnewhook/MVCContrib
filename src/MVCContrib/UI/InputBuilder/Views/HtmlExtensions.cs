@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
@@ -54,6 +55,13 @@ namespace MvcContrib.UI.InputBuilder.Views
 				helper.RenderPartial((TypeViewModel)viewModel);
 			}
 		}
+		public static void InputFields(this HtmlHelper helper, IEnumerable<TypeViewModel> model)
+		{
+			foreach (TypeViewModel viewModel in model)
+			{
+				helper.RenderPartial(viewModel);
+			}
+		}
 
 		public static void RenderPartial(this HtmlHelper helper, TypeViewModel model)
 		{
@@ -67,7 +75,7 @@ namespace MvcContrib.UI.InputBuilder.Views
 				ViewContext ViewContext = helper.ViewContext;
 				ViewEngineCollection viewEngineCollection = ViewEngines.Engines;
 				var newViewData = new ViewDataDictionary(helper.ViewData) {Model = model};
-				var newViewContext = new ViewContext(ViewContext, ViewContext.View, newViewData, ViewContext.TempData);
+				var newViewContext = new ViewContext(ViewContext, ViewContext.View, newViewData, ViewContext.TempData, ViewContext.Writer);
 				IView view = FindPartialView(newViewContext, partial, viewEngineCollection, master);
 				view.Render(newViewContext, ViewContext.HttpContext.Response.Output);
 			}

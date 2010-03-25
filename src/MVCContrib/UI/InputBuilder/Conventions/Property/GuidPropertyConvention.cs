@@ -10,7 +10,7 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 		{
 			return propertyInfo.PropertyType.IsAssignableFrom(typeof(Guid));
 		}
-		public override string Layout()
+		public override string Layout(PropertyInfo info)
 		{
 			return "HiddenField";
 		}

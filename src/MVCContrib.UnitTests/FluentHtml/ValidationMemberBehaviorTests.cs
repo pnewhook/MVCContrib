@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Elements;
 using MvcContrib.FluentHtml.Expressions;
+using MvcContrib.FluentHtml.Html;
 using MvcContrib.UnitTests.FluentHtml.Fakes;
 using MvcContrib.UnitTests.FluentHtml.Helpers;
 using NUnit.Framework;
@@ -75,6 +76,33 @@ namespace MvcContrib.UnitTests.FluentHtml
 		}
 
 		[Test]
+    	public void element_without_error_renders_with_attempted_value()
+    	{
+    		stateDictionary.Add("Price", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Price;
+			var textbox = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
+			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("foo");
+
+    	}
+
+    	[Test]
+    	public void does_not_add_css_class_when_retrieving_value_from_modelstate_with_no_error()
+    	{
+			stateDictionary.Add("Price", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+			
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Price;
+			var textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
+			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
+
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("foo");
+			element.ShouldNotHaveAttribute(HtmlAttribute.Class);
+    	}
+
+		[Test]
 		public void handles_checkboxes_correctly()
 		{
 			stateDictionary.AddModelError("Done", "Foo");
@@ -98,5 +126,36 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = checkbox.ToString().ShouldHaveHtmlNode("Done");
 			element.ShouldHaveAttribute("value").WithValue("true");
 		}
+
+    	[Test]
+    	public void does_not_restore_value_for_password_field()
+    	{
+			stateDictionary.Add("Password", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Password;
+			var passwordField = new Password(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
+			var element = passwordField.ToString().ShouldHaveHtmlNode("Password");
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("");
+    	}
+
+        [Test]
+        public void restore_checked_from_radio_set()
+        {
+            stateDictionary.Add("Selection", new ModelState { Value = new ValueProviderResult((int)FakeEnum.Two, "2", CultureInfo.CurrentCulture) });
+            var target = new ValidationBehavior(() => stateDictionary);
+            expression = x => x.Selection;
+
+            var html = new RadioSet(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target }).Options<FakeEnum>().ToString();
+            var element = html.ShouldHaveHtmlNode("Selection");
+            var options = element.ShouldHaveChildNodesCount(8);
+
+
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1],false);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.One, FakeEnum.One, options[2], options[3],false);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5],true);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7],false);
+        }
+      
 	}
 }

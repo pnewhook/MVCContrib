@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using MvcContrib.Sorting;
 using MvcContrib.UI.Grid.Syntax;
 
 namespace MvcContrib.UI.Grid
@@ -16,7 +17,6 @@ namespace MvcContrib.UI.Grid
 		private readonly TextWriter _writer;
 		private readonly ViewContext context;
 		private IGridModel<T> _gridModel = new GridModel<T>();
-        private bool _isGridRenderedWithSorting = false;
 
 		/// <summary>
 		/// The GridModel that holds the internal representation of this grid.
@@ -58,8 +58,6 @@ namespace MvcContrib.UI.Grid
 			foreach (var column in builder)
 			{
 				_gridModel.Columns.Add(column);
-                if (column.IsSortable)
-                    _isGridRenderedWithSorting = true;
             }
 
 			return this;
@@ -83,6 +81,12 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridWithOptions<T> Sort(GridSortOptions sortOptions)
+		{
+			_gridModel.SortOptions = sortOptions;
+			return this;
+		}
+
 		/// <summary>
 		/// Renders to the TextWriter, and returns null. 
 		/// This is by design so that it can be used with inline syntax in views.
@@ -102,29 +106,7 @@ namespace MvcContrib.UI.Grid
 
         public void Render()
         {
-            EnsureSortCapability();
             _gridModel.Renderer.Render(_gridModel, DataSource, _writer, context);
-        }
-
-        private void EnsureSortCapability()
-        {
-            if (_isGridRenderedWithSorting == true)
-            {
-                if (DataSource is ISortableDataSource<T> == false)
-                    DataSource = new ComparableSortList<T>(DataSource);
-                EnsureSortableRenderer();
-            }
-        }
-
-        private void EnsureSortableRenderer()
-        {
-            if (_gridModel.Renderer is ISortableGridRenderer<T> == false)
-            {
-                if (IsDefaultRenderer())
-                    _gridModel.Renderer = new SortableHtmlTableGridRenderer<T>();
-                else
-                    throw new InvalidOperationException("The given grid renderer is not ISortableGridRenderer<T>, but columns are marked for sorting. Please supply a proper renderer, allow default use, or remove sorted columns.");
-            }
         }
 
         private bool IsDefaultRenderer()
