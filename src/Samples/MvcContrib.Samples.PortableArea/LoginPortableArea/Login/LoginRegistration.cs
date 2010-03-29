@@ -10,12 +10,8 @@ namespace LoginPortableArea.Login
 		{
 			bus.Send(new RegistrationMessage("Registering Login Portable Area"));
 
-            context.MapRoute("logoff", "login/iamouttahere",
-		                     new {controller = "login", action = "LogOff"});
-            context.MapRoute("login", "login/signmein",
-		                     new {controller = "login", action = "Index"});
 			context.MapRoute(
-				"loginarea",
+				"login",
 				"login/{controller}/{action}",
 				new {controller = "login", action = "index"});
 
