@@ -30,8 +30,8 @@
 	<property name="build.dir" value="${build.base}/${nant.settings.currentframework}.${platform::get-name()}-${project::get-name()}-${project.config}/"/>
 
 	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples"/>
-	<target name="cruise" depends="build, package"/> <!-- previously included commitPackage -->
-	<target name="commiter" depends="build, package"/> <!-- previously included analyze -->
+	<target name="cruise" depends="build, help, package"/> <!-- previously included commitPackage -->
+	<target name="commiter" depends="build, help, package"/> <!-- previously included analyze -->
 
 	<target name="init" description="Initializes build properties">
 		<tstamp>
@@ -147,6 +147,17 @@
           workingdir="." />
   </target>
 
+  <target name="help">
+    <exec program="bin\docu\docu.exe"
+          commandline="src\MvcContrib\bin\${project.config}\MvcContrib.dll --output=build\help\mvccontrib"					                                                     
+          workingdir="." />
+    <exec program="bin\docu\docu.exe"
+          commandline="src\MvcContrib.FluentHtml\bin\${project.config}\MvcContrib.FluentHtml.dll --output=build\help\mvccontrib_fluentHtml"
+          workingdir="." />
+    <exec program="bin\docu\docu.exe"
+          commandline="src\MvcContrib.testhelper\MvcContrib.testhelper\bin\${project.config}\MvcContrib.testhelper.dll --output=build\help\mvccontrib_testhelper"
+          workingdir="." />
+  </target>
   <target name="package" depends="merge">
 		<!-- TODO: How do we generate ChangeLog now that we're using git?-->
 		<!-- 		
@@ -178,7 +189,12 @@
         <include name="/**/bin/${project.config}/mvccontrib.watin.dll"/>
       </fileset>
 		</copy>
-		<copy todir="${ContribRelease}" >
+    <copy todir="${ContribRelease}/help" flatten="false">
+      <fileset basedir="${build.base}/help">
+        <include name="/**/*.*"/>
+      </fileset>
+    </copy>
+    <copy todir="${ContribRelease}" >
 			<fileset basedir=".">
 				<include name="license.txt" />
 			</fileset>
