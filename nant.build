@@ -194,6 +194,12 @@
         <include name="/**/*.*"/>
       </fileset>
     </copy>
+
+    <copy todir="${ContribRelease}/T4MVC" flatten="false">
+      <fileset basedir="src\T4MVC\T4MVCHostMvcApp\T4MVC Files">
+        <include name="*.t*"/>
+      </fileset>
+    </copy>
     <copy todir="${ContribRelease}" >
 			<fileset basedir=".">
 				<include name="license.txt" />
@@ -315,7 +321,15 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</zip>
-	</target>
+    <zip zipfile="build/MVCContrib.T4MVC.release.zip" includeemptydirs="false" >
+      <fileset basedir="${ContribRelease}">
+        <include name="license.txt" />
+        <include name="T4MVC/*.*"/>
+        <exclude name="**/*.CodeAnalysisLog.xml"/>
+        <exclude name="**/*.lastcodeanalysissucceeded"/>
+      </fileset>
+    </zip>
+  </target>
   <target name="document" >
 	<!-- TODO: Investigate using docu to do this -->
 	<!--
