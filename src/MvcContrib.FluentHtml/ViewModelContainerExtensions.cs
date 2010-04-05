@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using MvcContrib.FluentHtml.Elements;
@@ -300,7 +301,6 @@ namespace MvcContrib.FluentHtml
             new PartialRenderer<T, TPartialViewModel>(view, viewName, modelExpression).RenderTypedPartial(instanceType);
         }
 
-
 		/// <summary>
 		/// Renders a partial
 		/// </summary>
@@ -310,7 +310,8 @@ namespace MvcContrib.FluentHtml
 		/// <param name="partialViewName">The name of the partial to render.</param>
 		/// <param name="modelExpression">Expression of the model for the partial.</param>
 		/// <param name="viewData">View data for the partial. (If the view data has a Model, it will be replaced by the model as specified in the expression parameter, if it is not null.)</param>
-		public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, ViewDataDictionary viewData)
+        [Obsolete("Use overload that takes KeyValuePair<string, object>[] viewDataItems instead.  This will will avoid inavertently passing in the model twice -- once via the modelExpression parameter and again in the viewData parameter.  The viewData parameter was meant only to provide a way to pass in weakly typed view data which is more approriately done with a simple array of key value pairs.")]
+        public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, ViewDataDictionary viewData)
 			where T : class
 			where TPartialViewModel : class
 		{
@@ -331,5 +332,26 @@ namespace MvcContrib.FluentHtml
 		{
 			new PartialRenderer<T, TPartialViewModel>(view, partialViewName, modelExpression).Render();
 		}
+
+        /// <summary>
+        /// Renders a partial
+        /// </summary>
+        /// <typeparam name="T">The type of the ViewModel.</typeparam>
+        /// <typeparam name="TPartialViewModel">The type of model of the partial.</typeparam>
+        /// <param name="view">The view.</param>
+        /// <param name="partialViewName">The name of the partial to render.</param>
+        /// <param name="modelExpression">Expression of the model for the partial.</param>
+        /// <param name="viewDataItems">A list of funcs, each epxressing a weakly typed view data item for the partial.</param>
+        public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, params Func<string, object>[] viewDataItems)
+            where T : class
+            where TPartialViewModel : class
+        {
+            var viewDataDictionary = new ViewDataDictionary();
+            foreach (var item in viewDataItems)
+            {
+                viewDataDictionary.Add(new KeyValuePair<string, object>(item.Method.GetParameters()[0].Name, item(null)));
+            }
+            new PartialRenderer<T, TPartialViewModel>(view, partialViewName, modelExpression).ViewData(viewDataDictionary).Render();
+        }
 	}
 }
