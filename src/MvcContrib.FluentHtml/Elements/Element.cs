@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
@@ -16,6 +17,7 @@ namespace MvcContrib.FluentHtml.Elements
 	{
 		protected const string LABEL_FORMAT = "{0}_Label";
 
+		private bool doNotAutoLabel;
 		protected readonly TagBuilder builder;
 		protected MemberExpression forMember;
 		protected IEnumerable<IBehaviorMarker> behaviors;
@@ -151,6 +153,33 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
+		/// <summary>
+		/// If no label has been explicitly set, set the label using the element name.
+		/// </summary>
+		public virtual T AutoLabel()
+		{
+			((IElement)this).SetAutoLabel();
+			return (T)this;
+		}
+
+		/// <summary>
+		/// If no label before has been explicitly set, set the label before using the element name.
+		/// </summary>
+		public virtual T AutoLabelAfter()
+		{
+			((IElement)this).SetAutoLabelAfter();
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Prevent this item from being auto labeled.
+		/// </summary>
+		public virtual T DoNotAutoLabel()
+		{
+			doNotAutoLabel = true;
+			return (T)this;
+		}
+
 		public override string ToString()
 		{
 		    ApplyBehaviors();
@@ -192,6 +221,28 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode; }
 		}
 
+		void IElement.SetAutoLabel()
+		{
+			if (ShouldAutoLabel())
+			{
+				var settings = GetAutoLabelSettings();
+				((IElement)this).LabelBeforeText = GetAutoLabelText(settings);
+				((IElement)this).LabelClass = settings == null ? null : settings.LabelCssClass;
+			}
+		}
+
+		void IElement.SetAutoLabelAfter()
+		{
+			if (ShouldAutoLabel())
+			{
+				var settings = GetAutoLabelSettings();
+				((IElement)this).LabelAfterText = GetAutoLabelText(settings);
+				((IElement)this).LabelClass = settings == null ? null : settings.LabelCssClass;
+			}
+		}
+
+		#endregion
+
 		MemberExpression IMemberElement.ForMember
 		{
 			get { return forMember; }
@@ -202,7 +253,67 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode.Normal; }
 		} 
 
-		#endregion
+		protected bool ShouldAutoLabel()
+		{
+			return ((IElement)this).LabelBeforeText == null && ((IElement)this).LabelAfterText == null && !doNotAutoLabel;
+		}
+
+		protected AutoLabelSettings GetAutoLabelSettings()
+		{
+			//TODO: should we throw if there is more than one?
+			AutoLabelSettings foundSettings = null;
+			if (behaviors != null)
+			{
+				foundSettings = behaviors.Where(x => x is AutoLabelSettings).FirstOrDefault() as AutoLabelSettings;
+			}
+			return foundSettings ?? new AutoLabelSettings(false, null, null);
+		}
+
+		protected string GetAutoLabelText(AutoLabelSettings settings)
+		{
+			var result = ((IElement)this).GetAttr(HtmlAttribute.Name);
+			if (result == null)
+			{
+				return result;
+			}
+			if (settings.UseFullNameForNestedProperties)
+			{
+				result = result.Replace('.', ' ');
+			}
+			else
+			{
+				var lastDot = result.LastIndexOf(".");
+				if (lastDot >= 0)
+				{
+					result = result.Substring(lastDot + 1);
+				}
+			}
+			result = result.PascalCaseToPhrase();
+			result = RemoveArrayNotationFromPhrase(result);
+			result = settings.LabelFormat != null
+				? string.Format(settings.LabelFormat, result)
+				: result;
+			return result;
+		}
+
+		protected string RemoveArrayNotationFromPhrase(string phrase)
+		{
+			if (phrase.IndexOf("[") >= 0)
+			{
+				var words = new List<string>(phrase.Split(' '));
+				words = words.ConvertAll<string>(RemoveArrayNotation);
+				phrase = string.Join(" ", words.ToArray());
+			}
+			return phrase;
+		}
+
+		protected string RemoveArrayNotation(string s)
+		{
+			var index = s.LastIndexOf('[');
+			return index >= 0
+				? s.Remove(index)
+				: s;
+		}
 
 		protected virtual string RenderLabel(string labelText)
 		{

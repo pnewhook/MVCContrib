@@ -56,6 +56,22 @@ namespace MvcContrib.UnitTests.FluentHtml
 		}
 
 		[Test]
+		public void auto_label_not_set_if_label_after_was_explicitly_set_for_the_element()
+		{
+			new TextBox("Bar", null, new[] { new AutoLabelBehavior() }).LabelAfter("Not Bar")
+				.ToString().ShouldRenderHtmlDocument().ChildNodes[0]
+				.ShouldBeNamed(HtmlTag.Input);
+		}
+
+		[Test]
+		public void auto_label_not_set_if_auto_labeliing_off()
+		{
+			new TextBox("Bar", null, new[] { new AutoLabelBehavior() }).DoNotAutoLabel()
+				.ToString().ShouldRenderHtmlDocument().ChildNodes[0]
+				.ShouldBeNamed(HtmlTag.Input);
+		}
+
+		[Test]
 		public void do_not_render_lable_if_not_qualified()
 		{
 			var nodes = new TextBox("Foo.Bar", null, new[] { new AutoLabelBehavior(IsNotTextBox, null) })

@@ -12,27 +12,22 @@ namespace MvcContrib.FluentHtml.Behaviors
 
 		public AutoLabelBehavior(Func<IElement, bool> isQualifiedFunc, Func<IElement, bool> renderLabelAfterFunc)
 		{
-			this.isQualifiedFunc = isQualifiedFunc;
-			this.renderLabelAfterFunc = renderLabelAfterFunc;
+			this.isQualifiedFunc = isQualifiedFunc ?? (e => !(e is Hidden) && !(e is Button) && !(e is SubmitButton));			this.renderLabelAfterFunc = renderLabelAfterFunc;
 		}
 
 		public void Execute(IElement element)
 		{
-			if (!(element is ISupportsAutoLabeling))
-			{
-				return;
-			}
-			if(isQualifiedFunc != null && !isQualifiedFunc(element))
+			if(!isQualifiedFunc(element))
 			{
 				return;
 			}
 			if(renderLabelAfterFunc == null || !renderLabelAfterFunc(element))
 			{
-				((ISupportsAutoLabeling)element).SetAutoLabel();
+				element.SetAutoLabel();
 			}
 			else
 			{
-				((ISupportsAutoLabeling)element).SetAutoLabelAfter();
+				element.SetAutoLabelAfter();
 			}
 		}
 	}
