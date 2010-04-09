@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using MvcContrib.UI.InputBuilder.ViewEngine;
+using System.IO;
+using System.Web;
 
 namespace MvcContrib.PortableAreas
 {
@@ -8,17 +11,46 @@ namespace MvcContrib.PortableAreas
     /// </summary>
     public static class AssemblyResourceManager
     {
-        private static Dictionary<string, AssemblyResourceStore> assemblyResourceStores = new Dictionary<string, AssemblyResourceStore>();
+        private static Dictionary<string, AssemblyResourceStore> assemblyResourceStores = InitializeAssemblyResourceStores();
 
-        public static System.IO.Stream GetResourceStream(string areaName, string resourceName)
+        private static Dictionary<string, AssemblyResourceStore> InitializeAssemblyResourceStores()
         {
-            var assemblyResourceStore = assemblyResourceStores[areaName.ToLower()];
-            return assemblyResourceStore.GetResourceStream(resourceName);
+            var resourceStores = new Dictionary<string, AssemblyResourceStore>();
+
+            // Add default AssemblyResourceStore for input builders
+            var inputBuildersStore = new AssemblyResourceStore(typeof(AssemblyResourceProvider), "/views/inputbuilders", "MvcContrib.UI.InputBuilder.Views.InputBuilders");
+            resourceStores.Add(inputBuildersStore.VirtualPath, inputBuildersStore);
+
+            return resourceStores;
         }
 
-        public static void RegisterAreaResources(string areaName, Type type)
+        public static AssemblyResourceStore GetResourceStoreForArea(string areaName)
         {
-            assemblyResourceStores.Add(areaName.ToLower(), new AssemblyResourceStore(type));
+            return assemblyResourceStores["/areas/" + areaName.ToLower()];
+        }
+
+        public static AssemblyResourceStore GetResourceStoreFromVirtualPath(string virtualPath)
+        {
+            var checkPath = VirtualPathUtility.ToAppRelative(virtualPath).ToLower();
+            foreach (var resourceStore in assemblyResourceStores)
+            {
+                if (checkPath.Contains(resourceStore.Key) && resourceStore.Value.IsPathResourceStream(checkPath))
+                {
+                    return resourceStore.Value;
+                }
+            }
+            return null;
+        }
+
+        public static bool IsEmbeddedViewResourcePath(string virtualPath)
+        {
+            var resourceStore = GetResourceStoreFromVirtualPath(virtualPath);
+            return (resourceStore != null);
+        }
+
+        public static void RegisterAreaResources(AssemblyResourceStore assemblyResourceStore)
+        {
+            assemblyResourceStores.Add(assemblyResourceStore.VirtualPath, assemblyResourceStore);
         }
     }
 }

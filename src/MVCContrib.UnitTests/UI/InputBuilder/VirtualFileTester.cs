@@ -11,13 +11,9 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		public void The_file_should_locate_a_embedded_resource()
 		{
 			//arrange
-			var file = new AssemblyResourceVirtualFile("~/Views/InputBuilders/String.aspx", new AssemblyResource()
-			{
-				Namespace = "MvcContrib.UI.InputBuilder",
-				TypeToLocateAssembly = typeof(AssemblyResourceProvider),
-				VirtualPath = ""
-			});
-            
+            var resourceStore = new AssemblyResourceStore(typeof(AssemblyResourceProvider), "", "MvcContrib.UI.InputBuilder");
+            var file = new AssemblyResourceVirtualFile("~/Views/InputBuilders/String.aspx", resourceStore);
+
 			//act
 			var result = file.Open();
 
@@ -29,7 +25,9 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		public void The_file_should_not_locate_an_invalid_path()
 		{
 			//arrange
-			var file = new AssemblyResourceVirtualFile("~/foo", new AssemblyResource() { Namespace = "MvcContrib.UI.InputBuilder.", TypeToLocateAssembly = typeof(AssemblyResourceProvider) });
+            var resourceStore = new AssemblyResourceStore(typeof(AssemblyResourceProvider), "", "MvcContrib.UI.InputBuilder");
+			
+            var file = new AssemblyResourceVirtualFile("~/foo", resourceStore);
 
 			//act
 			var result = file.Open();

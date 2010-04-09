@@ -1,6 +1,7 @@
 using System;
 using MvcContrib.UI.InputBuilder.ViewEngine;
 using NUnit.Framework;
+using MvcContrib.PortableAreas;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder
 {
@@ -23,14 +24,11 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		[Test]
 		public void App_resource_path_should_find_input_builders()
 		{
-			//arrange
-			var provider = new AssemblyResourceProvider();
+            //arrange/act
+            var result = AssemblyResourceManager.IsEmbeddedViewResourcePath("~/Views/InputBuilders/String.aspx");
 
-			//act
-			var result = provider.IsAppResourcePath("~/Views/InputBuilders/String.aspx");
-
-			//assert
-			Assert.IsTrue(result);
+            //assert
+            Assert.IsTrue(result);
 		}
 
 		[Test]

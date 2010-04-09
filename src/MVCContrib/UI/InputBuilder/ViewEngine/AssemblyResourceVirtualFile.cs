@@ -7,23 +7,20 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 {
 	public class AssemblyResourceVirtualFile : VirtualFile
 	{
-		private readonly AssemblyResource _resource;
-		private readonly string path;
+        private readonly AssemblyResourceStore resourceStore;
+        private readonly string path;
 
-		public AssemblyResourceVirtualFile(string virtualPath, AssemblyResource resource)
-			: base(virtualPath)
-		{
-			_resource = resource;
-			path = VirtualPathUtility.ToAppRelative(virtualPath);
-		}
+        public AssemblyResourceVirtualFile(string virtualPath, AssemblyResourceStore resourceStore)
+            : base(virtualPath)
+        {
+            this.resourceStore = resourceStore;
+            path = VirtualPathUtility.ToAppRelative(virtualPath);
+        }
 
-		public override Stream Open()
-		{
-			Trace.WriteLine("Opening " + path);
-			string resourceNameFromPath = _resource.GetResourceNameFromPath(path);
-			if(resourceNameFromPath==null)
-				return null;
-			return _resource.TypeToLocateAssembly.Assembly.GetManifestResourceStream(resourceNameFromPath);
-		}
+        public override Stream Open()
+        {
+            Trace.WriteLine("Opening " + path);
+            return this.resourceStore.GetResourceStream(this.path);
+        }
 	}
 }

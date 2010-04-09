@@ -9,7 +9,9 @@ namespace MvcContrib.PortableAreas
         public ActionResult Index(string resourceName)
         {
             var areaName = (string)this.RouteData.DataTokens["area"];
-            var resourceStream = AssemblyResourceManager.GetResourceStream(areaName, resourceName);
+            var resourceStore = AssemblyResourceManager.GetResourceStoreForArea(areaName);
+            // pre-pend "~" so that it will be replaced with assembly namespace
+            var resourceStream = resourceStore.GetResourceStream("~." + resourceName);
             var contentType = GetContentType(resourceName);
             return this.File(resourceStream, contentType);
         }

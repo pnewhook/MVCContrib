@@ -13,30 +13,11 @@ namespace MvcContrib.PortableAreas
 			RegisterArea(context,Bus.Instance);
 		}
 
-		public virtual void RegisterTheViewsInTheEmbeddedViewEngine( Type areaRegistrationType)
-		{
-			AssemblyResourceProvider.AddResource(
-				new AssemblyResource()
-			{
-				VirtualPath = GetVirtualPath(AreaName), 
-				TypeToLocateAssembly = areaRegistrationType,
-				Namespace = GetNamespace(areaRegistrationType)
-			});
-		}
-
         public void RegisterAreaEmbeddedResources()
         {
-            AssemblyResourceManager.RegisterAreaResources(this.AreaName, GetType());
+            var areaType = this.GetType();
+            var resourceStore = new AssemblyResourceStore(areaType, "/areas/" + AreaName.ToLower(), areaType.Namespace);
+            AssemblyResourceManager.RegisterAreaResources(resourceStore);
         }
-
-		public string GetNamespace(Type type)
-		{
-			return type.Namespace;
-		}
-
-		public string GetVirtualPath(string name)
-		{
-			return "/areas/"+name.ToLower();
-		}
 	}
 }
