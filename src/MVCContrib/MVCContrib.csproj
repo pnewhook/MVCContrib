@@ -131,6 +131,9 @@
     <Compile Include="Pagination\LazyPagination.cs" />
     <Compile Include="Pagination\PaginationHelper.cs" />
     <Compile Include="PortableAreas\ApplicationBus.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceManager.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceStore.cs" />
+    <Compile Include="PortableAreas\EmbeddedResourceController.cs" />
     <Compile Include="PortableAreas\IApplicationBus.cs" />
     <Compile Include="PortableAreas\IEventMessage.cs" />
     <Compile Include="PortableAreas\IMessageHandler.cs" />

@@ -24,6 +24,11 @@ namespace MvcContrib.PortableAreas
 			});
 		}
 
+        public void RegisterAreaEmbeddedResources()
+        {
+            AssemblyResourceManager.RegisterAreaResources(this.AreaName, GetType());
+        }
+
 		public string GetNamespace(Type type)
 		{
 			return type.Namespace;
