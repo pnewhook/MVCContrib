@@ -256,6 +256,7 @@
     <Compile Include="ConventionController\RescueTester.cs" />
     <Compile Include="LazyPaginationTester.cs" />
     <Compile Include="PortableAreas\ApplicationBusTester.cs" />
+    <Compile Include="PortableAreas\EmbeddedResourceControllerTester.cs" />
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
@@ -362,6 +363,7 @@
     <Content Include="IncludeHandling\exists.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="PortableAreas\images\arrow.gif" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />

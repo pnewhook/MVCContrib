@@ -6,12 +6,24 @@ namespace MvcContrib.PortableAreas
 {
     public class EmbeddedResourceController : Controller
     {
-        public ActionResult Index(string resourceName)
+        public ActionResult Index(string resourceName, string resourcePath)
         {
+            if (!string.IsNullOrEmpty(resourcePath))
+            {
+                resourceName = resourcePath + "." + resourceName;
+            }
+
             var areaName = (string)this.RouteData.DataTokens["area"];
             var resourceStore = AssemblyResourceManager.GetResourceStoreForArea(areaName);
             // pre-pend "~" so that it will be replaced with assembly namespace
             var resourceStream = resourceStore.GetResourceStream("~." + resourceName);
+
+            if (resourceStream == null)
+            {
+                this.Response.StatusCode = 404;
+                return null;
+            }
+
             var contentType = GetContentType(resourceName);
             return this.File(resourceStream, contentType);
         }

@@ -21,6 +21,19 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			Assert.IsNull(result);
 		}
 
+        [Test]
+        public void GetFile_should_return_virtual_file()
+        {
+            //arrange
+            var provider = new AssemblyResourceProvider();
+
+            //act
+            var result = provider.GetFile("~/Views/InputBuilders/String.aspx");
+
+            //assert
+            Assert.IsNotNull(result);
+        }
+
 		[Test]
 		public void App_resource_path_should_find_input_builders()
 		{
