@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MvcContrib.FluentHtml.Elements
@@ -50,6 +51,11 @@ namespace MvcContrib.FluentHtml.Elements
 		/// The class for labels rendered before or after the element.
 		/// </summary>
 		string LabelClass { get; set; }
+
+        /// <summary>
+        /// Additional JSON metadata that should be added to the element's CSS Class attribute.
+        /// </summary>
+        IDictionary<object, object> Metadata { get;}
 
 		/// <summary>
 		/// If no label before has been explicitly set, set the label before using the element name.

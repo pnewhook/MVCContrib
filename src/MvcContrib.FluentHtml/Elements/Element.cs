@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Html;
 
@@ -22,7 +24,7 @@ namespace MvcContrib.FluentHtml.Elements
 		protected MemberExpression forMember;
 		protected IEnumerable<IBehaviorMarker> behaviors;
 
-		protected Element(string tag, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors) : this(tag)
+	    protected Element(string tag, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors) : this(tag)
 		{
 			this.forMember = forMember;
 			this.behaviors = behaviors;
@@ -31,6 +33,7 @@ namespace MvcContrib.FluentHtml.Elements
 		protected Element(string tag)
 		{
 			builder = new TagBuilder(tag);
+            Metadata = new Dictionary<object, object>();
 		}
 
 		/// <summary>
@@ -221,7 +224,9 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode; }
 		}
 
-		void IElement.SetAutoLabel()
+	    public IDictionary<object, object> Metadata { get; protected set; }
+
+	    void IElement.SetAutoLabel()
 		{
 			if (ShouldAutoLabel())
 			{
@@ -350,6 +355,15 @@ namespace MvcContrib.FluentHtml.Elements
             }
 		}
 
-		protected virtual void PreRender() { }
+		protected virtual void PreRender()
+		{
+            var jsSerializer = new JavaScriptSerializer();
+            if(this.Metadata.Count > 0)
+            {
+                var serializedMetadata = jsSerializer.Serialize(this.Metadata);
+                var classToAdd = String.Format(CultureInfo.CurrentCulture, "{0}", serializedMetadata.Replace('\"', '\''));
+                this.Class(classToAdd);
+            }
+		}
 	}
 }
