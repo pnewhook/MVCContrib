@@ -32,6 +32,11 @@
      		column.For(x => x.Gender);
 			//We can exclude certain columns from being sorted
      		column.For(x => x.DateOfBirth).Format("{0:d}").Sortable(false);
+			//The name of the column to sort can also be customized
+			column.For(x => Html.ActionLink("View Details", "Show", new { id = x.Id }))
+				.Named("View Details (orders by name)")
+				.SortColumnName("Name")
+				.DoNotEncode();
      	}) %>
 </asp:Content>
 
