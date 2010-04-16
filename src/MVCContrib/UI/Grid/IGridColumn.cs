@@ -67,6 +67,13 @@ namespace MvcContrib.UI.Grid
 		IGridColumn<T> Sortable(bool isColumnSortable);
 
 		/// <summary>
+		/// Specifies a custom name that should be used when sorting on this column
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		IGridColumn<T> SortColumnName(string name);
+
+		/// <summary>
 		/// Custom header renderer
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface

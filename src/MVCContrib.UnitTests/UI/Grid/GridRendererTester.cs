@@ -397,11 +397,39 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
-		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable() {
+		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable()
+		{
 			ColumnFor(x => x.Id);
 			ColumnFor(x => x.Name).Sortable(false);
 			_model.Sort(new GridSortOptions());
 			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Uses_custom_sort_column_name()
+		{
+			ColumnFor(x => x.Id).SortColumnName("foo");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=foo&amp;Direction=Ascending\">Id</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Uses_custom_sort_column_name_for_composite_expression()
+		{
+			ColumnFor(x => x.Id + x.Name).SortColumnName("foo").Named("bar");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=foo&amp;Direction=Ascending\">bar</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Falls_back_to_column_name_for_composite_expression()
+		{
+			ColumnFor(x => x.Id + x.Name).Named("bar");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=bar&amp;Direction=Ascending\">bar</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 

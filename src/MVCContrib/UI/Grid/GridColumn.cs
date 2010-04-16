@@ -25,7 +25,7 @@ namespace MvcContrib.UI.Grid
 		private readonly IDictionary<string, object> _headerAttributes = new Dictionary<string, object>();
 		private List<Func<GridRowViewData<T>, IDictionary<string, object>>> _attributes = new List<Func<GridRowViewData<T>, IDictionary<string, object>>>();
 		private bool _sortable = true;
-
+		private string _sortColumnName = null;
 
 		/// <summary>
 		/// Creates a new instance of the GridColumn class
@@ -46,6 +46,11 @@ namespace MvcContrib.UI.Grid
 		public bool Visible
 		{
 			get { return _visible; }
+		}
+
+		public string SortColumnName
+		{
+			get { return _sortColumnName; }
 		}
 
 		/// <summary>
@@ -89,6 +94,12 @@ namespace MvcContrib.UI.Grid
 		IGridColumn<T> IGridColumn<T>.Sortable(bool isColumnSortable)
 		{
 			_sortable = isColumnSortable;
+			return this;
+		}
+
+		IGridColumn<T> IGridColumn<T>.SortColumnName(string name)
+		{
+			_sortColumnName = name;
 			return this;
 		}
 

@@ -35,7 +35,7 @@ namespace MvcContrib.UI.Grid
 
 			if(IsSortingEnabled && column.Sortable)
 			{
-				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+				bool isSortedByThisColumn = (GridModel.SortOptions.Column == GenerateSortColumnName(column));
 
 				if (isSortedByThisColumn) 
 				{
@@ -57,11 +57,13 @@ namespace MvcContrib.UI.Grid
 		{
 			if(IsSortingEnabled && column.Sortable)
 			{
-				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+				string sortColumnName = GenerateSortColumnName(column);
+
+				bool isSortedByThisColumn = GridModel.SortOptions.Column == sortColumnName;
 
 				var sortOptions = new GridSortOptions 
 				{
-					Column = column.Name
+					Column = sortColumnName
 				};
 
 				if(isSortedByThisColumn)
@@ -89,6 +91,13 @@ namespace MvcContrib.UI.Grid
 			{
 				base.RenderHeaderText(column);
 			}
+		}
+
+		protected virtual string GenerateSortColumnName(GridColumn<T> column)
+		{
+			//Use the explicit sort column name if specified. If not possible, fall back to the property name.
+			//If the property name cannot be inferred (ie the expression is not a MemberExpression) then try the display name instead.
+			return column.SortColumnName ?? column.Name ?? column.DisplayName;
 		}
 
 		protected override void RenderRowStart(GridRowViewData<T> rowData)
