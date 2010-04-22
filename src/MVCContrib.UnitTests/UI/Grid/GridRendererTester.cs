@@ -387,6 +387,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Should_render_grid_with_sort_direction_descending_as_the_default()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions() {Direction = SortDirection.Descending});
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+
+		}
+
+		[Test]
 		public void Sorting_Maintains_existing_querystring_parameters()
 		{
 			_querystring["foo"] = "bar";

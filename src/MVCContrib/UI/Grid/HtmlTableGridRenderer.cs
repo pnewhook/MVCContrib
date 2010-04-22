@@ -72,6 +72,10 @@ namespace MvcContrib.UI.Grid
 						? SortDirection.Descending 
 						: SortDirection.Ascending;
 				}
+				else //default sort order
+				{
+					sortOptions.Direction = GridModel.SortOptions.Direction;
+				}
 
 				var routeValues = new RouteValueDictionary(sortOptions);
 
