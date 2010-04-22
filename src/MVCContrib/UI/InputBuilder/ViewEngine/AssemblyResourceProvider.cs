@@ -7,6 +7,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 {
 	public class AssemblyResourceProvider : VirtualPathProvider
 	{
+		
         public override bool FileExists(string virtualPath)
         {
             bool exists = base.FileExists(virtualPath);
