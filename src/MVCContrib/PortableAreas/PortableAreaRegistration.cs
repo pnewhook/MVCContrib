@@ -7,12 +7,15 @@ namespace MvcContrib.PortableAreas
 {
 	public abstract class PortableAreaRegistration:AreaRegistration
 	{
+		public static Action RegisterEmbeddedViewEngine = () => { InputBuilder.BootStrap(); };
 		public virtual void RegisterArea(AreaRegistrationContext context,IApplicationBus bus)
 		{
 
 			bus.Send(new PortableAreaStartupMessage(AreaName));
 
-			RegisterDefaultRoutes(context);			
+			RegisterDefaultRoutes(context);
+
+			RegisterAreaEmbeddedResources();
 		}
 
 		public  void CreateStaticResourceRoute(AreaRegistrationContext context, string SubfolderName)
@@ -38,8 +41,8 @@ namespace MvcContrib.PortableAreas
 		public override void RegisterArea(AreaRegistrationContext context)
 		{
 			RegisterArea(context,Bus.Instance);
-			RegisterAreaEmbeddedResources();
-			InputBuilder.BootStrap(); //register the embedded view engine.
+						
+			RegisterEmbeddedViewEngine();
 		}
 
         public void RegisterAreaEmbeddedResources()
