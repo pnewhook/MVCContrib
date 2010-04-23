@@ -31,7 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MvcContrib, Version=2.0.22.0, Culture=neutral, processorArchitecture=MSIL" />
+		<Reference Include="MvcContrib">
+			<HintPath>lib\mvccontrib.dll</HintPath>
+		</Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -48,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\PortableArea\AreaRegistration.cs" />
-    <Compile Include="Areas\PortableArea\Controllers\HomeController.cs" />
+    <Compile Include="Areas\PortableArea\Controllers\DefaultController.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

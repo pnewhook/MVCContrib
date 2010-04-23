@@ -17,19 +17,21 @@
     <Project TargetFileName="PortableAreaSample.csproj" File="PortableAreaSample.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="HtmlHelperExtensions.cs">HtmlHelperExtensions.cs</ProjectItem>
       <Folder Name="Areas" TargetFolderName="Areas">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AreaRegistration.cs">AreaRegistration.cs</ProjectItem>
-        <Folder Name="Controllers" TargetFolderName="Controllers">
-          <ProjectItem ReplaceParameters="true" TargetFileName="DefaultController.cs">DefaultController.cs</ProjectItem>
-        </Folder>
-        <ProjectItem ReplaceParameters="true" TargetFileName="HtmlHelperExtensions.cs">HtmlHelperExtensions.cs</ProjectItem>
-        <Folder Name="Models" TargetFolderName="Models" />
-        <Folder Name="Services" TargetFolderName="Services" />
-        <Folder Name="Views" TargetFolderName="Views">
-          <Folder Name="Default" TargetFolderName="Default">
-            <ProjectItem ReplaceParameters="true" TargetFileName="Index.aspx">Index.aspx</ProjectItem>
-          </Folder>
-        </Folder>
-      </Folder>
+				<Folder Name="PortableArea" TargetFolderName="PortableArea">
+					<ProjectItem ReplaceParameters="true" TargetFileName="AreaRegistration.cs">AreaRegistration.cs</ProjectItem>
+					<Folder Name="Controllers" TargetFolderName="Controllers">
+						<ProjectItem ReplaceParameters="true" TargetFileName="DefaultController.cs">DefaultController.cs</ProjectItem>
+					</Folder>
+					<ProjectItem ReplaceParameters="true" TargetFileName="HtmlHelperExtensions.cs">HtmlHelperExtensions.cs</ProjectItem>
+					<Folder Name="Models" TargetFolderName="Models" />
+					<Folder Name="Services" TargetFolderName="Services" />
+					<Folder Name="Views" TargetFolderName="Views">
+						<Folder Name="Default" TargetFolderName="Default">
+							<ProjectItem ReplaceParameters="true" TargetFileName="Index.aspx">Index.aspx</ProjectItem>
+						</Folder>
+					</Folder>
+				</Folder>
+			</Folder>
       <Folder Name="lib" TargetFolderName="lib">
         <ProjectItem ReplaceParameters="false" TargetFileName="MvcContrib.dll">MvcContrib.dll</ProjectItem>
       </Folder>
