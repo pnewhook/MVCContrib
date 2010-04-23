@@ -8,6 +8,7 @@ namespace MvcContrib.PortableAreas
 	public abstract class PortableAreaRegistration:AreaRegistration
 	{
 		public static Action RegisterEmbeddedViewEngine = () => { InputBuilder.BootStrap(); };
+		public static Action CheckAreasWebConfigExists = () => { EnsureAreasWebConfigExists(); };
 		public virtual void RegisterArea(AreaRegistrationContext context,IApplicationBus bus)
 		{
 
@@ -43,6 +44,8 @@ namespace MvcContrib.PortableAreas
 			RegisterArea(context,Bus.Instance);
 						
 			RegisterEmbeddedViewEngine();
+
+			CheckAreasWebConfigExists();
 		}
 
         public void RegisterAreaEmbeddedResources()
@@ -51,5 +54,15 @@ namespace MvcContrib.PortableAreas
             var resourceStore = new AssemblyResourceStore(areaType, "/areas/" + AreaName.ToLower(), areaType.Namespace);
             AssemblyResourceManager.RegisterAreaResources(resourceStore);
         }
+
+		private static void EnsureAreasWebConfigExists()
+		{
+			var config = System.Web.HttpContext.Current.Server.MapPath("~/areas/web.config");
+			if (!System.IO.File.Exists(config))
+			{
+				throw new Exception("Portable Areas require a ~/Areas/Web.config file in your host application. Copy the config from ~/views/web.config into a ~/Areas/ folder.");
+			}
+		}
+
 	}
 }
