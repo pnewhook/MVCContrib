@@ -173,10 +173,17 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridColumn<T> Encode(bool shouldEncode)
+		{
+			_htmlEncode = shouldEncode;
+			return this;
+		}
+
+		//TODO: Jeremy to remove after next release
+		[Obsolete("Use Encode(false) instead.")] 
 		public IGridColumn<T> DoNotEncode()
 		{
-			_htmlEncode = false;
-			return this;
+			return Encode(false);
 		}
 
 		IGridColumn<T> IGridColumn<T>.HeaderAttributes(IDictionary<string, object> attributes)

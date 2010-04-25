@@ -38,11 +38,18 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		IGridColumn<T> Visible(bool isVisible);
 
+
+		/// <summary>
+		/// Determines whether or not the column should be encoded. Default is true.
+		/// </summary>
+		IGridColumn<T> Encode(bool shouldEncode);
+
 		/// <summary>
 		/// Do not HTML Encode the output
 		/// </summary>
 		/// <returns></returns>
-		IGridColumn<T> DoNotEncode();
+		[Obsolete("Use Encode(false) instead.")]
+		IGridColumn<T> DoNotEncode(); //TODO: Jeremy to remove after next release.
 
 		/// <summary>
 		/// Defines additional attributes for the column heading.

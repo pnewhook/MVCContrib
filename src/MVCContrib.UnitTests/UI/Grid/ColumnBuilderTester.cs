@@ -135,7 +135,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Should_not_html_encode_output()
 		{
-			_builder.For(x => x.Name).DoNotEncode();
+			_builder.For(x => x.Name).Encode(false);
 			_builder.Single().GetValue(new Person{Name = "<script>"}).ShouldEqual("<script>");
 		}
 
