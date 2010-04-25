@@ -443,6 +443,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		//TODO: Change this to use IHtmlString when we take a dependency on .NET 4.
+		[Test] 
+		public void Should_not_automatically_encode_IHtmlString_instances()
+		{
+			ColumnFor(x => MvcHtmlString.Create("<script></script>")).Named("foo");
+			string expected = "<table class=\"grid\"><thead><tr><th>foo</th></tr></thead><tbody><tr class=\"gridrow\"><td><script></script></td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);

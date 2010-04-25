@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MvcContrib.UI.Grid
 {
@@ -224,7 +225,7 @@ namespace MvcContrib.UI.Grid
 				value = string.Format(_format, value);
 			}
 
-			if(_htmlEncode && value != null)
+			if(_htmlEncode && value != null && !(value is MvcHtmlString))
 			{
 				value = HttpUtility.HtmlEncode(value.ToString());
 			}
