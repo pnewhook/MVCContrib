@@ -22,7 +22,7 @@ namespace MvcContrib.UI.Grid
 			set { _sortOptions = value; }
 		}
 
-		ICollection<GridColumn<T>> IGridModel<T>.Columns
+		IList<GridColumn<T>> IGridModel<T>.Columns
 		{
 			get { return _columnBuilder; }
 		}

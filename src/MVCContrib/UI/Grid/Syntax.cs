@@ -12,7 +12,7 @@ namespace MvcContrib.UI.Grid.Syntax
 		/// </summary>
 		/// <param name="model">The GridModel storing information about this grid</param>
 		/// <returns></returns>
-		IGridWithOptions<T> WithModel(IGridModel<T> model);
+		IGrid<T> WithModel(IGridModel<T> model);
 	}
 
 	public interface IGridWithOptions<T> where T : class 

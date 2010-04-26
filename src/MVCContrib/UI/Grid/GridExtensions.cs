@@ -192,5 +192,7 @@ namespace MvcContrib.UI.Grid
 		{
 			return grid.WithModel(new AutoColumnGridModel<T>(ModelMetadataProviders.Current));
 		}
+
+	
 	}
 }

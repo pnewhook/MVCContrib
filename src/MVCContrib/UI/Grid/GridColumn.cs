@@ -27,6 +27,7 @@ namespace MvcContrib.UI.Grid
 		private List<Func<GridRowViewData<T>, IDictionary<string, object>>> _attributes = new List<Func<GridRowViewData<T>, IDictionary<string, object>>>();
 		private bool _sortable = true;
 		private string _sortColumnName = null;
+		private int? _position;
 
 		/// <summary>
 		/// Creates a new instance of the GridColumn class
@@ -86,6 +87,11 @@ namespace MvcContrib.UI.Grid
             get { return _dataType; }
         }
 
+		public int? Position
+		{
+			get { return _position; }
+		}
+
         IGridColumn<T> IGridColumn<T>.Attributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes)
 		{
 			_attributes.Add(attributes);
@@ -113,6 +119,12 @@ namespace MvcContrib.UI.Grid
 		/// Custom item renderer
 		/// </summary>
 		public Action<RenderingContext, T> CustomItemRenderer { get; set; }
+
+		IGridColumn<T> IGridColumn<T>.InsertAt(int index)
+		{
+			_position = index;
+			return this;
+		}
 
 		/// <summary>
 		/// Additional attributes for the column header

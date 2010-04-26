@@ -91,5 +91,13 @@ namespace MvcContrib.UI.Grid
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface
 		Action<RenderingContext, T> CustomItemRenderer { get; set; }
+
+		/// <summary>
+		/// Specifies the position of a column. 
+		/// This is usually used in conjunction with the AutoGenerateColumns method 
+		/// in order to specify where additional custom columns should be placed.
+		/// </summary>
+		/// <param name="index">The index at which the column should be inserted</param>
+		IGridColumn<T> InsertAt(int index);
 	}
 }
