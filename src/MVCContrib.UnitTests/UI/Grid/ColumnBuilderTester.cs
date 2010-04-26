@@ -157,14 +157,18 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Should_create_custom_column()
 		{
+#pragma warning disable 612,618
 			_builder.For("Name");
+#pragma warning restore 612,618
 			_builder.Single().Name.ShouldEqual("Name");
 		}
 
         [Test]
         public void Should_create_custom_column_with_displayname()
         {
+#pragma warning disable 612,618
             _builder.For("Name");
+#pragma warning restore 612,618
             _builder.Single().DisplayName.ShouldEqual("Name");
         }
 

@@ -150,7 +150,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 				w.Write("<td>" + model.Name + "_TEST</td>");
 			});
 
+#pragma warning disable 612,618
 			ColumnFor(x => x.Name).Partial("Foo");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy_TEST</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
@@ -159,7 +161,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Custom_column_should_use_partial_with_same_name_as_column()
 		{
 			SetupViewEngine("Name", "<td>Foo</td>");
+#pragma warning disable 612,618
 			_model.Column.For("Name");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
@@ -168,7 +172,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Custom_column_with_custom_partial()
 		{
 			SetupViewEngine("Foo", "<td>Foo</td>");
+#pragma warning disable 612,618
 			_model.Column.For("Name").Partial("Foo");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}

@@ -37,6 +37,7 @@ namespace MvcContrib.UI.Grid
 		/// Specifies that a custom column should be constructed with the specified name.
 		/// </summary>
 		/// <param name="name"></param>
+		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
 		public IGridColumn<T> For(string name) 
 		{
 			var column = new GridColumn<T>(x => string.Empty, name, null);

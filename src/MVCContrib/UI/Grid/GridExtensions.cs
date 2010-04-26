@@ -165,6 +165,7 @@ namespace MvcContrib.UI.Grid
 		/// <param name="column">The current column</param>
 		/// <param name="partialName">The name of the partial view</param>
 		/// <returns></returns>
+		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
 		public static IGridColumn<T> Partial<T>(this IGridColumn<T> column, string partialName) where T : class 
 		{
 			column.CustomItemRenderer = (context, item) => {
