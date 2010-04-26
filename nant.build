@@ -176,7 +176,26 @@
 		-->
 		<delete dir="${build.base}/release/" failonerror="false"></delete>
 		<mkdir dir="${build.base}/release/" />
-		<property name="ContribRelease" value="${build.base}/release/MvcContrib/"/>
+
+    <property name="PortableAreaTemplateRelease" value="${build.base}/release/PortableAreaTemplate/"/>
+    <mkdir dir="${PortableAreaTemplateRelease}" />
+    <copy todir="${PortableAreaTemplateRelease}" flatten="false">
+      <fileset basedir="${solution.dir}/PortableAreaProjectTemplate">
+        <include name="/**/*.*" />
+      </fileset>
+    </copy>
+    <copy todir="${PortableAreaTemplateRelease}/lib" flatten="true">
+      <fileset basedir="${solution.dir}">
+        <include name="/**/bin/${project.config}/mvccontrib.dll" />
+      </fileset>
+    </copy>
+    <zip zipfile="build/PortableAreaProjectTemplate.zip" includeemptydirs="true" >
+      <fileset basedir="${PortableAreaTemplateRelease}">
+        <include name="**/*.*"/>
+      </fileset>
+    </zip>
+
+    <property name="ContribRelease" value="${build.base}/release/MvcContrib/"/>
 		<mkdir dir="${ContribRelease}" />    
 		<copy todir="${ContribRelease}" flatten="true">
 			<fileset basedir="${solution.dir}">

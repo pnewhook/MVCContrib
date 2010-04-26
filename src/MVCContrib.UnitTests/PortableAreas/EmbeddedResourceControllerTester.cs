@@ -15,6 +15,8 @@ namespace MvcContrib.UnitTests.PortableAreas
         [TestFixtureSetUp]
         public void Embedded_resource_controller_setup()
         {
+        	PortableAreaRegistration.RegisterEmbeddedViewEngine = () => { };
+        	PortableAreaRegistration.CheckAreasWebConfigExists = () => { };
             var areaRegistration = new StubPortableAreaRegistration();
             var registrationContext = new AreaRegistrationContext("FooArea", new RouteCollection());
             areaRegistration.RegisterArea(registrationContext);          
