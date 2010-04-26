@@ -10,7 +10,14 @@
 	<p>
 		When you call <strong>AutoGenerateColumns()</strong> on the grid, the columns will be inferred based on the public properties of the model object.
 	</p>
+	
+	<p>
+    Additional columns can be added by calling <strong>Columns()</strong> after the call to AutoGenerateColumns.
+	</p>
 
 
-	<%= Html.Grid(Model).AutoGenerateColumns() %>
+	<%= Html.Grid(Model).AutoGenerateColumns().Columns(column => {
+    column.For(x => Html.Partial("ViewPersonPartial", x));
+	
+	}) %>
 </asp:Content>
