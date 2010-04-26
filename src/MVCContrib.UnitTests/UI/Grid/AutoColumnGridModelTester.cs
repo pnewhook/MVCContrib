@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using MvcContrib.UI.Grid;
 using MvcContrib.UI.Grid.Syntax;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace MvcContrib.UnitTests.UI.Grid
 {
@@ -66,6 +67,20 @@ namespace MvcContrib.UnitTests.UI.Grid
 			};
 
 			model.Column.Single().GetValue(person).ShouldEqual(date.ToString("d"));
+		}
+
+		[Test]
+		public void Supports_adding_additional_columns()
+		{
+			var grid = new Grid<Person>(new List<Person>(), new StringWriter(), new ViewContext());
+			grid
+				.AutoGenerateColumns()
+				.Columns(column => {
+					column.For(x => null).Named("Some custom column");
+				});
+
+			grid.Model.Columns.Count.ShouldEqual(3);
+
 		}
 
 		private class Person
