@@ -279,7 +279,7 @@
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
-    <Compile Include="UI\Grid\AutoColumnGridModelTester.cs" />
+    <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\GridExtensionTester.cs" />
     <Compile Include="UI\Grid\GridModelTester.cs" />
