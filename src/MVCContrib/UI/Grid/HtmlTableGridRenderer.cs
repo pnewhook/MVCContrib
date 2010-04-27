@@ -207,19 +207,7 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		protected string BuildHtmlAttributes(IDictionary<string, object> attributes)
 		{
-			if(attributes == null || attributes.Count == 0)
-			{
-				return string.Empty;
-			}
-
-			const string attributeFormat = "{0}=\"{1}\"";
-
-			var attributesEncoded = from pair in attributes
-									let value = pair.Value == null ? null : pair.Value.ToString()
-									let encodedValue = HttpUtility.HtmlAttributeEncode(value)
-									select string.Format(attributeFormat, pair.Key, encodedValue);
-
-			return string.Join(" ", attributesEncoded.ToArray());
+			return DictionaryExtensions.ToHtmlAttributes(attributes);
 		}
 	}
 }

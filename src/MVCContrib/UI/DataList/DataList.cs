@@ -302,16 +302,14 @@ namespace MvcContrib.UI.DataList
 
 		private string BuildHtmlAttributes(IDictionary<string, object> attributes)
 		{
-			if (attributes == null || attributes.Count == 0) 
+			var attrs = DictionaryExtensions.ToHtmlAttributes(attributes);
+			
+			if(attrs.Length > 0)
 			{
-				return string.Empty;
+				attrs = " " + attrs;
 			}
 
-			const string attributeFormat = "{0}=\"{1}\"";
-
-			string[] strings = attributes.Select(pair => string.Format(attributeFormat, pair.Key, pair.Value)).ToArray();
-
-			return string.Format(" {0}", string.Join(" ", strings));
+			return attrs;
 		}
     }
 }
