@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Sorting;
@@ -204,7 +205,7 @@ namespace MvcContrib.UI.Grid
 		/// Converts the specified attributes dictionary of key-value pairs into a string of HTML attributes. 
 		/// </summary>
 		/// <returns></returns>
-		private static string BuildHtmlAttributes(IDictionary<string, object> attributes)
+		protected string BuildHtmlAttributes(IDictionary<string, object> attributes)
 		{
 			if(attributes == null || attributes.Count == 0)
 			{
@@ -213,9 +214,12 @@ namespace MvcContrib.UI.Grid
 
 			const string attributeFormat = "{0}=\"{1}\"";
 
-			return string.Join(" ",
-                   attributes.Select(pair => string.Format(attributeFormat, pair.Key, pair.Value)).ToArray()
-			);
+			var attributesEncoded = from pair in attributes
+									let value = pair.Value == null ? null : pair.Value.ToString()
+									let encodedValue = HttpUtility.HtmlAttributeEncode(value)
+									select string.Format(attributeFormat, pair.Key, encodedValue);
+
+			return string.Join(" ", attributesEncoded.ToArray());
 		}
 	}
 }

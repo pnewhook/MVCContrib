@@ -86,6 +86,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Custom_html_attributes_should_be_encoded()
+		{
+			_people.Clear();
+			string expected = ExpectedEmptyTable("There is no data available.", "&quot;foo&quot;");
+			_model.Attributes(@class => "\"foo\"");
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_render()
 		{
 			ColumnFor(x => x.Name);
@@ -279,6 +288,14 @@ namespace MvcContrib.UnitTests.UI.Grid
 			string expected = "<table class=\"grid\"><thead><tr><th style=\"width:100%\">Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
+
+		[Test]
+		public void Should_encode_header_attributes()
+		{
+			ColumnFor(x => x.Name).HeaderAttributes(style => "\"foo\"");
+			string expected = "<table class=\"grid\"><thead><tr><th style=\"&quot;foo&quot;\">Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
 		
 		[Test]
 		public void Should_render_header_attributes_when_rendering_custom_row_start()
@@ -317,6 +334,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 			string expected =
 				"<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td foo=\"bar\">Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_encode_custom_attributes()
+		{
+			ColumnFor(x => x.Name).Attributes(foo => "\"bar\"");
+			string expected =
+				"<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td foo=\"&quot;bar&quot;\">Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+			
 		}
 
 		[Test]
