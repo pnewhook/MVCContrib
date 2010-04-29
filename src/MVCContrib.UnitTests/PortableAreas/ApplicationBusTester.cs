@@ -9,21 +9,37 @@ namespace MvcContrib.UnitTests.PortableAreas
 	[TestFixture]
 	public class ApplicationBusTester
 	{
+		private IApplicationBus _bus;
+
+		[SetUp]
+		public void SetUp()
+		{
+			_bus = new ApplicationBus(new MessageHandlerFactory());
+			MvcContrib.Bus.Instance = _bus;
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			MvcContrib.Bus.Instance = null;
+			_bus = null;
+		}
+
 		[Test]
 		public void bus_should_only_add_message_handlers()
 		{
 			var bus = new ApplicationBus(new MessageHandlerFactory());
-					
+
 			try
 			{
-				bus.Add(this.GetType());	
+				bus.Add(this.GetType());
 			}
 			catch(InvalidOperationException ex)
 			{
 				ex.Message.EndsWith("must implement the IMessageHandler interface").ShouldBeTrue();
 				return;
 			}
-			Assert.Fail("Add should throw exception when adding invalid message handler types");			
+			Assert.Fail("Add should throw exception when adding invalid message handler types");
 		}
 
 		[Test]
@@ -37,7 +53,23 @@ namespace MvcContrib.UnitTests.PortableAreas
 			fooHandler.Sent.ShouldBeTrue();
 		}
 
+		[Test]
+		public void bus_should_find_only_message_handler_types()
+		{
+			MvcContrib.Bus.AddAllMessageHandlers();
 
+			_bus.Contains(typeof(fooHandler)).ShouldBeTrue();
+			_bus.Contains(typeof(barHandler)).ShouldBeTrue();
+			_bus.Any(t => t.GetInterface(typeof(IMessageHandler).Name) == null).ShouldBeFalse();
+			_bus.Count.ShouldEqual(2);
+		}
+
+		[Test]
+		public void bus_should_add_all_handlers_if_null()
+		{
+			MvcContrib.Bus.Instance = null;
+			MvcContrib.Bus.Instance.Count.ShouldEqual(2);
+		}
 
 		[Test]
 		public void bus_should_find_handlers_for_a_message_type()
@@ -57,7 +89,7 @@ namespace MvcContrib.UnitTests.PortableAreas
 
 			public static bool Sent { get; set; }
 		}
-		public class barHandler : IMessageHandler
+		internal class barHandler : IMessageHandler
 		{
 			public void Handle(object message)
 			{
