@@ -6,6 +6,7 @@ using System.Web.Routing;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using MvcContrib.TestHelper;
+using MvcContrib.TestHelper.ControllerBuilderStrategies;
 using NUnit.Framework;
 
 using Rhino.Mocks;
@@ -17,16 +18,17 @@ using Assert=NUnit.Framework.Assert;
 
 namespace MvcContrib.UnitTests.TestHelper
 {
-	[TestFixture]
-	public class ControllerBuilderTests
+	public abstract class ControllerBuilderTestsBase
 	{
 		private TestControllerBuilder builder;
 
 		[SetUp]
 		public void Setup()
 		{
-			builder = new TestControllerBuilder();
+			builder = GetControllerBuilder();
 		}
+
+		protected abstract TestControllerBuilder GetControllerBuilder();
 
 		[Test]
 		public void CanSpecifyFiles()
@@ -106,16 +108,16 @@ namespace MvcContrib.UnitTests.TestHelper
 			Assert.AreEqual("someUrl", testController.Request.RawUrl);
 		}
 
-        [Test]
-        public void CanSpecifyRequestAcceptTypes()
-        {
-            builder.AcceptTypes = new[] {"some/type-extension"};
-            var controller = new TestHelperController();
-            builder.InitializeController(controller);
-            Assert.That(controller.HttpContext.Request.AcceptTypes, Is.Not.Null);
-            Assert.That(controller.HttpContext.Request.AcceptTypes.Length, Is.EqualTo(1));
-            Assert.That(controller.HttpContext.Request.AcceptTypes[0], Is.EqualTo("some/type-extension"));
-        }
+		[Test]
+		public void CanSpecifyRequestAcceptTypes()
+		{
+			builder.AcceptTypes = new[] {"some/type-extension"};
+			var controller = new TestHelperController();
+			builder.InitializeController(controller);
+			Assert.That(controller.HttpContext.Request.AcceptTypes, Is.Not.Null);
+			Assert.That(controller.HttpContext.Request.AcceptTypes.Length, Is.EqualTo(1));
+			Assert.That(controller.HttpContext.Request.AcceptTypes[0], Is.EqualTo("some/type-extension"));
+		}
 
 		[Test]
 		public void When_response_status_is_set_it_should_persist()
@@ -189,8 +191,6 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void CacheIsAvailable()
 		{
-			var builder = new TestControllerBuilder();
-
 			Assert.IsNotNull(builder.HttpContext.Cache);
 
 			var controller = new TestHelperController();
@@ -218,6 +218,24 @@ namespace MvcContrib.UnitTests.TestHelper
 		{
 			var controller = builder.CreateController<TestHelperController>();
 			controller.Url.ShouldNotBeNull();
+		}
+	}
+
+	[TestFixture]
+	public class RhinoMocksControllerBuilderTests : ControllerBuilderTestsBase
+	{
+		protected override TestControllerBuilder GetControllerBuilder()
+		{
+			return new TestControllerBuilder();
+		}
+	}
+
+	[TestFixture]
+	public class MoqControllerBuilderTests : ControllerBuilderTestsBase
+	{
+		protected override TestControllerBuilder GetControllerBuilder()
+		{
+			return new TestControllerBuilder(new MoqControllerBuilder());
 		}
 	}
 }

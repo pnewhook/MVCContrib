@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Services;
-using Rhino.Mocks;
+using MvcContrib.TestHelper.ControllerBuilderStrategies;
 
 namespace MvcContrib.TestHelper
 {
@@ -16,48 +16,60 @@ namespace MvcContrib.TestHelper
 	/// </summary>
 	public class TestControllerBuilder
 	{
-		protected MockRepository _mocks;
 		protected TempDataDictionary _tempData;
-        protected System.Web.Caching.Cache _cache;
-	    
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class
+		/// using Rhino Mocks to perform any necessary mocking.
+		/// </summary>
+		public TestControllerBuilder()
+			: this(new RhinoMocksControllerBuilder())
+		{
+			
+		}
 
 	    /// <summary>
 		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class.
 		/// </summary>
-		public TestControllerBuilder()
+		public TestControllerBuilder(IControllerBuilderStrategy strategy)
 		{
 			AppRelativeCurrentExecutionFilePath = "~/";
 			ApplicationPath = "/";
 			PathInfo = "";
+
 			RouteData = new RouteData();
-			_mocks = new MockRepository();
-			Session = new MockSession();
-			SetupHttpContext();
+	    	Session = new MockSession();
+			TempDataDictionary = new TempDataDictionary();
+			QueryString = new NameValueCollection();
+			Form = new NameValueCollection();
+			Files = new WriteableHttpFileCollection();
+
+	    	strategy.Setup(this);
 		}
 
 		/// <summary>
 		/// Gets the HttpContext that built controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The HTTPContext</value>
-		public HttpContextBase HttpContext { get; protected set; }
+		public HttpContextBase HttpContext { get; protected internal set; }
 
 		/// <summary>
 		/// Gets the HttpPostedFiles that controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The HttpFileCollection Files</value>
-		public IWriteableHttpFileCollection Files { get; protected set; }
+		public IWriteableHttpFileCollection Files { get; protected internal set; }
 
 		/// <summary>
 		/// Gets the Form data that built controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The NameValueCollection Form</value>
-		public NameValueCollection Form { get; protected set; }
+		public NameValueCollection Form { get; protected internal set; }
 
 		/// <summary>
 		/// Gets the QueryString that built controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The NameValueCollection QueryString</value>
-		public NameValueCollection QueryString { get; protected set; }
+		public NameValueCollection QueryString { get; protected internal set; }
 
         /// <summary>
         /// Gets or sets the AcceptTypes property of Request that built controllers will have set internally when created with InitializeController
@@ -68,13 +80,13 @@ namespace MvcContrib.TestHelper
 		/// Gets the Session that built controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The IHttpSessionState Session</value>
-		public HttpSessionStateBase Session { get; protected set; }
+		public HttpSessionStateBase Session { get; protected internal set; }
 
 		/// <summary>
 		/// Gets the TempDataDictionary that built controllers will have set internally when created with InitializeController
 		/// </summary>
 		/// <value>The TempDataDictionary</value>
-		public TempDataDictionary TempDataDictionary { get; protected set; }
+		public TempDataDictionary TempDataDictionary { get; protected internal set; }
 
 		/// <summary>
 		/// Gets or sets the RouteData that built controllers will have set internally when created with InitializeController
@@ -105,50 +117,6 @@ namespace MvcContrib.TestHelper
 		/// </summary>
 		/// <value>The RawUrl string</value>
 		public string RawUrl { get; set; }
-
-		protected void SetupHttpContext()
-		{
-			HttpContext = _mocks.DynamicMock<HttpContextBase>();
-			var request = _mocks.DynamicMock<HttpRequestBase>();
-			var response = _mocks.DynamicMock<HttpResponseBase>();
-			var server = _mocks.DynamicMock<HttpServerUtilityBase>();
-			_cache = HttpRuntime.Cache;
-
-			SetupResult.For(HttpContext.Request).Return(request);
-			SetupResult.For(HttpContext.Response).Return(response);
-			SetupResult.For(HttpContext.Session).Return(Session);
-			SetupResult.For(HttpContext.Server).Return(server);
-			SetupResult.For(HttpContext.Cache).Return(_cache);
-
-			QueryString = new NameValueCollection();
-			SetupResult.For(request.QueryString).Return(QueryString);
-
-			Form = new NameValueCollection();
-			SetupResult.For(request.Form).Return(Form);
-
-            SetupResult.For(request.AcceptTypes).Do((Func<string[]>)(() => AcceptTypes));
-
-			var files = new WriteableHttpFileCollection();
-			Files = files;
-			SetupResult.For(request.Files).Return(files);
-
-			Func<NameValueCollection> paramsFunc = () => new NameValueCollection {QueryString, Form};
-			SetupResult.For(request.Params).Do(paramsFunc);
-
-			SetupResult.For(request.AppRelativeCurrentExecutionFilePath).Do(
-				(Func<string>)(() => AppRelativeCurrentExecutionFilePath));
-			SetupResult.For(request.ApplicationPath).Do((Func<string>)(() => ApplicationPath));
-			SetupResult.For(request.PathInfo).Do((Func<string>)(() => PathInfo));
-			SetupResult.For(request.RawUrl).Do((Func<string>)(() => RawUrl));
-			SetupResult.For(response.Status).PropertyBehavior();
-			SetupResult.For(HttpContext.User).PropertyBehavior();
-
-			_mocks.Replay(HttpContext);
-			_mocks.Replay(request);
-			_mocks.Replay(response);
-
-			TempDataDictionary = new TempDataDictionary();
-		}
 
 		/// <summary>
 		/// Creates the controller with proper environment variables setup. 

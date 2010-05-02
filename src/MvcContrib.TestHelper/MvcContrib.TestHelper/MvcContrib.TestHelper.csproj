@@ -63,8 +63,11 @@
   <ItemGroup>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
+    <Compile Include="ControllerBuilderStrategies\MoqControllerBuilder.cs" />
+    <Compile Include="ControllerBuilderStrategies\MoqProxy.cs" />
     <Compile Include="Extensions\AttributeExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
+    <Compile Include="ControllerBuilderStrategies\IControllerBuilderStrategy.cs" />
     <Compile Include="NameAndDescriptionIdentifier.cs" />
     <Compile Include="FluentController\ActionExpectations.cs" />
     <Compile Include="FluentController\ActionRedirect.cs" />
@@ -90,6 +93,7 @@
     </Compile>
     <Compile Include="Extensions\RouteTestingExtensions.cs" />
     <Compile Include="OutBoundUrl.cs" />
+    <Compile Include="ControllerBuilderStrategies\RhinoMocksControllerBuilder.cs" />
     <Compile Include="Ui\AssertExtensions.cs" />
     <Compile Include="Ui\DisplayTable.cs" />
     <Compile Include="Ui\RowFilter.cs" />
