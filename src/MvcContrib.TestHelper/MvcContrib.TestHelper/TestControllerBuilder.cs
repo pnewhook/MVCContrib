@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Services;
-using MvcContrib.TestHelper.ControllerBuilderStrategies;
+using MvcContrib.TestHelper.MockFactories;
 
 namespace MvcContrib.TestHelper
 {
@@ -23,7 +23,7 @@ namespace MvcContrib.TestHelper
 		/// using Rhino Mocks to perform any necessary mocking.
 		/// </summary>
 		public TestControllerBuilder()
-			: this(new RhinoMocksControllerBuilder())
+			: this(new RhinoMocksFactory())
 		{
 			
 		}
@@ -31,7 +31,7 @@ namespace MvcContrib.TestHelper
 	    /// <summary>
 		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class.
 		/// </summary>
-		public TestControllerBuilder(IControllerBuilderStrategy strategy)
+		public TestControllerBuilder(IMockFactory mockFactory)
 		{
 			AppRelativeCurrentExecutionFilePath = "~/";
 			ApplicationPath = "/";
@@ -44,7 +44,38 @@ namespace MvcContrib.TestHelper
 			Form = new NameValueCollection();
 			Files = new WriteableHttpFileCollection();
 
-	    	strategy.Setup(this);
+	    	Setup(mockFactory);
+		}
+
+		private void Setup(IMockFactory factory)
+		{
+			var httpContext = factory.DynamicMock<HttpContextBase>();
+
+			var request = factory.DynamicMock<HttpRequestBase>();
+			var response = factory.DynamicMock<HttpResponseBase>();
+			var server = factory.DynamicMock<HttpServerUtilityBase>();
+			var cache = HttpRuntime.Cache;
+
+			httpContext.ReturnFor(c => c.Session, Session);
+			httpContext.ReturnFor(c => c.Cache, cache);
+			httpContext.SetupProperty(c => c.User);
+
+			request.ReturnFor(r => r.QueryString, QueryString);
+			request.ReturnFor(r => r.Form, Form);
+			request.ReturnFor(r => r.Files, (HttpFileCollectionBase)Files);
+			request.CallbackFor(r => r.AcceptTypes, () => AcceptTypes);
+			request.CallbackFor(r => r.Params, () => new NameValueCollection { QueryString, Form });
+			request.CallbackFor(r => r.AppRelativeCurrentExecutionFilePath, () => AppRelativeCurrentExecutionFilePath);
+			request.CallbackFor(r => r.ApplicationPath, () => ApplicationPath);
+			request.CallbackFor(r => r.PathInfo, () => PathInfo);
+			request.CallbackFor(r => r.RawUrl, () => RawUrl);
+			response.SetupProperty(r => r.Status);
+
+			httpContext.ReturnFor(c => c.Request, request.Object);
+			httpContext.ReturnFor(c => c.Response, response.Object);
+			httpContext.ReturnFor(c => c.Server, server.Object);
+	
+			HttpContext = httpContext.Object;
 		}
 
 		/// <summary>

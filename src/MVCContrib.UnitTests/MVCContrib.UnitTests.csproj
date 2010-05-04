@@ -377,4 +377,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)..\bin\moq\Moq.dll" . /D /Y</PreBuildEvent>
+  </PropertyGroup>
 </Project>

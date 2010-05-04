@@ -6,29 +6,28 @@ using System.Web.Routing;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using MvcContrib.TestHelper;
-using MvcContrib.TestHelper.ControllerBuilderStrategies;
+using MvcContrib.TestHelper.MockFactories;
 using NUnit.Framework;
-
 using Rhino.Mocks;
-using Assert=NUnit.Framework.Assert;
 
 //Note: these tests confirm that the TestControllerBuilder works properly
-//for examples on how to use the TestControllerBuilder and other TestHelper classes,
+//with both Rhino Mocks and Moq. 
+//For examples on how to use the TestControllerBuilder and other TestHelper classes,
 //look in the \src\Samples\MvcContrib.TestHelper solution
 
 namespace MvcContrib.UnitTests.TestHelper
 {
-	public abstract class ControllerBuilderTestsBase
+	[TestFixture(typeof(MoqFactory))]
+	[TestFixture(typeof(RhinoMocksFactory))]
+	public class ControllerBuilderTests<TMockFactory> where TMockFactory : IMockFactory, new()
 	{
-		private TestControllerBuilder builder;
+		private TestControllerBuilder _builder;
 
 		[SetUp]
 		public void Setup()
 		{
-			builder = GetControllerBuilder();
+			_builder = new TestControllerBuilder(new TMockFactory());
 		}
-
-		protected abstract TestControllerBuilder GetControllerBuilder();
 
 		[Test]
 		public void CanSpecifyFiles()
@@ -36,18 +35,18 @@ namespace MvcContrib.UnitTests.TestHelper
 			var mocks = new MockRepository();
 			var file = mocks.DynamicMock<HttpPostedFileBase>();
 
-			builder.Files["Variable"] = file;
+			_builder.Files["Variable"] = file;
 			var controller = new TestHelperController();
-			builder.InitializeController(controller);
+			_builder.InitializeController(controller);
 			Assert.AreSame(file, controller.Request.Files["Variable"]);
 		}
 
 		[Test]
 		public void CanSpecifyFormVariables()
 		{
-			builder.Form["Variable"] = "Value";
+			_builder.Form["Variable"] = "Value";
 			var controller = new TestHelperController();
-			builder.InitializeController(controller);
+			_builder.InitializeController(controller);
 			Assert.AreEqual("Value", controller.HttpContext.Request.Form["Variable"]);
 		}
 
@@ -56,64 +55,64 @@ namespace MvcContrib.UnitTests.TestHelper
 		{
 			var rd = new RouteData();
 			rd.Values["Variable"] = "Value";
-			builder.RouteData = rd;
+			_builder.RouteData = rd;
 
 			var controller = new TestHelperController();
-			builder.InitializeController(controller);
+			_builder.InitializeController(controller);
 			Assert.AreEqual("Value", controller.RouteData.Values["Variable"]);
 		}
 
 		[Test]
 		public void CanSpecifyQueryString()
 		{
-			builder.QueryString["Variable"] = "Value";
+			_builder.QueryString["Variable"] = "Value";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.AreEqual("Value", testController.Request.QueryString["Variable"]);
 		}
 
 		[Test]
 		public void CanSpecifyAppRelativeCurrentExecutionFilePath()
 		{
-			builder.AppRelativeCurrentExecutionFilePath = "someUrl";
+			_builder.AppRelativeCurrentExecutionFilePath = "someUrl";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.AreEqual("someUrl", testController.Request.AppRelativeCurrentExecutionFilePath);
 		}
 
 		[Test]
 		public void CanSpecifyApplicationPath()
 		{
-			builder.ApplicationPath = "someUrl";
+			_builder.ApplicationPath = "someUrl";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.AreEqual("someUrl", testController.Request.ApplicationPath);
 		}
 
 		[Test]
 		public void CanSpecifyPathInfol()
 		{
-			builder.PathInfo = "someUrl";
+			_builder.PathInfo = "someUrl";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.AreEqual("someUrl", testController.Request.PathInfo);
 		}
 
 		[Test]
 		public void CanSpecifyRawUrl()
 		{
-			builder.RawUrl = "someUrl";
+			_builder.RawUrl = "someUrl";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.AreEqual("someUrl", testController.Request.RawUrl);
 		}
 
 		[Test]
 		public void CanSpecifyRequestAcceptTypes()
 		{
-			builder.AcceptTypes = new[] {"some/type-extension"};
+			_builder.AcceptTypes = new[] {"some/type-extension"};
 			var controller = new TestHelperController();
-			builder.InitializeController(controller);
+			_builder.InitializeController(controller);
 			Assert.That(controller.HttpContext.Request.AcceptTypes, Is.Not.Null);
 			Assert.That(controller.HttpContext.Request.AcceptTypes.Length, Is.EqualTo(1));
 			Assert.That(controller.HttpContext.Request.AcceptTypes[0], Is.EqualTo("some/type-extension"));
@@ -123,7 +122,7 @@ namespace MvcContrib.UnitTests.TestHelper
 		public void When_response_status_is_set_it_should_persist()
 		{
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			testController.HttpContext.Response.Status = "404 Not Found";
 			Assert.AreEqual("404 Not Found", testController.HttpContext.Response.Status);
 		}
@@ -131,18 +130,18 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void CanCreateControllerWithNoArgs()
 		{
-			builder.QueryString["Variable"] = "Value";
-			var testController = builder.CreateController<TestHelperController>();
+			_builder.QueryString["Variable"] = "Value";
+			var testController = _builder.CreateController<TestHelperController>();
 			Assert.AreEqual("Value", testController.Request.QueryString["Variable"]);
 		}
 
 		[Test]
 		public void When_params_is_invoked_it_should_return_a_combination_of_form_and_querystring()
 		{
-			builder.QueryString["foo"] = "bar";
-			builder.Form["baz"] = "blah";
+			_builder.QueryString["foo"] = "bar";
+			_builder.Form["baz"] = "blah";
 			var testController = new TestHelperController();
-			builder.InitializeController(testController);
+			_builder.InitializeController(testController);
 			Assert.That(testController.Request.Params["foo"], Is.EqualTo("bar"));
 			Assert.That(testController.Request.Params["baz"], Is.EqualTo("blah"));
 		}
@@ -150,8 +149,8 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void CanCreateControllerWithArgs()
 		{
-			builder.QueryString["Variable"] = "Value";
-			var testController = builder.CreateController<TestHelperWithArgsController>(new TestService());
+			_builder.QueryString["Variable"] = "Value";
+			var testController = _builder.CreateController<TestHelperWithArgsController>(new TestService());
 			Assert.AreEqual("Value", testController.Request.QueryString["Variable"]);
 			Assert.AreEqual("Moo", testController.ReturnMooFromService());
 		}
@@ -169,8 +168,8 @@ namespace MvcContrib.UnitTests.TestHelper
 			}
 			using(mocks.Playback())
 			{
-				builder.QueryString["Variable"] = "Value";
-				var testController = builder.CreateIoCController<TestHelperWithArgsController>();
+				_builder.QueryString["Variable"] = "Value";
+				var testController = _builder.CreateIoCController<TestHelperWithArgsController>();
 				Assert.AreEqual("Value", testController.Request.QueryString["Variable"]);
 				Assert.AreEqual("Moo", testController.ReturnMooFromService());
 			}
@@ -182,7 +181,7 @@ namespace MvcContrib.UnitTests.TestHelper
 			var mocks = new MockRepository();
 			var user = mocks.DynamicMock<IPrincipal>();
 
-			var controller = builder.CreateController<TestHelperController>();
+			var controller = _builder.CreateController<TestHelperController>();
 			controller.ControllerContext.HttpContext.User = user;
 
 			Assert.AreSame(user, controller.User);
@@ -191,10 +190,10 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void CacheIsAvailable()
 		{
-			Assert.IsNotNull(builder.HttpContext.Cache);
+			Assert.IsNotNull(_builder.HttpContext.Cache);
 
 			var controller = new TestHelperController();
-			builder.InitializeController(controller);
+			_builder.InitializeController(controller);
 
 			Assert.IsNotNull(controller.HttpContext.Cache);
 
@@ -216,26 +215,8 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void Initializes_UrlHelper()
 		{
-			var controller = builder.CreateController<TestHelperController>();
+			var controller = _builder.CreateController<TestHelperController>();
 			controller.Url.ShouldNotBeNull();
-		}
-	}
-
-	[TestFixture]
-	public class RhinoMocksControllerBuilderTests : ControllerBuilderTestsBase
-	{
-		protected override TestControllerBuilder GetControllerBuilder()
-		{
-			return new TestControllerBuilder();
-		}
-	}
-
-	[TestFixture]
-	public class MoqControllerBuilderTests : ControllerBuilderTestsBase
-	{
-		protected override TestControllerBuilder GetControllerBuilder()
-		{
-			return new TestControllerBuilder(new MoqControllerBuilder());
 		}
 	}
 }

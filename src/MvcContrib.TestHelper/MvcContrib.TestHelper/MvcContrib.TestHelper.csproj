@@ -45,6 +45,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,11 +64,14 @@
   <ItemGroup>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
-    <Compile Include="ControllerBuilderStrategies\MoqControllerBuilder.cs" />
-    <Compile Include="ControllerBuilderStrategies\MoqProxy.cs" />
+    <Compile Include="MockFactories\IMockFactory.cs" />
+    <Compile Include="MockFactories\IMockProxy.cs" />
+    <Compile Include="MockFactories\MoqFactory.cs" />
     <Compile Include="Extensions\AttributeExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
-    <Compile Include="ControllerBuilderStrategies\IControllerBuilderStrategy.cs" />
+    <Compile Include="MockFactories\MoqProxy.cs" />
+    <Compile Include="MockFactories\RhinoMocksFactory.cs" />
+    <Compile Include="MockFactories\RhinoMocksProxy.cs" />
     <Compile Include="NameAndDescriptionIdentifier.cs" />
     <Compile Include="FluentController\ActionExpectations.cs" />
     <Compile Include="FluentController\ActionRedirect.cs" />
@@ -93,7 +97,6 @@
     </Compile>
     <Compile Include="Extensions\RouteTestingExtensions.cs" />
     <Compile Include="OutBoundUrl.cs" />
-    <Compile Include="ControllerBuilderStrategies\RhinoMocksControllerBuilder.cs" />
     <Compile Include="Ui\AssertExtensions.cs" />
     <Compile Include="Ui\DisplayTable.cs" />
     <Compile Include="Ui\RowFilter.cs" />
