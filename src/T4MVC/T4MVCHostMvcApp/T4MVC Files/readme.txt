@@ -55,7 +55,7 @@ TODO:
 
 HISTORY:
 
-2.6.14 (03-??-2010):
+2.6.14 (05-06-2010):
 - Added UseLowercaseRoutes flag to lower case the area, controller and action names in routes
 - Added support for Views folders that don't match a controller name.
 - Added optimization to not regenerate files when the controller has not changed since the last generation
