@@ -57,15 +57,21 @@ namespace MvcContrib
 
 		private static IEnumerable<Type> FindAllMessageHandlers()
 		{
-			var iMessageHandler = typeof(IMessageHandler);
+			var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes());
 
-			var types = from type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes())
-						let canInstantiate = !type.IsInterface && !type.IsAbstract && !type.IsNestedPrivate
-						let isIMessageHandler = type.GetInterface(iMessageHandler.Name) != null
-						where canInstantiate && isIMessageHandler
-						select type;
+			var types = allTypes.Where(type => IsValidType(type));
 
 			return types;
+		}
+
+		public static bool IsValidType(Type type)
+		{
+			if (type.IsInterface || type.IsAbstract || type.IsNestedPrivate)
+				return false;
+
+			bool isIMessageHandler = type.GetInterface(typeof(IMessageHandler).Name) != null;
+
+			return isIMessageHandler;
 		}
 	}
 }

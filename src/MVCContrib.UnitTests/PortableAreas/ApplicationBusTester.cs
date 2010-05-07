@@ -54,21 +54,68 @@ namespace MvcContrib.UnitTests.PortableAreas
 		}
 
 		[Test]
+		public void isvalidtype_should_return_invalid_for_message_handler_interface()
+		{
+			bool isValid = Bus.IsValidType(typeof(IMessageHandler));
+
+			isValid.ShouldBeFalse();
+		}
+
+		[Test]
+		public void isvalidtype_should_return_valid_for_known_message_handler_types()
+		{
+			bool foo = Bus.IsValidType(typeof(fooHandler));
+			bool bar = Bus.IsValidType(typeof(barHandler));
+
+			(foo && bar).ShouldBeTrue();
+		}
+
+		[Test]
+		public void isvalidtype_should_return_invalid_for_non_message_handler_types()
+		{
+			bool simple = Bus.IsValidType(typeof(string));
+			bool complex = Bus.IsValidType(typeof(foo));
+
+			(simple || complex).ShouldBeFalse();
+		}
+
+		[Test]
+		public void isvalidtype_should_return_valid_for_internal_message_handler_types()
+		{
+			bool isValid = Bus.IsValidType(typeof(barHandler));
+
+			isValid.ShouldBeTrue();
+		}
+
+		[Test]
+		public void isvalidtype_should_return_valid_for_protected_message_handler_types()
+		{
+			bool isValid = Bus.IsValidType(typeof(protectedFooHandler));
+
+			isValid.ShouldBeTrue();
+		}
+
+		[Test]
+		public void isvalidtype_should_return_invalid_for_private_message_handler_types()
+		{
+			bool isValid = Bus.IsValidType(typeof(privateFooHandler));
+
+			isValid.ShouldBeFalse();
+		}
+
+		[Test]
 		public void bus_should_find_only_message_handler_types()
 		{
-			MvcContrib.Bus.AddAllMessageHandlers();
+			Bus.AddAllMessageHandlers();
 
-			_bus.Contains(typeof(fooHandler)).ShouldBeTrue();
-			_bus.Contains(typeof(barHandler)).ShouldBeTrue();
 			_bus.Any(t => t.GetInterface(typeof(IMessageHandler).Name) == null).ShouldBeFalse();
-			_bus.Count.ShouldEqual(2);
 		}
 
 		[Test]
 		public void bus_should_add_all_handlers_if_null()
 		{
 			MvcContrib.Bus.Instance = null;
-			MvcContrib.Bus.Instance.Count.ShouldEqual(2);
+			MvcContrib.Bus.Instance.Count.ShouldEqual(3);
 		}
 
 		[Test]
@@ -89,6 +136,7 @@ namespace MvcContrib.UnitTests.PortableAreas
 
 			public static bool Sent { get; set; }
 		}
+
 		internal class barHandler : IMessageHandler
 		{
 			public void Handle(object message)
@@ -101,6 +149,27 @@ namespace MvcContrib.UnitTests.PortableAreas
 				return false;
 			}
 		}
+
+		protected class protectedFooHandler : MessageHandler<foo>
+		{
+			public override void Handle(foo message)
+			{
+				Sent = true;
+			}
+
+			public static bool Sent { get; set; }
+		}
+
+		private class privateFooHandler : MessageHandler<foo>
+		{
+			public override void Handle(foo message)
+			{
+				Sent = true;
+			}
+
+			public static bool Sent { get; set; }
+		}
+
 		public class foo : IEventMessage { }
 	}
 
