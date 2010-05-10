@@ -106,14 +106,26 @@ namespace System.Web.Mvc {
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result) {
-            return routes.MapRoute(name, url, result, (ActionResult)null);
+            return MapRoute(routes, name, url, result, null /*namespaces*/);
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults) {
-            return MapRoute(routes, name, url, result, defaults, null);
+            return MapRoute(routes, name, url, result, defaults, null /*constraints*/, null /*namespaces*/);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, string[] namespaces) {
+            return MapRoute(routes, name, url, result, null /*defaults*/, namespaces);
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, object constraints) {
+            return MapRoute(routes, name, url, result, defaults, constraints, null /*namespaces*/);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, string[] namespaces) {
+            return MapRoute(routes, name, url, result, defaults, null /*constraints*/, namespaces);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
             // Start by adding the default values from the anonymous object (if any)
             var routeValues = new RouteValueDictionary(defaults);
 
@@ -126,6 +138,12 @@ namespace System.Web.Mvc {
 
             // Create and add the route
             var route = new Route(url, routeValues, routeConstraints, new MvcRouteHandler());
+
+            if (namespaces != null && namespaces.Length > 0) {
+                route.DataTokens = new RouteValueDictionary();
+                route.DataTokens["Namespaces"] = namespaces;
+            }
+
             routes.Add(name, route);
             return route;
         }

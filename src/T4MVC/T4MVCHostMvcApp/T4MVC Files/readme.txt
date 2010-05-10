@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.15 (05-06-2010):
+- Added missing MapRoute overloads to support namespaces
+
 2.6.14 (05-06-2010):
 - Added UseLowercaseRoutes flag to lower case the area, controller and action names in routes
 - Added support for Views folders that don't match a controller name.
