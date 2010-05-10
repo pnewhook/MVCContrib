@@ -10,6 +10,10 @@ namespace MvcContrib.CommandProcessor.Configuration
 		private readonly IDictionary<Type, IMessageConfiguration> _messageConfigurations =
 			new Dictionary<Type, IMessageConfiguration>();
 
+		public  IDictionary<Type, IMessageConfiguration> MessageConfigurations
+		{
+			get { return _messageConfigurations; }
+		} 
 		public IMessageConfiguration GetMessageConfiguration(Type messageType)
 		{
 			try
@@ -32,10 +36,13 @@ namespace MvcContrib.CommandProcessor.Configuration
 
 			foreach (Type messageDefinitionType in messageDefinitionTypes)
 			{
-				Type messageType = messageDefinitionType.BaseType.GetGenericArguments()[0];
-				var messageConfiguration = (IMessageConfiguration) Activator.CreateInstance(messageDefinitionType);
+				if (messageDefinitionType.BaseType != null && messageDefinitionType.BaseType.IsGenericType)
+				{
+					Type messageType = messageDefinitionType.BaseType.GetGenericArguments()[0];
+					var messageConfiguration = (IMessageConfiguration)Activator.CreateInstance(messageDefinitionType);
 
-				_messageConfigurations.Add(messageType, messageConfiguration);
+					_messageConfigurations.Add(messageType, messageConfiguration);
+				}
 			}
 		}
 	}
