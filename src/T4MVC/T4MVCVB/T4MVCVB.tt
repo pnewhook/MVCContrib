@@ -362,8 +362,8 @@ RenderAdditionalCode();
 #>
 <#foreach (var controller in GetAbstractControllers().Where(c => !c.HasDefaultConstructor)) { #>
 <#manager.StartNewFile(controller.GeneratedFileName); #>
-Namespace <#=controller.Namespace #> {
-    Public Partial Class <#=controller.ClassName #> {
+Namespace <#=controller.Namespace #> 
+    Public Partial Class <#=controller.ClassName #> 
         Protected Sub New()
 		End Sub
     End Class
