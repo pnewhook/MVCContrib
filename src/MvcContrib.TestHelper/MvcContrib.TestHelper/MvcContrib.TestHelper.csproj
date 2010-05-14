@@ -103,7 +103,7 @@
     <Compile Include="Ui\IInputTester.cs" />
     <Compile Include="Ui\IInputTesterFactory.cs" />
     <Compile Include="Ui\InputForm.cs" />
-    <Compile Include="Ui\InputTesterFactory.cs" />
+    <Compile Include="Ui\InputTesterFactoryRegistry.cs" />
     <Compile Include="Ui\ReflectionHelper.cs" />
     <Compile Include="Ui\TextInputTester.cs" />
     <Compile Include="Ui\TextInputTesterFactory.cs" />
