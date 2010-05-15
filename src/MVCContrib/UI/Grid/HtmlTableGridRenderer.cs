@@ -41,6 +41,12 @@ namespace MvcContrib.UI.Grid
 				if (isSortedByThisColumn) 
 				{
 					string sortClass = GridModel.SortOptions.Direction == SortDirection.Ascending ? "sort_asc" : "sort_desc";
+
+					if(attributes.ContainsKey("class") && attributes["class"] != null)
+					{
+						sortClass = string.Join(" ", new[] { attributes["class"].ToString(), sortClass });
+					}
+
 					attributes["class"] = sortClass;
 				}
 			}

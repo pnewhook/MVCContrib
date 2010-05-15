@@ -411,6 +411,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Direction_heading_should_not_override_custom_class()
+		{
+			ColumnFor(x => x.Name).HeaderAttributes(@class => "foo");
+			_model.Sort(new GridSortOptions() { Column = "Name" });
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"foo sort_asc\"><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_render_grid_with_sort_direction_descending()
 		{
 			ColumnFor(x => x.Name);
