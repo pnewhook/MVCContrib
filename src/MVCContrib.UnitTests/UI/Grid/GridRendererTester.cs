@@ -402,6 +402,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Should_render_grid_with_sort_links_using_prefix()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions(), "foo");
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?foo.Column=Name&amp;foo.Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_render_grid_with_sort_direction_ascending()
 		{
 			ColumnFor(x => x.Name);
