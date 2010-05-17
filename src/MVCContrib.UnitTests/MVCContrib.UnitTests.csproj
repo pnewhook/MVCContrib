@@ -271,6 +271,11 @@
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
     <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
+    <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqProxyTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksProxyTests.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />

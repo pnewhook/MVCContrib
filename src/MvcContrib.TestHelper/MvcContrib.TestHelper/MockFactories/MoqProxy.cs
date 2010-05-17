@@ -5,12 +5,19 @@ using System.Reflection;
 
 namespace MvcContrib.TestHelper.MockFactories
 {
+	/// <summary>
+	/// Runtime proxy for a Moq proxy. 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
     internal class MoqProxy<T> : IMockProxy<T>
     {
         private readonly Type _mockType;
         private readonly PropertyInfo _objectProperty;
         private readonly object _instance;
 
+		/// <summary>
+		/// Gets the object. 
+		/// </summary>
         public T Object 
         { 
             get
@@ -20,6 +27,10 @@ namespace MvcContrib.TestHelper.MockFactories
             }
         }
 
+		/// <summary>
+		/// Creates a new proxy. 
+		/// </summary>
+		/// <param name="mockType"></param>
         public MoqProxy(Type mockType)
         {
             _mockType = mockType;
@@ -33,6 +44,12 @@ namespace MvcContrib.TestHelper.MockFactories
             return openSetupMethod.MakeGenericMethod(typeof(TResult));
         }
 
+		/// <summary>
+		/// Sets up the specified return value for the specified method call or property. 
+		/// </summary>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="expression"></param>
+		/// <param name="result"></param>
         public void ReturnFor<TResult>(Expression<Func<T, TResult>> expression, TResult result)
         {
             var setupMethod = GetSetupMethod<TResult>();
@@ -41,6 +58,12 @@ namespace MvcContrib.TestHelper.MockFactories
             returnsMethod.Invoke(setup, new object[] { result});
         }
 
+		/// <summary>
+		/// Sets up a callback function for the specified method call or property.
+		/// </summary>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="expression"></param>
+		/// <param name="callback"></param>
         public void CallbackFor<TResult>(Expression<Func<T, TResult>> expression, Func<TResult> callback)
         {
             var setupMethod = GetSetupMethod<TResult>();
@@ -49,6 +72,11 @@ namespace MvcContrib.TestHelper.MockFactories
             returnsMethod.Invoke(setup, new object[] {callback});
         }
 
+		/// <summary>
+		/// Sets up normal get/set property behavior. 
+		/// </summary>
+		/// <typeparam name="TProperty"></typeparam>
+		/// <param name="expression"></param>
         public void SetupProperty<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var openSetupMethod = _mockType.GetMethods().First(m => m.Name == "SetupProperty" && m.GetParameters().Length == 1);

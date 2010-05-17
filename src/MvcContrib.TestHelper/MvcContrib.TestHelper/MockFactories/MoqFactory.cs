@@ -18,12 +18,12 @@ namespace MvcContrib.TestHelper.MockFactories
 		{
 			try
 			{
-				Assembly Moq = Assembly.Load("Moq");
-				_mockOpenType = Moq.GetType("Moq.Mock`1");
+				Assembly moq = Assembly.Load("Moq");
+				_mockOpenType = moq.GetType("Moq.Mock`1");
 
 				if (_mockOpenType == null)
 				{
-					throw new InvalidOperationException("Unable to find Type Moq.Mock<T> in assembly " + Moq.Location);
+					throw new InvalidOperationException("Unable to find Type Moq.Mock<T> in assembly " + moq.Location);
 				}				
 			}
 			catch(Exception ex)
@@ -33,8 +33,9 @@ namespace MvcContrib.TestHelper.MockFactories
 		}
 
 		/// <summary>
-		/// 
+		/// Creates a new factory.
 		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown if Moq isn't available.</exception>
 		public MoqFactory()
 		{
 			if (_mockOpenType == null)
@@ -43,6 +44,11 @@ namespace MvcContrib.TestHelper.MockFactories
 			}
 		}
 
+		/// <summary>
+		/// Creates a new dynamic mock.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public IMockProxy<T> DynamicMock<T>() where T : class
 		{
 			return new MoqProxy<T>(_mockOpenType.MakeGenericType(typeof(T)));

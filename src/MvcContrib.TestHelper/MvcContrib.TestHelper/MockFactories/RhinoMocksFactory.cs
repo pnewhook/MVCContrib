@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Reflection;
-using Rhino.Mocks;
 using System.Linq;
 
 namespace MvcContrib.TestHelper.MockFactories
 {
+	/// <summary>
+	/// Creates mock objects using Rhino Mocks dynamically. 
+	/// </summary>
 	internal class RhinoMocksFactory : IMockFactory
 	{
 		internal static Assembly RhinoMocks;
 
-		private static object _mocks;
-		private static Exception _loadException;
-		private static MethodInfo _dynamicMockOpen;
+		private static readonly object _mocks;
+		private static readonly Exception _loadException;
+		private static readonly MethodInfo _dynamicMockOpen;
 
+		/// <summary>
+		/// Grabs references to Rhino Mocks types using reflection.
+		/// </summary>
 		static RhinoMocksFactory()
 		{
 			try
@@ -28,6 +33,10 @@ namespace MvcContrib.TestHelper.MockFactories
 			}
 		}
 
+		/// <summary>
+		/// Initializes the factory.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown if Rhino Mocks can't be loaded.</exception>
 		public RhinoMocksFactory()
 		{			
 			if (_mocks == null)
@@ -36,6 +45,11 @@ namespace MvcContrib.TestHelper.MockFactories
 			}
 		}
 
+		/// <summary>
+		/// Creates a dynamic mock for the specified type.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public IMockProxy<T> DynamicMock<T>() where T : class
 		{
 			var dynamicMock = _dynamicMockOpen.MakeGenericMethod(typeof(T));

@@ -20,16 +20,21 @@ namespace MvcContrib.TestHelper
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class
-		/// using Rhino Mocks to perform any necessary mocking.
+		/// using the first available mocking framework available.
 		/// </summary>
+		/// <remarks>
+		/// See FirstAvailableMockFactory for a description of the mocking framework
+		/// selection strategy. 
+		/// </remarks>
 		public TestControllerBuilder()
-			: this(new RhinoMocksFactory())
+			: this(new FirstAvailableMockFactory())
 		{
 			
 		}
 
 	    /// <summary>
-		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class.
+		/// Initializes a new instance of the <see cref="TestControllerBuilder"/> class using
+		/// the specified mock factory to create any mock objects. 
 		/// </summary>
 		public TestControllerBuilder(IMockFactory mockFactory)
 		{
