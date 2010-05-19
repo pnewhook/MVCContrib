@@ -17,6 +17,7 @@ namespace MvcContrib.ActionResults
 	public class XmlResult : ActionResult
 	{
 		private object _objectToSerialize;
+		private XmlAttributeOverrides _xmlAttribueOverrides;
 
 		/// <summary>
 		/// Creates a new instance of the XmlResult class.
@@ -25,6 +26,17 @@ namespace MvcContrib.ActionResults
 		public XmlResult(object objectToSerialize)
 		{
 			_objectToSerialize = objectToSerialize;
+		}
+
+		/// <summary>
+		/// Creates a new instance of the XMLResult class.
+		/// </summary>
+		/// <param name="objectToSerialize">The object to serialize to XML.</param>
+		/// <param name="xmlAttributeOverrides"></param>
+		public XmlResult(object objectToSerialize, XmlAttributeOverrides xmlAttributeOverrides)
+		{
+			_objectToSerialize = objectToSerialize;
+			_xmlAttribueOverrides = xmlAttributeOverrides;
 		}
 
 		/// <summary>
@@ -43,7 +55,9 @@ namespace MvcContrib.ActionResults
 		{
 			if (_objectToSerialize != null)
 			{
-				var xs = new XmlSerializer(_objectToSerialize.GetType());
+				var xs = (_xmlAttribueOverrides == null) ?
+					new XmlSerializer(_objectToSerialize.GetType()) :
+					new XmlSerializer(_objectToSerialize.GetType(), _xmlAttribueOverrides);	
 				context.HttpContext.Response.ContentType = "text/xml";
 				xs.Serialize(context.HttpContext.Response.Output, _objectToSerialize);
 			}

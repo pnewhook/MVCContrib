@@ -9,7 +9,7 @@ namespace MvcContrib.UI.Grid
 	/// <summary>
 	/// Builds grid columns
 	/// </summary>
-	public class ColumnBuilder<T> : ICollection<GridColumn<T>> where T : class 
+	public class ColumnBuilder<T> : IList<GridColumn<T>> where T : class 
 	{
 		private readonly List<GridColumn<T>> _columns = new List<GridColumn<T>>();
 
@@ -37,6 +37,7 @@ namespace MvcContrib.UI.Grid
 		/// Specifies that a custom column should be constructed with the specified name.
 		/// </summary>
 		/// <param name="name"></param>
+		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
 		public IGridColumn<T> For(string name) 
 		{
 			var column = new GridColumn<T>(x => string.Empty, name, null);
@@ -46,7 +47,8 @@ namespace MvcContrib.UI.Grid
 
 		public IEnumerator<GridColumn<T>> GetEnumerator()
 		{
-			return _columns.GetEnumerator();
+			return _columns
+				.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -127,6 +129,27 @@ namespace MvcContrib.UI.Grid
 		bool ICollection<GridColumn<T>>.IsReadOnly
 		{
 			get { return false; }
+		}
+
+		int IList<GridColumn<T>>.IndexOf(GridColumn<T> item)
+		{
+			return _columns.IndexOf(item);
+		}
+
+		void IList<GridColumn<T>>.Insert(int index, GridColumn<T> item)
+		{
+			_columns.Insert(index, item);
+		}
+
+		void IList<GridColumn<T>>.RemoveAt(int index)
+		{
+			_columns.RemoveAt(index);
+		}
+
+		GridColumn<T> IList<GridColumn<T>>.this[int index]
+		{
+			get { return _columns[index]; }
+			set { _columns[index] = value; }
 		}
 	}
 }

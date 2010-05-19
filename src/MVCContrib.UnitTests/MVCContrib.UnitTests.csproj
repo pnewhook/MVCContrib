@@ -41,23 +41,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\boo\Boo.Lang.Compiler.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Components.Binder, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Components.Binder, Version=1.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.Components.Binder.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.MicroKernel.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Services.Transaction, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Services.Transaction, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.Services.Transaction.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -120,7 +120,7 @@
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -256,6 +256,7 @@
     <Compile Include="ConventionController\RescueTester.cs" />
     <Compile Include="LazyPaginationTester.cs" />
     <Compile Include="PortableAreas\ApplicationBusTester.cs" />
+    <Compile Include="PortableAreas\EmbeddedResourceControllerTester.cs" />
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
@@ -270,6 +271,11 @@
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
     <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
+    <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqProxyTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksProxyTests.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />
@@ -278,7 +284,7 @@
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
-    <Compile Include="UI\Grid\AutoColumnGridModelTester.cs" />
+    <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\GridExtensionTester.cs" />
     <Compile Include="UI\Grid\GridModelTester.cs" />
@@ -362,6 +368,7 @@
     <Content Include="IncludeHandling\exists.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="PortableAreas\images\arrow.gif" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
@@ -375,4 +382,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)..\bin\moq\Moq.dll" . /D /Y</PreBuildEvent>
+  </PropertyGroup>
 </Project>

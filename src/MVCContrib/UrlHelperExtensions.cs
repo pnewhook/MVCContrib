@@ -14,5 +14,11 @@ namespace MvcContrib
 		{
 			return LinkBuilder.BuildUrlFromExpression(urlHelper.RequestContext, urlHelper.RouteCollection, expression);	
 		}
+
+        public static string Resource(this UrlHelper urlHelper, string resourceName)
+        {
+            var areaName = (string)urlHelper.RequestContext.RouteData.DataTokens["area"];
+            return urlHelper.Action("Index", "EmbeddedResource", new { resourceName = resourceName, area = areaName });
+        }
 	}
 }

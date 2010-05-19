@@ -15,7 +15,7 @@ namespace LoginPortableArea.Login
 				"login/{controller}/{action}",
 				new {controller = "login", action = "index"});
 
-			RegisterTheViewsInTheEmbeddedViewEngine(GetType());
+            this.RegisterAreaEmbeddedResources();
 		}
 
 		public override string AreaName

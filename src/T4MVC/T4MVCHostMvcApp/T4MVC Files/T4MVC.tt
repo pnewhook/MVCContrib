@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.14
+T4MVC Version 2.6.15
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -148,14 +148,62 @@ namespace System.Web.Mvc {
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result) {
-            return routes.MapRoute(name, url, result, (ActionResult)null);
+            return MapRoute(routes, name, url, result, null /*namespaces*/);
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults) {
-            return MapRoute(routes, name, url, result, defaults, null);
+            return MapRoute(routes, name, url, result, defaults, null /*constraints*/, null /*namespaces*/);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, string[] namespaces) {
+            return MapRoute(routes, name, url, result, null /*defaults*/, namespaces);
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, object constraints) {
+            return MapRoute(routes, name, url, result, defaults, constraints, null /*namespaces*/);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, string[] namespaces) {
+            return MapRoute(routes, name, url, result, defaults, null /*constraints*/, namespaces);
+        }
+
+        public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
+            // Create and add the route
+            var route = CreateRoute(url, result, defaults, constraints, namespaces);
+            routes.Add(name, route);
+            return route;
+        }
+
+        // Note: can't name the AreaRegistrationContext methods 'MapRoute', as that conflicts with the existing methods
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result) {
+            return MapRouteArea(context, name, url, result, null /*namespaces*/);
+        }
+
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result, object defaults) {
+            return MapRouteArea(context, name, url, result, defaults, null /*constraints*/, null /*namespaces*/);
+        }
+
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result, string[] namespaces) {
+            return MapRouteArea(context, name, url, result, null /*defaults*/, namespaces);
+        }
+
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result, object defaults, object constraints) {
+            return MapRouteArea(context, name, url, result, defaults, constraints, null /*namespaces*/);
+        }
+
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result, object defaults, string[] namespaces) {
+            return MapRouteArea(context, name, url, result, defaults, null /*constraints*/, namespaces);
+        }
+
+        public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
+            // Create and add the route
+            var route = CreateRoute(url, result, defaults, constraints, namespaces);
+            context.Routes.Add(name, route);
+            route.DataTokens["area"] = context.AreaName;
+            return route;
+        }
+
+        private static Route CreateRoute(string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
             // Start by adding the default values from the anonymous object (if any)
             var routeValues = new RouteValueDictionary(defaults);
 
@@ -168,7 +216,13 @@ namespace System.Web.Mvc {
 
             // Create and add the route
             var route = new Route(url, routeValues, routeConstraints, new MvcRouteHandler());
-            routes.Add(name, route);
+
+            route.DataTokens = new RouteValueDictionary();
+
+            if (namespaces != null && namespaces.Length > 0) {
+                route.DataTokens["Namespaces"] = namespaces;
+            }
+
             return route;
         }
 

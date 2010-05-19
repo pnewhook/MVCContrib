@@ -57,6 +57,54 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Columns_should_be_stored_in_the_order_they_were_defined()
+		{
+			var model = new GridModel<Person>();
+			_grid.WithModel(model)
+				.Columns(col =>
+				{
+					col.For(x => x.Id);
+					col.For(x => x.Name);
+				});
+
+			var cols = ((IGridModel<Person>)model).Columns;
+			cols.ElementAt(0).Name.ShouldEqual("Id");
+			cols.ElementAt(1).Name.ShouldEqual("Name");
+		}
+
+		[Test]
+		public void Custom_columns_should_be_added_at_end()
+		{
+			_grid
+				.AutoGenerateColumns()
+				.Columns(col => {
+					col.For(x => null).Named("Custom");
+				});
+
+			var cols = _grid.Model.Columns;
+			cols.ElementAt(0).Name.ShouldEqual("Name");
+			cols.ElementAt(1).Name.ShouldEqual("DateOfBirth");
+			cols.ElementAt(2).Name.ShouldEqual("Id");
+			cols.ElementAt(3).DisplayName.ShouldEqual("Custom");
+		}
+
+		[Test]
+		public void Custom_column_should_be_inserted_when_a_custom_position_is_specified()
+		{
+			_grid
+			.AutoGenerateColumns()
+			.Columns(col => {
+				col.For(x => null).Named("Custom").InsertAt(1);
+			});
+
+			var cols = _grid.Model.Columns;
+			cols.ElementAt(0).Name.ShouldEqual("Name");
+			cols.ElementAt(1).DisplayName.ShouldEqual("Custom");
+			cols.ElementAt(2).Name.ShouldEqual("DateOfBirth");
+			cols.ElementAt(3).Name.ShouldEqual("Id");
+		}
+
+		[Test]
 		public void RowStart_section_should_be_stored_when_rendered()
 		{
 			var model = new GridModel<Person>();

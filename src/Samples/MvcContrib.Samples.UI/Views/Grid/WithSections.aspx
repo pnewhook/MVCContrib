@@ -20,7 +20,7 @@
      		column.For(x => x.Gender);    
      		column.For(x => x.DateOfBirth) //Example of custom header attributes
 					.HeaderAttributes(style => "font-weight:bold; background-color: Yellow").Format("{0:d}");
-			column.For("View Person").Named("").Partial("ViewPersonPartial"); //Example of using a Partial view for complex cells
+				column.For(x => Html.Partial("ViewPersonPartial", x)); //Example of using a Partial view for complex cells
      	}) %>
 
 </asp:Content>

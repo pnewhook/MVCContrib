@@ -2,9 +2,9 @@ function DownloadFiles {
     remove-item "MVCContrib.Extras.release.zip"
     remove-item "MVCContrib.release.zip"
     remove-item "MVCContrib.source.zip"
-    $extrasUrl  = "http://teamcity.codebetter.com/guestAuth/repository/download/bt81/.lastPinned/MVCContrib.Extras.release.zip"
-    $releaseUrl = "http://teamcity.codebetter.com/guestAuth/repository/download/bt81/.lastPinned/MVCContrib.release.zip"
-    $sourceUrl  = "http://teamcity.codebetter.com/guestAuth/repository/download/bt81/.lastPinned/MVCContrib.source.zip"
+    $extrasUrl  = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.Extras.release.zip"
+    $releaseUrl = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.release.zip"
+    $sourceUrl  = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.source.zip"
 
     $clnt = new-object System.Net.WebClient
 
@@ -14,4 +14,4 @@ function DownloadFiles {
 }
 
 DownloadFiles 
-& "..\bin\codeplex\createrelease.exe" "2.0.X.0"
+& "..\bin\codeplex\createrelease.exe" "2.0.35.0"

@@ -38,11 +38,18 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		IGridColumn<T> Visible(bool isVisible);
 
+
+		/// <summary>
+		/// Determines whether or not the column should be encoded. Default is true.
+		/// </summary>
+		IGridColumn<T> Encode(bool shouldEncode);
+
 		/// <summary>
 		/// Do not HTML Encode the output
 		/// </summary>
 		/// <returns></returns>
-		IGridColumn<T> DoNotEncode();
+		[Obsolete("Use Encode(false) instead.")]
+		IGridColumn<T> DoNotEncode(); //TODO: Jeremy to remove after next release.
 
 		/// <summary>
 		/// Defines additional attributes for the column heading.
@@ -67,6 +74,13 @@ namespace MvcContrib.UI.Grid
 		IGridColumn<T> Sortable(bool isColumnSortable);
 
 		/// <summary>
+		/// Specifies a custom name that should be used when sorting on this column
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		IGridColumn<T> SortColumnName(string name);
+
+		/// <summary>
 		/// Custom header renderer
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface
@@ -77,5 +91,13 @@ namespace MvcContrib.UI.Grid
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface
 		Action<RenderingContext, T> CustomItemRenderer { get; set; }
+
+		/// <summary>
+		/// Specifies the position of a column. 
+		/// This is usually used in conjunction with the AutoGenerateColumns method 
+		/// in order to specify where additional custom columns should be placed.
+		/// </summary>
+		/// <param name="index">The index at which the column should be inserted</param>
+		IGridColumn<T> InsertAt(int index);
 	}
 }

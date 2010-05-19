@@ -97,6 +97,22 @@
             </summary>
             <value>The error message.</value>
         </member>
+        <member name="P:Castle.Components.Validator.AbstractValidationAttribute.ResourceType">
+            <summary>
+             Must be set when using FriendlyNameKey or ErrorMessageKey with default resource localization support.
+            </summary>
+             <value>the ressource type (generated type from .resx)</value>
+        </member>
+        <member name="P:Castle.Components.Validator.AbstractValidationAttribute.FriendlyNameKey">
+            <summary>
+            Gets or sets the resource name of the friendly name for the target property.
+            </summary>
+        </member>
+        <member name="P:Castle.Components.Validator.AbstractValidationAttribute.ErrorMessageKey">
+            <summary>
+            Gets or sets the error message resource name to use as lookup for the <see cref="P:Castle.Components.Validator.AbstractValidationAttribute.ResourceType"/> if a validation fails. 
+            </summary>
+        </member>
         <member name="P:Castle.Components.Validator.AbstractValidationAttribute.PropertyAccessor">
             <summary>
             Gets the property accessor;
@@ -2908,6 +2924,13 @@
             </summary>
             <param name="key">The key.</param>
             <returns></returns>
+        </member>
+        <member name="M:Castle.Components.Validator.CachedValidationRegistry.GetValidatorBuildersForProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Gets IValidatorBuilders for the specified targetType and property.
+            </summary>
+            <param name="property">The property.</param>
+            <returns>Array of IValidatorBuilders.</returns>
         </member>
         <member name="M:Castle.Components.Validator.CachedValidationRegistry.ResolveProperties(System.Type)">
             <summary>

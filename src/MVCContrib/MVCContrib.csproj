@@ -131,12 +131,16 @@
     <Compile Include="Pagination\LazyPagination.cs" />
     <Compile Include="Pagination\PaginationHelper.cs" />
     <Compile Include="PortableAreas\ApplicationBus.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceManager.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceStore.cs" />
+    <Compile Include="PortableAreas\EmbeddedResourceController.cs" />
     <Compile Include="PortableAreas\IApplicationBus.cs" />
     <Compile Include="PortableAreas\IEventMessage.cs" />
     <Compile Include="PortableAreas\IMessageHandler.cs" />
     <Compile Include="PortableAreas\IMessageHandlerFactory.cs" />
     <Compile Include="Bus.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistration.cs" />
+    <Compile Include="PortableAreas\PortableAreaStartupMessage.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -181,7 +185,7 @@
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
-    <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
+    <Compile Include="UI\Grid\AutoColumnBuilder.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
     <Compile Include="UI\Grid\GridColumn.cs" />
@@ -266,6 +270,7 @@
     <Compile Include="ViewFactories\IViewSourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PortableAreas\Web.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -13,7 +13,8 @@
      		column.For(x => x.Name);
      		column.For(x => x.Gender);
      		column.For(x => x.DateOfBirth).Format("{0:d}");
-			column.For(x => Html.ActionLink("View Person", "Show", new { id = x.Id })).DoNotEncode();
+			//The column containing the link is not automatically encoded because the grid is aware of helpers that return MvcHtmlString.
+			column.For(x => Html.ActionLink("View Person", "Show", new { id = x.Id }));
      	}) %>
 
 </asp:Content>

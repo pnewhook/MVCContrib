@@ -89,6 +89,10 @@
       <Project>{2122C3E9-A51A-415E-AE38-E454BFBD3ACE}</Project>
       <Name>LoginPortableArea</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QuickLinks\QuickLinks.csproj">
+      <Project>{3CC92077-AB4E-460F-B969-8825124E5C35}</Project>
+      <Name>QuickLinks</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Web.config" />
