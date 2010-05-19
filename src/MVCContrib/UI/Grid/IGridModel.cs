@@ -15,5 +15,6 @@ namespace MvcContrib.UI.Grid
 		string EmptyText { get; set; }
 		IDictionary<string, object> Attributes { get; set; }
 		GridSortOptions SortOptions { get; set; }
+		string SortPrefix { get; set; }
 	}
 }

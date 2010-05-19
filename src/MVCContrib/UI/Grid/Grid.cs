@@ -94,6 +94,13 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridWithOptions<T> Sort(GridSortOptions sortOptions, string prefix)
+		{
+			_gridModel.SortOptions = sortOptions;
+			_gridModel.SortPrefix = prefix;
+			return this;
+		}
+
 		/// <summary>
 		/// Renders to the TextWriter, and returns null. 
 		/// This is by design so that it can be used with inline syntax in views.

@@ -310,7 +310,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="partialViewName">The name of the partial to render.</param>
 		/// <param name="modelExpression">Expression of the model for the partial.</param>
 		/// <param name="viewData">View data for the partial. (If the view data has a Model, it will be replaced by the model as specified in the expression parameter, if it is not null.)</param>
-        [Obsolete("Use overload that takes Func<string, object>[] viewDataItems instead.  This will will avoid inavertently passing in the model twice -- once via the modelExpression parameter and again in the viewData parameter.  The viewData parameter was meant only to provide a way to pass in weakly typed view data which is more approriately done with a simple array of key value pairs.")]
+        [Obsolete("Use overload that takes Func<string, object>[] viewDataItems instead.  This will will avoid inavertently passing in the model twice -- once via the modelExpression parameter and again in the viewData parameter.  The viewData parameter was meant only to provide a way to pass in weakly typed view data which is more approriately done with an array of key value pairs.")]
         public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, ViewDataDictionary viewData)
 			where T : class
 			where TPartialViewModel : class

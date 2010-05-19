@@ -41,6 +41,12 @@ namespace MvcContrib.UI.Grid
 				if (isSortedByThisColumn) 
 				{
 					string sortClass = GridModel.SortOptions.Direction == SortDirection.Ascending ? "sort_asc" : "sort_desc";
+
+					if(attributes.ContainsKey("class") && attributes["class"] != null)
+					{
+						sortClass = string.Join(" ", new[] { attributes["class"].ToString(), sortClass });
+					}
+
 					attributes["class"] = sortClass;
 				}
 			}
@@ -78,7 +84,7 @@ namespace MvcContrib.UI.Grid
 					sortOptions.Direction = GridModel.SortOptions.Direction;
 				}
 
-				var routeValues = new RouteValueDictionary(sortOptions);
+				var routeValues = CreateRouteValuesForSortOptions(sortOptions, GridModel.SortPrefix);
 
 				//Re-add existing querystring
 				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys)
@@ -96,6 +102,21 @@ namespace MvcContrib.UI.Grid
 			{
 				base.RenderHeaderText(column);
 			}
+		}
+
+		private RouteValueDictionary CreateRouteValuesForSortOptions(GridSortOptions sortOptions, string prefix)
+		{
+			if(string.IsNullOrEmpty(prefix))
+			{
+				return new RouteValueDictionary(sortOptions);
+			}
+
+			//There must be a nice way to do this...
+			return new RouteValueDictionary(new Dictionary<string, object>()
+			{
+				{ prefix + "." + "Column", sortOptions.Column },
+				{ prefix + "." + "Direction", sortOptions.Direction }
+			});
 		}
 
 		protected virtual string GenerateSortColumnName(GridColumn<T> column)
