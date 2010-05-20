@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.15
+T4MVC Version 2.6.20
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -443,34 +443,30 @@ namespace <#=T4MVCNamespace #> {
 <# if (ExplicitHtmlHelpersForPartials) {	
 		manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
 		
-namespace System.Web.Mvc
-{
-	[<#= GeneratedCode #>]
-	public static class HtmlHelpersForExplicitPartials
-	{
-	<#  
-		foreach(var partial in GetPartials()) {
-			string partialName = partial.Key;
-			string partialPath = partial.Value;
-			string partialRenderMethod = string.Format(ExplicitHtmlHelpersForPartialsFormat, partialName);
-	#>		 
-		///<summary>
-		///Render the <b><#= partialName #></b> partial.
-		///</summary>
-		public static void <#= partialRenderMethod #>(this HtmlHelper html)
-		{
-			html.RenderPartial("<#= partialPath #>");
-		}
-		
-		///<summary>
-		///Render the <b><#= partialName #></b> partial.
-		///</summary>		
-		public static void <#= partialRenderMethod #>(this HtmlHelper html, object model)
-		{
-			html.RenderPartial("<#= partialPath #>", model);
-		}
-	<# } #>	 
-	}
+namespace System.Web.Mvc {
+    [<#= GeneratedCode #>]
+    public static class HtmlHelpersForExplicitPartials {
+    <#  
+        foreach(var partial in GetPartials()) {
+            string partialName = partial.Key;
+            string partialPath = partial.Value;
+            string partialRenderMethod = string.Format(ExplicitHtmlHelpersForPartialsFormat, partialName);
+    #>		 
+        ///<summary>
+        ///Render the <b><#= partialName #></b> partial.
+        ///</summary>
+        public static void <#= partialRenderMethod #>(this HtmlHelper html) {
+            html.RenderPartial("<#= partialPath #>");
+        }
+        
+        ///<summary>
+        ///Render the <b><#= partialName #></b> partial.
+        ///</summary>		
+        public static void <#= partialRenderMethod #>(this HtmlHelper html, object model) {
+            html.RenderPartial("<#= partialPath #>", model);
+        }
+    <# } #>	 
+    }
 <#	}	#>	
 }
 <#	manager.EndBlock(); #>	
@@ -1298,32 +1294,15 @@ class ActionMethodInfo : FunctionInfo {
         // Normally, the action name is the method name. But if there is an [ActionName] on
         // the method, get the expression from that instead
         ActionNameValueExpression = '"' + Name + '"';
-        var nameAttrib = GetAttribute(method.Attributes, "System.Web.Mvc.ActionNameAttribute");
-        
-        if (nameAttrib != null) {
-            var arg = (CodeAttributeArgument)nameAttrib.Arguments.Item(1);
+        var attrib = GetAttribute(method.Attributes, "System.Web.Mvc.ActionNameAttribute");
+        if (attrib != null) {
+            var arg = (CodeAttributeArgument)attrib.Arguments.Item(1);
             ActionNameValueExpression = arg.Value;
         }
-        
-        var httpPostAttrib = GetAttribute(method.Attributes, "System.Web.Mvc.HttpPostAttribute");
-		if (httpPostAttrib != null)
-		{
-			IsHttpPost = true;
-		}        
-		else
-		{
-			var acceptVerbsAttrib = GetAttribute(method.Attributes, "System.Web.Mvc.AcceptVerbsAttribute");
-			if (acceptVerbsAttrib != null)
-			{
-				var arg = (CodeAttributeArgument)acceptVerbsAttrib.Arguments.Item(1);
-				IsHttpPost = arg.Value == "HttpVerbs.Post";
-			}
-		}
     }
 
     public string ActionName { get { return Name; } }
     public string ActionNameValueExpression { get; set; }
-    public bool IsHttpPost { get; set; }
 }
 
 // Data about an ActionResult derived type
