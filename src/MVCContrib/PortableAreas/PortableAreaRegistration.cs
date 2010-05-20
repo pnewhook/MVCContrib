@@ -9,6 +9,9 @@ namespace MvcContrib.PortableAreas
 	{
 		public static Action RegisterEmbeddedViewEngine = () => { InputBuilder.BootStrap(); };
 		public static Action CheckAreasWebConfigExists = () => { EnsureAreasWebConfigExists(); };
+
+		public virtual PortableAreaMap GetMap() { return null; }
+
 		public virtual void RegisterArea(AreaRegistrationContext context,IApplicationBus bus)
 		{
 
@@ -51,7 +54,7 @@ namespace MvcContrib.PortableAreas
         public void RegisterAreaEmbeddedResources()
         {
             var areaType = this.GetType();
-            var resourceStore = new AssemblyResourceStore(areaType, "/areas/" + AreaName.ToLower(), areaType.Namespace);
+            var resourceStore = new AssemblyResourceStore(areaType, "/areas/" + AreaName.ToLower(), areaType.Namespace, GetMap());
             AssemblyResourceManager.RegisterAreaResources(resourceStore);
         }
 
