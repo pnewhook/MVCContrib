@@ -21,8 +21,12 @@ namespace MvcContrib.PortableAreas
 
 		public Stream Transform(Stream stream)
 		{
-			StreamReader reader = new StreamReader(stream);
-			string result = TransformMarkup(reader.ReadToEnd());
+			string result = string.Empty;
+
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				result = TransformMarkup(reader.ReadToEnd());
+			}
 
 			Stream newStream = new MemoryStream(result.Length);
 			StreamWriter writer = new StreamWriter(newStream);
@@ -35,15 +39,7 @@ namespace MvcContrib.PortableAreas
 
 		protected string TransformMarkup(string input)
 		{
-			string newLocation = string.Format(MasterPageTemplate, MasterPageLocation);
-			string oldLocation = string.Format(MasterPageTemplate, DefaultMasterPageLocation);
-
-			string result = string.Empty;
-			
-			if (string.IsNullOrEmpty(MasterPageLocation))
-				result = input;
-			else
-				result = input.Replace(oldLocation, newLocation);
+			string result = ReplaceMasterPage(input);
 
 			foreach (var pair in _mappings)
 			{
@@ -56,6 +52,17 @@ namespace MvcContrib.PortableAreas
 			}
 
 			return result;
+		}
+
+		private string ReplaceMasterPage(string input)
+		{
+			string newLocation = string.Format(MasterPageTemplate, MasterPageLocation);
+			string oldLocation = string.Format(MasterPageTemplate, DefaultMasterPageLocation);
+
+			if (string.IsNullOrEmpty(MasterPageLocation))
+				return input;
+			else
+				return input.Replace(oldLocation, newLocation);
 		}
 
 		public void Add(string defaultID, string newID)

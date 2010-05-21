@@ -46,11 +46,16 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
         public Stream GetResourceStream(string resourceName)
         {
             var fullResourceName = GetFullyQualifiedTypeFromPath(resourceName);
+
             string actualResourceName = null;
+
             if (resources.TryGetValue(fullResourceName, out actualResourceName))
             {
 				Stream stream = this.typeToLocateAssembly.Assembly.GetManifestResourceStream(actualResourceName);
-				if (map != null)
+
+				if (map != null &&
+					(resourceName.ToLower().EndsWith(".aspx")
+					 || resourceName.ToLower().EndsWith(".master")))
 					return map.Transform(stream);
 				else
 					return stream;
