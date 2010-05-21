@@ -220,7 +220,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void text_box_for_member_with_required_attribute_adds_metadata_to_class_using_custom_behavior()
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.Id;
-			var behaviors = new List<IBehaviorMarker> { new RequiredInMetadataBehavior(), new AppyMetadataToCssBehavior() };
+			var behaviors = new List<IBehaviorMarker> { new CustomRequiredInMetadataBehavior(0), new AppyJsonMetadataToCssBehavior(1) };
 
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 
@@ -232,7 +232,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void text_box_for_member_with_required_attribute_and_additional_css_classes_adds_metadata_to_class_using_custom_behavior()
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.Id;
-			var behaviors = new List<IBehaviorMarker> { new RequiredInMetadataBehavior() };
+			var behaviors = new List<IBehaviorMarker> { new CustomRequiredInMetadataBehavior(0), new AppyJsonMetadataToCssBehavior(1) };
 
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).Class("MyOtherClass").ToString();
 
@@ -245,7 +245,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void text_box_for_member_with_multiple_attributes_populates_metadata_in_css_class_from_custom_behaviors()
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.MultiAttributedProperty;
-			var behaviors = new List<IBehaviorMarker> { new RequiredInMetadataBehavior(), new MaxLengthInMetadataBehavior(), new AppyMetadataToCssBehavior() };
+			var behaviors = new List<IBehaviorMarker> { new AppyJsonMetadataToCssBehavior(1), new CustomRequiredInMetadataBehavior(0), new CustomMaxLengthInMetadataBehavior(0) };
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 			var element = html.ShouldHaveHtmlNode("MultiAttributedProperty");
 			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true,'maximum':50,'minimum':0}");

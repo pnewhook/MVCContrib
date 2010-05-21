@@ -4,8 +4,15 @@ using MvcContrib.FluentHtml.Elements;
 
 namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 {
-	public class MaxLengthInMetadataBehavior : IBehavior<IMemberElement>
+	public class CustomMaxLengthInMetadataBehavior : IOrderedBehavior<IMemberElement>
 	{
+		public CustomMaxLengthInMetadataBehavior(int order)
+		{
+			Order = order;
+		}
+
+		public int Order{ get; private set; }
+
 		public void Execute(IMemberElement behavee)
 		{
 			var helper = new MemberBehaviorHelper<RangeAttribute>();

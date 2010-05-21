@@ -355,10 +355,14 @@ namespace MvcContrib.FluentHtml.Elements
 
 		protected void ApplyBehaviors()
 		{
-			if (behaviors != null)
+			if (behaviors == null)
 			{
-				behaviors.ApplyTo(this);
+				return;
 			}
+			var unorderedBehaviors = behaviors.Where(x => (x is IOrderedBehavior) == false);
+			unorderedBehaviors.ApplyTo(this);
+			var orderedBehaviors = behaviors.Where(x => x is IOrderedBehavior).OrderBy(x => ((IOrderedBehavior)x).Order);
+			orderedBehaviors.ApplyTo(this);
 		}
 
 		protected virtual void PreRender() { }

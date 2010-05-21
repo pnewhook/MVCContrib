@@ -180,11 +180,11 @@
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
     <Compile Include="FluentHtml\CheckboxTests.cs" />
-    <Compile Include="FluentHtml\CustomBehaviors\AppyMetadataToCssBehavior.cs" />
-    <Compile Include="FluentHtml\CustomBehaviors\MaxLengthInMetadataBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\AppyJsonMetadataToCssBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthInMetadataBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredHtmlBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthBehavior.cs" />
-    <Compile Include="FluentHtml\CustomBehaviors\RequiredInMetadataBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredInMetadataBehavior.cs" />
     <Compile Include="FluentHtml\Fakes\FakeChildModel.cs" />
     <Compile Include="FluentHtml\Fakes\FakeEnum.cs" />
     <Compile Include="FluentHtml\Fakes\FakeModel.cs" />
