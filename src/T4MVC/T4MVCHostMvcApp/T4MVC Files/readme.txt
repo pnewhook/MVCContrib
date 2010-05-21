@@ -1,5 +1,5 @@
-﻿T4MVC Version 2.6.13
-Find latest version and documentatio at http://aspnet.codeplex.com/wikipage?title=T4MVC
+﻿T4MVC readme file
+Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
@@ -55,7 +55,16 @@ TODO:
 
 HISTORY:
 
-2.6.14 (03-??-2010):
+2.6.20 (05-??-2010):
+- Added extension methods to render partial views (see http://www.weirdlover.com/2010/05/12/t4mvc-extension-for-mvc-partials/)
+    e.g. Html.RenderPartial("Map", Model.Dinner); --> Html.RenderMap(Model.Dinner);
+    Can be turned off in settings file via ExplicitHtmlHelpersForPartials flag.
+
+2.6.15 (05-16-2010):
+- Added missing MapRoute overloads to support namespaces
+- Added MapRoute extensions on AreaRegistrationContext to support areas. Had to name them MapRouteArea to avoid clash with existing MapRoute methods :(
+
+2.6.14 (05-06-2010):
 - Added UseLowercaseRoutes flag to lower case the area, controller and action names in routes
 - Added support for Views folders that don't match a controller name.
 - Added optimization to not regenerate files when the controller has not changed since the last generation

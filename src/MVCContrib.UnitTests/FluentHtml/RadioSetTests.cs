@@ -49,6 +49,20 @@ namespace MvcContrib.UnitTests.FluentHtml
 			VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7],true);
 		}
 
+
+		[Test]
+        	public void can_generate_radio_set_from_subset_of_enum()
+        	{
+            		var html = new RadioSet("foo.Bar").Options(new []{FakeEnum.One,FakeEnum.Two,FakeEnum.Three}).Selected(FakeEnum.Three).ToString();
+            		var element = html.ShouldHaveHtmlNode("foo_Bar");
+            		var options = element.ShouldHaveChildNodesCount(6);
+
+            		VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[0], options[1], false);
+            		VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[2], options[3], false);
+            		VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[4], options[5], true);
+        	}
+		
+
 		[Test]
 		public void radio_renders_selected_item_as_checked()
 		{

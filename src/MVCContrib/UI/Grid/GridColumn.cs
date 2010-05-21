@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MvcContrib.UI.Grid
 {
@@ -25,7 +26,8 @@ namespace MvcContrib.UI.Grid
 		private readonly IDictionary<string, object> _headerAttributes = new Dictionary<string, object>();
 		private List<Func<GridRowViewData<T>, IDictionary<string, object>>> _attributes = new List<Func<GridRowViewData<T>, IDictionary<string, object>>>();
 		private bool _sortable = true;
-
+		private string _sortColumnName = null;
+		private int? _position;
 
 		/// <summary>
 		/// Creates a new instance of the GridColumn class
@@ -46,6 +48,11 @@ namespace MvcContrib.UI.Grid
 		public bool Visible
 		{
 			get { return _visible; }
+		}
+
+		public string SortColumnName
+		{
+			get { return _sortColumnName; }
 		}
 
 		/// <summary>
@@ -80,6 +87,11 @@ namespace MvcContrib.UI.Grid
             get { return _dataType; }
         }
 
+		public int? Position
+		{
+			get { return _position; }
+		}
+
         IGridColumn<T> IGridColumn<T>.Attributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes)
 		{
 			_attributes.Add(attributes);
@@ -92,6 +104,12 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		IGridColumn<T> IGridColumn<T>.SortColumnName(string name)
+		{
+			_sortColumnName = name;
+			return this;
+		}
+
 		/// <summary>
 		/// Custom header renderer
 		/// </summary>
@@ -101,6 +119,12 @@ namespace MvcContrib.UI.Grid
 		/// Custom item renderer
 		/// </summary>
 		public Action<RenderingContext, T> CustomItemRenderer { get; set; }
+
+		IGridColumn<T> IGridColumn<T>.InsertAt(int index)
+		{
+			_position = index;
+			return this;
+		}
 
 		/// <summary>
 		/// Additional attributes for the column header
@@ -162,10 +186,17 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridColumn<T> Encode(bool shouldEncode)
+		{
+			_htmlEncode = shouldEncode;
+			return this;
+		}
+
+		//TODO: Jeremy to remove after next release
+		[Obsolete("Use Encode(false) instead.")] 
 		public IGridColumn<T> DoNotEncode()
 		{
-			_htmlEncode = false;
-			return this;
+			return Encode(false);
 		}
 
 		IGridColumn<T> IGridColumn<T>.HeaderAttributes(IDictionary<string, object> attributes)
@@ -206,7 +237,7 @@ namespace MvcContrib.UI.Grid
 				value = string.Format(_format, value);
 			}
 
-			if(_htmlEncode && value != null)
+			if(_htmlEncode && value != null && !(value is MvcHtmlString))
 			{
 				value = HttpUtility.HtmlEncode(value.ToString());
 			}

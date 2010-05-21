@@ -274,6 +274,11 @@
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
     <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
+    <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\MoqProxyTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksFactoryTests.cs" />
+    <Compile Include="TestHelper\MockFactories\RhinoMocksProxyTests.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />
@@ -282,7 +287,7 @@
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
-    <Compile Include="UI\Grid\AutoColumnGridModelTester.cs" />
+    <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\GridExtensionTester.cs" />
     <Compile Include="UI\Grid\GridModelTester.cs" />
@@ -380,4 +385,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)..\bin\moq\Moq.dll" . /D /Y</PreBuildEvent>
+  </PropertyGroup>
 </Project>

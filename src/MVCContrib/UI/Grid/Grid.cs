@@ -57,7 +57,14 @@ namespace MvcContrib.UI.Grid
 
 			foreach (var column in builder)
 			{
-				_gridModel.Columns.Add(column);
+				if (column.Position == null) 
+				{
+					_gridModel.Columns.Add(column);
+				} 
+				else
+				{
+					_gridModel.Columns.Insert(column.Position.Value, column);	
+				}
             }
 
 			return this;
@@ -75,7 +82,7 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
-		public IGridWithOptions<T> WithModel(IGridModel<T> model)
+		public IGrid<T> WithModel(IGridModel<T> model)
 		{
 			_gridModel = model;
 			return this;
@@ -84,6 +91,13 @@ namespace MvcContrib.UI.Grid
 		public IGridWithOptions<T> Sort(GridSortOptions sortOptions)
 		{
 			_gridModel.SortOptions = sortOptions;
+			return this;
+		}
+
+		public IGridWithOptions<T> Sort(GridSortOptions sortOptions, string prefix)
+		{
+			_gridModel.SortOptions = sortOptions;
+			_gridModel.SortPrefix = prefix;
 			return this;
 		}
 

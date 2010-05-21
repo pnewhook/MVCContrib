@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Sorting;
@@ -35,11 +36,17 @@ namespace MvcContrib.UI.Grid
 
 			if(IsSortingEnabled && column.Sortable)
 			{
-				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+				bool isSortedByThisColumn = (GridModel.SortOptions.Column == GenerateSortColumnName(column));
 
 				if (isSortedByThisColumn) 
 				{
 					string sortClass = GridModel.SortOptions.Direction == SortDirection.Ascending ? "sort_asc" : "sort_desc";
+
+					if(attributes.ContainsKey("class") && attributes["class"] != null)
+					{
+						sortClass = string.Join(" ", new[] { attributes["class"].ToString(), sortClass });
+					}
+
 					attributes["class"] = sortClass;
 				}
 			}
@@ -57,11 +64,13 @@ namespace MvcContrib.UI.Grid
 		{
 			if(IsSortingEnabled && column.Sortable)
 			{
-				bool isSortedByThisColumn = GridModel.SortOptions.Column == column.Name;
+				string sortColumnName = GenerateSortColumnName(column);
+
+				bool isSortedByThisColumn = GridModel.SortOptions.Column == sortColumnName;
 
 				var sortOptions = new GridSortOptions 
 				{
-					Column = column.Name
+					Column = sortColumnName
 				};
 
 				if(isSortedByThisColumn)
@@ -70,8 +79,12 @@ namespace MvcContrib.UI.Grid
 						? SortDirection.Descending 
 						: SortDirection.Ascending;
 				}
+				else //default sort order
+				{
+					sortOptions.Direction = GridModel.SortOptions.Direction;
+				}
 
-				var routeValues = new RouteValueDictionary(sortOptions);
+				var routeValues = CreateRouteValuesForSortOptions(sortOptions, GridModel.SortPrefix);
 
 				//Re-add existing querystring
 				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys)
@@ -89,6 +102,28 @@ namespace MvcContrib.UI.Grid
 			{
 				base.RenderHeaderText(column);
 			}
+		}
+
+		private RouteValueDictionary CreateRouteValuesForSortOptions(GridSortOptions sortOptions, string prefix)
+		{
+			if(string.IsNullOrEmpty(prefix))
+			{
+				return new RouteValueDictionary(sortOptions);
+			}
+
+			//There must be a nice way to do this...
+			return new RouteValueDictionary(new Dictionary<string, object>()
+			{
+				{ prefix + "." + "Column", sortOptions.Column },
+				{ prefix + "." + "Direction", sortOptions.Direction }
+			});
+		}
+
+		protected virtual string GenerateSortColumnName(GridColumn<T> column)
+		{
+			//Use the explicit sort column name if specified. If not possible, fall back to the property name.
+			//If the property name cannot be inferred (ie the expression is not a MemberExpression) then try the display name instead.
+			return column.SortColumnName ?? column.Name ?? column.DisplayName;
 		}
 
 		protected override void RenderRowStart(GridRowViewData<T> rowData)
@@ -191,18 +226,9 @@ namespace MvcContrib.UI.Grid
 		/// Converts the specified attributes dictionary of key-value pairs into a string of HTML attributes. 
 		/// </summary>
 		/// <returns></returns>
-		private static string BuildHtmlAttributes(IDictionary<string, object> attributes)
+		protected string BuildHtmlAttributes(IDictionary<string, object> attributes)
 		{
-			if(attributes == null || attributes.Count == 0)
-			{
-				return string.Empty;
-			}
-
-			const string attributeFormat = "{0}=\"{1}\"";
-
-			return string.Join(" ",
-                   attributes.Select(pair => string.Format(attributeFormat, pair.Key, pair.Value)).ToArray()
-			);
+			return DictionaryExtensions.ToHtmlAttributes(attributes);
 		}
 	}
 }

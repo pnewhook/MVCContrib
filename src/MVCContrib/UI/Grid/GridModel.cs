@@ -15,6 +15,7 @@ namespace MvcContrib.UI.Grid
 		private string _emptyText;
 		private IDictionary<string, object> _attributes = new Dictionary<string, object>();
 		private GridSortOptions _sortOptions;
+		private string _sortPrefix;
 
 		GridSortOptions IGridModel<T>.SortOptions
 		{
@@ -22,7 +23,7 @@ namespace MvcContrib.UI.Grid
 			set { _sortOptions = value; }
 		}
 
-		ICollection<GridColumn<T>> IGridModel<T>.Columns
+		IList<GridColumn<T>> IGridModel<T>.Columns
 		{
 			get { return _columnBuilder; }
 		}
@@ -43,6 +44,12 @@ namespace MvcContrib.UI.Grid
 		{
 			get { return _attributes; }
 			set { _attributes = value; }
+		}
+
+		string IGridModel<T>.SortPrefix
+		{
+			get { return _sortPrefix; }
+			set { _sortPrefix = value; }
 		}
 
 		/// <summary>
@@ -120,6 +127,16 @@ namespace MvcContrib.UI.Grid
 		public void Sort(GridSortOptions sortOptions)
 		{
 			_sortOptions = sortOptions;
+		}
+
+		/// <summary>
+		/// Specifies that the grid is currently being sorted by the specified column in a particular direction.
+		/// This overload allows you to specify a prefix.
+		/// </summary>
+		public void Sort(GridSortOptions sortOptions, string prefix)
+		{
+			_sortOptions = sortOptions;
+			_sortPrefix = prefix;
 		}
 
 		protected virtual ColumnBuilder<T> CreateColumnBuilder()

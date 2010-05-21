@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Web;
 
 namespace MvcContrib
 {
@@ -108,6 +110,26 @@ namespace MvcContrib
 			}
 
 			return dictionary;
+		}
+
+		/// <summary>
+		/// Converts a dictionary into a string of HTML attributes
+		/// </summary>
+		/// <param name="attributes"></param>
+		/// <returns></returns>
+		public static string ToHtmlAttributes(IDictionary<string, object> attributes)
+		{
+			if (attributes == null || attributes.Count == 0) {
+				return string.Empty;
+			}
+
+			const string attributeFormat = "{0}=\"{1}\"";
+
+			var attributesEncoded = from pair in attributes
+									let value = pair.Value == null ? null : HttpUtility.HtmlAttributeEncode(pair.Value.ToString())
+									select string.Format(attributeFormat, pair.Key, value);
+
+			return string.Join(" ", attributesEncoded.ToArray());
 		}
 	}
 }

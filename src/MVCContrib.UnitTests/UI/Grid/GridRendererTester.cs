@@ -86,6 +86,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Custom_html_attributes_should_be_encoded()
+		{
+			_people.Clear();
+			string expected = ExpectedEmptyTable("There is no data available.", "&quot;foo&quot;");
+			_model.Attributes(@class => "\"foo\"");
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_render()
 		{
 			ColumnFor(x => x.Name);
@@ -150,7 +159,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 				w.Write("<td>" + model.Name + "_TEST</td>");
 			});
 
+#pragma warning disable 612,618
 			ColumnFor(x => x.Name).Partial("Foo");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy_TEST</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
@@ -159,7 +170,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Custom_column_should_use_partial_with_same_name_as_column()
 		{
 			SetupViewEngine("Name", "<td>Foo</td>");
+#pragma warning disable 612,618
 			_model.Column.For("Name");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
@@ -168,7 +181,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Custom_column_with_custom_partial()
 		{
 			SetupViewEngine("Foo", "<td>Foo</td>");
+#pragma warning disable 612,618
 			_model.Column.For("Name").Partial("Foo");
+#pragma warning restore 612,618
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
@@ -273,6 +288,14 @@ namespace MvcContrib.UnitTests.UI.Grid
 			string expected = "<table class=\"grid\"><thead><tr><th style=\"width:100%\">Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
+
+		[Test]
+		public void Should_encode_header_attributes()
+		{
+			ColumnFor(x => x.Name).HeaderAttributes(style => "\"foo\"");
+			string expected = "<table class=\"grid\"><thead><tr><th style=\"&quot;foo&quot;\">Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
 		
 		[Test]
 		public void Should_render_header_attributes_when_rendering_custom_row_start()
@@ -311,6 +334,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 			string expected =
 				"<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td foo=\"bar\">Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_encode_custom_attributes()
+		{
+			ColumnFor(x => x.Name).Attributes(foo => "\"bar\"");
+			string expected =
+				"<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td foo=\"&quot;bar&quot;\">Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+			
 		}
 
 		[Test]
@@ -369,11 +402,29 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Should_render_grid_with_sort_links_using_prefix()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions(), "foo");
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?foo.Column=Name&amp;foo.Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_render_grid_with_sort_direction_ascending()
 		{
 			ColumnFor(x => x.Name);
 			_model.Sort(new GridSortOptions() { Column = "Name" });
 			string expected = "<table class=\"grid\"><thead><tr><th class=\"sort_asc\"><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Direction_heading_should_not_override_custom_class()
+		{
+			ColumnFor(x => x.Name).HeaderAttributes(@class => "foo");
+			_model.Sort(new GridSortOptions() { Column = "Name" });
+			string expected = "<table class=\"grid\"><thead><tr><th class=\"foo sort_asc\"><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
@@ -387,6 +438,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Should_render_grid_with_sort_direction_descending_as_the_default()
+		{
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions() {Direction = SortDirection.Descending});
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+
+		}
+
+		[Test]
 		public void Sorting_Maintains_existing_querystring_parameters()
 		{
 			_querystring["foo"] = "bar";
@@ -397,11 +458,48 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
-		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable() {
+		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable()
+		{
 			ColumnFor(x => x.Id);
 			ColumnFor(x => x.Name).Sortable(false);
 			_model.Sort(new GridSortOptions());
 			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Uses_custom_sort_column_name()
+		{
+			ColumnFor(x => x.Id).SortColumnName("foo");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=foo&amp;Direction=Ascending\">Id</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Uses_custom_sort_column_name_for_composite_expression()
+		{
+			ColumnFor(x => x.Id + x.Name).SortColumnName("foo").Named("bar");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=foo&amp;Direction=Ascending\">bar</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Falls_back_to_column_name_for_composite_expression()
+		{
+			ColumnFor(x => x.Id + x.Name).Named("bar");
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=bar&amp;Direction=Ascending\">bar</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		//TODO: Change this to use IHtmlString when we take a dependency on .NET 4.
+		[Test] 
+		public void Should_not_automatically_encode_IHtmlString_instances()
+		{
+			ColumnFor(x => MvcHtmlString.Create("<script></script>")).Named("foo");
+			string expected = "<table class=\"grid\"><thead><tr><th>foo</th></tr></thead><tbody><tr class=\"gridrow\"><td><script></script></td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 

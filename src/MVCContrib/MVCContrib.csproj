@@ -140,6 +140,7 @@
     <Compile Include="PortableAreas\IMessageHandlerFactory.cs" />
     <Compile Include="Bus.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistration.cs" />
+    <Compile Include="PortableAreas\PortableAreaStartupMessage.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -184,7 +185,7 @@
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
-    <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
+    <Compile Include="UI\Grid\AutoColumnBuilder.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
     <Compile Include="UI\Grid\GridColumn.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="ViewFactories\IViewSourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PortableAreas\Web.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

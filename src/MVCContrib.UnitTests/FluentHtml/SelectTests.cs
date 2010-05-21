@@ -90,6 +90,21 @@ namespace MvcContrib.UnitTests.FluentHtml
 			optionNodes[3].ShouldBeUnSelectedOption((int)FakeEnum.Three, FakeEnum.Three);
 		}
 
+  		[Test]
+       		public void select_with_options_for_subset_enum_renders_enum_values_as_options()
+        	{
+           	 	var html = new Select("foo.Bar").Options(new[]{FakeEnum.One,FakeEnum.Two,FakeEnum.Three})
+				.Selected(FakeEnum.Two).ToString();
+
+            		var element = html.ShouldHaveHtmlNode("foo_Bar");
+            		var optionNodes = element.ShouldHaveChildNodesCount(3);
+           		optionNodes[0].ShouldBeUnSelectedOption((int)FakeEnum.One, FakeEnum.One);
+           		optionNodes[1].ShouldBeSelectedOption((int)FakeEnum.Two, FakeEnum.Two);
+           		optionNodes[2].ShouldBeUnSelectedOption((int)FakeEnum.Three, FakeEnum.Three);
+       		}
+		
+
+
 		[Test]
 		public void select_with_options_for_enum_renders_null_first_option()
 		{

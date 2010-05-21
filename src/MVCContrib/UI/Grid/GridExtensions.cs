@@ -165,6 +165,7 @@ namespace MvcContrib.UI.Grid
 		/// <param name="column">The current column</param>
 		/// <param name="partialName">The name of the partial view</param>
 		/// <returns></returns>
+		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
 		public static IGridColumn<T> Partial<T>(this IGridColumn<T> column, string partialName) where T : class 
 		{
 			column.CustomItemRenderer = (context, item) => {
@@ -189,7 +190,17 @@ namespace MvcContrib.UI.Grid
 		/// </summary>
 		public static IGridWithOptions<T> AutoGenerateColumns<T>(this IGrid<T> grid) where T : class
 		{
-			return grid.WithModel(new AutoColumnGridModel<T>(ModelMetadataProviders.Current));
+			var autoColumnBuilder = new AutoColumnBuilder<T>(ModelMetadataProviders.Current);
+			
+			return grid.Columns(columnBuilder => 
+			{
+				ICollection<GridColumn<T>> columns = columnBuilder;
+				
+				foreach(var column in autoColumnBuilder)
+				{
+					columns.Add(column);
+				}
+			});
 		}
 	}
 }
