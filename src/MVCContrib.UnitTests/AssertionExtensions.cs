@@ -29,6 +29,11 @@ namespace MvcContrib.UnitTests
 			Assert.IsNull(actual);
 		}
 
+		public static void ShouldBeNullOrEmpty(this string actual)
+		{
+			Assert.IsNullOrEmpty(actual);
+		}
+
 		public static void ShouldBeFalse(this bool value)
 		{
 			Assert.IsFalse(value);

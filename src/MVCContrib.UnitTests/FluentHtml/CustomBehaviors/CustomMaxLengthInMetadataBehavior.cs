@@ -15,8 +15,7 @@ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 
 		public void Execute(IMemberElement behavee)
 		{
-			var helper = new MemberBehaviorHelper<RangeAttribute>();
-			var attribute = helper.GetAttribute(behavee);
+			var attribute = behavee.GetAttribute<RangeAttribute>();
 			if (attribute != null)
 			{
 				behavee.Metadata.Add("maximum", attribute.Maximum);

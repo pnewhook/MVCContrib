@@ -183,8 +183,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.Title;
 			var behaviors = new List<IBehaviorMarker> { new CustomMaxLengthBehavior() };
-			var expectedLength = new MemberBehaviorHelper<RangeAttribute>()
-				.GetAttribute(expression.GetMemberExpression()).Maximum;
+			var expectedLength = expression.GetMemberExpression().GetAttribute<RangeAttribute>().Maximum;
 
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 

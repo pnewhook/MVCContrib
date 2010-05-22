@@ -180,6 +180,7 @@
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
     <Compile Include="FluentHtml\CheckboxTests.cs" />
+    <Compile Include="FluentHtml\TypeCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\AppyJsonMetadataToCssBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthInMetadataBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredHtmlBehavior.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="FluentHtml\PartialNameConventionServiceTests.cs" />
     <Compile Include="FluentHtml\RadioButtonTests.cs" />
     <Compile Include="FluentHtml\RadioSetTests.cs" />
+    <Compile Include="FluentHtml\RequiredCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
     <Compile Include="FluentHtml\TypeStampTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />

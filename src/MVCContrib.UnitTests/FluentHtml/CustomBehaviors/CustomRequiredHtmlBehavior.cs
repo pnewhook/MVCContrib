@@ -8,8 +8,7 @@ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 	{
 		public void Execute(IMemberElement element)
 		{
-			var helper = new MemberBehaviorHelper<RequiredAttribute>();
-			var attribute = helper.GetAttribute(element);
+			var attribute = element.GetAttribute<RequiredAttribute>();
 			if (attribute != null)
 			{
 				element.SetAttr("class", "req");

@@ -15,8 +15,7 @@ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 
 		public void Execute(IMemberElement behavee)
 		{
-			var helper = new MemberBehaviorHelper<RequiredAttribute>();
-			var attribute = helper.GetAttribute(behavee);
+			var attribute = behavee.GetAttribute<RequiredAttribute>();
 			if (attribute != null)
 			{
 				behavee.Metadata.Add("required", true);

@@ -9,14 +9,11 @@ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 	{
 		public void Execute(IMemberElement element)
 		{
-			var helper = new MemberBehaviorHelper<RangeAttribute>();
-			var attribute = helper.GetAttribute(element);
-
+			var attribute = element.GetAttribute<RangeAttribute>();
 			if (attribute == null) 
 			{
 				return;
 			}
-
 			if (element is ISupportsMaxLength) 
 			{
 				element.SetAttr(HtmlAttribute.MaxLength, attribute.Maximum);
