@@ -258,6 +258,7 @@
     <Compile Include="PortableAreas\ApplicationBusTester.cs" />
     <Compile Include="PortableAreas\EmbeddedResourceControllerTester.cs" />
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
+    <Compile Include="PortableAreas\PortableAreaContentTester.cs" />
     <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="Routing\RouteAttributeUtilityTester.cs" />
