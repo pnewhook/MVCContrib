@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -7,6 +6,13 @@ namespace MvcContrib.PortableAreas
 {
 	public class PortableAreaMap
 	{
+		public PortableAreaMap()
+		{
+			DefaultMasterPageLocation = "~/Views/Shared/Site.Master";
+			DefaultTitleID = "TitleContent";
+			DefaultBodyID = "MainContent";
+		}
+
 		public const string MasterPageTemplate = @"MasterPageFile=""{0}""";
 		public const string ContentPlaceHolderTemplate = @"ContentPlaceHolderID=""{0}""";
 		public const string ContentPlaceHolderPattern = @"<asp:Content .*ContentPlaceHolderID=""{0}.*>";
@@ -18,6 +24,28 @@ namespace MvcContrib.PortableAreas
 		public string MasterPageLocation { get; set; }
 
 		protected Dictionary<string, string> _mappings = new Dictionary<string, string>();
+
+		public string Title
+		{
+			get
+			{
+				if (_mappings.ContainsKey(DefaultTitleID))
+					return _mappings[DefaultTitleID];
+
+				return null;
+			}
+		}
+
+		public string Body
+		{
+			get
+			{
+				if (_mappings.ContainsKey(DefaultBodyID))
+					return _mappings[DefaultBodyID];
+
+				return null;
+			}
+		}
 
 		public Stream Transform(Stream stream)
 		{
@@ -47,7 +75,9 @@ namespace MvcContrib.PortableAreas
 				
 				result = Regex.Replace(result, pattern, m =>
 				{
-					return m.Value.Replace(pair.Key, pair.Value);
+					string oldValue = string.Format(ContentPlaceHolderTemplate, pair.Key);
+					string newValue = string.Format(ContentPlaceHolderTemplate, pair.Value);
+					return m.Value.Replace(oldValue, newValue);
 				});
 			}
 
@@ -56,8 +86,8 @@ namespace MvcContrib.PortableAreas
 
 		private string ReplaceMasterPage(string input)
 		{
-			string newLocation = string.Format(MasterPageTemplate, MasterPageLocation);
 			string oldLocation = string.Format(MasterPageTemplate, DefaultMasterPageLocation);
+			string newLocation = string.Format(MasterPageTemplate, MasterPageLocation);
 
 			if (string.IsNullOrEmpty(MasterPageLocation))
 				return input;
