@@ -16,7 +16,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="errorMessage">The error message you're adding for the specified property.</param>
 		public static void AddModelError<T>(this ModelStateDictionary modelState, Expression<Func<T, object>> keyExpression, string errorMessage) where T : class
 		{
-			modelState.AddModelError(keyExpression.GetNameFor().FormatAsHtmlId(), errorMessage);
+            modelState.AddModelError(keyExpression.GetNameFor().FormatAsHtmlName(), errorMessage);
 		}
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="exception">The exception you're adding for the specified property.</param>
 		public static void AddModelError<T>(this ModelStateDictionary modelState, Expression<Func<T, object>> keyExpression, Exception exception) where T : class
 		{
-			modelState.AddModelError(keyExpression.GetNameFor().FormatAsHtmlId(), exception);
+			modelState.AddModelError(keyExpression.GetNameFor().FormatAsHtmlName(), exception);
 		}
 	}
 }
