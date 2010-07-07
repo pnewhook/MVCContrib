@@ -216,6 +216,7 @@
     <Compile Include="FluentHtml\SubmitButtonTests.cs" />
     <Compile Include="FluentHtml\TextAreaTests.cs" />
     <Compile Include="FluentHtml\TextboxTests.cs" />
+    <Compile Include="FluentHtml\ViewDataContainerExtensionBehaviorTests.cs" />
     <Compile Include="FluentHtml\ViewDataContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerTestBase.cs" />
