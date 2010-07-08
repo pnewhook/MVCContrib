@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.ActionResults;
@@ -11,8 +11,8 @@ namespace MvcContrib.Filters
 {
     /// <summary>
     /// When placed on a controller or action, this attribute will ensure
-    /// that parameters passed into RedirectToAction&lt;T&gt;() will get
-    /// passed to the controller or action that this attribute is placed on.
+    /// that reference-type-parameters (or value types which cannot be converted from a string) passed into 
+    /// RedirectToAction&lt;T&gt;() will get passed to the controller or action that this attribute is placed on.
     /// </summary>
     public class PassParametersDuringRedirectAttribute : ActionFilterAttribute
     {
@@ -37,95 +37,100 @@ namespace MvcContrib.Filters
             var result = filterContext.Result as IControllerExpressionContainer;
             var redirectResult = filterContext.Result as RedirectToRouteResult;
 
-            if(result != null && result.Expression != null && redirectResult != null)
+            if (result != null && result.Expression != null && redirectResult != null)
             {
-                var parsedParameters = AddParameterValuesFromExpressionToTempData(filterContext.Controller.TempData,
+                var storedParameters = AddParameterValuesFromExpressionToTempData(filterContext.Controller.TempData,
                                                                                   result.Expression);
-                RemoveReferenceTypesFromRouteValues(redirectResult.RouteValues, parsedParameters);
+                RemoveStoredParametersFromRouteValues(redirectResult.RouteValues, storedParameters.Keys);
             }
         }
 
-        private void RemoveReferenceTypesFromRouteValues(RouteValueDictionary dictionary,
-                                                         IDictionary<string, object> parameters)
-        {
-            var keysToRemove = parameters
-                .Where(x => x.Value != null && !(x.Value is string || x.Value.GetType().IsSubclassOf(typeof(ValueType))))
-                .Select(x => x.Key);
 
-            foreach(var key in keysToRemove)
-            {
-                dictionary.Remove(key);
-            }
-        }
 
         // Copied this method from Microsoft.Web.Mvc.dll (MVC Futures)...
         // Microsoft.Web.Mvc.Internal.ExpresisonHelper.AddParameterValuesFromExpressionToDictionary().
         // The only change I made is saving the parameter values to TempData instead
         // of a RouteValueDictionary.
-        private IDictionary<string, object> AddParameterValuesFromExpressionToTempData(TempDataDictionary tempData,
+        private static IDictionary<string, object> AddParameterValuesFromExpressionToTempData(TempDataDictionary tempData,
                                                                                        MethodCallExpression call)
         {
-            ParameterInfo[] parameters = call.Method.GetParameters();
+            var parameters = call.Method.GetParameters();
             var parsedParameters = new Dictionary<string, object>();
 
-            if(parameters.Length > 0)
+            if (parameters.Length > 0)
             {
-                for(int i = 0; i < parameters.Length; i++)
+                for (var i = 0; i < parameters.Length; i++)
                 {
-                    Expression expression = call.Arguments[i];
-                    object obj2 = null;
-                    ConstantExpression expression2 = expression as ConstantExpression;
-                    if(expression2 != null)
+                    var expression = call.Arguments[i];
+                    object parameterValue = null;
+                    var constantExpression = expression as ConstantExpression;
+                    if (constantExpression != null)
                     {
-                        obj2 = expression2.Value;
+                        parameterValue = constantExpression.Value;
                     }
                     else
                     {
-                        Expression<Func<object>> expression3 =
-                            Expression.Lambda<Func<object>>(Expression.Convert(expression, typeof(object)),
-                                                            new ParameterExpression[0]);
-                        obj2 = expression3.Compile()();
+                        var lambdaExpression =
+                            Expression.Lambda<Func<object>>(Expression.Convert(expression, typeof(object)), new ParameterExpression[0]);
+                        parameterValue = lambdaExpression.Compile()();
                     }
 
-                    tempData[RedirectParameterPrefix + parameters[i].Name] = obj2;
-                    parsedParameters.Add(parameters[i].Name, obj2);
+                    //Only store reference types and value types which cannot be converted to from strings.
+                    //In other words, if it can go in the query-string, then it should, if not, then we use temp-data
+                    if (parameterValue != null &&
+                        !(parameterValue is string) &&
+                        (!(parameterValue is ValueType) ||
+                            !(TypeDescriptor.GetConverter(parameterValue).CanConvertFrom(typeof(string)))))
+                    {
+                        tempData[RedirectParameterPrefix + parameters[i].Name] = parameterValue;
+                        parsedParameters.Add(parameters[i].Name, parameterValue);
+                    }
                 }
             }
 
             return parsedParameters;
         }
 
-        private void LoadParameterValuesFromTempData(ActionExecutingContext filterContext)
+        private static void LoadParameterValuesFromTempData(ActionExecutingContext filterContext)
         {
             var actionParameters = filterContext.ActionDescriptor.GetParameters();
 
-            foreach(var storedParameterValue in GetStoredParameterValues(filterContext))
+            foreach (var storedParameter in GetStoredParameterValues(filterContext))
             {
-                if (storedParameterValue.Value == null)
+                if (storedParameter.Value == null)
                     continue;
 
-                var storedParameterName = GetParameterName(storedParameterValue.Key);
+                var storedParameterName = GetParameterName(storedParameter.Key);
 
-                if(actionParameters.Any(actionParameter => actionParameter.ParameterName == storedParameterName &&
-                                                           actionParameter.ParameterType.IsAssignableFrom(storedParameterValue.Value.GetType())))
+                if (actionParameters.Any(actionParameter => actionParameter.ParameterName == storedParameterName &&
+                                                           actionParameter.ParameterType.IsAssignableFrom(storedParameter.Value.GetType())))
                 {
-                    filterContext.ActionParameters[storedParameterName] = storedParameterValue.Value;
+                    filterContext.ActionParameters[storedParameterName] = storedParameter.Value;
 
-                    filterContext.Controller.TempData.Keep(storedParameterValue.Key);
+                    filterContext.Controller.TempData.Keep(storedParameter.Key);
                 }
             }
         }
 
-        private string GetParameterName(string key)
+        private static void RemoveStoredParametersFromRouteValues(RouteValueDictionary dictionary,
+                                                        IEnumerable<string> keysToRemove)
         {
-            if(key.StartsWith(RedirectParameterPrefix))
+            foreach (var key in keysToRemove)
+            {
+                dictionary.Remove(key);
+            }
+        }
+
+        private static string GetParameterName(string key)
+        {
+            if (key.StartsWith(RedirectParameterPrefix))
             {
                 return key.Substring(RedirectParameterPrefix.Length);
             }
             return key;
         }
 
-        private IList<KeyValuePair<string, object>> GetStoredParameterValues(ActionExecutingContext filterContext)
+        private static IList<KeyValuePair<string, object>> GetStoredParameterValues(ActionExecutingContext filterContext)
         {
             return filterContext.Controller.TempData.Where(td => td.Key.StartsWith(RedirectParameterPrefix)).ToList();
         }
