@@ -55,7 +55,7 @@ TODO:
 
 HISTORY:
 
-2.6.20 (05-??-2010):
+2.6.20 (07-19-2010):
 - Added extension methods to render partial views (see http://www.weirdlover.com/2010/05/12/t4mvc-extension-for-mvc-partials/)
     e.g. Html.RenderPartial("Map", Model.Dinner); --> Html.RenderMap(Model.Dinner);
     Can be turned off in settings file via ExplicitHtmlHelpersForPartials flag.
