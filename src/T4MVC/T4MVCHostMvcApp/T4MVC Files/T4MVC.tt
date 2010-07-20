@@ -518,11 +518,26 @@ IEnumerable<ControllerInfo> GetAbstractControllers() {
 }
 
 IDictionary<string, string> GetPartials() {
-	return GetControllers()
+	var parts = GetControllers()
 		.Select(m => m.ViewsFolder)
 		.SelectMany(m => m.Views)
-		.Where(m => m.Value.EndsWith(".ascx"))
-		.ToDictionary(k => k.Key, v => v.Value);
+		.Where(m => m.Value.EndsWith(".ascx"));
+
+	var partsDic = new Dictionary<string, KeyValuePair<string, string>>();
+
+	foreach(var part in parts) {
+		int keyCollisionCount = partsDic.Where(m => m.Key == part.Key || m.Value.Key == part.Key).Count();
+
+		if (keyCollisionCount > 0) {
+			partsDic.Add(part.Key + keyCollisionCount.ToString(), part);
+		}
+		else
+		{
+			partsDic.Add(part.Key, part);
+		}
+	}
+
+	return partsDic.ToDictionary(k => k.Key, v => v.Value.Value);
 }
 
 void PrepareDataToRender(TextTransformation tt) {
