@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.20
+T4MVC Version 2.6.21
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -518,26 +518,27 @@ IEnumerable<ControllerInfo> GetAbstractControllers() {
 }
 
 IDictionary<string, string> GetPartials() {
-	var parts = GetControllers()
-		.Select(m => m.ViewsFolder)
-		.SelectMany(m => m.Views)
-		.Where(m => m.Value.EndsWith(".ascx"));
+    var parts = GetControllers()
+        .Select(m => m.ViewsFolder)
+        .SelectMany(m => m.Views)
+        .Where(m => m.Value.EndsWith(".ascx"));
 
-	var partsDic = new Dictionary<string, KeyValuePair<string, string>>();
+    var partsDic = new Dictionary<string, KeyValuePair<string, string>>();
 
-	foreach(var part in parts) {
-		int keyCollisionCount = partsDic.Where(m => m.Key == part.Key || m.Value.Key == part.Key).Count();
+    foreach(var part in parts) {
+        // Check if we already have a partial view by that name (e.g. if two Views folders have the same ascx)
+        int keyCollisionCount = partsDic.Where(m => m.Key == part.Key || m.Value.Key == part.Key).Count();
 
-		if (keyCollisionCount > 0) {
-			partsDic.Add(part.Key + keyCollisionCount.ToString(), part);
-		}
-		else
-		{
-			partsDic.Add(part.Key, part);
-		}
-	}
+        if (keyCollisionCount > 0) {
+            // Append a numbered suffix to avoid the conflict
+            partsDic.Add(part.Key + keyCollisionCount.ToString(), part);
+        }
+        else {
+            partsDic.Add(part.Key, part);
+        }
+    }
 
-	return partsDic.ToDictionary(k => k.Key, v => v.Value.Value);
+    return partsDic.ToDictionary(k => k.Key, v => v.Value.Value);
 }
 
 void PrepareDataToRender(TextTransformation tt) {
