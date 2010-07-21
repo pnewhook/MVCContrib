@@ -11,7 +11,7 @@ I have marked changed sections with the following comments to try and ease futur
 
 ### END_VBNET_PORT_CHANGED ###
 
-T4MVC Version 2.6.14
+T4MVC Version 2.6.21
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -188,31 +188,95 @@ End Namespace
 
 		<Extension()> _
 		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult) As Route
-            Return routes.MapRoute(name, url, result, DirectCast(Nothing, ActionResult))
-        End Function
+			Return MapRoute(routes, name, url, result, Nothing)
+		End Function
 
 		<Extension()> _
-		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As string, ByVal result As ActionResult, ByVal defaults As Object) As Route
-            Return MapRoute(routes, name, url, result, defaults, Nothing)
-        End Function
+		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object) As Route
+			Return MapRoute(routes, name, url, result, defaults, Nothing, Nothing)
+		End Function
+
+		<Extension()> _
+		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal namespaces As String()) As Route
+			Return MapRoute(routes, name, url, result, Nothing, namespaces)
+		End Function
 
 		<Extension()> _
 		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object) As Route
-            ' Start by adding the default values from the anonymous object (if any)
-            Dim routeValues = New RouteValueDictionary(defaults)
+			Return MapRoute(routes, name, url, result, defaults, constraints, Nothing)
+		End Function
 
-            ' Then add the Controller/Action names and the parameters from the call
-            For Each pair In result.GetRouteValueDictionary()
-                routeValues.Add(pair.Key, pair.Value)
-            Next 'pair
+		<Extension()> _
+		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal namespaces As String()) As Route
+			Return MapRoute(routes, name, url, result, defaults, Nothing, namespaces)
+		End Function
 
-            Dim routeConstraints = New RouteValueDictionary(constraints)
+		<Extension()> _
+		Public Function MapRoute(ByVal routes As RouteCollection, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object, ByVal namespaces As String()) As Route
+			' Create and add the route
+			Dim route = CreateRoute(url, result, defaults, constraints, namespaces)
+			routes.Add(name, route)
+			Return route
+		End Function
 
-            ' Create and add the route
-            Dim route = New Route(url, routeValues, routeConstraints, new MvcRouteHandler())
-            routes.Add(name, route)
-            Return route
-        End Function
+		' Note: can't name the AreaRegistrationContext methods 'MapRoute', as that conflicts with the existing methods
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult) As Route
+			Return MapRouteArea(context, name, url, result, Nothing)
+		End Function
+
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object) As Route
+			Return MapRouteArea(context, name, url, result, defaults, Nothing, Nothing)
+		End Function
+
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal namespaces As String()) As Route
+			Return MapRouteArea(context, name, url, result, Nothing, namespaces)
+		End Function
+
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object) As Route
+			Return MapRouteArea(context, name, url, result, defaults, constraints, Nothing)
+		End Function
+
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal namespaces As String()) As Route
+			Return MapRouteArea(context, name, url, result, defaults, Nothing, namespaces)
+		End Function
+
+		<Extension()> _
+		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object, ByVal namespaces As String()) As Route
+			' Create and add the route
+			Dim route = CreateRoute(url, result, defaults, constraints, namespaces)
+			context.Routes.Add(name, route)
+			route.DataTokens("area") = context.AreaName
+			Return route
+		End Function
+
+		Private Function CreateRoute(ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object, ByVal namespaces As String()) As Route
+			' Start by adding the default values from the anonymous object (if any)
+			Dim routeValues = New RouteValueDictionary(defaults)
+
+			' Then add the Controller/Action names and the parameters from the call
+			For Each pair In result.GetRouteValueDictionary()
+				routeValues.Add(pair.Key, pair.Value)
+			Next
+
+			Dim routeConstraints = New RouteValueDictionary(constraints)
+
+			' Create and add the route
+			Dim route = New Route(url, routeValues, routeConstraints, New MvcRouteHandler())
+
+			route.DataTokens = New RouteValueDictionary()
+
+			If namespaces IsNot Nothing AndAlso namespaces.Length > 0 Then
+				route.DataTokens("Namespaces") = namespaces
+			End If
+
+			Return route
+		End Function
+
 
 		<Extension()> _
         Public Function GetT4MVCResult(ByVal result As ActionResult) As <#=ActionResultInterfaceName #>
@@ -499,6 +563,40 @@ End Namespace
     End Class
 'End Namespace
 
+<# if (ExplicitHtmlHelpersForPartials) {    
+        manager.StartNewFile("T4MVC.ExplicitExtensions.vb"); #>    
+
+'Namespace System.Web.Mvc        
+   <CompilerGenerated(), DebuggerNonUserCode()> _
+   Public Module HtmlHelpersForExplicitPartials
+   <#  
+	   foreach(var part in GetPartials()) {
+           string partialName = part.Key;
+           string partialPath = part.Value;
+           string partialRenderMethod = string.Format(ExplicitHtmlHelpersForPartialsFormat, partialName);
+   #>         
+       '''<summary>
+       '''Render the <b><#= partialName #></b> partial.
+       '''</summary>
+	   <Extension()> _	 
+       Public Sub <#= partialRenderMethod #>(ByVal html As HtmlHelper) 
+           html.RenderPartial("<#= partialPath #>")
+       End Sub
+       
+       '''<summary>
+       '''Render the <b><#= partialName #></b> partial.
+       '''</summary> 
+	   <Extension()> _
+       Public Sub <#= partialRenderMethod #>(ByVal html As HtmlHelper, ByVal model As Object)
+           html.RenderPartial("<#= partialPath #>", model)
+       End Sub
+   <# } #>     
+   End Module
+<#    }    #>    
+' End Namespace
+<#    manager.EndBlock(); #>   
+
+
 <#manager.StartFooter(); #>
 #End Region 'T4MVC
 ' #pragma warning restore 1591
@@ -543,6 +641,30 @@ IEnumerable<ControllerInfo> GetAbstractControllers() {
     }
 
     return controllers;
+}
+
+IDictionary<string, string> GetPartials() {
+	var parts = GetControllers()
+		.Select(m => m.ViewsFolder)
+		.SelectMany(m => m.Views)
+		.Where(m => m.Value.EndsWith(".ascx"));
+ 
+	var partsDic = new Dictionary<string, KeyValuePair<string, string>>();
+ 
+	foreach(var part in parts) {
+		//Check if we already have a partial view by that name (eg if two Views folders have the same ascx) 
+		int keyCollisionCount = partsDic.Where(m => m.Key == part.Key || m.Value.Key == part.Key).Count();
+ 
+		if (keyCollisionCount > 0) {
+			// Append a numbered suffix to avoid the conflict 
+			partsDic.Add(part.Key + keyCollisionCount.ToString(), part);
+		}
+		else {
+			partsDic.Add(part.Key, part);
+		}
+	}
+ 
+	return partsDic.ToDictionary(k => k.Key, v => v.Value.Value);
 }
 
 void PrepareDataToRender(TextTransformation tt) {
@@ -899,14 +1021,18 @@ void ProcessStaticFilesRecursive(ProjectItem projectItem, string path) {
 
     if (IsFolder(projectItem)) { #>
     <CompilerGenerated(), DebuggerNonUserCode()> _
-    Public Module <#=EscapeID(Sanitize(projectItem.Name)) #> 
+    Public Class <#=EscapeID(Sanitize(projectItem.Name)) #> 
         Private Const URLPATH As String = "<#=path#>/<#=projectItem.Name#>"
 		
-		Public Function Url() As String
+		Private Sub New()
+            ' Prevent direct instantiation
+        End Sub                                
+
+		Public Shared Function Url() As String
 			Return T4MVCHelpers.ProcessVirtualPath(URLPATH)
 		End Function
 
-		Public Function Url(ByVal fileName As String) As String
+		Public Shared Function Url(ByVal fileName As String) As String
 			Return T4MVCHelpers.ProcessVirtualPath(URLPATH & "/" & fileName)
 		End Function
 <#+
@@ -919,7 +1045,7 @@ foreach (ProjectItem item in projectItem.ProjectItems) {
 
 PopIndent();
 #>
-    End Module
+    End Class
 
 <#+
 }
