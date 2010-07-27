@@ -162,7 +162,7 @@ namespace MvcContrib.UnitTests.TestHelper
 			using(mocks.Record())
 			{
 				var resolver = mocks.DynamicMock<IServiceLocator>();
-				Expect.Call(resolver.GetInstance(typeof(TestHelperWithArgsController))).Return(
+				Expect.Call(resolver.GetInstance < TestHelperWithArgsController>()).Return(
 					new TestHelperWithArgsController(new TestService()));
 				MvcServiceLocator.SetCurrent(resolver);
 			}
