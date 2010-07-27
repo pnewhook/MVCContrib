@@ -85,14 +85,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\HtmlAgilityPack\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=0.0.31208.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\unity\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=0.0.31208.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\unity\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="Mvp.Xml, Version=2.0.2158.1055, Culture=neutral, PublicKeyToken=dd92544dc05f5671, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\mvpxml\Mvp.Xml.dll</HintPath>
@@ -133,10 +125,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -145,11 +133,6 @@
       <HintPath>..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Routing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -183,8 +166,6 @@
     <Compile Include="Binders\SubControllerBinderTester.cs" />
     <Compile Include="Binders\WindsorModelBinderTester.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
-    <Compile Include="ControllerFactories\ControllerFactoryTestExtension.cs" />
-    <Compile Include="ControllerFactories\UnityControllerFactoryTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
     <Compile Include="ConventionController\TestBinder.cs" />
     <Compile Include="ConventionController\TestController.cs" />
@@ -256,20 +237,10 @@
     <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerTester.cs" />
     <Compile Include="IncludeHandling\IncludeStorageTester.cs" />
     <Compile Include="IncludeHandling\KeyGeneratorTester.cs" />
-    <Compile Include="IoC\DependencyResolverTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />
     <Compile Include="IoC\NestedDependency.cs" />
     <Compile Include="IoC\SimpleDependency.cs" />
-    <Compile Include="IoC\SpringDependencyResolverTester.cs" />
-    <Compile Include="IoC\StructureMapDependencyResolverTester.cs" />
-    <Compile Include="ControllerFactories\IoCControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\SpecBase.cs" />
-    <Compile Include="ControllerFactories\SpringControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\StructureMapControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\WindsorControllerFactoryTester.cs" />
-    <Compile Include="IoC\UnityDependencyTesterResolver.cs" />
-    <Compile Include="IoC\WindsorDependencyResolverTester.cs" />
     <Compile Include="IoC\WindsorExtensionTester.cs" />
     <Compile Include="EmailTemplateServiceTest.cs" />
     <Compile Include="MetaData\CastleBinderTester.cs" />

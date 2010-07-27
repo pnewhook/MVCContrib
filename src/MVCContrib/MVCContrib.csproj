@@ -130,8 +130,6 @@
     <Compile Include="HttpContextProvider.cs" />
     <Compile Include="HttpHeaders.cs" />
     <Compile Include="IHttpContextProvider.cs" />
-    <Compile Include="Interfaces\IDependencyResolver.cs" />
-    <Compile Include="ControllerFactories\IoCControllerFactory.cs" />
     <Compile Include="ISubController.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="ObjectExtensions.cs" />
@@ -170,7 +168,6 @@
     <Compile Include="Services\EmailTemplateService.cs" />
     <Compile Include="MetaData\DefaultConvertible.cs" />
     <Compile Include="MetaData\NameValueDeserializer.cs" />
-    <Compile Include="Services\DependencyResolver.cs" />
     <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
     <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />

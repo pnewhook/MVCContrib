@@ -4,8 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
-using MvcContrib.Interfaces;
-using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -33,13 +31,13 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_html = WebTestUtility.BuildHtmlHelper(_mocks, _viewData, null);
 			_mocks.ReplayAll();
 			var resolver = new QnDDepResolver(_mockHttpContextProvider, _mockSettings, new Controller[] { });
-			DependencyResolver.InitializeWith(resolver);
+			MvcServiceLocator.SetCurrent(resolver);
 		}
 
 		[TearDown]
 		public void Teardown()
 		{
-			DependencyResolver.InitializeWith(null);
+			MvcServiceLocator.SetCurrent(null);
 		}
 
 		[Test]
@@ -161,7 +159,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		}
 	}
 
-	public class QnDDepResolver : IDependencyResolver
+	public class QnDDepResolver : IServiceLocator
 	{
 		private readonly IDictionary<Type, object> types;
 
@@ -191,24 +189,40 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			}
 		}
 
-		public Interface GetImplementationOf<Interface>()
+
+		public object GetService(Type serviceType)
 		{
-			return (Interface)types[typeof(Interface)];
+			return null;
 		}
 
-		public Interface GetImplementationOf<Interface>(Type type)
+		public IEnumerable<TService> GetAllInstances<TService>()
 		{
-			return (Interface)types[type];
+			yield break;
 		}
 
-		public object GetImplementationOf(Type type)
+		public IEnumerable<object> GetAllInstances(Type serviceType)
 		{
-			return types[type];
+			yield break;
 		}
 
-		public void DisposeImplementation(object instance)
+		public TService GetInstance<TService>()
 		{
-			throw new NotImplementedException();
+			return (TService)types[typeof(TService)];
+		}
+
+		public TService GetInstance<TService>(string key)
+		{
+			return default(TService);
+		}
+
+		public object GetInstance(Type serviceType)
+		{
+			return null;
+		}
+
+		public object GetInstance(Type serviceType, string key)
+		{
+			return null;
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace MvcContrib.Castle
 	///   //do work
 	/// }
 	///
-	/// Thrown Exceptions will cause a rollback. At minimum you'll need to configure an ITransactionManager with the DependencyResolver.
+	/// Thrown Exceptions will cause a rollback. At minimum you'll need to configure an ITransactionManager with the ServiceLocator.
 	/// For example with NHibernate and Rhino Tools this would go in your global.aspx.cs:
 	/// 
 	/// Container.AddFacility("rhino_transaction", new RhinoTransactionFacility());
@@ -92,7 +92,7 @@ namespace MvcContrib.Castle
 		{
 			rolledback = false;
 			
-			var manager = DependencyResolver.Resolver.GetImplementationOf<ITransactionManager>();
+			var manager = MvcServiceLocator.Current.GetInstance<ITransactionManager>();
 			transaction = manager.CreateTransaction(TransactionMode, IsolationMode, Distributed);
 			if (transaction != null)
 			{
@@ -138,7 +138,7 @@ namespace MvcContrib.Castle
 			}
 			finally
 			{
-				var manager = DependencyResolver.Resolver.GetImplementationOf<ITransactionManager>();
+				var manager = MvcServiceLocator.Current.GetInstance<ITransactionManager>();
 				manager.Dispose(transaction);
 				transaction = null;
 			}
