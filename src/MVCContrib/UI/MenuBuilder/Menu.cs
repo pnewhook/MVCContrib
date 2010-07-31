@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Microsoft.WebPages.Helpers;
 
 namespace MvcContrib.UI.MenuBuilder
 {
@@ -211,9 +212,12 @@ namespace MvcContrib.UI.MenuBuilder
 		/// </summary>
 		/// <param name="helper"></param>
 		/// <param name="menu">The menu to render</param>
-		public static void Menu(this HtmlHelper helper, MenuItem menu)
+		public static HelperResult Menu(this HtmlHelper helper, MenuItem menu)
 		{
-			menu.RenderHtml(helper.ViewContext, helper.ViewContext.HttpContext.Response.Output);
+			return new HelperResult(writer =>
+			{
+				menu.RenderHtml(helper.ViewContext, writer);
+			});
 		}
 	}
 }

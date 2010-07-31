@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.UI.Grid;
-using MvcContrib.UI.Grid.Syntax;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -35,10 +34,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Calling_AutoGenerateColumns_should_add_columns()
 		{
-			IGrid<Person> grid = new Grid<Person>(new Person[0], new StringWriter(), new ViewContext());
+			Grid<Person> grid = new Grid<Person>(new Person[0], new ViewContext(), w => {});
 			grid.AutoGenerateColumns();
-
-			((Grid<Person>)grid).Model.Columns.Count.ShouldEqual(2);
+			grid.GetModel().Columns.Count.ShouldEqual(2);
 		}
 
 		[Test]
@@ -72,14 +70,14 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Supports_adding_additional_columns()
 		{
-			var grid = new Grid<Person>(new List<Person>(), new StringWriter(), new ViewContext());
+			var grid = new Grid<Person>(new List<Person>(), new ViewContext(), writer => {});
 			grid
 				.AutoGenerateColumns()
 				.Columns(column => {
 					column.For(x => null).Named("Some custom column");
 				});
 
-			grid.Model.Columns.Count.ShouldEqual(3);
+			grid.GetModel().Columns.Count.ShouldEqual(3);
 
 		}
 
