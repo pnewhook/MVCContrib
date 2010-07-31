@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.21
+T4MVC Version 2.6.22
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -746,8 +746,14 @@ void ProcessControllerActionMethods(ControllerInfo controllerInfo, CodeClass2 cu
                 }
 
                 // Skip it if it's the current project or doesn't have a code model
-                if (prj == Project || prj.CodeModel == null)
-                    continue;
+                try {
+                   if (prj == Project || prj.CodeModel == null)
+                      continue;
+                }
+                catch (System.NotImplementedException) {
+                   // Installer project does not implement CodeModel property
+                   continue;
+                }
 
                 // If we can get a local project type, use it instead of the original
                 var codeType = prj.CodeModel.CodeTypeFromFullName(type.FullName);
