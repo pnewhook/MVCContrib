@@ -212,12 +212,9 @@ namespace MvcContrib.UI.MenuBuilder
 		/// </summary>
 		/// <param name="helper"></param>
 		/// <param name="menu">The menu to render</param>
-		public static HelperResult Menu(this HtmlHelper helper, MenuItem menu)
+		public static void Menu(this HtmlHelper helper, MenuItem menu)
 		{
-			return new HelperResult(writer =>
-			{
-				menu.RenderHtml(helper.ViewContext, writer);
-			});
+			menu.RenderHtml(helper.ViewContext, helper.ViewContext.Writer);
 		}
 	}
 }

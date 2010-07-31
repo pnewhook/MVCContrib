@@ -1,9 +1,13 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<MvcContrib.Samples.UI.Models.Person>>" %>
-<%@ Import Namespace="MvcContrib.UI.Grid" %>
+﻿@using MvcContrib.UI.Grid;
+@using MvcContrib.Samples.UI.Models;
+@inherits System.Web.Mvc.WebViewPage<IEnumerable<Person>>
+@{
+    View.Title = "Grid Sorting";
+    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+}
 
-<asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
-	<title>Grid Sorting</title>
-	<style type="text/css">
+@section Head {
+<style type="text/css">
 		.sort_desc 
 		{
 			background-image: url(<%= Url.Content("~/content/down.png") %>);
@@ -19,14 +23,11 @@
 			padding-right: 20px;
 		}
 	</style>
-</asp:Content>
+}
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Sorted Grid Example</h2>
-    
-	<%= Html.Grid(Model)
-		.Sort(ViewData["sort"] as GridSortOptions)
-		.Columns(column => {
+<h2>@View.Title</h2>
+
+@Html.Grid(Model).Sort(ViewData["sort"] as GridSortOptions).Columns(column => {
      		column.For(x => x.Id).Named("Person ID");
      		column.For(x => x.Name);
      		column.For(x => x.Gender);
@@ -37,6 +38,4 @@
 				.Named("View Details (orders by name)")
 				.SortColumnName("Name")
 				.DoNotEncode();
-     	}) %>
-</asp:Content>
-
+})

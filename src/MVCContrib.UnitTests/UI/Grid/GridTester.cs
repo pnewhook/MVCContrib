@@ -198,7 +198,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Renders_to_provided_renderer_by_default()
 		{
 			_grid.Empty("Foo");
-			_grid.Render(TODO);
+			_grid.Render();
             _writer.ToString().ShouldEqual("<table class=\"grid\"><thead><tr><th></th></tr></thead><tbody><tr><td>Foo</td></tr></tbody></table>");
 		}
 
