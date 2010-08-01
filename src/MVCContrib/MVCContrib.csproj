@@ -264,9 +264,6 @@
     <Compile Include="UI\ReturnUrl\ReturnUrlManager.cs" />
     <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="ViewDataExtensions.cs" />
-    <Compile Include="ViewFactories\FileSystemViewSourceLoader.cs" />
-    <Compile Include="ViewFactories\FileViewSource.cs" />
-    <Compile Include="ViewFactories\IViewSourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PortableAreas\Web.config" />

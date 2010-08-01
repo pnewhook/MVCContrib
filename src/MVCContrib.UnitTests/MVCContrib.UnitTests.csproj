@@ -300,8 +300,6 @@
     <Compile Include="UrlHelperExtensionsTester.cs" />
     <Compile Include="ViewDataExtensionsForIDictionaryTester.cs" />
     <Compile Include="ViewDataExtensionsForViewDataTester.cs" />
-    <Compile Include="ViewFactories\FileSystemViewSourceLoaderTester.cs" />
-    <Compile Include="ViewFactories\FileViewSourceTester.cs" />
     <Compile Include="MvcMockHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
