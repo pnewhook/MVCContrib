@@ -7,7 +7,6 @@ namespace MvcContrib.UnitTests.ConventionController
 {
 	class TestController : Controller
 	{
-		public bool ActionWasCalled;
 		public bool? OnErrorResult = false;
 		public bool ActionExecutingCalled;
 		public bool CustomActionResultCalled;
@@ -48,14 +47,6 @@ namespace MvcContrib.UnitTests.ConventionController
 		[NonAction]
 		public ActionResult HiddenAction()
 		{
-			return new EmptyResult();
-		}
-
-#pragma warning disable 618,612
-		public ActionResult ComplexAction([Deserialize("ids")] int[] ids)
-#pragma warning restore 618,612
-		{
-			ActionWasCalled = true;
 			return new EmptyResult();
 		}
 

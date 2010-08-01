@@ -244,10 +244,7 @@
     <Compile Include="IoC\WindsorExtensionTester.cs" />
     <Compile Include="EmailTemplateServiceTest.cs" />
     <Compile Include="MetaData\CastleBinderTester.cs" />
-    <Compile Include="MetaData\DefaultConvertibleTester.cs" />
-    <Compile Include="MetaData\DeserializeAttributeTester.cs" />
     <Compile Include="MetaData\FilterTester.cs" />
-    <Compile Include="MetaData\NameValueDeserializerTester.cs" />
     <Compile Include="ActionResults\XmlActionResultTester.cs" />
     <Compile Include="MvcRouteTester.cs" />
     <Compile Include="ConventionController\RescueTester.cs" />

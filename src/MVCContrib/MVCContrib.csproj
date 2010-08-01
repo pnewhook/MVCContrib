@@ -100,7 +100,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
     <Compile Include="Attributes\DerivedTypeBinderAwareAttribute.cs" />
-    <Compile Include="Attributes\DeserializeAttribute.cs" />
     <Compile Include="Binders\DerivedTypeModelBinder.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
     <Compile Include="Binders\IPropertyNameProvider.cs" />
@@ -166,8 +165,6 @@
     <Compile Include="Routing\UrlRouteParameterDefaultAttribute.cs" />
     <Compile Include="Services\EmailMetadata.cs" />
     <Compile Include="Services\EmailTemplateService.cs" />
-    <Compile Include="MetaData\DefaultConvertible.cs" />
-    <Compile Include="MetaData\NameValueDeserializer.cs" />
     <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
     <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />
