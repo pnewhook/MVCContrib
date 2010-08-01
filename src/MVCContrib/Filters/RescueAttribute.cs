@@ -40,6 +40,7 @@ namespace MvcContrib.Filters
 	/// </example>
 	/// </summary>
 	[Serializable]
+	[Obsolete("Use System.Web.Mvc.HandleErrorAttribute instead.")]
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 	public class RescueAttribute : FilterAttribute, IExceptionFilter
 	{

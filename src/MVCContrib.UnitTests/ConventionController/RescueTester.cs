@@ -12,9 +12,11 @@ using MvcContrib.TestHelper;
 using System.Collections.Generic;
 using Assert=NUnit.Framework.Assert;
 
-namespace MvcContrib.UnitTests.ConventionController
+namespace MvcContrib.UnitTests.ConventionController 
 {
-    [TestFixture]
+#pragma warning disable 612,618
+
+	[TestFixture]
 	public class RescueTester
 	{
 		private RescueViewEngine _viewEngine;
@@ -248,5 +250,6 @@ namespace MvcContrib.UnitTests.ConventionController
 		}
 	}
 
-	
+#pragma warning restore 612,618
+
 }
