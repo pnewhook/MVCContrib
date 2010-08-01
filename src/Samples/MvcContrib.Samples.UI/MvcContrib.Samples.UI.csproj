@@ -126,10 +126,7 @@
     <Content Include="Views\FluentHtml\Index.aspx" />
     <Content Include="Views\FluentHtml\ViewParent.ascx" />
     <Content Include="Views\FluentHtml\ViewPerson.aspx" />
-    <Content Include="Views\Grid\SortingAndPaging.aspx" />
     <Content Include="Views\Grid\WithActionSections.aspx" />
-    <Content Include="Views\Grid\Show.aspx" />
-    <Content Include="Views\Grid\UsingGridModel.aspx" />
     <Content Include="Views\Grid\ViewPersonPartial.ascx" />
     <Content Include="Views\Grid\WithSections.aspx" />
     <Content Include="Views\Home\SecurePage1.aspx" />
@@ -158,7 +155,10 @@
     <None Include="Views\Grid\AutoColumns.cshtml" />
     <None Include="Views\Grid\Index.cshtml" />
     <None Include="Views\Grid\Paged.cshtml" />
+    <None Include="Views\Grid\Show.cshtml" />
     <None Include="Views\Grid\Sorting.cshtml" />
+    <None Include="Views\Grid\SortingAndPaging.cshtml" />
+    <None Include="Views\Grid\UsingGridModel.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
