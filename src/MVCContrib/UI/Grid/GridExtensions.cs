@@ -160,24 +160,6 @@ namespace MvcContrib.UI.Grid
 		}
 
 		/// <summary>
-		/// Specifies that a partial view should be used to render the contents of this column.
-		/// </summary>
-		/// <param name="column">The current column</param>
-		/// <param name="partialName">The name of the partial view</param>
-		/// <returns></returns>
-		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
-		public static IGridColumn<T> Partial<T>(this IGridColumn<T> column, string partialName) where T : class 
-		{
-			column.CustomItemRenderer = (context, item) => {
-				var view = context.ViewEngines.TryLocatePartial(context.ViewContext, partialName);
-				var newViewData = new ViewDataDictionary<T>(item);
-				var newContext = new ViewContext(context.ViewContext, context.ViewContext.View, newViewData, context.ViewContext.TempData, context.ViewContext.Writer);
-				view.Render(newContext, context.Writer);
-			};
-			return column;
-		}
-
-		/// <summary>
 		/// Specifies custom attributes for the header row.
 		/// </summary>
 		public static void HeaderRowAttributes<T>(this IGridSections<T> sections, IDictionary<string, object> attributes) where T : class

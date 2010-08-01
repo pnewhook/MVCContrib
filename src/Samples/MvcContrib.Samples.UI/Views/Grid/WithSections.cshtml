@@ -16,4 +16,11 @@
      	column.For(x => x.DateOfBirth) //Example of custom header attributes
 				.HeaderAttributes(style => "font-weight:bold; background-color: Yellow").Format("{0:d}");
 		column.For(x => Html.Partial("_ViewPerson", x)); //Example of using a Partial view for complex cells
+		// Here we actually embed some markup inside a column:
+		column.Custom(
+			@<div>
+				<em>Hello there</em>
+				<strong>@item.Name</strong>
+			</div>
+		).Named("Custom Column");
 })

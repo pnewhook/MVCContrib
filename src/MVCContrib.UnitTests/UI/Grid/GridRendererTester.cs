@@ -152,44 +152,6 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
-		public void Column_should_be_rendered_using_custom_partial()
-		{
-			SetupViewEngine("Foo", (v, w) => {
-				var model = ((Person)v.ViewData.Model);
-				w.Write("<td>" + model.Name + "_TEST</td>");
-			});
-
-#pragma warning disable 612,618
-			ColumnFor(x => x.Name).Partial("Foo");
-#pragma warning restore 612,618
-			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy_TEST</td></tr></tbody></table>";
-			RenderGrid().ShouldEqual(expected);
-		}
-
-		[Test]
-		public void Custom_column_should_use_partial_with_same_name_as_column()
-		{
-			SetupViewEngine("Name", "<td>Foo</td>");
-#pragma warning disable 612,618
-			_model.Column.For("Name");
-#pragma warning restore 612,618
-			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
-			RenderGrid().ShouldEqual(expected);
-		}
-
-		[Test]
-		public void Custom_column_with_custom_partial()
-		{
-			SetupViewEngine("Foo", "<td>Foo</td>");
-#pragma warning disable 612,618
-			_model.Column.For("Name").Partial("Foo");
-#pragma warning restore 612,618
-			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
-			RenderGrid().ShouldEqual(expected);
-		}
-
-
-		[Test]
 		public void With_cell_condition()
 		{
 			ColumnFor(x => x.Name);
