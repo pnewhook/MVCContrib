@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.22 (07-31-2010):
+- Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
+
 2.6.21 (07-20-2010):
 - Fix to the partial extension feature added in 2.6.20 to deal with conflicts
 
