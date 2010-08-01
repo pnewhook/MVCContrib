@@ -222,7 +222,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HashTester.cs" />
-    <Compile Include="HttpContextExtensionsTester.cs" />
     <Compile Include="IncludeHandling\FileSystemIncludeReaderTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinationResultInteractionTester.cs" />

@@ -86,7 +86,7 @@ namespace MvcContrib.Filters
 		{
 			Type baseExceptionType = filterContext.Exception.GetBaseException().GetType();
 
-			if(IgnoreAjax && filterContext.HttpContext.Request.IsAjax())
+			if(IgnoreAjax && filterContext.HttpContext.Request.IsAjaxRequest())
 			{
 				return;
 			}

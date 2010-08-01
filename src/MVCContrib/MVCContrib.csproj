@@ -122,7 +122,6 @@
     <Compile Include="HeadResult.cs" />
     <Compile Include="FluentController\IRestfulController.cs" />
     <Compile Include="Hash.cs" />
-    <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="HttpContextProvider.cs" />
     <Compile Include="HttpHeaders.cs" />
     <Compile Include="IHttpContextProvider.cs" />
