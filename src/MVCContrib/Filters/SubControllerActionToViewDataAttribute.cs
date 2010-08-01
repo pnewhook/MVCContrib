@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using MvcContrib;
 
@@ -6,6 +7,7 @@ namespace MvcContrib.Filters
 	///<summary>
 	/// Takes the System.Action from GetResult of subcontrollers and adds it to ViewData using the key that is equal to the action parameter name for the subcontroller.
 	///</summary>
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]	
 	public class SubControllerActionToViewDataAttribute : ActionFilterAttribute
 	{
 		///<summary>

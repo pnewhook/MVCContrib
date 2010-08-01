@@ -4,14 +4,16 @@ using System.Web.Routing;
 using MvcContrib;
 using MvcContrib.Filters;
 
-namespace MvcContrib
+namespace MvcContrib 
 {
+#pragma warning disable 612,618
 	///<summary>
 	/// SubController base class for subcontrollers.  SubControllers can  be infinitely nested.
 	///</summary>
 	[SubControllerActionToViewData]
-	public class SubController : Controller, ISubController
-	{
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]
+	public class SubController : Controller, ISubController {
+
 		public virtual Action GetResult(ControllerBase parentController)
 		{
 			RequestContext requestContext = GetNewRequestContextFromController(parentController);
@@ -59,8 +61,11 @@ namespace MvcContrib
 	/// SubController with generic Model property.
 	///</summary>
 	///<typeparam name="T"></typeparam>
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]
 	public class SubController<T> : SubController, ISubController<T>
 	{
 		public virtual T Model { get; set; }
 	}
+
+#pragma warning restore 612,618
 }
