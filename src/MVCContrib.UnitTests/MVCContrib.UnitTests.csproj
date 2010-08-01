@@ -165,7 +165,6 @@
     <Compile Include="Binders\WindsorModelBinderTester.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
-    <Compile Include="ConventionController\TestBinder.cs" />
     <Compile Include="ConventionController\TestController.cs" />
     <Compile Include="ConventionController\TestFilter.cs" />
     <Compile Include="EnumerableExtensionTests.cs" />
@@ -241,7 +240,6 @@
     <Compile Include="IoC\SimpleDependency.cs" />
     <Compile Include="IoC\WindsorExtensionTester.cs" />
     <Compile Include="EmailTemplateServiceTest.cs" />
-    <Compile Include="MetaData\CastleBinderTester.cs" />
     <Compile Include="MetaData\FilterTester.cs" />
     <Compile Include="ActionResults\XmlActionResultTester.cs" />
     <Compile Include="MvcRouteTester.cs" />

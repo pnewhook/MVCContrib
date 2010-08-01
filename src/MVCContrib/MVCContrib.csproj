@@ -96,7 +96,6 @@
     <Compile Include="ActionResults\RedirectToRouteResult.cs" />
     <Compile Include="ActionResults\XmlResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
     <Compile Include="Attributes\DerivedTypeBinderAwareAttribute.cs" />
     <Compile Include="Binders\DerivedTypeModelBinder.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />

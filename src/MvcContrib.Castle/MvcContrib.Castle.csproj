@@ -98,7 +98,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CastleBinder.cs" />
     <Compile Include="ICastleBindingContainer.cs" />
     <Compile Include="MvcTransactionAttribute.cs" />
     <Compile Include="WindsorExtensions.cs" />

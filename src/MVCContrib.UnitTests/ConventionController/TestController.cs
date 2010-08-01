@@ -22,9 +22,7 @@ namespace MvcContrib.UnitTests.ConventionController
 		}
 
 		[TestFilter]
-#pragma warning disable 618,612
-		public ActionResult BinderFilterOrderingAction([TestBinder] object item)
-#pragma warning restore 618,612
+		public ActionResult BinderFilterOrderingAction(object item)
 		{
 			return new EmptyResult();
 		}
