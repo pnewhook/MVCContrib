@@ -14,7 +14,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 		public ValidationMessage() : base("") {}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			if (rawValue == null)
 			{
@@ -24,7 +24,7 @@ namespace MvcContrib.FluentHtml.Elements
 			{
 				Class("field-validation-error");
 			}
-			return base.ToString();
+			return base.ToHtmlString();
 		}
 	}
 }

@@ -181,7 +181,7 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public override string ToString()
+		public virtual string ToHtmlString()
 		{
 			ApplyBehaviors();
 			PreRender();
@@ -189,6 +189,11 @@ namespace MvcContrib.FluentHtml.Elements
 			html += builder.ToString(((IElement)this).TagRenderMode);
 			html += RenderLabel(((IElement)this).LabelAfterText);
 			return html;
+		}
+
+		public sealed override string ToString()
+		{
+			return ToHtmlString();
 		}
 
 		#region Explicit IElement members

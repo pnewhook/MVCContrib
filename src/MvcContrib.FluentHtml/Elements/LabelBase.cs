@@ -55,14 +55,14 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			SetId();
 			
 			builder.MergeAttribute(HtmlAttribute.For, forName.FormatAsHtmlId());
 			builder.SetInnerText(FormatValue(rawValue));
 
-			return base.ToString();
+			return base.ToHtmlString();
 		}
 
 		private void SetId()

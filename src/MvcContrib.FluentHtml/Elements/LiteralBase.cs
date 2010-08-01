@@ -70,7 +70,7 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			SetId();
 
@@ -83,7 +83,7 @@ namespace MvcContrib.FluentHtml.Elements
 				builder.SetInnerText(FormatValue(rawValue));
 			}
 
-			return base.ToString();
+			return base.ToHtmlString();
 		}
 
 		protected virtual void InferIdFromName()
