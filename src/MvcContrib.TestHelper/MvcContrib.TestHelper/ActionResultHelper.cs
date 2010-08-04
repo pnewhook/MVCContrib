@@ -237,7 +237,7 @@ namespace MvcContrib.TestHelper
             var actualViewData = actionResult.ViewData.Model;
             var expectedType = typeof(TViewData);
 
-            if (actualViewData == null && expectedType.IsValueType)
+            if (actualViewData == null)
             {
                 throw new ActionResultAssertionException(string.Format("Expected view data of type '{0}', actual was NULL",
                                                                        expectedType.Name));
