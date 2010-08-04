@@ -62,7 +62,7 @@ readonly string[] ExcludedStaticFileExtensions = new string[] {
 //	Explicit HtmlHelpers
 //---------------------------------------------------------------------------
 //create explicit HtmlHelpers for rendering partials
-const bool ExplicitHtmlHelpersForPartials = true;
+const bool ExplicitHtmlHelpersForPartials = false;
 const string ExplicitHtmlHelpersForPartialsFormat = "Render{0}";
 
 //---------------------------------------------------------------------------

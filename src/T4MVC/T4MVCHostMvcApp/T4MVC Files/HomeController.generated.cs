@@ -76,6 +76,7 @@ namespace T4MVCHostMvcApp.Controllers {
         public class ViewNames {
             public readonly string _7_Some_Home_View_Hello = "~/Views/Home/7 Some Home.View-Hello.txt";
             public readonly string About = "~/Views/Home/About.aspx";
+            public readonly string DuplicateControl = "~/Views/Home/DuplicateControl.ascx";
             public readonly string Index = "~/Views/Home/Index.aspx";
             public readonly string Qqq = "~/Views/Home/Qqq.txt";
             public readonly string QqQ = "~/Views/Home/QqQ.txt2";

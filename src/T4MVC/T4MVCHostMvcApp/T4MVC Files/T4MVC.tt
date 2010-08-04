@@ -441,8 +441,8 @@ namespace <#=T4MVCNamespace #> {
 }
 
 <# if (ExplicitHtmlHelpersForPartials) {	
-		manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
-		
+        manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
+
 namespace System.Web.Mvc {
     [<#= GeneratedCode #>]
     public static class HtmlHelpersForExplicitPartials {
@@ -467,9 +467,9 @@ namespace System.Web.Mvc {
         }
     <# } #>	 
     }
-<#	}	#>	
 }
 <#	manager.EndBlock(); #>	
+<#	}	#>	
 
 <#manager.StartFooter(); #>
 #endregion T4MVC
