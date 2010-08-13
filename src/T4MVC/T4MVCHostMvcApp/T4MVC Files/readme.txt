@@ -55,9 +55,10 @@ TODO:
 
 HISTORY:
 
-2.6.22 (08-04-2010):
+2.6.22 (08-??-2010):
 - Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
 - Changed ExplicitHtmlHelpersForPartials flag to be off by default (and fix a small issue when it's off)
+- Exclude Area related methods when using MVC 1.0, as that was breaking things
 
 2.6.21 (07-20-2010):
 - Fix to the partial extension feature added in 2.6.20 to deal with conflicts
