@@ -43,6 +43,11 @@ namespace T4MVCHostMvcApp.Controllers {
         public System.Web.Mvc.ActionResult ActionWithArrayParam() {
             return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithArrayParam);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public System.Web.Mvc.ActionResult ActionWithSomeOptionalParams() {
+            return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public HomeController Actions { get { return MVC.Home; } }
@@ -66,6 +71,8 @@ namespace T4MVCHostMvcApp.Controllers {
             public readonly string SomeFileResultAction = "SomeFileResultAction";
             public readonly string SomeCustomResultAction = "SomeCustomResultAction";
             public readonly string ActionWithArrayParam = "ActionWithArrayParam";
+            public readonly string ActionWithAllOptionalParams = "ActionWithAllOptionalParams";
+            public readonly string ActionWithSomeOptionalParams = "ActionWithSomeOptionalParams";
         }
 
 
@@ -154,6 +161,20 @@ namespace T4MVCHostMvcApp.Controllers {
         public override System.Web.Mvc.ActionResult ActionWithArrayParam(string[] someStrings) {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithArrayParam);
             callInfo.RouteValueDictionary.Add("someStrings", someStrings);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionWithAllOptionalParams(string someString, int n) {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithAllOptionalParams);
+            callInfo.RouteValueDictionary.Add("someString", someString);
+            callInfo.RouteValueDictionary.Add("n", n);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionWithSomeOptionalParams(string someString, int n) {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
+            callInfo.RouteValueDictionary.Add("someString", someString);
+            callInfo.RouteValueDictionary.Add("n", n);
             return callInfo;
         }
 

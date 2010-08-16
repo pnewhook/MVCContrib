@@ -1155,7 +1155,7 @@ class ControllerInfo {
 
     IEnumerable<ActionMethodInfo> ActionMethodsWithNoParameters {
         get {
-            return ActionMethods.Where(m => m.Parameters.Count == 0);
+            return ActionMethods.Where(m => m.CanBeCalledWithoutParameters);
         }
     }
 
@@ -1237,8 +1237,15 @@ class FunctionInfo {
         // Build a unique signature for the method, used to avoid duplication
         _signature = method.Name;
 
+        CanBeCalledWithoutParameters = true;
+
         // Process all the parameters
         foreach (var p in method.Parameters.OfType<CodeParameter2>()) {
+            // If any param is not optional, then the method can't be called without parameters
+            if (p.ParameterKind != vsCMParameterKind.vsCMParameterKindOptional) {
+                CanBeCalledWithoutParameters = false;
+            }
+
             string routeNameExpression = "\"" + p.Name + "\"";
 
             // If there is a [Bind(Prefix = "someName")] attribute, use it
@@ -1266,6 +1273,7 @@ class FunctionInfo {
     public string ReturnTypeFullName { get { return _method.Type.CodeType.FullName; } }
     public bool IsPublic { get { return _method.Access == vsCMAccess.vsCMAccessPublic; } }
     public List<MethodParamInfo> Parameters { get; private set; }
+    public bool CanBeCalledWithoutParameters { get; private set; }
 
     // Write out all the parameters as part of a method declaration
     public void WriteFormalParameters(bool first) {
