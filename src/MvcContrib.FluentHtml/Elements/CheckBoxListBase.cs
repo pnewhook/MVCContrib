@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -15,6 +16,7 @@ namespace MvcContrib.FluentHtml.Elements
 	{
 		protected string _itemFormat;
 		protected string _itemClass;
+		protected Action<CheckBox, object, int> _optionModifier;
 
 		protected CheckBoxListBase(string tag, string name, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors)
 			: base(tag, name, forMember, behaviors) { }
@@ -51,10 +53,16 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		protected override void PreRender()
+		/// <summary>
+		/// An action performed after each CheckBox element has been created.  This is useful to
+		/// modify the element before is rendered.
+		/// </summary>
+		/// <param name="action">The action to perform. The parameters to the action are the CheckBox element, 
+		/// the option, and the position of the option.</param>
+		public virtual T EachOption(Action<CheckBox, object, int> action)
 		{
-			builder.InnerHtml = RenderBody();
-			base.PreRender();
+			_optionModifier = action;
+			return (T)this;
 		}
 
 		protected override TagRenderMode TagRenderMode
@@ -62,13 +70,8 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode.Normal; }
 		}
 
-		private string RenderBody()
+		protected override string RenderOptions()
 		{
-			if (_options == null)
-			{
-				return null;
-			}
-
 			var name = builder.Attributes[HtmlAttribute.Name];
 			builder.Attributes.Remove(HtmlAttribute.Name);
 			var sb = new StringBuilder();
@@ -84,6 +87,10 @@ namespace MvcContrib.FluentHtml.Elements
 				if (_itemClass != null)
 				{
 					checkbox.Class(_itemClass);
+				}
+				if (_optionModifier != null)
+				{
+					_optionModifier(checkbox, option, i);
 				}
 				sb.Append(_itemFormat == null
 					? checkbox.ToCheckBoxOnlyHtml()
