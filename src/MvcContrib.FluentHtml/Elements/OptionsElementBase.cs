@@ -96,7 +96,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 			var values = Enum.GetValues(typeof(TEnum));
 	
-			foreach(var item in values)
+			foreach (var item in values)
 			{
 				dict.Add(Convert.ToInt32(item).ToString(), item.ToString());
 			}
@@ -151,5 +151,16 @@ namespace MvcContrib.FluentHtml.Elements
 			}
 			return false;
 		}
+
+		protected override void PreRender()
+		{
+			if (_options != null)
+			{
+				builder.InnerHtml = RenderOptions();
+			}
+			base.PreRender();
+		}
+
+		protected abstract string RenderOptions();
 	}
 }

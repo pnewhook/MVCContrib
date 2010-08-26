@@ -293,5 +293,23 @@ namespace MvcContrib.UnitTests.FluentHtml
 			optionNodes[0].ShouldBeUnSelectedOption("1", "1");
 			optionNodes[1].ShouldBeUnSelectedOption("2", "2");
 		}
+
+		[Test]
+		public void can_modify_each_option_element_using_the_option_data_item()
+		{
+			var items = new List<FakeModel> 
+			{ 
+				new FakeModel { Price = 1, Title = "One" },
+				new FakeModel { Price = 2, Title = "Two", Done = true },
+			};
+			const string name = "foo";
+			var optionNodes = new Select(name).Options(items, x => x.Price, x => x.Title)
+				.EachOption((cb, opt, i) => cb.Disabled(((FakeModel)opt).Done)).ToString()
+				.ShouldHaveHtmlNode(name)
+				.ShouldHaveChildNodesCount(2);
+
+			optionNodes[0].ShouldNotHaveAttribute("disabled");
+			optionNodes[1].ShouldHaveAttribute("disabled");
+		}
 	}
 }
