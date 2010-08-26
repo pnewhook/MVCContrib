@@ -56,5 +56,13 @@ namespace T4MVCHostMvcApp.Controllers {
         public virtual ActionResult ActionWithArrayParam(string[] someStrings) {
             return new EmptyResult();
         }
+
+        public virtual ActionResult ActionWithAllOptionalParams(string someString = "Hello", int n = 5) {
+            return new EmptyResult();
+        }
+
+        public virtual ActionResult ActionWithSomeOptionalParams(string someString, int n = 5) {
+            return new EmptyResult();
+        }
     }
 }

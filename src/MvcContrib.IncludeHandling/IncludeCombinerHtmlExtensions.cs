@@ -19,7 +19,7 @@ namespace MvcContrib.IncludeHandling
 
 		public static string RenderIncludes(this HtmlHelper helper, IEnumerable<string> includes, IncludeType type, bool isInDebugMode) 
 		{
-			var combiner = DependencyResolver.GetImplementationOf<IIncludeCombiner>();
+			var combiner = MvcServiceLocator.Current.GetInstance<IIncludeCombiner>();
 			var toRender = combiner.RenderIncludes(includes, type, isInDebugMode);
 			return toRender;
 		}

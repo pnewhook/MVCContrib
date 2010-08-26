@@ -1,0 +1,12 @@
+﻿@using MvcContrib.UI.Grid;
+@using MvcContrib.Samples.UI.Models;
+@inherits System.Web.Mvc.WebViewPage<IEnumerable<Person>>
+
+@{
+    View.Title = "Using Grid Model";
+    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@View.Title</h2>
+
+@Html.Grid(Model).WithModel(new PeopleGridModel())

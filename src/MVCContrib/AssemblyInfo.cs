@@ -1,3 +1,3 @@
 using System.Security;
 
-[assembly: AllowPartiallyTrustedCallers]
+//[assembly: AllowPartiallyTrustedCallers]

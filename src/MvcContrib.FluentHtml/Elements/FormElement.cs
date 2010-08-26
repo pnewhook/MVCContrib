@@ -23,10 +23,10 @@ namespace MvcContrib.FluentHtml.Elements
 			SetName(name);
 		}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			InferIdFromName();
-			return base.ToString();
+			return base.ToHtmlString();
 		}
 
 		/// <summary>

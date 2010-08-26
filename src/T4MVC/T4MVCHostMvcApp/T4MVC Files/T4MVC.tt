@@ -174,6 +174,7 @@ namespace System.Web.Mvc {
             return route;
         }
 
+<#if (MvcVersion >= 2) {#>
         // Note: can't name the AreaRegistrationContext methods 'MapRoute', as that conflicts with the existing methods
         public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result) {
             return MapRouteArea(context, name, url, result, null /*namespaces*/);
@@ -202,6 +203,7 @@ namespace System.Web.Mvc {
             route.DataTokens["area"] = context.AreaName;
             return route;
         }
+<#} #>
 
         private static Route CreateRoute(string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
             // Start by adding the default values from the anonymous object (if any)
@@ -441,8 +443,8 @@ namespace <#=T4MVCNamespace #> {
 }
 
 <# if (ExplicitHtmlHelpersForPartials) {	
-		manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
-		
+        manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
+
 namespace System.Web.Mvc {
     [<#= GeneratedCode #>]
     public static class HtmlHelpersForExplicitPartials {
@@ -467,9 +469,9 @@ namespace System.Web.Mvc {
         }
     <# } #>	 
     }
-<#	}	#>	
 }
 <#	manager.EndBlock(); #>	
+<#	}	#>	
 
 <#manager.StartFooter(); #>
 #endregion T4MVC
@@ -1153,7 +1155,7 @@ class ControllerInfo {
 
     IEnumerable<ActionMethodInfo> ActionMethodsWithNoParameters {
         get {
-            return ActionMethods.Where(m => m.Parameters.Count == 0);
+            return ActionMethods.Where(m => m.CanBeCalledWithoutParameters);
         }
     }
 
@@ -1235,8 +1237,15 @@ class FunctionInfo {
         // Build a unique signature for the method, used to avoid duplication
         _signature = method.Name;
 
+        CanBeCalledWithoutParameters = true;
+
         // Process all the parameters
         foreach (var p in method.Parameters.OfType<CodeParameter2>()) {
+            // If any param is not optional, then the method can't be called without parameters
+            if (p.ParameterKind != vsCMParameterKind.vsCMParameterKindOptional) {
+                CanBeCalledWithoutParameters = false;
+            }
+
             string routeNameExpression = "\"" + p.Name + "\"";
 
             // If there is a [Bind(Prefix = "someName")] attribute, use it
@@ -1264,6 +1273,7 @@ class FunctionInfo {
     public string ReturnTypeFullName { get { return _method.Type.CodeType.FullName; } }
     public bool IsPublic { get { return _method.Access == vsCMAccess.vsCMAccessPublic; } }
     public List<MethodParamInfo> Parameters { get; private set; }
+    public bool CanBeCalledWithoutParameters { get; private set; }
 
     // Write out all the parameters as part of a method declaration
     public void WriteFormalParameters(bool first) {

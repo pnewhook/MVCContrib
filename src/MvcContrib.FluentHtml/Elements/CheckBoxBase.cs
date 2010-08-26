@@ -38,7 +38,7 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			var html = ToCheckBoxOnlyHtml();
 			var hiddenId = "_Hidden";
@@ -52,7 +52,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 		public string ToCheckBoxOnlyHtml()
 		{
-			return base.ToString();
+			return base.ToHtmlString();
 		}
 
 		protected override void ApplyModelState(System.Web.Mvc.ModelState state) 

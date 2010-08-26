@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MvcContrib.FluentHtml.Elements
@@ -6,7 +7,7 @@ namespace MvcContrib.FluentHtml.Elements
 	/// <summary>
 	/// Interface for elements.
 	/// </summary>
-	public interface IElement
+	public interface IElement : IHtmlString
 	{
 		/// <summary>
 		/// TagBuilder object used to generate HTML.

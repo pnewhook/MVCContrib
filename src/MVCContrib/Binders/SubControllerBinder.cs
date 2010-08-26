@@ -6,6 +6,7 @@ namespace MvcContrib.Binders
 	///<summary>
 	/// Binder that creates SubControllers that are needed for an action method
 	///</summary>
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]
 	public class SubControllerBinder : DefaultModelBinder
 	{
 		public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)

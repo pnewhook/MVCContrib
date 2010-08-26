@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using MvcContrib.Binders;
 using NUnit.Framework;
 
+#pragma warning disable 612,618
 
 namespace MvcContrib.UnitTests.Binders
 {
@@ -47,3 +48,4 @@ namespace MvcContrib.UnitTests.Binders
 		}
 	}
 }
+#pragma warning restore 612,618

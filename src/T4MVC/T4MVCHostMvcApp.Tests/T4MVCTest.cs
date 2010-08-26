@@ -221,6 +221,23 @@ namespace T4MVCHostMvcApp.Tests {
             TestRouteValue(actionRes, "age", null);
         }
 
+        [TestMethod()]
+        public void TestDontGeneratedNoParamOverloadWhenAllParamsAreOptional() {
+            var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithAllOptionalParams();
+
+            TestAreaControllerActionNames(actionRes, "", "Home", "ActionWithAllOptionalParams");
+            TestRouteValue(actionRes, "someString", "Hello");
+            TestRouteValue(actionRes, "n", 5);
+        }
+
+        [TestMethod()]
+        public void TestGeneratedNoParamOverloadWhenOnlySomeParamsAreOptional() {
+            var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithSomeOptionalParams();
+
+            TestAreaControllerActionNames(actionRes, "", "Home", "ActionWithSomeOptionalParams");
+            TestRouteValue(actionRes, "n", null);
+        }
+
 #if NOTYET
         [TestMethod()]
         public void TestRouteValuesForActionWithObjectParam() {

@@ -14,6 +14,17 @@ namespace MvcContrib.UI.Grid
 		private readonly List<GridColumn<T>> _columns = new List<GridColumn<T>>();
 
 		/// <summary>
+		/// Creates a column for custom markup.
+		/// </summary>
+		public IGridColumn<T> Custom(Func<T, object> customRenderer)
+		{
+			var column = new GridColumn<T>(customRenderer, "", typeof(object));
+			column.Encode(false);
+			Add(column);
+			return column;
+		}
+
+		/// <summary>
 		/// Specifies a column should be constructed for the specified property.
 		/// </summary>
 		/// <param name="propertySpecifier">Lambda that specifies the property for which a column should be constructed</param>
@@ -31,18 +42,6 @@ namespace MvcContrib.UI.Grid
 		protected IList<GridColumn<T>> Columns
 		{
 			get { return _columns; }
-		}
-
-		/// <summary>
-		/// Specifies that a custom column should be constructed with the specified name.
-		/// </summary>
-		/// <param name="name"></param>
-		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
-		public IGridColumn<T> For(string name) 
-		{
-			var column = new GridColumn<T>(x => string.Empty, name, null);
-			Add(column);
-			return column.Partial(name);
 		}
 
 		public IEnumerator<GridColumn<T>> GetEnumerator()

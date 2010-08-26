@@ -6,6 +6,7 @@ namespace MvcContrib
 	///<summary>
 	/// Interface that represents a subcontroller
 	///</summary>
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]	
 	public interface ISubController : IController
 	{
 		///<summary>
@@ -20,6 +21,7 @@ namespace MvcContrib
 	/// SubController with typed Model property for parameter passing from a parent controller.
 	///</summary>
 	///<typeparam name="T"></typeparam>
+	[Obsolete("The use of subcontrollers is considered deprecated. Please use RenderAction instead.")]	
 	public interface ISubController<T> : ISubController
 	{
 		///<summary>

@@ -99,7 +99,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 
 		private class DisplayNamePerson
 		{
-			[DisplayName("Foo")]
+			[Display(Name = "Foo")]
 			public string Name { get; set; }
 		}
 
