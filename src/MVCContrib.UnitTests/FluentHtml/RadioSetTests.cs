@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HtmlAgilityPack;
+using MvcContrib.FluentHtml;
 using MvcContrib.FluentHtml.Elements;
 using MvcContrib.FluentHtml.Html;
 using MvcContrib.UnitTests.FluentHtml.Fakes;
@@ -98,6 +99,23 @@ namespace MvcContrib.UnitTests.FluentHtml
 			}
 		}
 
+		[Test]
+		public void can_modify_each_radio_button_element_using_the_option_data_item()
+		{
+			var items = new List<FakeModel> 
+			{ 
+				new FakeModel { Price = 11, Title = "One" },
+				new FakeModel { Price = 22, Title = "Two", Done = true },
+			};
+			const string name = "foo";
+			var html = new RadioSet(name).Options(items, x => x.Price, x => x.Title)
+				.EachOption((cb, opt, i) => cb.Disabled(((FakeModel)opt).Done)).ToString();
+			var element = html.ShouldHaveHtmlNode(name);
+
+			GetRadioButton(element, name, 11).ShouldNotHaveAttribute("disabled");
+			GetRadioButton(element, name, 22).ShouldHaveAttribute("disabled");
+		}
+
 		static internal void VerifyOption(string name, object value, object text, HtmlNode input, HtmlNode label, bool isChecked)
 		{
 			input.ShouldBeNamed(HtmlTag.Input);
@@ -114,6 +132,11 @@ namespace MvcContrib.UnitTests.FluentHtml
             }
 			label.ShouldBeNamed(HtmlTag.Label);
 			label.ShouldHaveInnerTextEqual(text.ToString());
+		}
+
+		private HtmlNode GetRadioButton(HtmlNode element, string name, int keyValue)
+		{
+			return element.ShouldHaveChildNode(string.Format("{0}_{1}", name.FormatAsHtmlId(), keyValue));
 		}
 	}
 }
