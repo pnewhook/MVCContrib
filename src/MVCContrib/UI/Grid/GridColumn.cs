@@ -237,7 +237,7 @@ namespace MvcContrib.UI.Grid
 				value = string.Format(_format, value);
 			}
 
-			if(_htmlEncode && value != null && !(value is MvcHtmlString))
+			if(_htmlEncode && value != null && !(value is IHtmlString))
 			{
 				value = HttpUtility.HtmlEncode(value.ToString());
 			}

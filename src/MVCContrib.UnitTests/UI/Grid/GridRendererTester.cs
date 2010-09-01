@@ -456,7 +456,6 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
-		//TODO: Change this to use IHtmlString when we take a dependency on .NET 4.
 		[Test] 
 		public void Should_not_automatically_encode_IHtmlString_instances()
 		{
@@ -485,7 +484,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 			viewContext.HttpContext = context;
 			context.Stub(x =>x.Response).Return(response);
 			context.Stub(x => x.Request).Return(request);
-			response.Stub(x => x.Output).Return(_writer);
+			response.Output = _writer;
 			request.Stub(x => x.ApplicationPath).Return("/");
 			request.Stub(x => x.QueryString).Return(_querystring);
 			response.Expect(x => x.ApplyAppPathModifier(Arg<string>.Is.Anything))
@@ -495,20 +494,6 @@ namespace MvcContrib.UnitTests.UI.Grid
 			renderer.Render(_model, dataSource, _writer, viewContext);
             
 			return _writer.ToString();
-		}
-
-		private void SetupViewEngine(string viewName, string viewContents)
-		{
-			SetupViewEngine(viewName, (v, w) => w.Write(viewContents));
-		}
-
-		private void SetupViewEngine(string viewName, Action<ViewContext, TextWriter> action)
-		{
-			var view = MockRepository.GenerateMock<IView>();
-			_viewEngine.Expect(x => x.FindPartialView(Arg<ControllerContext>.Is.Anything, Arg<string>.Is.Equal(viewName), Arg<bool>.Is.Anything)).Return(new ViewEngineResult(view, _viewEngine)).Repeat.Any();
-
-			view.Expect(x => x.Render(null, null)).IgnoreArguments()
-				.Do(action).Repeat.Any();
 		}
 
 		public static RenderingContext FakeRenderingContext() 
