@@ -90,7 +90,7 @@ namespace MvcContrib.UnitTests.ConventionController
 			var rescue = new RescueAttribute("TestRescue");
 			var context = new ExceptionContext(_controllerContext, _exception);
 
-			_controllerContext.HttpContext.Request.Headers["Ajax"] = "true";
+			_controllerContext.HttpContext.Request.Headers["X-Requested-With"] = "XMLHttpRequest";
 
 			rescue.OnException(context);
 
