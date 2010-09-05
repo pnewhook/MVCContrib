@@ -92,6 +92,16 @@ namespace T4MVCHostMvcApp.Controllers {
             public _default @default { get { return s_default; } }
             public partial class _default{
             }
+            static readonly _DisplayTemplates s_DisplayTemplates = new _DisplayTemplates();
+            public _DisplayTemplates DisplayTemplates { get { return s_DisplayTemplates; } }
+            public partial class _DisplayTemplates{
+                public readonly string SomeDisplayTemplate = "SomeDisplayTemplate";
+            }
+            static readonly _EditorTemplates s_EditorTemplates = new _EditorTemplates();
+            public _EditorTemplates EditorTemplates { get { return s_EditorTemplates; } }
+            public partial class _EditorTemplates{
+                public readonly string SomeEditorTemplate = "SomeEditorTemplate";
+            }
             static readonly _Sub_Home s_Sub_Home = new _Sub_Home();
             public _Sub_Home Sub_Home { get { return s_Sub_Home; } }
             public partial class _Sub_Home{

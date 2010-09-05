@@ -838,20 +838,25 @@ void ProcessAllViews(ProjectItem viewsProjectItem, AreaInfo area) {
 }
 
 void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder) {
+  AddViewsRecursive(items, viewsFolder, false);
+}
+void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder, bool useNonQualifiedViewNames) {
     // Go through all the files in the subfolder to get the view names
     foreach (ProjectItem item in items) {
         if (item.Kind == Constants.vsProjectItemKindPhysicalFile) {
             if (Path.GetExtension(item.Name).Equals(".master", StringComparison.OrdinalIgnoreCase))
-                continue;	// ignore master files
-            viewsFolder.AddView(item);
+                continue;   // ignore master files
+            viewsFolder.AddView(item, useNonQualifiedViewNames);
         }
         else if (item.Kind == Constants.vsProjectItemKindPhysicalFolder) {
             string folderName = Path.GetFileName(item.Name);
             if (folderName.Equals("App_LocalResources", StringComparison.OrdinalIgnoreCase))
                 continue;
+            // Use simple view names if we're already in that mode, or if the folder name is in the collection
+            bool folderShouldUseNonQualifiedViewNames = useNonQualifiedViewNames || NonQualifiedViewFolders.Contains(folderName, StringComparer.OrdinalIgnoreCase);
             var subViewFolder = new ViewsFolderInfo() { Name = folderName };
             viewsFolder.SubFolders.Add(subViewFolder);
-            AddViewsRecursive(item.ProjectItems, subViewFolder);
+            AddViewsRecursive(item.ProjectItems, subViewFolder, folderShouldUseNonQualifiedViewNames);
         }
     }
 }
@@ -1204,15 +1209,15 @@ class ViewsFolderInfo {
         SubFolders = new List<ViewsFolderInfo>();
     }
 
-    public void AddView(ProjectItem item) {
+    public void AddView(ProjectItem item, bool useNonQualifiedViewName) {
         string viewName = Path.GetFileName(item.Name);
         string viewFieldName = Path.GetFileNameWithoutExtension(viewName);
-
+ 
         // If the simple view name is already in use, include the extension (e.g. foo_ascx instead of just foo)
         if (Views.ContainsKey(viewFieldName))
             viewFieldName = Sanitize(viewName);
-
-        Views[viewFieldName] = GetVirtualPath(item);
+ 
+        Views[viewFieldName] = useNonQualifiedViewName ? Path.GetFileNameWithoutExtension(viewName) : GetVirtualPath(item);
     }
 
     public string Name { get; set; }

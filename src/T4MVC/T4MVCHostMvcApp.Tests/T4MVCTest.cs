@@ -192,6 +192,13 @@ namespace T4MVCHostMvcApp.Tests {
             Assert.AreEqual("~/Views/NoControllerMatchingFolder/Abcd.txt", MVC.NoControllerMatchingFolder.Views.Abcd);
         }
 
+        [TestMethod()]
+        public void TestTemplateFolders() {
+            Assert.AreEqual("SomeDisplayTemplate", MVC.Home.Views.DisplayTemplates.SomeDisplayTemplate);
+            Assert.AreEqual("SomeEditorTemplate", MVC.Home.Views.EditorTemplates.SomeEditorTemplate);
+            Assert.AreEqual("SomeAreaEditorTemplate", MVC.HomeArea.Home.Views.EditorTemplates.SomeAreaEditorTemplate);
+        }
+
 
 
         // ROUTE VALUES TESTS

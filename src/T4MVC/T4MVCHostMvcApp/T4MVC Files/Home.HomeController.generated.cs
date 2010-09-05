@@ -56,6 +56,11 @@ namespace T4MVCHostMvcApp.Areas.Home.Controllers {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ViewNames {
             public readonly string SomeHomeView = "~/Areas/Home/Views/Home/SomeHomeView.txt";
+            static readonly _EditorTemplates s_EditorTemplates = new _EditorTemplates();
+            public _EditorTemplates EditorTemplates { get { return s_EditorTemplates; } }
+            public partial class _EditorTemplates{
+                public readonly string SomeAreaEditorTemplate = "SomeAreaEditorTemplate";
+            }
         }
     }
 
