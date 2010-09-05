@@ -55,7 +55,7 @@ TODO:
 
 HISTORY:
 
-2.6.22 (09-??-2010):
+2.6.30 (09-05-2010):
 - Changed ExplicitHtmlHelpersForPartials flag to be off by default (and fix a small issue when it's off)
 - Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
 - Fixed issue when action method params are all optional (http://stackoverflow.com/questions/3488610/t4mvc-and-named-parameters)
