@@ -218,5 +218,12 @@ namespace MvcContrib.UnitTests.TestHelper
 			var controller = _builder.CreateController<TestHelperController>();
 			controller.Url.ShouldNotBeNull();
 		}
+
+		[Test]
+		public void Initializes_ServerVariables()
+		{
+			var controller = _builder.CreateController<TestHelperController>();
+			controller.Request.ServerVariables.ShouldNotBeNull();
+		}
 	}
 }
