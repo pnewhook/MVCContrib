@@ -1,6 +1,7 @@
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using MvcContrib.Castle;
 using NUnit.Framework;
@@ -25,7 +26,7 @@ namespace MvcContrib.UnitTests.Binders
 		{
 			IWindsorContainer container = new WindsorContainer();
 
-			container.AddComponent<IModelBinder, TestModelBinder>("testmodelbinder");
+			container.Register(Component.For<IModelBinder>().ImplementedBy<TestModelBinder>().Named("testmodelbinder"));
 
 			var binder = new WindsorModelBinder(container);
 
@@ -53,7 +54,7 @@ namespace MvcContrib.UnitTests.Binders
 		public void ShouldThrow_WhenComponentIsNotIModelBinder()
 		{
 			var container = new WindsorContainer();
-			container.AddComponent<object>("testmodelbinder");
+			container.Register(Component.For<object>().Named("testmodelbinder"));
 
 			var binder = new WindsorModelBinder(container);
 			binder.BindModel(new ControllerContext(),  _context);

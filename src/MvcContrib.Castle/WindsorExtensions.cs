@@ -22,7 +22,7 @@ namespace MvcContrib.Castle
 			{
 				if(ControllerExtensions.IsController(type))
 				{
-					container.AddComponentLifeStyle(type.FullName.ToLower(), type, LifestyleType.Transient);
+					container.Register(Component.For(type).Named(type.FullName.ToLower()).LifeStyle.Is(LifestyleType.Transient));
 				}
 			}
 

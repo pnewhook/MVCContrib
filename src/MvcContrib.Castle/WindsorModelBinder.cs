@@ -43,7 +43,7 @@ namespace MvcContrib.Castle
 			string componentName = bindingContext.ModelName.ToLower() + "modelbinder";
 
 			if (_container.Kernel.HasComponent(componentName)) {
-				var binderFromWindsor = _container.Resolve(componentName) as IModelBinder;
+				var binderFromWindsor = _container.Resolve<object>(componentName) as IModelBinder;
 
 				if (binderFromWindsor == null) {
 					throw new InvalidOperationException(string.Format("Expected component with key {0} to be an IModelBinder.", componentName));
