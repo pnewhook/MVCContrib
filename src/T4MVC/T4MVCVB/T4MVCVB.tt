@@ -11,7 +11,7 @@ I have marked changed sections with the following comments to try and ease futur
 
 ### END_VBNET_PORT_CHANGED ###
 
-T4MVC Version 2.6.21
+T4MVC Version 2.6.30
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
 
@@ -219,6 +219,8 @@ End Namespace
 			Return route
 		End Function
 
+<#if (MvcVersion >= 2) {#>
+
 		' Note: can't name the AreaRegistrationContext methods 'MapRoute', as that conflicts with the existing methods
 		<Extension()> _
 		Public Function MapRouteArea(ByVal context As AreaRegistrationContext, ByVal name As String, ByVal url As String, ByVal result As ActionResult) As Route
@@ -253,6 +255,8 @@ End Namespace
 			route.DataTokens("area") = context.AreaName
 			Return route
 		End Function
+
+<#} #>
 
 		Private Function CreateRoute(ByVal url As String, ByVal result As ActionResult, ByVal defaults As Object, ByVal constraints As Object, ByVal namespaces As String()) As Route
 			' Start by adding the default values from the anonymous object (if any)
@@ -563,7 +567,7 @@ End Namespace
     End Class
 'End Namespace
 
-<# if (ExplicitHtmlHelpersForPartials) {    
+<# if (ExplicitHtmlHelpersForPartials) {
         manager.StartNewFile("T4MVC.ExplicitExtensions.vb"); #>    
 
 'Namespace System.Web.Mvc        
@@ -592,9 +596,10 @@ End Namespace
        End Sub
    <# } #>     
    End Module
-<#    }    #>    
 ' End Namespace
 <#    manager.EndBlock(); #>   
+<#    }    #>   
+
 
 
 <#manager.StartFooter(); #>
@@ -956,20 +961,26 @@ void ProcessAllViews(ProjectItem viewsProjectItem, AreaInfo area) {
 }
 
 void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder) {
+  AddViewsRecursive(items, viewsFolder, false);
+}
+
+void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder, bool useNonQualifiedViewNames) {
     // Go through all the files in the subfolder to get the view names
     foreach (ProjectItem item in items) {
         if (item.Kind == Constants.vsProjectItemKindPhysicalFile) {
             if (Path.GetExtension(item.Name).Equals(".master", StringComparison.OrdinalIgnoreCase))
-                continue;	// ignore master files
-            viewsFolder.AddView(item);
+                continue;   // ignore master files
+            viewsFolder.AddView(item, useNonQualifiedViewNames);
         }
         else if (item.Kind == Constants.vsProjectItemKindPhysicalFolder) {
             string folderName = Path.GetFileName(item.Name);
             if (folderName.Equals("App_LocalResources", StringComparison.OrdinalIgnoreCase))
                 continue;
+            // Use simple view names if we're already in that mode, or if the folder name is in the collection
+            bool folderShouldUseNonQualifiedViewNames = useNonQualifiedViewNames || NonQualifiedViewFolders.Contains(folderName, StringComparer.OrdinalIgnoreCase);
             var subViewFolder = new ViewsFolderInfo() { Name = folderName };
             viewsFolder.SubFolders.Add(subViewFolder);
-            AddViewsRecursive(item.ProjectItems, subViewFolder);
+            AddViewsRecursive(item.ProjectItems, subViewFolder, folderShouldUseNonQualifiedViewNames);
         }
     }
 }
@@ -1294,7 +1305,7 @@ class ControllerInfo {
 
     IEnumerable<ActionMethodInfo> ActionMethodsWithNoParameters {
         get {
-            return ActionMethods.Where(m => m.Parameters.Count == 0);
+            return ActionMethods.Where(m => m.CanBeCalledWithoutParameters);
         }
     }
 
@@ -1343,15 +1354,15 @@ class ViewsFolderInfo {
         SubFolders = new List<ViewsFolderInfo>();
     }
 
-    public void AddView(ProjectItem item) {
+    public void AddView(ProjectItem item, bool useNonQualifiedViewName) {
         string viewName = Path.GetFileName(item.Name);
         string viewFieldName = Path.GetFileNameWithoutExtension(viewName);
-
+ 
         // If the simple view name is already in use, include the extension (e.g. foo_ascx instead of just foo)
         if (Views.ContainsKey(viewFieldName))
             viewFieldName = Sanitize(viewName);
-
-        Views[viewFieldName] = GetVirtualPath(item);
+ 
+        Views[viewFieldName] = useNonQualifiedViewName ? Path.GetFileNameWithoutExtension(viewName) : GetVirtualPath(item);
     }
 
     public string Name { get; set; }
@@ -1376,8 +1387,15 @@ class FunctionInfo {
         // Build a unique signature for the method, used to avoid duplication
         _signature = method.Name;
 
+        CanBeCalledWithoutParameters = true;
+
         // Process all the parameters
         foreach (var p in method.Parameters.OfType<CodeParameter2>()) {
+            // If any param is not optional, then the method can't be called without parameters
+            if (p.ParameterKind != vsCMParameterKind.vsCMParameterKindOptional) {
+                CanBeCalledWithoutParameters = false;
+            }
+
             string routeNameExpression = "\"" + p.Name + "\"";
 
             // If there is a [Bind(Prefix = "someName")] attribute, use it
@@ -1405,6 +1423,8 @@ class FunctionInfo {
     public string ReturnTypeFullName { get { return _method.Type.CodeType.FullName; } }
     public bool IsPublic { get { return _method.Access == vsCMAccess.vsCMAccessPublic; } }
     public List<MethodParamInfo> Parameters { get; private set; }
+    public bool CanBeCalledWithoutParameters { get; private set; }
+
 
     // Write out all the parameters as part of a method declaration
     public void WriteFormalParameters(bool first) {
