@@ -27,6 +27,9 @@ namespace T4MVC {
         public ViewNames Views { get { return s_views; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ViewNames {
+            public readonly string AnotherPartial = "~/Views/Shared/AnotherPartial.ascx";
+            public readonly string DuplicateControl = "~/Views/Shared/DuplicateControl.ascx";
+            public readonly string DuplicateControl1 = "~/Views/Shared/DuplicateControl1.ascx";
             public readonly string Error = "~/Views/Shared/Error.aspx";
             public readonly string LogOnUserControl = "~/Views/Shared/LogOnUserControl.ascx";
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web;
 using MvcContrib.UnitTests.FluentHtml.CustomBehaviors;
@@ -184,8 +183,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.Title;
 			var behaviors = new List<IBehaviorMarker> { new CustomMaxLengthBehavior() };
-			var expectedLength = new MemberBehaviorHelper<RangeAttribute>()
-				.GetAttribute(expression.GetMemberExpression()).Maximum;
+			var expectedLength = expression.GetMemberExpression().GetAttribute<RangeAttribute>().Maximum;
 
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 
@@ -215,6 +213,41 @@ namespace MvcContrib.UnitTests.FluentHtml
 
 			var element = html.ShouldHaveHtmlNode("Id");
 			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("req");
+		}
+
+		[Test]
+		public void text_box_for_member_with_required_attribute_adds_metadata_to_class_using_custom_behavior()
+		{
+			Expression<Func<FakeModel, object>> expression = x => x.Id;
+			var behaviors = new List<IBehaviorMarker> { new CustomRequiredInMetadataBehavior(0), new AppyJsonMetadataToCssBehavior(1) };
+
+			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+
+			var element = html.ShouldHaveHtmlNode("Id");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true}");
+		}
+
+		[Test]
+		public void text_box_for_member_with_required_attribute_and_additional_css_classes_adds_metadata_to_class_using_custom_behavior()
+		{
+			Expression<Func<FakeModel, object>> expression = x => x.Id;
+			var behaviors = new List<IBehaviorMarker> { new CustomRequiredInMetadataBehavior(0), new AppyJsonMetadataToCssBehavior(1) };
+
+			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).Class("MyOtherClass").ToString();
+
+			var element = html.ShouldHaveHtmlNode("Id");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true}");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("MyOtherClass");
+		}
+
+		[Test]
+		public void text_box_for_member_with_multiple_attributes_populates_metadata_in_css_class_from_custom_behaviors()
+		{
+			Expression<Func<FakeModel, object>> expression = x => x.MultiAttributedProperty;
+			var behaviors = new List<IBehaviorMarker> { new AppyJsonMetadataToCssBehavior(1), new CustomRequiredInMetadataBehavior(0), new CustomMaxLengthInMetadataBehavior(0) };
+			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+			var element = html.ShouldHaveHtmlNode("MultiAttributedProperty");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true,'maximum':50,'minimum':0}");
 		}
 
 		[Test]

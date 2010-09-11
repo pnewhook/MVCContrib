@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Web.Mvc;
+using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Elements;
+using System.Collections.Generic;
 
 namespace MvcContrib.FluentHtml
 {
@@ -16,7 +18,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static TextBox TextBox(this IViewDataContainer view, string name)
 		{
-			return new TextBox(name).Value(view.ViewData.Eval(name));
+			return new TextBox(name, null, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -26,7 +28,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static Password Password(this IViewDataContainer view, string name)
 		{
-			return new Password(name).Value(view.ViewData.Eval(name));
+			return new Password(name, null, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -36,7 +38,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static Select Select(this IViewDataContainer view, string name)
 		{
-			return new Select(name).Selected(view.ViewData.Eval(name));
+			return new Select(name, null, view.GetBehaviors()).Selected(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -47,7 +49,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static MultiSelect MultiSelect(this IViewDataContainer view, string name)
 		{
-			return new MultiSelect(name).Selected(view.ViewData.Eval(name)as IEnumerable);
+			return new MultiSelect(name, null, view.GetBehaviors()).Selected(view.ViewData.Eval(name) as IEnumerable);
 		}
 
 		/// <summary>
@@ -57,7 +59,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static Hidden Hidden(this IViewDataContainer view, string name)
 		{
-			return new Hidden(name).Value(view.ViewData.Eval(name));
+			return new Hidden(name, null, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -67,7 +69,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static TextArea TextArea(this IViewDataContainer view, string name)
 		{
-			return new TextArea(name).Value(view.ViewData.Eval(name));
+			return new TextArea(name, null, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -78,7 +80,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static CheckBox CheckBox(this IViewDataContainer view, string name)
 		{
-			var checkbox = new CheckBox(name).Value(true);
+			var checkbox = new CheckBox(name, null, view.GetBehaviors()).Value(true);
 			var chkd = view.ViewData.Eval(name) as bool?;
 			if (chkd.HasValue)
 			{
@@ -95,7 +97,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static CheckBoxList CheckBoxList(this IViewDataContainer view, string name)
 		{
-			return new CheckBoxList(name).Selected(view.ViewData.Eval(name) as IEnumerable);
+			return new CheckBoxList(name, null, view.GetBehaviors()).Selected(view.ViewData.Eval(name) as IEnumerable);
 		}
 
 		/// <summary>
@@ -105,28 +107,28 @@ namespace MvcContrib.FluentHtml
 		/// <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
 		public static SubmitButton SubmitButton(this IViewDataContainer view, string text)
 		{
-			return new SubmitButton(text);
+			return new SubmitButton(text, view.GetBehaviors());
 		}
 
-        /// <summary>
-        /// Generate an HTML input element of type 'button.'
-        /// </summary>
-        /// <param name="view">The view.</param>
-        /// <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
-        public static Button Button(this IViewDataContainer view, string text)
-        {
-            return new Button(text);
-        }
+		/// <summary>
+		/// Generate an HTML input element of type 'button.'
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
+		public static Button Button(this IViewDataContainer view, string text)
+		{
+			return new Button(text, view.GetBehaviors());
+		}
 
-        /// <summary>
-        /// Generate an HTML input element of type 'reset.'
-        /// </summary>
-        /// <param name="view">The view.</param>
-        /// <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
-        public static ResetButton ResetButton(this IViewDataContainer view, string text)
-        {
-            return new ResetButton(text);
-        }
+		/// <summary>
+		/// Generate an HTML input element of type 'reset.'
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
+		public static ResetButton ResetButton(this IViewDataContainer view, string text)
+		{
+			return new ResetButton(text, view.GetBehaviors());
+		}
 
 		/// <summary>
 		/// Generate an HTML label element;
@@ -135,29 +137,29 @@ namespace MvcContrib.FluentHtml
 		/// <param name="forName">The id of the target element to point to in the 'for' attribute.</param>
 		public static Label Label(this IViewDataContainer view, string forName)
 		{
-			return new Label(forName).Value(view.ViewData.Eval(forName));
+			return new Label(forName, null, view.GetBehaviors()).Value(view.ViewData.Eval(forName));
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Generate an HTML span element.
 		/// </summary>
 		/// <param name="view">The view.</param>
 		/// <param name="value">The inner text.</param>
 		public static Literal Literal(this IViewDataContainer view, object value)
 		{
-            return view.Literal("", value);
+			return view.Literal("", value);
 		}
 
-        /// <summary>
-        /// Generate an HTML span element.
-        /// </summary>
-        /// <param name="view">The view.</param>
-        /// <param name="name">The name of the element.</param>
-        /// <param name="value">The inner text.</param>
-        public static Literal Literal(this IViewDataContainer view, string name, object value)
-        {
-            return new Literal(name).Value(value);
-        }
+		/// <summary>
+		/// Generate an HTML span element.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="name">The name of the element.</param>
+		/// <param name="value">The inner text.</param>
+		public static Literal Literal(this IViewDataContainer view, string name, object value)
+		{
+			return new Literal(name, null, view.GetBehaviors()).Value(value);
+		}
 
 		/// <summary>
 		/// Generate an HTML span element and an HTML input element of type 'hidden' and set the inner text
@@ -167,7 +169,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static FormLiteral FormLiteral(this IViewDataContainer view, string name)
 		{
-			return new FormLiteral(name).Value(view.ViewData.Eval(name));
+			return new FormLiteral(name, null, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -177,7 +179,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
 		public static FileUpload FileUpload(this IViewDataContainer view, string name)
 		{
-			return new FileUpload(name).Value(view.ViewData.Eval(name));
+			return new FileUpload(name, view.GetBehaviors()).Value(view.ViewData.Eval(name));
 		}
 
 		/// <summary>
@@ -187,7 +189,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the of the input elements.  Also used to derive the 'id' attributes.</param>
 		public static RadioButton RadioButton(this IViewDataContainer view, string name)
 		{
-			return new RadioButton(name);
+			return new RadioButton(name, null, view.GetBehaviors());
 		}
 
 		/// <summary>
@@ -198,7 +200,15 @@ namespace MvcContrib.FluentHtml
 		/// <param name="name">Value of the 'name' attribute of the of the input elements.  Also used to derive the 'id' attributes.</param>
 		public static RadioSet RadioSet(this IViewDataContainer view, string name)
 		{
-			return new RadioSet(name).Selected(view.ViewData.Eval(name));
+			return new RadioSet(name, null, view.GetBehaviors()).Selected(view.ViewData.Eval(name));
+		}
+
+		public static IEnumerable<IBehaviorMarker> GetBehaviors(this IViewDataContainer view)
+		{
+			var behaviorsContainer = view as IBehaviorsContainer;
+			return behaviorsContainer == null
+				? null
+				: behaviorsContainer.Behaviors;
 		}
 	}
 }

@@ -47,6 +47,9 @@
     <Reference Include="System.Web.Abstractions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
@@ -71,6 +74,9 @@
     <Compile Include="Behaviors\AutoLabelSettings.cs" />
     <Compile Include="Behaviors\CacheingBehaviorApplier.cs" />
     <Compile Include="Behaviors\BehaviorMarkerExtensions.cs" />
+    <Compile Include="Behaviors\BehaviorHelperExtensions.cs" />
+    <Compile Include="Behaviors\RequiredCssClassBehavior.cs" />
+    <Compile Include="Behaviors\ThreadSafeBehavior.cs" />
     <Compile Include="Behaviors\ThreadSafeDictionary.cs" />
     <Compile Include="Behaviors\GenericTypeSpec.cs" />
     <Compile Include="Behaviors\IBehavior.cs" />
@@ -80,8 +86,10 @@
     <Compile Include="Behaviors\ISupportsMaxLength.cs" />
     <Compile Include="Behaviors\ISupportsModelState.cs" />
     <Compile Include="Behaviors\MemberBehaviorHelper.cs" />
+    <Compile Include="Behaviors\ThreadSafeMemberBehavior.cs" />
     <Compile Include="Behaviors\ValidationBehavior.cs" />
     <Compile Include="Behaviors\IMemberBehavior.cs" />
+    <Compile Include="Behaviors\TypeCssClassBehavior.cs" />
     <Compile Include="Elements\Button.cs" />
     <Compile Include="Elements\ButtonBase.cs" />
     <Compile Include="Elements\Checkbox.cs" />

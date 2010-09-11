@@ -21,6 +21,7 @@ namespace MvcContrib.FluentHtml.Elements
 		protected readonly TagBuilder builder;
 		protected MemberExpression forMember;
 		protected IEnumerable<IBehaviorMarker> behaviors;
+		protected readonly IDictionary<object, object> metadata = new Dictionary<object, object>();
 
 		protected Element(string tag, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors) : this(tag)
 		{
@@ -182,7 +183,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 		public override string ToString()
 		{
-		    ApplyBehaviors();
+			ApplyBehaviors();
 			PreRender();
 			var html = RenderLabel(((IElement)this).LabelBeforeText);
 			html += builder.ToString(((IElement)this).TagRenderMode);
@@ -221,6 +222,11 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode; }
 		}
 
+		IDictionary<object, object> IElement.Metadata
+		{
+			get { return metadata; }
+		}
+
 		void IElement.SetAutoLabel()
 		{
 			if (ShouldAutoLabel())
@@ -241,12 +247,17 @@ namespace MvcContrib.FluentHtml.Elements
 			}
 		}
 
-		#endregion
-
 		MemberExpression IMemberElement.ForMember
 		{
 			get { return forMember; }
 		}
+
+		void IElement.AddClass(string classToAdd)
+		{
+			builder.AddCssClass(classToAdd);
+		}
+
+		#endregion
 
 		protected virtual TagRenderMode TagRenderMode
 		{
@@ -344,10 +355,14 @@ namespace MvcContrib.FluentHtml.Elements
 
 		protected void ApplyBehaviors()
 		{
-            if (behaviors != null)
-            {
-                behaviors.ApplyTo(this);
-            }
+			if (behaviors == null)
+			{
+				return;
+			}
+			var unorderedBehaviors = behaviors.Where(x => (x is IOrderedBehavior) == false);
+			unorderedBehaviors.ApplyTo(this);
+			var orderedBehaviors = behaviors.Where(x => x is IOrderedBehavior).OrderBy(x => ((IOrderedBehavior)x).Order);
+			orderedBehaviors.ApplyTo(this);
 		}
 
 		protected virtual void PreRender() { }

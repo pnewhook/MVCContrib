@@ -16,6 +16,7 @@ namespace MvcContrib.FluentHtml.Elements
 	{
 		protected Option _firstOption;
 		protected bool _hideFirstOption;
+		protected Action<Option, object, int> _optionModifier;
 
 		protected SelectBase(string name) : base(HtmlTag.Select, name) {}
 
@@ -85,10 +86,16 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		protected override void PreRender()
+		/// <summary>
+		/// An action performed after each Option element has been created.  This is useful to
+		/// modify the element before is rendered.
+		/// </summary>
+		/// <param name="action">The action to perform. The parameters to the action are the Option element, 
+		/// the option item, and the position of the option.</param>
+		public virtual T EachOption(Action<Option, object, int> action)
 		{
-			builder.InnerHtml = RenderOptions();
-			base.PreRender();
+			_optionModifier = action;
+			return (T)this;
 		}
 
 		protected override TagRenderMode TagRenderMode
@@ -96,23 +103,32 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode.Normal; }
 		}
 
-		private string RenderOptions()
+		protected override string RenderOptions()
 		{
-			if(_options == null)
-			{
-				return null;
-			}
-
 			var sb = new StringBuilder();
+
+			var i = 0;
 
 			if(_firstOption != null && _hideFirstOption == false)
 			{
-				sb.Append(GetFirstOption());
+				var option = GetFirstOption();
+				if (_optionModifier != null)
+				{
+					_optionModifier(option, _firstOption, i);
+				}
+				sb.Append(option);
+				i++;
 			}
 
-			foreach(var options in _options)
+			foreach(var opt in _options)
 			{
-				sb.Append(GetOption(options));
+				var option = GetOption(opt);
+				if (_optionModifier != null)
+				{
+					_optionModifier(option, opt, i);
+				}
+				sb.Append(option);
+				i++;
 			}
 
 			return sb.ToString();

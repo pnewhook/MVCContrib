@@ -5,6 +5,7 @@ using MvcContrib.FluentHtml.Elements;
 
 namespace MvcContrib.FluentHtml.Behaviors
 {
+	[Obsolete("Use Member Element extensions instead.")]
 	public class MemberBehaviorHelper<T> where T : Attribute
 	{
 		public T GetAttribute(IMemberElement element)

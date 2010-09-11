@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MvcContrib.FluentHtml.Elements
@@ -52,6 +53,11 @@ namespace MvcContrib.FluentHtml.Elements
 		string LabelClass { get; set; }
 
 		/// <summary>
+		/// Additional JSON metadata that should be added to the element's CSS Class attribute.
+		/// </summary>
+		IDictionary<object, object> Metadata { get; }
+
+		/// <summary>
 		/// If no label before has been explicitly set, set the label before using the element name.
 		/// </summary>
 		void SetAutoLabel();
@@ -60,5 +66,10 @@ namespace MvcContrib.FluentHtml.Elements
 		/// If no label after has been explicitly set, set the label after using the element name.
 		/// </summary>
 		void SetAutoLabelAfter();
+
+		/// <summary>
+		/// Adds the value to the CSS class attribute.
+		/// </summary>
+		void AddClass(string value);
 	}
 }

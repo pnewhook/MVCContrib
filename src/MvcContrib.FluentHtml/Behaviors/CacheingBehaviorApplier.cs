@@ -8,8 +8,8 @@ namespace MvcContrib.FluentHtml.Behaviors
 {
 	public class CacheingBehaviorApplier
 	{
-		private static ThreadSafeDictionary<Type, TypeToBehaviorMap> cachedTypeToBehaviorMap = new ThreadSafeDictionary<Type, TypeToBehaviorMap>();
-		private static ThreadSafeDictionary<Type, Action<IBehaviorMarker, object>> cachedBehaviorExecuteActions = new ThreadSafeDictionary<Type, Action<IBehaviorMarker, object>>();
+		private static readonly ThreadSafeDictionary<Type, TypeToBehaviorMap> cachedTypeToBehaviorMap = new ThreadSafeDictionary<Type, TypeToBehaviorMap>();
+		private static readonly ThreadSafeDictionary<Type, Action<IBehaviorMarker, object>> cachedBehaviorExecuteActions = new ThreadSafeDictionary<Type, Action<IBehaviorMarker, object>>();
 		
 		public static void Apply<T>(IBehaviorMarker behavior, T target) where T : IElement
 		{
@@ -26,16 +26,21 @@ namespace MvcContrib.FluentHtml.Behaviors
 			return mapping.GetOrAdd(targetType, () => CreateExecuteActions(behaviorType, targetType));
 		}
 
-		private static Action<IBehaviorMarker, object>[] CreateExecuteActions(Type behaviorType, Type targetType) 
+		private static IEnumerable<Action<IBehaviorMarker, object>> CreateExecuteActions(Type behaviorType, Type targetType) 
 		{
-			var genericTypeSpec = new GenericTypeSpec
+			var behaviorTypeSpec = new GenericTypeSpec
 			{
 				OpenGenericType = typeof(IBehavior<>),
 				GenericParameterType = targetType
 			};
+			var orderedBehaviorTypeSpec = new GenericTypeSpec
+			{
+				OpenGenericType = typeof(IOrderedBehavior<>),
+				GenericParameterType = targetType
+			};
 			// Convert to an array for performace reasons
 			return behaviorType.GetInterfaces()
-				.Where(genericTypeSpec.Matcher)
+				.Where(x => behaviorTypeSpec.Matcher(x) || orderedBehaviorTypeSpec.Matcher(x))
 				.Select(BehaviorActionSelector(behaviorType))
 				.ToArray();
 		}

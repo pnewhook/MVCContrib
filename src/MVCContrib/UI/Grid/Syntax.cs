@@ -71,6 +71,11 @@ namespace MvcContrib.UI.Grid.Syntax
 		IGridWithOptions<T> Sort(GridSortOptions sortOptions);
 
 		/// <summary>
+		/// Specifies that the grid is sorted. Column links will have the specified prefix prepended.
+		/// </summary>
+		IGridWithOptions<T> Sort(GridSortOptions sortOptions, string prefix); 
+
+		/// <summary>
 		/// Renders the grid to the TextWriter specified at creation
 		/// </summary>
 		/// <returns></returns>

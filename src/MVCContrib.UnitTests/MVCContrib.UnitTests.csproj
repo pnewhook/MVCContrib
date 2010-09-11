@@ -180,8 +180,12 @@
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
     <Compile Include="FluentHtml\CheckboxTests.cs" />
+    <Compile Include="FluentHtml\TypeCssClassBehaviorTests.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\AppyJsonMetadataToCssBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthInMetadataBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredHtmlBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredInMetadataBehavior.cs" />
     <Compile Include="FluentHtml\Fakes\FakeChildModel.cs" />
     <Compile Include="FluentHtml\Fakes\FakeEnum.cs" />
     <Compile Include="FluentHtml\Fakes\FakeModel.cs" />
@@ -199,6 +203,7 @@
     <Compile Include="FluentHtml\PartialNameConventionServiceTests.cs" />
     <Compile Include="FluentHtml\RadioButtonTests.cs" />
     <Compile Include="FluentHtml\RadioSetTests.cs" />
+    <Compile Include="FluentHtml\RequiredCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
     <Compile Include="FluentHtml\TypeStampTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />
@@ -211,6 +216,7 @@
     <Compile Include="FluentHtml\SubmitButtonTests.cs" />
     <Compile Include="FluentHtml\TextAreaTests.cs" />
     <Compile Include="FluentHtml\TextboxTests.cs" />
+    <Compile Include="FluentHtml\ViewDataContainerExtensionBehaviorTests.cs" />
     <Compile Include="FluentHtml\ViewDataContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerTestBase.cs" />

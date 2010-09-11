@@ -42,5 +42,9 @@ namespace MvcContrib.UnitTests.FluentHtml.Fakes
 		public string Password { get; set; }
 
         public FakeEnum Selection { get; set; }
+
+        [Required]
+        [Range(0, 50)]
+        public string MultiAttributedProperty { get; set; }
 	}
 }

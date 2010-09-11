@@ -5,7 +5,7 @@ using MvcContrib.FluentHtml.Html;
 
 namespace MvcContrib.FluentHtml.Behaviors
 {
-	public class ValidationBehavior : IBehavior<IElement>
+	public class ValidationBehavior : ThreadSafeBehavior
 	{
 		private const string defaultValidationCssClass = "input-validation-error";
 		private readonly Func<ModelStateDictionary> modelStateDictionaryFunc;
@@ -20,7 +20,7 @@ namespace MvcContrib.FluentHtml.Behaviors
 			this.validationErrorCssClass = validationErrorCssClass;
 		}
 
-		public void Execute(IElement element)
+		protected override void DoExecute(IElement element)
 		{
 			var name = element.GetAttr(HtmlAttribute.Name);
 			var supportsModelState = element as ISupportsModelState;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
@@ -14,6 +15,7 @@ namespace MvcContrib.FluentHtml.Elements
 	{
 		protected string _format;
 		protected string _itemClass;
+		protected Action<RadioButton, object, int> _optionModifier;
 
 		protected RadioSetBase(string tag, string name, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors)
 			: base(tag, name, forMember, behaviors) { }
@@ -51,10 +53,16 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		protected override void PreRender()
+		/// <summary>
+		/// An action performed after each RadioButton element has been created.  This is useful to
+		/// modify the element before is rendered.
+		/// </summary>
+		/// <param name="action">The action to perform. The parameters to the action are the RadioButton element, 
+		/// the option, and the position of the option.</param>
+		public virtual T EachOption(Action<RadioButton, object, int> action)
 		{
-			builder.InnerHtml = RenderBody();
-			base.PreRender();
+			_optionModifier = action;
+			return (T)this;
 		}
 
 		protected override TagRenderMode TagRenderMode
@@ -62,16 +70,12 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode.Normal; }
 		}
 
-		private string RenderBody()
+		protected override string RenderOptions()
 		{
-			if (_options == null)
-			{
-				return null;
-			}
-
 			var name = builder.Attributes[HtmlAttribute.Name];
 			builder.Attributes.Remove(HtmlAttribute.Name);
 			var sb = new StringBuilder();
+			var i = 0;
 			foreach (var option in _options)
 			{
 				var value = _valueFieldSelector(option);
@@ -84,7 +88,12 @@ namespace MvcContrib.FluentHtml.Elements
 				{
 					radioButton.Class(_itemClass);
 				}
+				if (_optionModifier != null)
+				{
+					_optionModifier(radioButton, option, i);
+				}
 				sb.Append(radioButton);
+				i++;
 			}
 			return sb.ToString();
 		}
