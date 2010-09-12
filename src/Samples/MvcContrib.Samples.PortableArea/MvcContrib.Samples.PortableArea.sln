@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginPortableArea", "LoginPortableArea\LoginPortableArea.csproj", "{2122C3E9-A51A-415E-AE38-E454BFBD3ACE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "PortableAreaSpike\Sample.csproj", "{53B33CE0-CE16-4C55-A01E-A65DAB29E693}"

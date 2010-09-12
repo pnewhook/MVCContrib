@@ -68,6 +68,7 @@ namespace MvcContrib.TestHelper
 			request.ReturnFor(r => r.QueryString, QueryString);
 			request.ReturnFor(r => r.Form, Form);
 			request.ReturnFor(r => r.Files, (HttpFileCollectionBase)Files);
+			request.ReturnFor(r => r.ServerVariables, new NameValueCollection());
 			request.CallbackFor(r => r.AcceptTypes, () => AcceptTypes);
 			request.CallbackFor(r => r.Params, () => new NameValueCollection { QueryString, Form });
 			request.CallbackFor(r => r.AppRelativeCurrentExecutionFilePath, () => AppRelativeCurrentExecutionFilePath);

@@ -55,7 +55,13 @@ TODO:
 
 HISTORY:
 
-2.6.20 (05-??-2010):
+2.6.22 (07-31-2010):
+- Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
+
+2.6.21 (07-20-2010):
+- Fix to the partial extension feature added in 2.6.20 to deal with conflicts
+
+2.6.20 (07-19-2010):
 - Added extension methods to render partial views (see http://www.weirdlover.com/2010/05/12/t4mvc-extension-for-mvc-partials/)
     e.g. Html.RenderPartial("Map", Model.Dinner); --> Html.RenderMap(Model.Dinner);
     Can be turned off in settings file via ExplicitHtmlHelpersForPartials flag.

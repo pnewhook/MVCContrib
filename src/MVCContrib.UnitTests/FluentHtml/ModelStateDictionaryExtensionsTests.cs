@@ -36,7 +36,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 
 			modelState.AddModelError<FakeViewModel>(x => x.SubModel.Age, "error message");
 
-			modelState["SubModel_Age"].Errors[0].ErrorMessage.ShouldEqual("error message");
+			modelState["SubModel.Age"].Errors[0].ErrorMessage.ShouldEqual("error message");
 		}
 
 		[Test]
@@ -58,7 +58,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 
 			modelState.AddModelError<FakeViewModel>(x => x.SubModel.Age, argumentException);
 
-			modelState["SubModel_Age"].Errors[0].Exception.ShouldEqual(argumentException);
+			modelState["SubModel.Age"].Errors[0].Exception.ShouldEqual(argumentException);
 		}
 	}
 }

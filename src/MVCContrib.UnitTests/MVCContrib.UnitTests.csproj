@@ -216,6 +216,7 @@
     <Compile Include="FluentHtml\SubmitButtonTests.cs" />
     <Compile Include="FluentHtml\TextAreaTests.cs" />
     <Compile Include="FluentHtml\TextboxTests.cs" />
+    <Compile Include="FluentHtml\ViewDataContainerExtensionBehaviorTests.cs" />
     <Compile Include="FluentHtml\ViewDataContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerExtensionsTests.cs" />
     <Compile Include="FluentHtml\ViewModelContainerTestBase.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="PortableAreas\EmbeddedResourceControllerTester.cs" />
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistrationTester.cs" />
+    <Compile Include="PortableAreas\PortableAreaContentTester.cs" />
     <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="Routing\RouteAttributeUtilityTester.cs" />

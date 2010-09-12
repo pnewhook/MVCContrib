@@ -63,9 +63,26 @@ namespace MvcContrib.UnitTests.FluentHtml
 			element.ShouldHaveChildNodesCount(1)[0].ShouldBeNamed(HtmlTag.Div);
 		}
 
+		[Test]
+		public void can_modify_each_checkbox_element_using_the_option_data_item()
+		{
+			var items = new List<FakeModel> 
+			{ 
+				new FakeModel { Price = 1, Title = "One" },
+				new FakeModel { Price = 2, Title = "Two", Done = true },
+			};
+			const string name = "foo";
+			var html = new CheckBoxList(name).Options(items, x => x.Price, x => x.Title)
+				.EachOption((cb, opt, i) => cb.Disabled(((FakeModel)opt).Done)).ToString();
+			var element = html.ShouldHaveHtmlNode(name);
+
+			GetCheckBox(element, name, 0).ShouldNotHaveAttribute("disabled");
+			GetCheckBox(element, name, 1).ShouldHaveAttribute("disabled");
+		}
+
 		private void VerifyItem(string name, object value, object text, HtmlNode element, int index, bool @checked)
 		{
-			var input = element.ShouldHaveChildNode(string.Format("{0}_{1}", name.FormatAsHtmlId(), index));
+			var input = GetCheckBox(element, name, index);
 			input.ShouldBeNamed(HtmlTag.Input);
 			input.ShouldHaveAttribute(HtmlAttribute.Type).WithValue(HtmlInputType.Checkbox);
 			input.ShouldHaveAttribute(HtmlAttribute.Name).WithValue(name);
@@ -82,6 +99,11 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var label = element.ShouldHaveChildNode(string.Format("{0}_{1}_Label", name.FormatAsHtmlId(), index));
 			label.ShouldBeNamed(HtmlTag.Label);
 			label.ShouldHaveInnerTextEqual(text.ToString());
+		}
+
+		private HtmlNode GetCheckBox(HtmlNode element, string name, int index) 
+		{
+			return element.ShouldHaveChildNode(string.Format("{0}_{1}", name.FormatAsHtmlId(), index));
 		}
 	}
 }

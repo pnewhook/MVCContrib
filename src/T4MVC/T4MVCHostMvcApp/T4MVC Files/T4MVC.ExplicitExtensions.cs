@@ -26,6 +26,76 @@ namespace System.Web.Mvc {
     public static class HtmlHelpersForExplicitPartials {
     		 
         ///<summary>
+        ///Render the <b>DuplicateControl</b> partial.
+        ///</summary>
+        public static void RenderDuplicateControl(this HtmlHelper html) {
+            html.RenderPartial("~/Views/Home/DuplicateControl.ascx");
+        }
+        
+        ///<summary>
+        ///Render the <b>DuplicateControl</b> partial.
+        ///</summary>		
+        public static void RenderDuplicateControl(this HtmlHelper html, object model) {
+            html.RenderPartial("~/Views/Home/DuplicateControl.ascx", model);
+        }
+    		 
+        ///<summary>
+        ///Render the <b>DuplicateControl1</b> partial.
+        ///</summary>
+        public static void RenderDuplicateControl1(this HtmlHelper html) {
+            html.RenderPartial("~/Views/NoControllerMatchingFolder/DuplicateControl.ascx");
+        }
+        
+        ///<summary>
+        ///Render the <b>DuplicateControl1</b> partial.
+        ///</summary>		
+        public static void RenderDuplicateControl1(this HtmlHelper html, object model) {
+            html.RenderPartial("~/Views/NoControllerMatchingFolder/DuplicateControl.ascx", model);
+        }
+    		 
+        ///<summary>
+        ///Render the <b>AnotherPartial</b> partial.
+        ///</summary>
+        public static void RenderAnotherPartial(this HtmlHelper html) {
+            html.RenderPartial("~/Views/Shared/AnotherPartial.ascx");
+        }
+        
+        ///<summary>
+        ///Render the <b>AnotherPartial</b> partial.
+        ///</summary>		
+        public static void RenderAnotherPartial(this HtmlHelper html, object model) {
+            html.RenderPartial("~/Views/Shared/AnotherPartial.ascx", model);
+        }
+    		 
+        ///<summary>
+        ///Render the <b>DuplicateControl2</b> partial.
+        ///</summary>
+        public static void RenderDuplicateControl2(this HtmlHelper html) {
+            html.RenderPartial("~/Views/Shared/DuplicateControl.ascx");
+        }
+        
+        ///<summary>
+        ///Render the <b>DuplicateControl2</b> partial.
+        ///</summary>		
+        public static void RenderDuplicateControl2(this HtmlHelper html, object model) {
+            html.RenderPartial("~/Views/Shared/DuplicateControl.ascx", model);
+        }
+    		 
+        ///<summary>
+        ///Render the <b>DuplicateControl11</b> partial.
+        ///</summary>
+        public static void RenderDuplicateControl11(this HtmlHelper html) {
+            html.RenderPartial("~/Views/Shared/DuplicateControl1.ascx");
+        }
+        
+        ///<summary>
+        ///Render the <b>DuplicateControl11</b> partial.
+        ///</summary>		
+        public static void RenderDuplicateControl11(this HtmlHelper html, object model) {
+            html.RenderPartial("~/Views/Shared/DuplicateControl1.ascx", model);
+        }
+    		 
+        ///<summary>
         ///Render the <b>LogOnUserControl</b> partial.
         ///</summary>
         public static void RenderLogOnUserControl(this HtmlHelper html) {

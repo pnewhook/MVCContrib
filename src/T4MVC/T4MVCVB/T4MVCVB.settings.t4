@@ -73,7 +73,8 @@ readonly string[] StaticFilesFolders = new string[] {
 
 // Static files to exclude from the generated links   
 readonly string[] ExcludedStaticFileExtensions = new string[] {   
-    ".cs"  
+    ".cs",
+    ".vb"  
 };  
 
 // If true, the template marks itself as unsaved as part of its execution.
@@ -81,6 +82,16 @@ readonly string[] ExcludedStaticFileExtensions = new string[] {
 // Basically, it keeps marking itself as unsaved to make the next build work.
 // Note: this is certainly hacky, but is the best I could come up with so far.
 static bool AlwaysKeepTemplateDirty = false;
+
+//---------------------------------------------------------------------------
+//    Explicit HtmlHelpers
+//---------------------------------------------------------------------------
+//create explicit HtmlHelpers for rendering partials
+const bool ExplicitHtmlHelpersForPartials = true;
+const string ExplicitHtmlHelpersForPartialsFormat = "Render{0}";
+
+
+
 
 // If true,the template output will be split into multiple files.
 static bool SplitIntoMultipleFiles = true;
