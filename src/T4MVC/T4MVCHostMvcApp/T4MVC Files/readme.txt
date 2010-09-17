@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.31 (09-17-2010):
+- Improve error message when T4MVC generated files are out of date.
+
 2.6.30 (09-05-2010):
 - Changed ExplicitHtmlHelpersForPartials flag to be off by default (and fix a small issue when it's off)
 - Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
