@@ -2,6 +2,7 @@
 using System.Linq;
 using MvcContrib.PortableAreas;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace MvcContrib
 {
@@ -57,16 +58,31 @@ namespace MvcContrib
 
 		private static IEnumerable<Type> FindAllMessageHandlers()
 		{
-			var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes());
+			IEnumerable<Type> allTypes = Type.EmptyTypes;
 
-			var types = allTypes.Where(type => IsValidType(type));
+			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				Type[] types;
+				try
+				{
+					types = assembly.GetTypes();
+				}
+				catch (ReflectionTypeLoadException exception)
+				{
+					types = exception.Types;
+				}
 
-			return types;
+				allTypes = allTypes.Concat(types);
+			}
+
+			var handlerTypes = allTypes.Where(type => IsValidType(type));
+
+			return handlerTypes;
 		}
 
 		public static bool IsValidType(Type type)
 		{
-			if (type.IsInterface || type.IsAbstract || type.IsNestedPrivate)
+			if (type == null || type.IsInterface || type.IsAbstract || type.IsNestedPrivate)
 				return false;
 
 			bool isIMessageHandler = type.GetInterface(typeof(IMessageHandler).Name) != null;

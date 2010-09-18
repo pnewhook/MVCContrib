@@ -1,17 +1,26 @@
-function DownloadFiles {
-    remove-item "MVCContrib.Extras.release.zip"
-    remove-item "MVCContrib.release.zip"
-    remove-item "MVCContrib.source.zip"
-    $extrasUrl  = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.Extras.release.zip"
-    $releaseUrl = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.release.zip"
-    $sourceUrl  = "http://build1.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.source.zip"
+$dir = resolve-path .\
 
+function DownloadFiles {
+    remove-item "MVCContrib.Extras.release.zip" -ErrorAction:SilentlyContinue
+    remove-item "MVCContrib.release.zip"  -ErrorAction:SilentlyContinue
+    remove-item "MVCContrib.source.zip"  -ErrorAction:SilentlyContinue
+    remove-item "MVCContrib.dll"  -ErrorAction:SilentlyContinue
+    
+    $extrasUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.Extras.release.zip"
+    $releaseUrl = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.release.zip"
+    $sourceUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.source.zip"
+    $verDll =  "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/Mvc"
     $clnt = new-object System.Net.WebClient
 
-    $clnt.DownloadFile($extrasUrl,"MVCContrib.Extras.release.zip")
-    $clnt.DownloadFile($releaseUrl,"MVCContrib.release.zip")
-    $clnt.DownloadFile($sourceUrl,"MVCContrib.source.zip")
+    $clnt.DownloadFile($extrasUrl,"$($dir)\MVCContrib.Extras.release.zip")
+    $clnt.DownloadFile($releaseUrl, "$($dir)\MVCContrib.release.zip")
+    $clnt.DownloadFile($sourceUrl, "$($dir)\MVCContrib.source.zip")
+    $clnt.DownloadFile($verDll, "$($dir)\MVCContrib.dll")
+    
 }
 
-DownloadFiles 
-& "..\bin\codeplex\createrelease.exe" "2.0.35.0"
+#DownloadFiles 
+
+$ver = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$($dir)\MvcContrib.dll").FileVersion
+
+& "..\bin\codeplex\createrelease.exe" $ver 
