@@ -10,7 +10,7 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder
 {
-	public class ArrayPropertyConvention : DefaultProperyConvention,IRequireViewModelFactory
+	public class ArrayPropertyConvention : DefaultPropertyConvention,IRequireViewModelFactory
 	{
 		public const string HIDE_ADD_BUTTON = "hideaddbutton";
 		public const string HIDE_DELETE_BUTTON = "hidedeletebutton";

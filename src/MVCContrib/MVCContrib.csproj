@@ -238,7 +238,7 @@
     <Compile Include="UI\InputBuilder\Conventions\Property\ArrayPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\DateTimePropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\DefaultNameConvention.cs" />
-    <Compile Include="UI\InputBuilder\Conventions\Property\DefaultProperyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\DefaultPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\EnumPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\GuidPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\IPropertyViewModelNameConvention.cs" />

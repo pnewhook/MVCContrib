@@ -11,7 +11,7 @@ namespace MvcContrib.UI.InputBuilder
 			Add(new GuidPropertyConvention());
 			Add(new EnumPropertyConvention());
 			Add(new DateTimePropertyConvention());
-			Add(new DefaultProperyConvention());
+			Add(new DefaultPropertyConvention());
 		}
 	}
 }

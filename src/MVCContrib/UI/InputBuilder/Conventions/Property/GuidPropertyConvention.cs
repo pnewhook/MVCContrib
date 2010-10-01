@@ -4,7 +4,7 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.Conventions
 {
-	public class GuidPropertyConvention : DefaultProperyConvention, IPropertyViewModelFactory
+	public class GuidPropertyConvention : DefaultPropertyConvention, IPropertyViewModelFactory
 	{
 		public override bool CanHandle(PropertyInfo propertyInfo)
 		{
