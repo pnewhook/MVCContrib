@@ -4,7 +4,7 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.Conventions
 {
-	public class DateTimePropertyConvention : DefaultProperyConvention
+	public class DateTimePropertyConvention : DefaultPropertyConvention
 	{
 		public override bool CanHandle(PropertyInfo propertyInfo)
 		{

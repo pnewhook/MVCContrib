@@ -9,7 +9,7 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.Conventions
 {
-	public class DefaultProperyConvention : IPropertyViewModelFactory
+	public class DefaultPropertyConvention : IPropertyViewModelFactory
 	{
 		public virtual bool CanHandle(PropertyInfo propertyInfo)
 		{

@@ -59,8 +59,6 @@ namespace MvcContrib.CommandProcessor.UnitTests
 
 	public class FakeLocator : IServiceLocator
 	{
-		private static int _count;
-
 		#region IServiceLocator Members
 
 		public object GetService(Type serviceType)

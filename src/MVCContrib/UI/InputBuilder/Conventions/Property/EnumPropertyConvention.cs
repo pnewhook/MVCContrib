@@ -8,7 +8,7 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.Conventions
 {
-	public class EnumPropertyConvention : DefaultProperyConvention
+	public class EnumPropertyConvention : DefaultPropertyConvention
 	{
 		public override bool CanHandle(PropertyInfo propertyInfo)
 		{
