@@ -92,7 +92,7 @@ namespace MvcContrib.Castle
 		{
 			rolledback = false;
 			
-			var manager = MvcServiceLocator.Current.GetInstance<ITransactionManager>();
+			var manager = DependencyResolver.Current.GetService<ITransactionManager>();
 			transaction = manager.CreateTransaction(TransactionMode, IsolationMode, Distributed);
 			if (transaction != null)
 			{
@@ -138,7 +138,7 @@ namespace MvcContrib.Castle
 			}
 			finally
 			{
-				var manager = MvcServiceLocator.Current.GetInstance<ITransactionManager>();
+				var manager = DependencyResolver.Current.GetService<ITransactionManager>();
 				manager.Dispose(transaction);
 				transaction = null;
 			}

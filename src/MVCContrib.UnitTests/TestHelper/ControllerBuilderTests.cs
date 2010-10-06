@@ -161,10 +161,10 @@ namespace MvcContrib.UnitTests.TestHelper
 			var mocks = new MockRepository();
 			using(mocks.Record())
 			{
-				var resolver = mocks.DynamicMock<IServiceLocator>();
-				Expect.Call(resolver.GetInstance < TestHelperWithArgsController>()).Return(
+				var resolver = mocks.DynamicMock<IDependencyResolver>();
+				Expect.Call(resolver.GetService(typeof(TestHelperWithArgsController))).Return(
 					new TestHelperWithArgsController(new TestService()));
-				MvcServiceLocator.SetCurrent(resolver);
+				DependencyResolver.SetResolver(resolver);
 			}
 			using(mocks.Playback())
 			{

@@ -13,6 +13,7 @@ using MvcContrib.Castle;
 using MvcContrib.Services;
 using NUnit.Framework;
 using Rhino.Mocks;
+using IDependencyResolver = Castle.MicroKernel.IDependencyResolver;
 
 namespace MvcContrib.UnitTests.Filters
 {
@@ -26,9 +27,9 @@ namespace MvcContrib.UnitTests.Filters
 		public void SetUp()
 		{
 			var container = new WindsorContainer();
-			MvcServiceLocator.SetCurrent(new WindsorServiceLocator(container));
+			DependencyResolver.SetResolver(new WindsorDependencyResolver(container));
 			container.Register(Component.For<ITransactionManager>().ImplementedBy<TestITransactionManager>().Named("transaction.manager"));
-			manager = MvcServiceLocator.Current.GetInstance<ITransactionManager>();
+			manager = DependencyResolver.Current.GetService<ITransactionManager>();
             attribute = new MvcTransactionAttribute();
 		}
 
@@ -326,47 +327,23 @@ namespace MvcContrib.UnitTests.Filters
 			#endregion
 		}
 	
-		private class WindsorServiceLocator:IServiceLocator
+		private class WindsorDependencyResolver : System.Web.Mvc.IDependencyResolver
 		{
 			IWindsorContainer _container;
-			public WindsorServiceLocator(IWindsorContainer container)
+			public WindsorDependencyResolver(IWindsorContainer container)
 			{
 				_container = container;
 			}
 
+
 			public object GetService(Type serviceType)
 			{
-				return null;
+				return _container.Resolve(serviceType);
 			}
 
-			public IEnumerable<TService> GetAllInstances<TService>()
+			public IEnumerable<object> GetServices(Type serviceType)
 			{
 				yield break;
-			}
-
-			public IEnumerable<object> GetAllInstances(Type serviceType)
-			{
-				yield break;
-			}
-
-			public TService GetInstance<TService>()
-			{
-				return _container.Resolve<TService>();
-			}
-
-			public TService GetInstance<TService>(string key)
-			{
-				return default(TService);
-			}
-
-			public object GetInstance(Type serviceType)
-			{
-				return null;
-			}
-
-			public object GetInstance(Type serviceType, string key)
-			{
-				return null;
 			}
 		}
 	}

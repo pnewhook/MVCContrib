@@ -188,7 +188,7 @@ namespace MvcContrib.TestHelper
 		/// <returns>A new controller of the specified type</returns>
 		public T CreateIoCController<T>() where T : Controller
 		{
-			var controller = MvcServiceLocator.Current.GetInstance<T>();
+			var controller = DependencyResolver.Current.GetService<T>();
 			InitializeController(controller);
 			return controller;
 		}

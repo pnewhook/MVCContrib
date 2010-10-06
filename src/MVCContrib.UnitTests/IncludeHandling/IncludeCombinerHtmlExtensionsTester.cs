@@ -31,13 +31,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_html = WebTestUtility.BuildHtmlHelper(_mocks, _viewData, null);
 			_mocks.ReplayAll();
 			var resolver = new QnDDepResolver(_mockHttpContextProvider, _mockSettings, new Controller[] { });
-			MvcServiceLocator.SetCurrent(resolver);
-		}
-
-		[TearDown]
-		public void Teardown()
-		{
-			MvcServiceLocator.SetCurrent(null);
+			DependencyResolver.SetResolver(resolver);
 		}
 
 		[Test]
@@ -159,7 +153,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		}
 	}
 
-	public class QnDDepResolver : IServiceLocator
+	public class QnDDepResolver : IDependencyResolver
 	{
 		private readonly IDictionary<Type, object> types;
 
@@ -192,37 +186,12 @@ namespace MvcContrib.UnitTests.IncludeHandling
 
 		public object GetService(Type serviceType)
 		{
-			return null;
+			return types[serviceType];
 		}
 
-		public IEnumerable<TService> GetAllInstances<TService>()
+		public IEnumerable<object> GetServices(Type serviceType)
 		{
 			yield break;
-		}
-
-		public IEnumerable<object> GetAllInstances(Type serviceType)
-		{
-			yield break;
-		}
-
-		public TService GetInstance<TService>()
-		{
-			return (TService)types[typeof(TService)];
-		}
-
-		public TService GetInstance<TService>(string key)
-		{
-			return default(TService);
-		}
-
-		public object GetInstance(Type serviceType)
-		{
-			return null;
-		}
-
-		public object GetInstance(Type serviceType, string key)
-		{
-			return null;
 		}
 	}
 }
