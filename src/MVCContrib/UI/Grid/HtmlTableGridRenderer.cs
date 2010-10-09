@@ -87,7 +87,7 @@ namespace MvcContrib.UI.Grid
 				var routeValues = CreateRouteValuesForSortOptions(sortOptions, GridModel.SortPrefix);
 
 				//Re-add existing querystring
-				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys)
+				foreach(var key in Context.RequestContext.HttpContext.Request.QueryString.AllKeys.Where(key => key != null))
 				{
 					if(! routeValues.ContainsKey(key))
 					{

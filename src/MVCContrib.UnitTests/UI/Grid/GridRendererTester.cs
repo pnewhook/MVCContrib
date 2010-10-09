@@ -458,6 +458,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 		[Test]
+		public void Sorting_does_not_maintain_null_querystring_parameters()
+		{
+			_querystring[(string)null] = "foo";
+			ColumnFor(x => x.Name);
+			_model.Sort(new GridSortOptions());
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
 		public void Should_not_render_sort_links_for_columns_tha_are_not_sortable()
 		{
 			ColumnFor(x => x.Id);
