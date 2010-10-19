@@ -69,9 +69,9 @@ namespace MvcContrib.FluentHtml.Elements
 
 		public virtual T Options<TValue>(IEnumerable<TValue> value)
 		{
-    			return typeof(TValue).IsEnum 
-                		? Options(value.ToDictionary(x => Convert.ToInt32(x).ToString(), x => x.ToString()))
-                		: Options(value.ToDictionary(x => x, x => x));
+				return typeof(TValue).IsEnum 
+						? Options(value.ToDictionary(x => Convert.ToInt32(x).ToString(), x => x.ToString()))
+						: Options(value.ToDictionary(x => x, x => x));
 		}
 
 		public virtual T Options<TDataSource>(IEnumerable<TDataSource> values, Func<TDataSource, object> valueFieldSelector, Func<TDataSource, object> textFieldSelector)

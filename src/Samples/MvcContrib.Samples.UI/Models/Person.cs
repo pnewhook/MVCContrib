@@ -14,6 +14,7 @@ namespace MvcContrib.Samples.UI.Models
 		public Parent Mother { get; set; }
 		public Parent Father { get; set; }
 		public Guid? EmployerId { get; set; }
-		public Color FavoriteColor { get; set; }
+		public IList<Color> FavoriteColors { get; set; }
+		public string Shift { get; set; }
 	}
 }

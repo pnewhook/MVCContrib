@@ -90,13 +90,13 @@ namespace MvcContrib.UnitTests.FluentHtml
 				.ShouldHaveAttribute(HtmlAttribute.Cols).WithValue("44");
 		}
 
-        [Test]
-        public void textarea_value_html_encodes_inner_text()
-        {
-            var value = "<div>Foo</div>";
-            new TextArea("x").Value(value).ToString()
-                .ShouldHaveHtmlNode("x")
-                .ShouldHaveInnerTextEqual(HttpUtility.HtmlEncode(value));
-        }
+		[Test]
+		public void textarea_value_html_encodes_inner_text()
+		{
+			var value = "<div>Foo</div>";
+			new TextArea("x").Value(value).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveInnerTextEqual(HttpUtility.HtmlEncode(value));
+		}
 	}
 }
