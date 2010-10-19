@@ -97,14 +97,14 @@ namespace MvcContrib.UnitTests.FluentHtml
 				.ShouldHaveInnerTextEqual("Foo Bar");
 		}
 
-        [Test]
-        public void auto_label_renders_if_the_element_has_some_other_behaviors_but_not_auto_label_settings()
-        {
-            new TextBox("Foo[0].Bar[1]", null, new[] { new CustomMaxLengthBehavior() })
-                .AutoLabel().ToString().ShouldRenderHtmlDocument().ChildNodes[0]
-                .ShouldBeNamed(HtmlTag.Label)
-                .ShouldHaveInnerTextEqual("Bar");
-        }
+		[Test]
+		public void auto_label_renders_if_the_element_has_some_other_behaviors_but_not_auto_label_settings()
+		{
+			new TextBox("Foo[0].Bar[1]", null, new[] { new CustomMaxLengthBehavior() })
+				.AutoLabel().ToString().ShouldRenderHtmlDocument().ChildNodes[0]
+				.ShouldBeNamed(HtmlTag.Label)
+				.ShouldHaveInnerTextEqual("Bar");
+		}
 
 		private bool IsTextBox(IElement element)
 		{

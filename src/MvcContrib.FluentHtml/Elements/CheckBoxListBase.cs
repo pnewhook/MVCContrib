@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
@@ -79,7 +80,10 @@ namespace MvcContrib.FluentHtml.Elements
 			foreach (var option in _options)
 			{
 				var value = _valueFieldSelector(option);
-				var checkbox = (new CheckBox(name, forMember, behaviors)
+				var behaviorsToPassDown = behaviors == null 
+					? null : 
+					behaviors.Where(x => (x is ValidationBehavior) == false);
+				var checkbox = (new CheckBox(name, forMember, behaviorsToPassDown)
 					.Id(string.Format("{0}_{1}", name.FormatAsHtmlId(), i))
 					.Value(value))
 					.LabelAfter(_textFieldSelector(option).ToString(), _itemClass)
@@ -98,6 +102,11 @@ namespace MvcContrib.FluentHtml.Elements
 				i++;
 			}
 			return sb.ToString();
+		}
+
+		protected override void ApplyModelState(ModelState state)
+		{
+			Selected((string[])state.Value.ConvertTo(typeof(string[])));
 		}
 	}
 }

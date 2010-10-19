@@ -11,7 +11,7 @@ namespace MvcContrib.FluentHtml.Elements
 	/// <summary>
 	/// base class for an HTML textarea element.
 	/// </summary>
-	public abstract class TextAreaBase<T> : FormElement<T>, ISupportsModelState where T : TextAreaBase<T>
+	public abstract class TextAreaBase<T> : FormElement<T> where T : TextAreaBase<T>
 	{
 		protected string format;
 		protected object rawValue;
@@ -96,12 +96,7 @@ namespace MvcContrib.FluentHtml.Elements
 			get { return TagRenderMode.Normal; }
 		}
 
-		void ISupportsModelState.ApplyModelState(ModelState state) 
-		{
-			ApplyModelState(state);
-		}
-
-		protected virtual void ApplyModelState(ModelState state) 
+		protected override void ApplyModelState(ModelState state) 
 		{
 			var value = state.Value.ConvertTo(typeof(string));
 			Value(value);

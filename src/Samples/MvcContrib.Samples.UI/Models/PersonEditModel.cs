@@ -9,5 +9,6 @@ namespace MvcContrib.Samples.UI.Models
 		public IDictionary<string, string> Genders;
 		public IEnumerable<Role> Roles;
 		public SelectList Companies;
+		public string[] Shifts;
 	}
 }

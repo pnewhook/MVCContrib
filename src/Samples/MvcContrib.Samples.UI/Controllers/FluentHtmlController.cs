@@ -14,11 +14,11 @@ namespace MvcContrib.Samples.UI.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post)]
-		public ViewResult Index(Person person)
+		public ActionResult Index(Person person)
 		{
 			if (!ModelState.IsValid)
 			{
-				return View(GetEditModel(person));
+			    return View(GetEditModel(person));
 			}
 			PersonService.SavePerson(person);
 			return View("ViewPerson", GetViewModel(person));
@@ -31,7 +31,8 @@ namespace MvcContrib.Samples.UI.Controllers
 				Person = person,
 				Genders = new Dictionary<string, string> { { "M", "Male" }, { "F", "Female" } },
 				Roles = new List<Role> { new Role(0, "Administrator"), new Role(1, "Developer"), new Role(2, "User") },
-				Companies = new SelectList(CompanyService.GetCompanies(), "Id", "Name")
+				Companies = new SelectList(CompanyService.GetCompanies(), "Id", "Name"),
+				Shifts = new [] { "Day", "Night", "Graveyard" }
 			};
 		}
 

@@ -47,38 +47,36 @@
 			...or enumerations:
 		</p>
 		
-		<%= this.Select(x => x.Person.FavoriteColor).Options<Color>().Label("Favorite Color:") %><br />
+		<%= this.MultiSelect(x => x.Person.FavoriteColors).Options<Color>().Label("Favorite Colors:") %><br /><br />
 		
-		<%= this.Select(x => x.Person.Gender).Options(Model.Genders).Size(5).Label("Gender:")
-				.Title("Select the person's gender") %><br />
+		<%= this.Select(x => x.Person.Gender).Options(Model.Genders).Size(2).Label("Gender:")
+			.Title("Select the person's gender") %><br />
 		
 		<p>
 			Checkbox/radio lists work in a similar way to dropdowns.  In this case it is populated from an Enumerable&lt;T&gt; where T is a complex type:
 		</p>	
 		
 		<%= this.CheckBoxList(x => x.Person.Roles).Options(Model.Roles, x => x.Id, x => x.Name).Label("Roles:")
-			   .ItemFormat("{0}<br />").Class("checkboxList").Title("Check all roles that apply to this person") %><br />
+			   .ItemFormat("{0}<br />").Class("checkboxList").Title("Check all roles that apply to this person") %><br /><br />
+		
+		<%= this.RadioSet(x => x.Person.Shift).Options(Model.Shifts).Class("radioSet").Label("Shift:") %><br />
 			   
 		<p>
 			FluentHtml supports server side validation.  Enter an invalid date and see what happens.
 		</p>  
-			   
+		
 		<%= this.TextBox(x => x.Person.DateOfBirth).Format("M/d/yy").Label("DOB:").Title("Enter the person's date of birth") %>
 		<%= this.ValidationMessage(x => x.Person.DateOfBirth, "Please enter a valid date") %><br />
-		<br />
 		
         <p>
 			FluentHtml lets you associate multiple instances of partial view with seperate model properties of the same type:
 		</p>  
 		
-		<% this.RenderPartial("EditParent", x => x.Person.Mother, new ViewDataDictionary { { "label", "Mother's Name:" } }); %><br />
-		<br />
-		
-		<% this.RenderPartial("EditParent", x => x.Person.Father, new ViewDataDictionary { { "label", "Father's Name:" } }); %><br />
+		<% this.RenderPartial("EditParent", x => x.Person.Mother, new ViewDataDictionary { { "label", "Mother's Name:" } }); %><br /><br />
 
-		<p>
-			<%=this.SubmitButton("Submit") %>
-		</p>
+		<% this.RenderPartial("EditParent", x => x.Person.Father, new ViewDataDictionary { { "label", "Father's Name:" } }); %><br /><br />
+		
+		<%=this.SubmitButton("Submit") %>
 	
 	</div>
 	

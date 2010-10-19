@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
@@ -79,7 +80,10 @@ namespace MvcContrib.FluentHtml.Elements
 			foreach (var option in _options)
 			{
 				var value = _valueFieldSelector(option);
-				var radioButton = (new RadioButton(name, forMember, behaviors)
+				var behaviorsToPassDown = behaviors == null
+					? null :
+					behaviors.Where(x => (x is ValidationBehavior) == false);
+				var radioButton = (new RadioButton(name, forMember, behaviorsToPassDown)
 					.Value(value)
 					.Format(_format))
 					.LabelAfter(_textFieldSelector(option).ToString(), _itemClass)
@@ -96,6 +100,11 @@ namespace MvcContrib.FluentHtml.Elements
 				i++;
 			}
 			return sb.ToString();
+		}
+
+		protected override void ApplyModelState(ModelState state)
+		{
+			Selected(state.Value.ConvertTo(typeof(string)));
 		}
 	}
 }

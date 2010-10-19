@@ -10,7 +10,7 @@ namespace MvcContrib.FluentHtml.Elements
 	/// Base class for input elements.
 	/// </summary>
 	/// <typeparam name="T">Derived class type.</typeparam>
-	public abstract class Input<T> : FormElement<T>, ISupportsModelState where T : Input<T>, IElement
+	public abstract class Input<T> : FormElement<T> where T : Input<T>, IElement
 	{
 		protected object elementValue;
 
@@ -51,12 +51,7 @@ namespace MvcContrib.FluentHtml.Elements
 			base.PreRender();
 		}
 
-		void ISupportsModelState.ApplyModelState(ModelState state)
-		{
-			ApplyModelState(state);
-		}
-
-		protected virtual void ApplyModelState(ModelState state)
+		protected override void ApplyModelState(ModelState state)
 		{
 			var value = state.Value.ConvertTo(typeof(string));
 			Value(value);

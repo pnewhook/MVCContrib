@@ -24,8 +24,9 @@
 		<% this.RenderPartial("ViewParent", x => x.Person.Mother, new ViewDataDictionary { { "label", "Mother's Name:" } }); %><br /><br />
 		<% this.RenderPartial("ViewParent", x => x.Person.Father, new ViewDataDictionary { { "label", "Father's Name:" } }); %><br/><br />
 		<%=this.Literal(x => x.EmployerName).Label("Employer:") %><br/><br />
-		<%=this.Literal(x => x.Person.FavoriteColor).Label("Favorite Color:") %><br/>
-	
+		<%=this.Literal(Model.Person.FavoriteColors == null ? null : string.Join(", ", Model.Person.FavoriteColors.Select(x => x.ToString()).ToArray())).Label("Favorite Colors:") %><br/><br />
+		<%=this.Literal(x => x.Person.Shift).Label("Shift:") %>
+			
 	</div>
 	
 </asp:Content>

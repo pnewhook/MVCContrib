@@ -276,12 +276,18 @@ div.fluentHtmlContainer br
 	clear: left; 
 }
 div.fluentHtmlContainer div.checkboxList label, 
-div.fluentHtmlContainer div.checkboxList input 
+div.fluentHtmlContainer div.checkboxList input,
+div.fluentHtmlContainer div.radioSet input,
+div.fluentHtmlContainer div.radioSet label
 { 
 	display: inline; 
 	float: none; 
 	font-weight: normal; 
 	vertical-align: middle; 
+}
+div.fluentHtmlContainer div.radioSet label
+{
+	margin-right:10px;
 }
 div.fluentHtmlContainer span.field-validation-error
 {

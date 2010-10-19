@@ -10,7 +10,7 @@ namespace MvcContrib.FluentHtml.Elements
 	/// Base class for form elements.
 	/// </summary>
 	/// <typeparam name="T">Derived type</typeparam>
-	public abstract class FormElement<T> : DisableableElement<T> where T : FormElement<T>, IElement
+	public abstract class FormElement<T> : DisableableElement<T>, ISupportsModelState where T : FormElement<T>, IElement
 	{
 		protected FormElement(string tag, string name, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors)
 			: base(tag, forMember, behaviors)
@@ -49,5 +49,12 @@ namespace MvcContrib.FluentHtml.Elements
 		{
 			((IElement)this).SetAttr(HtmlAttribute.Name, name);
 		}
+
+		void ISupportsModelState.ApplyModelState(ModelState state)
+		{
+			ApplyModelState(state);
+		}
+
+		protected abstract void ApplyModelState(ModelState state);
 	}
 }
