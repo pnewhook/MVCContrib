@@ -186,7 +186,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 
 		public object GetService(Type serviceType)
 		{
-			return types[serviceType];
+			return types.ContainsKey(serviceType) ? types[serviceType] : null;
 		}
 
 		public IEnumerable<object> GetServices(Type serviceType)
