@@ -36,7 +36,7 @@ namespace MvcContrib.UI.Pager
 		/// <returns>A Pager component</returns>
 		public static Pager Pager(this HtmlHelper helper, IPagination pagination)
 		{
-			return new Pager(pagination, helper.ViewContext.HttpContext.Request);
+			return new Pager(pagination, helper.ViewContext);
 		}
 	}
 }
