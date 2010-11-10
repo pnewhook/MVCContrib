@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using MvcContrib.Pagination;
 
 namespace MvcContrib.UI.Pager
@@ -12,7 +15,7 @@ namespace MvcContrib.UI.Pager
 	public class Pager : IHtmlString
 	{
 		private readonly IPagination _pagination;
-		private readonly HttpRequestBase _request;
+		private readonly ViewContext _viewContext;
 
 		private string _paginationFormat = "Showing {0} - {1} of {2} ";
 		private string _paginationSingleFormat = "Showing {0} of {1} ";
@@ -27,14 +30,20 @@ namespace MvcContrib.UI.Pager
 		/// Creates a new instance of the Pager class.
 		/// </summary>
 		/// <param name="pagination">The IPagination datasource</param>
-		/// <param name="request">The current HTTP Request</param>
-		public Pager(IPagination pagination, HttpRequestBase request)
+		/// <param name="context">The view context</param>
+		public Pager(IPagination pagination, ViewContext context)
 		{
 			_pagination = pagination;
-			_request = request;
+			_viewContext = context;
 
 			_urlBuilder = CreateDefaultUrl;
 		}
+
+		protected ViewContext ViewContext 
+		{
+			get { return _viewContext; }
+		}
+
 
 		/// <summary>
 		/// Specifies the query string parameter to use when generating pager links. The default is 'page'
@@ -44,7 +53,6 @@ namespace MvcContrib.UI.Pager
 			_pageQueryName = queryStringParam;
 			return this;
 		}
-
 		/// <summary>
 		/// Specifies the format to use when rendering a pagination containing a single page. 
 		/// The default is 'Showing {0} of {1}' (eg 'Showing 1 of 3')
@@ -224,37 +232,25 @@ namespace MvcContrib.UI.Pager
 
 		private string CreatePageLink(int pageNumber, string text)
 		{
-			const string link = "<a href=\"{0}\">{1}</a>";
-			return string.Format(link, _urlBuilder(pageNumber), text);
+			var builder = new TagBuilder("a");
+			builder.SetInnerText(text);
+			builder.MergeAttribute("href", _urlBuilder(pageNumber));
+			return builder.ToString(TagRenderMode.Normal);
 		}
 
 		private string CreateDefaultUrl(int pageNumber)
 		{
-			string queryString = CreateQueryString(_request.QueryString);
-			string filePath = _request.FilePath;
-			string url = string.Format("{0}?{1}={2}{3}", filePath, _pageQueryName, pageNumber, queryString);
-			return url;
-		}
+			var routeValues = new RouteValueDictionary();
 
-		private string CreateQueryString(NameValueCollection values)
-		{
-			var builder = new StringBuilder();
-
-			foreach(string key in values.Keys)
+			foreach (var key in _viewContext.RequestContext.HttpContext.Request.QueryString.AllKeys.Where(key => key != null))
 			{
-				if(key == _pageQueryName)
-					//Don't re-add any existing 'page' variable to the querystring - this will be handled in CreatePageLink.
-				{
-					continue;
-				}
-
-				foreach(var value in values.GetValues(key))
-				{
-					builder.AppendFormat("&amp;{0}={1}", key, HttpUtility.HtmlEncode(value));
-				}
+				routeValues[key] = _viewContext.RequestContext.HttpContext.Request.QueryString[key];
 			}
 
-			return builder.ToString();
+			routeValues[_pageQueryName] = pageNumber;
+
+			var url = UrlHelper.GenerateUrl(null, null, null, routeValues, RouteTable.Routes, _viewContext.RequestContext, true);
+			return url;
 		}
 	}
 }

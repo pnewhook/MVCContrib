@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using MvcContrib.Pagination;
 using MvcContrib.UI.Pager;
 using NUnit.Framework;
@@ -22,14 +24,20 @@ namespace MvcContrib.UnitTests.UI.Pager
 		{
 			_datasource = new List<object> {new object(), new object(), new object()};
 			_context = MvcMockHelpers.DynamicHttpContextBase();
-			_context.Request.Stub(x => x.FilePath).Return("Test.mvc");
+			RouteTable.Routes.MapRoute("default", "{controller}/{action}");
+		}
+
+		[TearDown]
+		public void Teardown()
+		{
+			RouteTable.Routes.Clear();
 		}
 
 		[Test]
 		public void Should_render_with_pagination_last_and_next()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?page=2\">next</a> | <a href=\"Test.mvc?page=2\">last</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"/Home/Index?page=2\">next</a> | <a href=\"/Home/Index?page=2\">last</a></span></div>";
 			RenderPager(1, 2).ToString().ShouldEqual(expected);
 		}
 
@@ -37,7 +45,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		public void Should_render_with_pagination_first_and_previous()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"Test.mvc?page=1\">first</a> | <a href=\"Test.mvc?page=1\">prev</a> | next | last</span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"/Home/Index?page=1\">first</a> | <a href=\"/Home/Index?page=1\">prev</a> | next | last</span></div>";
 			RenderPager(2, 2).ToString().ShouldEqual(expected);
 		}
 
@@ -46,7 +54,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		{
 			_context.Request.QueryString.Add("a", "b");
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"Test.mvc?page=1&amp;a=b\">first</a> | <a href=\"Test.mvc?page=1&amp;a=b\">prev</a> | next | last</span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"/Home/Index?a=b&amp;page=1\">first</a> | <a href=\"/Home/Index?a=b&amp;page=1\">prev</a> | next | last</span></div>";
 			RenderPager(2, 2).ToString().ShouldEqual(expected);
 		}
 
@@ -54,7 +62,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		public void Should_render_pagination_with_different_message_if_pagesize_is_1()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 1 of 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?page=2\">next</a> | <a href=\"Test.mvc?page=3\">last</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 1 of 3 </span><span class='paginationRight'>first | prev | <a href=\"/Home/Index?page=2\">next</a> | <a href=\"/Home/Index?page=3\">last</a></span></div>";
 			RenderPager(1, 1).ToString().ShouldEqual(expected);
 		}
 
@@ -78,7 +86,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		public void Should_render_localized_pagination()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Visar 1 - 2 av 3 </span><span class='paginationRight'>första | föregående | <a href=\"Test.mvc?page=2\">nästa</a> | <a href=\"Test.mvc?page=2\">sista</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Visar 1 - 2 av 3 </span><span class='paginationRight'>första | föregående | <a href=\"/Home/Index?page=2\">n&#228;sta</a> | <a href=\"/Home/Index?page=2\">sista</a></span></div>";
 			RenderPager(1, 2)
 				.Format("Visar {0} - {1} av {2} ")
 				.First("första")
@@ -93,7 +101,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		public void Should_render_localized_pagination_with_different_message_if_pagesize_is_1()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Visar 1 av 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?page=2\">next</a> | <a href=\"Test.mvc?page=3\">last</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Visar 1 av 3 </span><span class='paginationRight'>first | prev | <a href=\"/Home/Index?page=2\">next</a> | <a href=\"/Home/Index?page=3\">last</a></span></div>";
 			RenderPager(1, 1).SingleFormat("Visar {0} av {1} ").ToString().ShouldEqual(expected);
 		}
 
@@ -101,7 +109,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		public void Should_render_pagination_with_custom_page_name()
 		{
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?my_page=2\">next</a> | <a href=\"Test.mvc?my_page=2\">last</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"/Home/Index?my_page=2\">next</a> | <a href=\"/Home/Index?my_page=2\">last</a></span></div>";
 			RenderPager(1, 2).QueryParam("my_page").ToString().ShouldEqual(expected);
 		}
 
@@ -152,7 +160,7 @@ namespace MvcContrib.UnitTests.UI.Pager
 		{
 			_context.Request.QueryString.Add("foo", "<bar>");
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"Test.mvc?page=1&amp;foo=&lt;bar&gt;\">first</a> | <a href=\"Test.mvc?page=1&amp;foo=&lt;bar&gt;\">prev</a> | next | last</span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 3 - 3 of 3 </span><span class='paginationRight'><a href=\"/Home/Index?foo=%3Cbar%3E&amp;page=1\">first</a> | <a href=\"/Home/Index?foo=%3Cbar%3E&amp;page=1\">prev</a> | next | last</span></div>";
 			RenderPager(2, 2).ToString().ShouldEqual(expected);
 		}
 
@@ -169,13 +177,30 @@ namespace MvcContrib.UnitTests.UI.Pager
 		{
 			_context.Request.QueryString.Add("foo", "1");
 			string expected =
-				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?foo=2\">next</a> | <a href=\"Test.mvc?foo=2\">last</a></span></div>";
+				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"/Home/Index?foo=2\">next</a> | <a href=\"/Home/Index?foo=2\">last</a></span></div>";
 			RenderPager(1, 2).QueryParam("foo").ToString().ShouldEqual(expected);
 		}
 
 		private MvcContrib.UI.Pager.Pager RenderPager(int pageNumber, int pageSize)
 		{
-			return new MvcContrib.UI.Pager.Pager(_datasource.AsPagination(pageNumber, pageSize), _context.Request);
+			var viewContext = MockRepository.GenerateStub<ViewContext>();
+			viewContext.Writer = new StringWriter();
+			viewContext.View = MockRepository.GenerateStub<IView>();
+			viewContext.TempData = new TempDataDictionary();
+			viewContext.RouteData = new RouteData();
+			viewContext.RouteData.Values["controller"] = "Home";
+			viewContext.RouteData.Values["action"] = "Index";
+
+			viewContext.HttpContext = _context;
+			_context.Response.Stub(x => x.Output).Return(viewContext.Writer);
+			_context.Request.Stub(x => x.ApplicationPath).Return("/");
+			_context.Request.Stub(x => x.QueryString).Return(new NameValueCollection());
+			_context.Response.Expect(x => x.ApplyAppPathModifier(Arg<string>.Is.Anything))
+				.Do(new Func<string, string>(x => x))
+				.Repeat.Any();
+
+			//var ctx = new ViewContext(new ControllerContext(_context, new RouteData(), MockRepository.GenerateStub<Controller>()), MockRepository.GenerateStub<IView>(), new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
+			return new MvcContrib.UI.Pager.Pager(_datasource.AsPagination(pageNumber, pageSize), viewContext);
 		}
 	}
 
