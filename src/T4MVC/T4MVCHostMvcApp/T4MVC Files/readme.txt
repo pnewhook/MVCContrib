@@ -1,6 +1,6 @@
 ﻿T4MVC readme file
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
-Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
+Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
 david.ebbo@microsoft.com
@@ -58,6 +58,7 @@ HISTORY:
 2.6.31 (09-17-2010):
 - Improve error message when T4MVC generated files are out of date.
 - Changed some 'const bool' settings to 'static bool' to avoid unused code warnings.
+- Disabled regen optimization added in 2.6.14 since it doesn't catch view changes
 
 2.6.30 (09-05-2010):
 - Changed ExplicitHtmlHelpersForPartials flag to be off by default (and fix a small issue when it's off)

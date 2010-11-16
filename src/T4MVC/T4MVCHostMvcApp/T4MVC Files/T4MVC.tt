@@ -342,10 +342,11 @@ namespace <#=controller.Namespace #> {
 <#foreach (var controller in GetControllers()) { #>
 <#
     // Don't generate the file at all if the existing one is up to date
-    if (controller.GeneratedCodeIsUpToDate) {
-        manager.KeepGeneratedFile(controller.GeneratedFileName);
-        continue;
-    }
+    // NOTE: disable this optimization since it doesn't catch view changes! It can be re-enabled later if smarter change detection is added
+    //if (controller.GeneratedCodeIsUpToDate) {
+    //    manager.KeepGeneratedFile(controller.GeneratedFileName);
+    //    continue;
+    //}
 #>
 <#manager.StartNewFile(controller.GeneratedFileName); #>
 <#if (!String.IsNullOrEmpty(controller.Namespace)) { #>
