@@ -55,7 +55,7 @@ TODO:
 
 HISTORY:
 
-2.6.31 (09-17-2010):
+2.6.31 (11-15-2010):
 - Improve error message when T4MVC generated files are out of date.
 - Changed some 'const bool' settings to 'static bool' to avoid unused code warnings.
 - Disabled regen optimization added in 2.6.14 since it doesn't catch view changes
