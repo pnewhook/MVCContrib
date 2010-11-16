@@ -11,9 +11,9 @@ I have marked changed sections with the following comments to try and ease futur
 
 ### END_VBNET_PORT_CHANGED ###
 
-T4MVC Version 2.6.30
+T4MVC Version 2.6.31
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
-Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
+Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx) 
 
 T4MVC is part of the MvcContrib project (http://mvccontrib.codeplex.com)
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
@@ -442,10 +442,11 @@ End Namespace
 <#foreach (var controller in GetControllers()) { #>
 <#
     // Don't generate the file at all if the existing one is up to date
-    if (controller.GeneratedCodeIsUpToDate) {
-        manager.KeepGeneratedFile(controller.GeneratedFileName);
-        continue;
-    }
+	// NOTE: disable this optimization since it doesn't catch view changes! It can be re-enabled later if smarter change detection is added 	
+    //if (controller.GeneratedCodeIsUpToDate) {
+    //    manager.KeepGeneratedFile(controller.GeneratedFileName);
+    //    continue;
+    //}
 #>
 <#manager.StartNewFile(controller.GeneratedFileName); #>
 <#if (!String.IsNullOrEmpty(controller.Namespace)) { #>
@@ -626,7 +627,7 @@ static string T4Folder;
 static string GeneratedCode = @"GeneratedCode(""T4MVC"", ""2.0"")";
 static float MvcVersion;
 static string HtmlStringType;
-static Microsoft.CSharp.CSharpCodeProvider codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
+static Microsoft.VisualBasic.VBCodeProvider codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
 
 IEnumerable<ControllerInfo> GetControllers() {
     var controllers = new List<ControllerInfo>();
