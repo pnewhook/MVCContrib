@@ -1,10 +1,10 @@
 ﻿@using MvcContrib.UI.Grid;
 @using MvcContrib.Samples.UI.Models;
-@inherits System.Web.Mvc.WebViewPage<IEnumerable<Person>>
+@model IEnumerable<Person>
 
 @{
     View.Title = "Simple Grid Example";
-    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@View.Title</h2>

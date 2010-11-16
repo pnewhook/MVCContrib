@@ -1,10 +1,10 @@
 ﻿@using MvcContrib.Samples.UI.Models;
 @using MvcContrib.UI.Grid;
-@inherits System.Web.Mvc.WebViewPage<IEnumerable<Person>>
+@model IEnumerable<Person>
 
 @{
     View.Title = "Auto Generated Columns";
-    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@View.Title</h2>
@@ -17,6 +17,6 @@
 	Additional columns can be added by calling <strong>Columns()</strong> after the call to AutoGenerateColumns.
 </p>
 @Html.Grid(Model).AutoGenerateColumns().Columns(column => {
-    column.For(x => Html.Partial("ViewPersonPartial", x));
+    column.For(x => Html.Partial("_ViewPerson", x));
 })
 

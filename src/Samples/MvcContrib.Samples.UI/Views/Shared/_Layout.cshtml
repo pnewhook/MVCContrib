@@ -1,6 +1,5 @@
 ﻿@using MvcContrib.UI.MenuBuilder
 @using MvcContrib.Samples.UI.Navigation
-@inherits System.Web.Mvc.WebViewPage
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +14,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.positionBy.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.bgiframe.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jdMenu.js")"></script>
-	@RenderSection("Head", optional: true)
+	@RenderSection("Head", required: false)
 </head>
 
 <body>

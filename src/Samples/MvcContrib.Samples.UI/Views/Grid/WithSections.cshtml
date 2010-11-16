@@ -1,10 +1,10 @@
-﻿@inherits System.Web.Mvc.WebViewPage<IEnumerable<Person>>
+﻿@model IEnumerable<Person>
 @using MvcContrib.UI.Grid;
 @using MvcContrib.Samples.UI.Models;
 
 @{
     View.Title = "Grid with Custom Sections";
-    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
  <h2>Grid with Custom Sections Example</h2>

@@ -3,11 +3,11 @@
 @using MvcContrib.UI.Pager;
 @using MvcContrib.Pagination;
 
-@inherits System.Web.Mvc.WebViewPage<IPagination<Person>>
+@model IPagination<Person>
 
 @{
     View.Title = "Paged Grid";
-    LayoutPage = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
     <h2>@View.Title</h2>
