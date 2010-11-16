@@ -15,7 +15,7 @@ namespace T4MVCHostMvcApp.Tests {
         private static HtmlHelper Html { get; set; }
 
         // Change to true if testing 'UseLowercaseRoutes = true' mode (in T4MVC.settings.t4)
-        const bool UseLowerCaseNames = false;
+        static bool UseLowerCaseNames = false;
 
         /// <summary>
         ///Gets or sets the test context which provides
