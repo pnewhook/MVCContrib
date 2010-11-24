@@ -8,7 +8,6 @@ using MvcContrib.IncludeHandling.Configuration;
 using NUnit.Framework;
 using Yahoo.Yui.Compressor;
 
-
 namespace MvcContrib.UnitTests.IncludeHandling
 {
 	[TestFixture]
@@ -63,9 +62,9 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[Test]
 		public void CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete()
 		{
-			var section = readConfig("CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete");
+		    var section = (IIncludeHandlingSettings)ConfigurationManager.GetSection("includeHandling");
 
-			Assert.AreEqual("~/foo/{0}/{1}", section.Css.Path);
+			Assert.AreEqual("~/foo/{0}/{1}", section.Types[IncludeType.Css].Path);
 			Assert.AreEqual(new TimeSpan(10, 10, 10), section.Css.CacheFor);
 			var cssRCs = new List<ResponseCompression> { ResponseCompression.Gzip };
 			Assert.AreEqual(cssRCs[0], section.Css.CompressionOrder[0]);
