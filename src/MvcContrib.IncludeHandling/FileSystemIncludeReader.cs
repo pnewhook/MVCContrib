@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace MvcContrib.IncludeHandling
@@ -48,6 +49,12 @@ namespace MvcContrib.IncludeHandling
 
 			var content = File.ReadAllText(abs);
 			var lastModifiedAt = File.GetLastWriteTimeUtc(abs);
+
+            if (type == IncludeType.Css)
+            {
+                content = ReplaceCssUrls(source, content);
+            }
+
 			return new Include(type, source, content, lastModifiedAt);
 		}
 
@@ -63,5 +70,35 @@ namespace MvcContrib.IncludeHandling
 			// assume absolute path already
 			return source;
 		}
+
+        private const string UrlMatch = "url\\(\\s*[\\'\"]?(?![a-z]+:|/+)([^\\'\")]+)[\\'\"]?\\s*\\)";
+        private const string UrlContentMatch = @"(^|/)(?!\.\./)([^\/]+)/\.\./";
+
+        readonly Regex _regexUrl = new Regex(UrlMatch, RegexOptions.Multiline | RegexOptions.Compiled);
+        readonly Regex _regexContent = new Regex(UrlContentMatch, RegexOptions.Compiled);
+
+        internal string ReplaceCssUrls(string source, string content)
+        {
+            var relPath = VirtualPathUtility.GetDirectory(source);
+            var absPath = VirtualPathUtility.ToAbsolute(relPath, this._applicationRoot);
+
+            var newContent = _regexUrl.Replace(content, new MatchEvaluator(match =>
+            {
+                var g = match.Groups[1].Value;
+
+                var path = absPath + g;
+                var last = string.Empty;
+
+                while (path != last)
+                {
+                    last = path;
+                    path = _regexContent.Replace(path, "$1");
+                }
+
+                return "url('" + path + "')";
+            }));
+
+            return newContent;
+        }
 	}
 }

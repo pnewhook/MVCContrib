@@ -34,6 +34,36 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		{
 			_reader.Read(source, IncludeType.Css);
 		}
+
+        [Test]
+        public void ReplaceCss_WithAbsolutePath_DoesNothing()
+        {
+            var css = "body { background-image: url('/images/background.png'); }";
+
+            var result = ((FileSystemIncludeReader)_reader).ReplaceCssUrls("~/Content/Css/file.css", css);
+
+            Assert.That(result, Is.EqualTo(css));
+        }
+
+        [Test]
+        public void ReplaceCss_WithRelaviteDottedPathToRoot_ReplacesWithBase()
+        {
+            var css = "body { background-image: url('../../images/background.png'); }";
+
+            var result = ((FileSystemIncludeReader)_reader).ReplaceCssUrls("~/Content/Css/file.css", css);
+
+            Assert.That(result, Is.EqualTo("body { background-image: url('/images/background.png'); }"));
+        }
+
+        [Test]
+        public void ReplaceCss_WithRelaviteDottedPath_ReplacesWithBase()
+        {
+            var css = "body { background-image: url('../images/background.png'); }";
+
+            var result = ((FileSystemIncludeReader)_reader).ReplaceCssUrls("~/Content/Css/file.css", css);
+
+            Assert.That(result, Is.EqualTo("body { background-image: url('/Content/images/background.png'); }"));
+        }
 	}
 
 	public class FileSystemIncludeReaderIntegrationTester
