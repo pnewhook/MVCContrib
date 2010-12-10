@@ -134,6 +134,7 @@
     <Compile Include="Elements\RadioSetBase.cs" />
     <Compile Include="Elements\TypeStamp.cs" />
     <Compile Include="ModelStateDictionaryExtensions.cs" />
+    <Compile Include="ModelWebViewPage.cs" />
     <Compile Include="PartialNameConventionService.cs" />
     <Compile Include="PartialRenderer.cs" />
     <Compile Include="StringExtensions.cs" />
