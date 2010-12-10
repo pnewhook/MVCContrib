@@ -3,11 +3,11 @@
 @model IEnumerable<Person>
 
 @{
-    View.Title = "Auto Generated Columns";
+    ViewBag.Title = "Auto Generated Columns";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@View.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
 	When you call <strong>AutoGenerateColumns()</strong> on the grid, the columns will be inferred based on the public properties of the model object.

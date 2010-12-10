@@ -5,11 +5,11 @@
 
 @model IPagination<Person>
 @{
-    View.Title = "Sorting and Paging";
+    ViewBag.Title = "Sorting and Paging";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@View.Title</h2>
+<h2>@ViewBag.Title</h2>
 @section Head {
 	<style type="text/css">
 		.sort_desc 

@@ -6,11 +6,11 @@
 @model IPagination<Person>
 
 @{
-    View.Title = "Paged Grid";
+    ViewBag.Title = "Paged Grid";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h2>@View.Title</h2>
+    <h2>@ViewBag.Title</h2>
 	
 @Html.Grid(Model).Columns(column => {
      	column.For(x => x.Id).Named("Person ID");

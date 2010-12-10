@@ -2,7 +2,7 @@
 @using MvcContrib.Samples.UI.Models;
 @model IEnumerable<Person>
 @{
-    View.Title = "Grid Sorting";
+    ViewBag.Title = "Grid Sorting";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,7 +25,7 @@
 	</style>
 }
 
-<h2>@View.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 @Html.Grid(Model).Sort(ViewData["sort"] as GridSortOptions).Columns(column => {
      		column.For(x => x.Id).Named("Person ID");

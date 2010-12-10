@@ -3,10 +3,10 @@
 @model IEnumerable<Person>
 
 @{
-    View.Title = "Using Grid Model";
+    ViewBag.Title = "Using Grid Model";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@View.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 @Html.Grid(Model).WithModel(new PeopleGridModel())
