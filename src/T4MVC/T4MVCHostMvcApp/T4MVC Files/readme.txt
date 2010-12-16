@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.32 (12-15-2010):
+- Fix bug in controller name generation when IncludeAreasToken is true
+
 2.6.31 (11-15-2010):
 - Improve error message when T4MVC generated files are out of date.
 - Changed some 'const bool' settings to 'static bool' to avoid unused code warnings.

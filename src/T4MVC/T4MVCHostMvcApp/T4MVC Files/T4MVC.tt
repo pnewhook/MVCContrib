@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.31
+T4MVC Version 2.6.32
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -1090,8 +1090,12 @@ class ControllerInfo {
     public string T4MVCControllerFullName {
         get {
             string name = HelpersPrefix;
-            if (!String.IsNullOrEmpty(AreaName))
-                name += "." + EscapeID(Area.Namespace);
+            if (!String.IsNullOrEmpty(AreaName)) {
+                if (IncludeAreasToken)
+                    name += ".Areas." + EscapeID(Area.Namespace);
+                else
+                    name += "." + EscapeID(Area.Namespace);
+            }
             return name + "." + Name; ;
         }
     }
