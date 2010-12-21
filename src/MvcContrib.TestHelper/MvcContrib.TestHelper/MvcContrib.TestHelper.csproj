@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
+    <Compile Include="Extensions\TempDataTestExtensions.cs" />
     <Compile Include="MockFactories\FirstAvailableMockFactory.cs" />
     <Compile Include="MockFactories\IMockFactory.cs" />
     <Compile Include="MockFactories\IMockProxy.cs" />
