@@ -186,12 +186,6 @@
     <Compile Include="Services\EmailTemplateService.cs" />
     <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
-    <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />
-    <Compile Include="SimplyRestful\RestfulAction.cs" />
-    <Compile Include="SimplyRestful\RestfulActionResolver.cs" />
-    <Compile Include="SimplyRestful\RestfulGetAction.cs" />
-    <Compile Include="SimplyRestful\RestfulPostAction.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
     <Compile Include="Sorting\SortDirection.cs" />
     <Compile Include="Sorting\SortExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
@@ -366,9 +360,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
