@@ -17,7 +17,7 @@ using IDependencyResolver = Castle.MicroKernel.IDependencyResolver;
 
 namespace MvcContrib.UnitTests.Filters
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class MvcTransactionAttributeTester
 	{
 		private ITransactionManager manager;

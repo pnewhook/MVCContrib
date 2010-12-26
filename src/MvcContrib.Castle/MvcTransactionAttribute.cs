@@ -29,6 +29,7 @@ namespace MvcContrib.Castle
 	/// DependencyResolver.InitializeWith(new WindsorDependencyResolver(Container));
 	/// 
 	/// </summary>
+	[Obsolete]
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class MvcTransactionAttribute : ActionFilterAttribute
 	{

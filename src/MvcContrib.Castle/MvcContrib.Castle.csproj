@@ -92,7 +92,6 @@
     </Compile>
     <Compile Include="MvcTransactionAttribute.cs" />
     <Compile Include="WindsorExtensions.cs" />
-    <Compile Include="WindsorModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">

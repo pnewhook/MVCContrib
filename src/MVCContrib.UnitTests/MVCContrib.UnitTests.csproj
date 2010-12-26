@@ -152,7 +152,6 @@
     <Compile Include="CustomPaginationTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
-    <Compile Include="Binders\WindsorModelBinderTester.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
     <Compile Include="ConventionController\TestController.cs" />
