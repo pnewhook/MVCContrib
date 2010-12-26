@@ -28,6 +28,7 @@ namespace MvcContrib.UI.Grid
 		private bool _sortable = true;
 		private string _sortColumnName = null;
 		private int? _position;
+		private Func<object, object> _headerRenderer = x => null;
 
 		/// <summary>
 		/// Creates a new instance of the GridColumn class
@@ -113,11 +114,13 @@ namespace MvcContrib.UI.Grid
 		/// <summary>
 		/// Custom header renderer
 		/// </summary>
+		[Obsolete("CustomHeaderRenderer has been deprecated. Please use Header instead.")]
 		public Action<RenderingContext> CustomHeaderRenderer { get; set; }
 
 		/// <summary>
 		/// Custom item renderer
 		/// </summary>
+		[Obsolete("CustomItemRenderer has been deprecated. Please use a custom column instead.")]
 		public Action<RenderingContext, T> CustomItemRenderer { get; set; }
 
 		IGridColumn<T> IGridColumn<T>.InsertAt(int index)
@@ -186,6 +189,12 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
+		public IGridColumn<T> Header(Func<object, object> headerRenderer)
+		{
+			_headerRenderer = headerRenderer;
+			return this;
+		}
+
 		public IGridColumn<T> Encode(bool shouldEncode)
 		{
 			_htmlEncode = shouldEncode;
@@ -242,8 +251,13 @@ namespace MvcContrib.UI.Grid
 				value = HttpUtility.HtmlEncode(value.ToString());
 			}
 
-
 			return value;
+		}
+
+		public string GetHeader()
+		{
+			var header = _headerRenderer(null);
+			return header == null ? null : header.ToString();
 		}
 	}
 }

@@ -104,12 +104,12 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
-		[Test]
+		[Test, Obsolete]
 		public void Should_render_with_custom_Header()
 		{
-			ColumnFor(x => x.Name).Header("<td>TEST</td>");
+			ColumnFor(x => x.Name).Header("TEST");
 			ColumnFor(x => x.Id);
-			string expected = "<table class=\"grid\"><thead><tr><td>TEST</td><th>Id</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td><td>1</td></tr></tbody></table>";
+			string expected = "<table class=\"grid\"><thead><tr><th>TEST</th><th>Id</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td><td>1</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
@@ -271,7 +271,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		}
 
 
-		[Test]
+		[Test, Obsolete]
 		public void Custom_item_section()
 		{
 			ColumnFor(x => x.Name).Action(s => _writer.Write("<td>Test</td>"));
@@ -279,13 +279,29 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
-
 		[Test]
+		public void Custom_column()
+		{
+			_model.Column.Custom(x => "Test").Named("Name");
+			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Test</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test, Obsolete]
 		public void Should_render_with_custom_header_section()
 		{
 			ColumnFor(p => p.Name).HeaderAction(() => _writer.Write("<td>TEST</td>"));
 			ColumnFor(p => p.Id);
 			string expected = "<table class=\"grid\"><thead><tr><td>TEST</td><th>Id</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td><td>1</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Renders_custom_header()
+		{
+			ColumnFor(x => x.Name).Header(x => "TEST");
+			ColumnFor(p => p.Id);
+			string expected = "<table class=\"grid\"><thead><tr><th>TEST</th><th>Id</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td><td>1</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 

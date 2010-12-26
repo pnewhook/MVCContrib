@@ -153,10 +153,10 @@ namespace MvcContrib.UI.Grid
 		/// <param name="column">The current column</param>
 		/// <param name="header">The format to use.</param>
 		/// <returns></returns>
+		[Obsolete("Please use the overload of column.Header that accepts a razor template. Eg, column.For(x => x.Foo).Header(@<div>Custom markup here</div>)")]
 		public static IGridColumn<T> Header<T>(this IGridColumn<T> column, string header) where T : class 
 		{
-			column.CustomHeaderRenderer = c => c.Writer.Write(header);
-			return column;
+			return column.Header(x => header);
 		}
 
 		/// <summary>

@@ -75,6 +75,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// <param name="column">The current column</param>
 		/// <param name="action">The action to render</param>
 		/// <returns></returns>
+		[Obsolete("Action Syntax extensions have been deprecated. Please use column.Header with the Razor view engine instead of using HeaderAction.")]		
 		public static IGridColumn<T> HeaderAction<T>(this IGridColumn<T> column, Action action) {
 			column.CustomHeaderRenderer = context => action();
 			return column;
@@ -86,6 +87,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// <param name="column">The current column</param>
 		/// <param name="action">The action to render</param>
 		/// <returns></returns>
+		[Obsolete("Action Syntax extensions have been deprecated. Please use column.Custom with the Razor view engine instead of using Action.")]
 		public static IGridColumn<T> Action<T>(this IGridColumn<T> column, Action<T> action) {
 			column.CustomItemRenderer = (context, item) => action(item);
 			return column;

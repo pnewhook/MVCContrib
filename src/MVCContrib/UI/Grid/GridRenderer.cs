@@ -77,11 +77,14 @@ namespace MvcContrib.UI.Grid
 			foreach(var column in VisibleColumns())
 			{
 				//A custom item section has been specified - render it and continue to the next iteration.
+#pragma warning disable 612,618
+				// TODO: CustomItemRenderer is obsolete in favour of custom columns. Remove this after next release.
 				if (column.CustomItemRenderer != null)
 				{
 					column.CustomItemRenderer(new RenderingContext(Writer, Context, _engines), rowData.Item);
 					continue;
 				}
+#pragma warning restore 612,618
 
 				RenderStartCell(column, rowData);
 				RenderCellValue(column, rowData);
@@ -110,11 +113,14 @@ namespace MvcContrib.UI.Grid
 
 			foreach(var column in VisibleColumns())
 			{
+
 				//Allow for custom header overrides.
+#pragma warning disable 612,618
 				if(column.CustomHeaderRenderer != null)
 				{
 					column.CustomHeaderRenderer(new RenderingContext(Writer, Context, _engines));
 				}
+#pragma warning restore 612,618
 				else
 				{
 					RenderHeaderCellStart(column);
@@ -130,7 +136,16 @@ namespace MvcContrib.UI.Grid
 
         protected virtual void RenderHeaderText(GridColumn<T> column)
         {
-            RenderText(column.DisplayName);
+			var customHeader = column.GetHeader();
+
+			if (customHeader != null) 
+			{
+				RenderText(customHeader);
+			}
+			else 
+			{
+				RenderText(column.DisplayName);
+			}
         }
 
 		protected virtual bool ShouldRenderHeader()
