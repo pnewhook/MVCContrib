@@ -153,7 +153,6 @@
     <Compile Include="Filters\DebugAttributeTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
-    <Compile Include="Binders\SubControllerBinderTester.cs" />
     <Compile Include="Binders\WindsorModelBinderTester.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
@@ -163,7 +162,6 @@
     <Compile Include="Filters\ModelStateToTempDataAttributeTests.cs" />
     <Compile Include="Filters\MvcTransactionAttributeTester.cs" />
     <Compile Include="Filters\PassParametersDuringRedirectAttributeTester.cs" />
-    <Compile Include="Filters\SubControllerActionToViewDataAttributeTester.cs" />
     <Compile Include="Filters\TempDataToViewDataTester.cs" />
     <Compile Include="Filters\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="FluentHtml\AutoLabelTests.cs" />
@@ -235,7 +233,6 @@
     <Compile Include="Routing\RouteAttributeUtilityTester.cs" />
     <Compile Include="Routing\UrlRouteAttributeTester.cs" />
     <Compile Include="SortingExtensionsTester.cs" />
-    <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
     <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />

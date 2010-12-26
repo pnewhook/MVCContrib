@@ -151,5 +151,10 @@ namespace MvcContrib.UnitTests.Filters
 				formatter.Serialize(stream, fromTempData);
 			}
 		}
+
+		private class TestingController : Controller
+		{
+			
+		}
 	}
 }

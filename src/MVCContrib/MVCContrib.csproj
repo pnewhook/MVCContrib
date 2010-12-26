@@ -121,7 +121,6 @@
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
     <Compile Include="Binders\IPropertyNameProvider.cs" />
     <Compile Include="Binders\ITypeStampOperator.cs" />
-    <Compile Include="Binders\SubControllerBinder.cs" />
     <Compile Include="Binders\TypeStampOperator.cs" />
     <Compile Include="ConversionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
@@ -134,14 +133,12 @@
     <Compile Include="Filters\PreconditionFilter.cs" />
     <Compile Include="Filters\PredicatePreconditionFilter.cs" />
     <Compile Include="Filters\RegExPreconditionFilter.cs" />
-    <Compile Include="Filters\SubControllerActionToViewDataAttribute.cs" />
     <Compile Include="Filters\TempDataToViewData.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HttpContextProvider.cs" />
     <Compile Include="HttpHeaders.cs" />
     <Compile Include="IHttpContextProvider.cs" />
-    <Compile Include="ISubController.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Pagination\CustomPagination.cs" />
@@ -185,7 +182,6 @@
     <Compile Include="Sorting\SortDirection.cs" />
     <Compile Include="Sorting\SortExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="SubController.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
