@@ -11,7 +11,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleInput>" %>
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Html.Input( ) Sample</h2>
     <p>
-    <%=Html.BeginForm("save","Home") %>
+    <%=Html.BeginForm("InputForm","Home") %>
     <%=Html.ValidationSummary() %>
         This sample demonstrates how you could use partials and master pages to create your field inputs for your Strongly Typed View.
         <%=Html.Input(c => c.Name).Partial(Partial.ReadOnly)%>        
