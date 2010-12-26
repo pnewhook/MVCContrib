@@ -234,15 +234,10 @@
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="Routing\RouteAttributeUtilityTester.cs" />
     <Compile Include="Routing\UrlRouteAttributeTester.cs" />
-    <Compile Include="SimplyRestful\RestfulActionResolverTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteHandlerTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteMatchTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulSpecs.cs" />
     <Compile Include="SortingExtensionsTester.cs" />
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
-    <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
     <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />
     <Compile Include="TestHelper\MockFactories\MoqFactoryTests.cs" />
     <Compile Include="TestHelper\MockFactories\MoqProxyTests.cs" />

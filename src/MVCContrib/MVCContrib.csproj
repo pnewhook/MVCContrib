@@ -136,11 +136,7 @@
     <Compile Include="Filters\RegExPreconditionFilter.cs" />
     <Compile Include="Filters\SubControllerActionToViewDataAttribute.cs" />
     <Compile Include="Filters\TempDataToViewData.cs" />
-    <Compile Include="FluentController\AbstractFluentController.cs" />
-    <Compile Include="FluentController\AbstractRestfulFluentController.cs" />
-    <Compile Include="FluentController\FluentControllerAction.cs" />
     <Compile Include="HeadResult.cs" />
-    <Compile Include="FluentController\IRestfulController.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HttpContextProvider.cs" />
     <Compile Include="HttpHeaders.cs" />
