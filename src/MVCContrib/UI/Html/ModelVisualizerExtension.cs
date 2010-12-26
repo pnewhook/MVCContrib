@@ -10,6 +10,7 @@ using System.Web.Mvc.Html;
 
 namespace MvcContrib.UI.Html
 {
+	[Obsolete]
 	public static class ModelVisualizerExtension
 	{
 		

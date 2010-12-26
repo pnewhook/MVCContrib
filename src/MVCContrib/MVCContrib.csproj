@@ -228,7 +228,6 @@
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceVirtualFile.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
-    <Compile Include="UI\Html\HtmlStringExtensions.cs" />
     <Compile Include="UI\InputBuilder\Views\TypeViewModelExtensions.asax.cs" />
     <Compile Include="UI\MenuBuilder\ActionMenuItem.cs" />
     <Compile Include="UI\MenuBuilder\MenuHelpText.cs" />
