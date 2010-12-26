@@ -187,13 +187,6 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\ASPXViewEngine\AutoTypingHelper.cs" />
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />

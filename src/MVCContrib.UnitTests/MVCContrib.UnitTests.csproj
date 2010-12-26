@@ -248,8 +248,6 @@
     <Compile Include="TestHelper\TestHelperController.cs" />
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
     <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
