@@ -16,7 +16,7 @@ namespace MvcContrib.Filters
 	/// [PredicatePreconditionFilter("id", PreconditionFilter.ParamType.Request, "IsGreaterThanZero", typeof(ArgumentOutOfRangeException))]
 	/// </code>
 	/// </example>
-
+	[Obsolete]
 	public class PredicatePreconditionFilter : PreconditionFilter
 	{
 

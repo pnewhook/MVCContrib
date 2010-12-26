@@ -1,11 +1,14 @@
+using System;
 using System.Web;
 using System.Web.Routing;
 using MvcContrib.Routing;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace MvcContrib.UnitTests.Routing
+namespace MvcContrib.UnitTests.Routing 
 {
+#pragma warning disable 612,618
+
 	/// <summary>
 	/// Contains tests for the <see cref="RegexRoute"/> class.
 	/// </summary>
@@ -212,3 +215,4 @@ namespace MvcContrib.UnitTests.Routing
 		}
 	}
 }
+#pragma warning restore 612,618

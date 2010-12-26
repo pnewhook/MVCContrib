@@ -13,6 +13,7 @@ namespace MvcContrib.UI.Html
         /// <param name="html"></param>
         /// <param name="relativeUrl"></param>
         /// <returns></returns>
+        [Obsolete("Use Url.Content instead.")]
         public static string ResolveUrl(this HtmlHelper html, string relativeUrl)
         {
             if (relativeUrl == null)
@@ -33,6 +34,7 @@ namespace MvcContrib.UI.Html
         /// <param name="html"></param>
         /// <param name="cssFile"></param>
         /// <returns></returns>
+        [Obsolete("Use Url.Content instead.")]
         public static string Stylesheet(this HtmlHelper html, string cssFile)
         {
             string cssPath = cssFile.Contains("~") ? cssFile : "~/content/css/" + cssFile;
@@ -49,6 +51,7 @@ namespace MvcContrib.UI.Html
         /// <param name="cssFile"></param>
         /// <param name="media"></param>
         /// <returns></returns>
+        [Obsolete("Use Url.Content instead.")]
         public static string Stylesheet(this HtmlHelper html, string cssFile, string media)
         {
             string cssPath = cssFile.Contains("~") ? cssFile : "~/content/css/" + cssFile;
@@ -63,6 +66,7 @@ namespace MvcContrib.UI.Html
         /// <param name="html"></param>
         /// <param name="jsFile"></param>
         /// <returns></returns>
+        [Obsolete("Use Url.Content instead.")]
         public static string ScriptInclude(this HtmlHelper html, string jsFile)
         {
             string jsPath = jsFile.Contains("~") ? jsFile : "~/Scripts/" + jsFile;
@@ -75,6 +79,7 @@ namespace MvcContrib.UI.Html
         /// </summary>
         /// <param name="html"></param>
         /// <returns></returns>
+        [Obsolete("Use Url.Content instead.")]
         public static string Favicon(this HtmlHelper html)
         {
             string path = ResolveUrl(html, "~/favicon.ico");

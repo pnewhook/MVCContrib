@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Routing;
@@ -5,7 +6,7 @@ using NUnit.Framework;
 
 namespace MvcContrib.UnitTests
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class MvcRouteTester
 	{
 		[Test]

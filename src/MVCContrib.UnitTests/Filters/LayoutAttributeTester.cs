@@ -1,3 +1,4 @@
+using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -8,7 +9,7 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.Filters
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class LayoutAttributeTester
 	{
 		private MockRepository _mocks;
