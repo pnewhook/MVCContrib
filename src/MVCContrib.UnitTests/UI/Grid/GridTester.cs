@@ -119,8 +119,8 @@ namespace MvcContrib.UnitTests.UI.Grid
 
 		}
 
-		[Test]
-		public void RowStart_action_should_be_stored_when_rendered()
+		[Test, Obsolete]
+		public void RowStart_action_should_be_stored_when_rendered_old_syntax()
 		{
 			var model = new GridModel<Person>();
 			_grid.WithModel(model).RowStart((p) => {});
@@ -132,7 +132,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 				).ShouldBeTrue();
 		}
 
-		[Test]
+		[Test, Obsolete]
 		public void RowStart_action_context_should_be_stored_when_rendered()
 		{
 			var model = new GridModel<Person>();
@@ -145,7 +145,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 				).ShouldBeTrue();
 		}
 
-		[Test]
+		[Test, Obsolete]
 		public void RowEnd_actoion_should_be_stored_when_rendered()
 		{
 			var model = new GridModel<Person>();

@@ -218,28 +218,9 @@ namespace MvcContrib.UnitTests.UI.Grid
 			_people.Add(new Person { Name = "Person 2" });
 			_people.Add(new Person { Name = "Person 3" });
 			ColumnFor(x => x.Name);
-			_model.Sections.RowStart(c  =>
-			{
-				_writer.Write("<tr class=\"gridrow\">");
-			});
+			_model.Sections.RowStart(x=> "<tr class=\"gridrow\">");
 
 			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr><tr class=\"gridrow\"><td>Person 2</td></tr><tr class=\"gridrow\"><td>Person 3</td></tr></tbody></table>";
-			RenderGrid().ShouldEqual(expected);
-		}
-
-
-		[Test]
-		public void Should_render_custom_row_start_with_action_alternate()
-		{
-			_people.Add(new Person { Name = "Person 2" });
-			_people.Add(new Person { Name = "Person 3" });
-			ColumnFor(x => x.Name);
-			_model.Sections.RowStart((c, vd) =>
-			{
-				_writer.Write("<tr class=\"row " + (vd.IsAlternate ? "gridrow_alternate" : "gridrow") + "\">");
-			});
-
-			string expected = "<table class=\"grid\"><thead><tr><th>Name</th></tr></thead><tbody><tr class=\"row gridrow\"><td>Jeremy</td></tr><tr class=\"row gridrow_alternate\"><td>Person 2</td></tr><tr class=\"row gridrow\"><td>Person 3</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
 
