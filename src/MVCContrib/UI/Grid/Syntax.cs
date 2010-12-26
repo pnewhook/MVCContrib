@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web;
 using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid.Syntax
@@ -15,7 +16,7 @@ namespace MvcContrib.UI.Grid.Syntax
 		IGrid<T> WithModel(IGridModel<T> model);
 	}
 
-	public interface IGridWithOptions<T> where T : class 
+	public interface IGridWithOptions<T> : IHtmlString where T : class 
 	{
 		/// <summary>
 		/// The GridModel that holds the internal representation of this grid.

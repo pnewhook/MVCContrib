@@ -14,8 +14,7 @@ namespace MvcContrib.UI.Grid
 	/// <typeparam name="T">Type of datasource for the grid</typeparam>
 	public class Grid<T> : IGrid<T> where T : class
 	{
-		private readonly TextWriter _writer;
-		private readonly ViewContext context;
+		private readonly ViewContext _context;
 		private IGridModel<T> _gridModel = new GridModel<T>();
 
 		/// <summary>
@@ -30,12 +29,10 @@ namespace MvcContrib.UI.Grid
 		/// Creates a new instance of the Grid class.
 		/// </summary>
 		/// <param name="dataSource">The datasource for the grid</param>
-		/// <param name="writer">The TextWriter where the grid should be rendered</param>
 		/// <param name="context"></param>
-		public Grid(IEnumerable<T> dataSource, TextWriter writer, ViewContext context)
+		public Grid(IEnumerable<T> dataSource, ViewContext context)
 		{
-			_writer = writer;
-			this.context = context;
+			this._context = context;
 			DataSource = dataSource;
 		}
 
@@ -101,15 +98,16 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
-		/// <summary>
-		/// Renders to the TextWriter, and returns null. 
-		/// This is by design so that it can be used with inline syntax in views.
-		/// </summary>
-		/// <returns></returns>
 		public override string ToString()
 		{
-			Render();
-			return null;
+			return ToHtmlString();
+		}
+
+		public string ToHtmlString()
+		{
+			var writer = new StringWriter();
+			_gridModel.Renderer.Render(_gridModel, DataSource, writer, _context);
+			return writer.ToString();
 		}
 
 		public IGridWithOptions<T> HeaderRowAttributes(IDictionary<string, object> attributes)
@@ -118,15 +116,11 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
-        public void Render()
-        {
-            _gridModel.Renderer.Render(_gridModel, DataSource, _writer, context);
-        }
-
-        private bool IsDefaultRenderer()
-        {
-            return _gridModel.Renderer is HtmlTableGridRenderer<T>;
-        }
+		[Obsolete("The Render method is deprecated. From within a Razor view, use @Html.Grid() without a call to Render.")]
+		public void Render()
+		{
+			_gridModel.Renderer.Render(_gridModel, DataSource, _context.Writer, _context);
+		}
 
 		public IGridWithOptions<T> RowAttributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes)
 		{

@@ -14,18 +14,16 @@ namespace MvcContrib.UnitTests.UI.Grid
 	{
 		private List<Person> _people;
 		private Grid<Person> _grid;
-		private TextWriter _writer;
 		private IGridModel<Person> _model;
 		private ViewContext _context;
 
 		[SetUp]
 		public void Setup()
 		{
-			_writer = new StringWriter();
 			_people = new List<Person>();
 			_model = new GridModel<Person>();
 			_context = new ViewContext();
-			_grid = new Grid<Person>(_people, _writer, _context);
+			_grid = new Grid<Person>(_people, _context);
 			_grid.WithModel(_model);
 		}
 
@@ -34,18 +32,8 @@ namespace MvcContrib.UnitTests.UI.Grid
 		{
 			var mockRenderer = MockRepository.GenerateMock<IGridRenderer<Person>>();
 			mockRenderer.Expect(x => x.Render(null, null, null, null)).IgnoreArguments().Do(new Action<IGridModel<Person>, IEnumerable<Person>, TextWriter, ViewContext>((g, d, w, c) => w.Write("foo")));
-			_grid.RenderUsing(mockRenderer).ToString();
-			_writer.ToString().ShouldEqual("foo");
-		}
-
-		[Test]
-		public void Should_specify_custom_model()
-		{
-			var mockModel = MockRepository.GenerateStub<IGridModel<Person>>();
-			mockModel.Stub(x => x.Sections).Return(new GridSections<Person>());
-			var mockRenderer = MockRepository.GenerateMock<IGridRenderer<Person>>();
-			_grid.WithModel(mockModel).RenderUsing(mockRenderer).Render();
-			mockRenderer.AssertWasCalled(x => x.Render(mockModel, _people, _writer, _context));
+			var result = _grid.RenderUsing(mockRenderer).ToString();
+			result.ShouldEqual("foo");
 		}
 
 		[Test]
@@ -198,8 +186,8 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public void Renders_to_provided_renderer_by_default()
 		{
 			_grid.Empty("Foo");
-			_grid.Render();
-            _writer.ToString().ShouldEqual("<table class=\"grid\"><thead><tr><th></th></tr></thead><tbody><tr><td>Foo</td></tr></tbody></table>");
+			var result = _grid.ToString();
+            result.ShouldEqual("<table class=\"grid\"><thead><tr><th></th></tr></thead><tbody><tr><td>Foo</td></tr></tbody></table>");
 		}
 
 		[Test]
