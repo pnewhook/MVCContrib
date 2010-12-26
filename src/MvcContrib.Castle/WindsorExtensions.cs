@@ -8,6 +8,7 @@ using System.Reflection;
 
 namespace MvcContrib.Castle
 {
+	[Obsolete]
 	public static class WindsorExtensions
 	{
 		public static IWindsorContainer RegisterController<T>(this IWindsorContainer container) where T : IController
