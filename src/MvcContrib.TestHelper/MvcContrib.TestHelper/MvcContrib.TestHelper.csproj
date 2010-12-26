@@ -92,13 +92,13 @@
     <Compile Include="Fakes\FakeHttpSessionState.cs" />
     <Compile Include="Fakes\FakeIdentity.cs" />
     <Compile Include="Fakes\FakePrincipal.cs" />
-    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="AssertionException.cs" />
     <Compile Include="Extensions\GeneralTestExtensions.cs" />
     <Compile Include="MockSession.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\RouteTestingExtensions.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="OutBoundUrl.cs" />
     <Compile Include="Ui\AssertExtensions.cs" />
     <Compile Include="Ui\DisplayTable.cs" />

@@ -150,7 +150,6 @@
     <Compile Include="Binders\TypeStampOperatorTests.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
-    <Compile Include="Filters\DebugAttributeTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
     <Compile Include="Binders\WindsorModelBinderTester.cs" />
@@ -163,7 +162,6 @@
     <Compile Include="Filters\MvcTransactionAttributeTester.cs" />
     <Compile Include="Filters\PassParametersDuringRedirectAttributeTester.cs" />
     <Compile Include="Filters\TempDataToViewDataTester.cs" />
-    <Compile Include="Filters\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="FluentHtml\AutoLabelTests.cs" />
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />

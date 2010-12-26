@@ -71,6 +71,11 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DebugAttribute.cs" />
+    <Compile Include="HttpContextProvider.cs" />
+    <Compile Include="HttpHeaders.cs" />
+    <Compile Include="IHttpContextProvider.cs" />
+    <Compile Include="MimeTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\CssOptionsElement.cs" />
     <Compile Include="Configuration\CssTypeElement.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="IncludeController.cs" />
     <Compile Include="KeyGenerator.cs" />
     <Compile Include="StaticIncludeStorage.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">
