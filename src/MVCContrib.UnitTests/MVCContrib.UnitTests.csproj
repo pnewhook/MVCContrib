@@ -226,7 +226,6 @@
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistrationTester.cs" />
     <Compile Include="PortableAreas\PortableAreaContentTester.cs" />
-    <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="Routing\RouteAttributeUtilityTester.cs" />
     <Compile Include="Routing\UrlRouteAttributeTester.cs" />
