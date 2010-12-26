@@ -8,6 +8,7 @@ namespace MvcContrib.UI.MenuBuilder
 	/// Use this class to build fluent menus, with Menu.Begin
 	/// See the MvcContrib.Samples.UI for details
 	///</summary>
+	[Obsolete]
 	public static class Menu
 	{
 		///<summary>
