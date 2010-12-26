@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace MvcContrib
 {
+	[Obsolete]
     public static class ViewDataExtensions
     {
         /// <summary>
