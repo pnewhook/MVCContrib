@@ -10,6 +10,7 @@ namespace MvcContrib.Routing
 	///<summary>
 	/// Use this class to define url->controller action mappings
 	///</summary>
+	[Obsolete]
 	public class MvcRoute : Route
 	{
 		private MvcRoute(string url)

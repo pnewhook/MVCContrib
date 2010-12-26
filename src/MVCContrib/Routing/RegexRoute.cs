@@ -11,6 +11,7 @@ namespace MvcContrib.Routing
 	/// This class can be used to create routes from a regular expression. 
 	/// It is also bidirectional and can be used to generate urls from a given route.
 	/// </summary>
+	[Obsolete]
 	public class RegexRoute : RouteBase
 	{
 		private readonly RouteValueDictionary _defaults;
