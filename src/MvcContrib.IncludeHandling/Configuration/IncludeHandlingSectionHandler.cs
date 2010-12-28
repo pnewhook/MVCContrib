@@ -7,16 +7,7 @@ namespace MvcContrib.IncludeHandling.Configuration
 	{
 		private const string CSS = "css";
 		private const string JS = "js";
-		private readonly IDictionary<IncludeType, IIncludeTypeSettings> _types;
-
-		public IncludeHandlingSectionHandler()
-		{
-			_types = new Dictionary<IncludeType, IIncludeTypeSettings>
-			{
-				{ IncludeType.Css, Css },
-				{ IncludeType.Js, Js }
-			};
-		}
+		private IDictionary<IncludeType, IIncludeTypeSettings> _types;
 
 		#region IIncludeHandlingSettings Members
 
@@ -34,7 +25,19 @@ namespace MvcContrib.IncludeHandling.Configuration
 
 		public IDictionary<IncludeType, IIncludeTypeSettings> Types
 		{
-			get { return _types; }
+            get
+            {
+                if (_types == null)
+                {
+                    _types = new Dictionary<IncludeType, IIncludeTypeSettings>
+			            {
+			                {IncludeType.Css, Css},
+			                {IncludeType.Js, Js}
+			            };
+                }
+
+                return _types;
+            }
 		}
 
 		#endregion

@@ -13,11 +13,11 @@ namespace MvcContrib.IncludeHandling
 		{
 			{
 				IncludeType.Js,
-				"<script type='text/javascript' src='{0}'></script>"
+				"<script type=\"text/javascript\" src=\"{0}\"></script>"
 				},
 			{
 				IncludeType.Css,
-				"<link rel='stylesheet' type='text/css' href='{0}'/>"
+				"<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\"/>"
 				}
 		};
 
