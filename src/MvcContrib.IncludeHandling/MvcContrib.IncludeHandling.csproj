@@ -103,12 +103,6 @@
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">
-      <Project>{2E29C28C-B0B7-4D8C-A06F-67AD70C765EA}</Project>
-      <Name>MVCContrib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.Filters;
-using MvcContrib.Services;
 
 namespace MvcContrib.IncludeHandling
 {
