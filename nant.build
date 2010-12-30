@@ -29,7 +29,7 @@
 	<!-- debug|release -->
 	<property name="build.dir" value="${build.base}/${nant.settings.currentframework}.${platform::get-name()}-${project::get-name()}-${project.config}/"/>
 
-	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples"/>
+	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples, nuget"/>
 	<target name="cruise" depends="build, help, package"/> <!-- previously included commitPackage -->
 	<target name="commiter" depends="build, help, package"/> <!-- previously included analyze -->
 
@@ -361,5 +361,37 @@
 				  commandline="Documentation\DocumentationProject\MvcContrib.shfbproj" workingdir="." />
     <copy file="build\Help\Output\documentation.chm" tofile="LatestVersion\MvcContribDocumentation.chm"/>
 	-->
+  </target>
+  <target name="nuget">
+    <property name="package.dir" value="${build.base}\packages" />
+    <property name="packagetemp" value="${package.dir}\temp" />
+   
+    <!-- Create the directory structure for the packages -->
+    <copy todir="${packagetemp}\MvcContrib" file="nuspecs\MvcContrib.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib\lib" file="${build.dir}\MvcContrib.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.FluentHtml" file="nuspecs\MvcContrib.FluentHtml.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.FluentHtml\lib" file="${build.dir}\MvcContrib.FluentHtml.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.TestHelper" file="nuspecs\MvcContrib.TestHelper.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.TestHelper\lib" file="${build.dir}\MvcContrib.TestHelper.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.WatiN" file="nuspecs\MvcContrib.WatiN.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.WatiN\lib" file="${build.dir}\MvcContrib.TestHelper.WatiN.dll" />
+    <!-- TODO: There isn't a watin package on nuget, so we package it as well for now -->
+    <copy todir="${packagetemp}\MvcContrib.WatiN\lib" file="${build.dir}\WatiN.Core.dll" />
+    
+    <!-- Replace the version numbers -->
+    <xmlpoke file="${packagetemp}\MvcContrib\MvcContrib.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/dependencies/dependency[@id='MvcContrib.TestHelper']/@version" value="${project.fullversion}" />
+    
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib\MvcContrib.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" />
+    
   </target>
 </project>
