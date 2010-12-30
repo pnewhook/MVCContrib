@@ -1,7 +1,6 @@
 using System;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using MvcContrib.Filters;
 
 namespace MvcContrib.TestHelper
 {
@@ -151,9 +150,11 @@ namespace MvcContrib.TestHelper
 				return result.RouteValues[paramName];
 			}
 
-			if(controller.TempData.ContainsKey(PassParametersDuringRedirectAttribute.RedirectParameterPrefix + paramName))
+			const string passParameterDuringRedirectPrefix = "__RedirectParameter__";
+
+			if(controller.TempData.ContainsKey(passParameterDuringRedirectPrefix + paramName))
 			{
-				return controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + paramName];
+				return controller.TempData[passParameterDuringRedirectPrefix + paramName];
 			}
 
 			throw new ActionResultAssertionException(

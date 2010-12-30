@@ -4,7 +4,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
+#if TESTHELPER
+namespace MvcContrib.TestHelper
+#else
 namespace MvcContrib.UI.InputBuilder.Helpers
+#endif
 {
 	public static class ReflectionHelper
 	{

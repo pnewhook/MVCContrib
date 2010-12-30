@@ -1,7 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using MvcContrib.UI.InputBuilder.Conventions;
-using MvcContrib.UI.InputBuilder.Helpers;
 
 namespace MvcContrib.TestHelper.Ui
 {
@@ -22,7 +20,7 @@ namespace MvcContrib.TestHelper.Ui
 																						<Func<TModelType, object>>
 																						expression)
 		{
-			string displayname = new DefaultNameConvention().PropertyName(ReflectionHelper.FindPropertyFromExpression(expression));
+			string displayname = ReflectionHelper.FindPropertyFromExpression(expression).Name;
 			var jquerySelector = string.Format(@"$('div.{0} ul li:contains(""{1}"")').text()", "validation-summary-errors", displayname);
 			var count = (string)driver.EvaluateScript(jquerySelector);
 			count.AssertStringContains(displayname);
