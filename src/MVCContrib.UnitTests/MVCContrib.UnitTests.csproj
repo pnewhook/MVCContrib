@@ -332,11 +332,21 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml" />
-    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml" />
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml" />
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml" />
-    <Content Include="IncludeHandling\exists.txt" />
+    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\exists.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
