@@ -11,7 +11,7 @@
    <projectUrl>http://mvccontrib.codeplex.com/</projectUrl>
    <tags>mvc</tags>
    <dependencies>
-     <dependency id="Rhino.Mocks" version="3.6" />
+     <dependency id="RhinoMocks" version="3.6" />
    </dependencies>
  </metadata>
 </package>
