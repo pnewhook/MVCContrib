@@ -55,6 +55,10 @@ TODO:
 
 HISTORY:
 
+2.6.40 (01-05-2011):
+- Added BeginForm overload that just takes an ActionResult
+- Fix MapRouteArea to use UseNamespaceFallback when there are no namespaces
+
 2.6.32 (12-15-2010):
 - Fix bug in controller name generation when IncludeAreasToken is true
 
