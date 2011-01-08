@@ -26,7 +26,7 @@ namespace MvcContrib.UnitTests.Binders
             valueProvider.Expect(b => b.ContainsPrefix("test"))
                 .Return(true);
 
-            typeStampOperator.Expect(a => a.DetectTypeStamp(null, null)).IgnoreArguments().Return(typeof(StubClass).FullName);
+            typeStampOperator.Expect(a => a.DetectTypeStamp(null, null)).IgnoreArguments().Return(DerivedTypeModelBinderCache.GetTypeName(typeof(StubClass)));
 
             var binder = new DerivedTypeModelBinder(typeStampOperator);
 

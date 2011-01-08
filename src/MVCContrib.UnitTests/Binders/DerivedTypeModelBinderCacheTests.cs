@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using MvcContrib.Attributes;
 using MvcContrib.Binders;
 using MvcContrib.UnitTests.UI.DerivedTypeModelBinder;
@@ -11,36 +11,19 @@ namespace MvcContrib.UnitTests.Binders
     [DerivedTypeBinderAware(typeof(int))]
     public class DerivedTypeModelBinderCacheTests
     {
-		//[Test]
-		//public void validate_declarative_registration_of_derived_types()
-		//{
-		//    DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(DerivedTypeModelBinderCacheTests),
-		//                                                     new[] {typeof(string)});
+		[Test]
+		public void validate_declarative_registration_of_derived_types()
+		{
+			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(DerivedTypeModelBinderCacheTests),
+															 new[] { typeof(string) });
 
-		//    Assert.That((from p in DerivedTypeModelBinderCache.GetDerivedTypes(typeof(DerivedTypeModelBinderCacheTests))
-		//                 where p.Name == typeof(string).Name
-		//                 select p).FirstOrDefault(), Is.Not.Null);
+			Assert.That(DerivedTypeModelBinderCache.GetTypeName(typeof(string)), Is.Not.Empty);
 
-		//    DerivedTypeModelBinderCache.Reset();
+			DerivedTypeModelBinderCache.Reset();
 
-		//    // next, let's validate that the cache was cleared by reset
-		//    Assert.That((from p in DerivedTypeModelBinderCache.GetDerivedTypes(typeof(DerivedTypeModelBinderCacheTests))
-		//                 where p.Name == typeof(string).Name
-		//                 select p).FirstOrDefault(), Is.Null);
-
-		//}
-
-		//[Test]
-		//public void validate_attribute_scan_on_getDerivedTypes_call()
-		//{
-		//    DerivedTypeModelBinderCache.Reset();
-
-		//    Assert.That((from p in DerivedTypeModelBinderCache.GetDerivedTypes(typeof(DerivedTypeModelBinderCacheTests))
-		//                     where p.Name == typeof(int).Name
-		//                     select p).FirstOrDefault(), Is.Not.Null);
-
-		//    DerivedTypeModelBinderCache.Reset();
-		//}
+			// next, let's validate that the cache was cleared by reset
+			Assert.Throws<KeyNotFoundException>(() => DerivedTypeModelBinderCache.GetTypeName(typeof(string)));
+		}
 
 		[Test]
 		public void verify_default_type_stamp_field_name()
@@ -65,10 +48,33 @@ namespace MvcContrib.UnitTests.Binders
 			DerivedTypeModelBinderCache.Reset();
 			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(ITestClass), new[] { typeof(TestClass) });
 
-			var exception = Assert.Throws<InvalidOperationException>(() => DerivedTypeModelBinderCache.GetTypeName(typeof(DerivedTypeModelBinderCacheTests)));
+			Assert.Throws<KeyNotFoundException>(() => DerivedTypeModelBinderCache.GetTypeName(typeof(DerivedTypeModelBinderCacheTests)));
+		}
 
-			Assert.That(exception.Message, Is.StringContaining("DerivedTypeModelBinderCacheTests"));
-			Assert.That(exception.Message, Is.StringContaining("with the DerivedTypeModelBinder"));
+		[Test]
+		public void TypeStamp_verify_encryption_set_and_reset_behaviors()
+		{
+			DerivedTypeModelBinderCache.Reset();
+			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(ITestClass), new[] { typeof(TestClass) });
+
+			var standardTypeStamp = DerivedTypeModelBinderCache.GetTypeName(typeof(TestClass));
+
+
+			DerivedTypeModelBinderCache.Reset();
+			DerivedTypeModelBinderCache.SetTypeStampSaltValue(Guid.NewGuid());
+			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(ITestClass), new[] { typeof(TestClass) });
+
+			var alteredTypeStamp = DerivedTypeModelBinderCache.GetTypeName(typeof(TestClass));
+
+
+			DerivedTypeModelBinderCache.Reset();
+			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof(ITestClass), new[] { typeof(TestClass) });
+
+			var resetTypeStamp = DerivedTypeModelBinderCache.GetTypeName(typeof(TestClass));
+
+
+			Assert.That(standardTypeStamp, Is.Not.EqualTo(alteredTypeStamp));
+			Assert.That(standardTypeStamp, Is.EqualTo(resetTypeStamp));
 		}
     }
 }

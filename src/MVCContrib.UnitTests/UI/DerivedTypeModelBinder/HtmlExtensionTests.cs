@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.Binders;
 using MvcContrib.UI.DerivedTypeModelBinder;
@@ -28,9 +29,7 @@ namespace MvcContrib.UnitTests.UI.DerivedTypeModelBinder
 
 			var html = CreateHtmlHelper<HtmlExtensionTests>();
 
-			var exception = Assert.Throws<InvalidOperationException>(() => html.TypeStamp().ToHtmlString());
-
-			Assert.That(exception.Message.Contains("DerivedTypeModelBinderCache"), Is.True);
+			Assert.Throws<KeyNotFoundException>(() => html.TypeStamp().ToHtmlString());
 		}
 
 		[Test]
