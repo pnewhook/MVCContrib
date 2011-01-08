@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisibleAttribute(false)]
 [assembly: AssemblyVersionAttribute("3.0.0.99")]
 [assembly: AssemblyFileVersionAttribute("3.0.0.99")]
-[assembly: AssemblyCopyrightAttribute("Copyright © MVC Contrib 2007-2010")]
+[assembly: AssemblyCopyrightAttribute("Copyright © MVC Contrib 2007-2011")]
 [assembly: AssemblyProductAttribute("MVCContrib")]
 [assembly: AssemblyCompanyAttribute("MVC Contrib")]
 [assembly: AssemblyConfigurationAttribute("release")]

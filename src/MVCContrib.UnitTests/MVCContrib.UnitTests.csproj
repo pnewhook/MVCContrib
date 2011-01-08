@@ -190,7 +190,6 @@
     <Compile Include="FluentHtml\RadioSetTests.cs" />
     <Compile Include="FluentHtml\RequiredCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
-    <Compile Include="FluentHtml\TypeStampTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />
     <Compile Include="FluentHtml\ModelViewPageTests.cs" />
     <Compile Include="FluentHtml\ModelViewUserControlPageTests.cs" />
@@ -253,6 +252,8 @@
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
     <Compile Include="UI\DataListTests.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\HtmlExtensionTests.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\TestClass.cs" />
     <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\GridExtensionTester.cs" />

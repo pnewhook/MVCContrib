@@ -31,6 +31,10 @@ namespace MvcContrib.Samples.UI.Navigation
 							Menu.Action<FluentHtmlController>(c=>c.Index(), "FluentHtml Samples")
 						),
 
+						Menu.Items("DerivedTypeModelBinder Samples",
+							Menu.Action<DerivedTypeModelBinderController>(c=>c.Index(), "DerivedTypeModelBinder Samples")
+						),
+
 						Menu.Items("Secure",
 							Menu.Secure<HomeController>(p => p.Index()),
 							Menu.Secure<HomeController>(p => p.About()),

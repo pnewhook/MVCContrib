@@ -90,6 +90,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DerivedTypeModelBinderController.cs" />
+    <Compile Include="Models\DerivedTypeModelBinder\AddressInfo.cs" />
+    <Compile Include="Models\DerivedTypeModelBinder\CustomerInfo.cs" />
+    <Compile Include="Models\DerivedTypeModelBinder\IContent.cs" />
+    <Compile Include="Models\DerivedTypeModelBinder\User.cs" />
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Controllers\FluentHtmlController.cs" />
     <Compile Include="Controllers\GridController.cs" />
@@ -165,6 +170,10 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\DerivedTypeModelBinder\Index.cshtml" />
+    <Content Include="Views\DerivedTypeModelBinder\EditorTemplates\AddressInfo.cshtml" />
+    <Content Include="Views\DerivedTypeModelBinder\EditorTemplates\User.cshtml" />
+    <Content Include="Views\DerivedTypeModelBinder\ResultSummary.cshtml" />
     <None Include="Views\Grid\AutoColumns.cshtml" />
     <None Include="Views\Grid\Index.cshtml" />
     <None Include="Views\Grid\Paged.cshtml" />

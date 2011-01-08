@@ -168,6 +168,7 @@
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\HtmlExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnBuilder.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />

@@ -47,9 +47,10 @@ namespace MvcContrib.Binders
 			if (String.IsNullOrEmpty(typeValue))
 				return typeToCreate;
 
-			foreach (var derivedType in DerivedTypeModelBinderCache.GetDerivedTypes(typeToCreate))
-				if (typeValue == derivedType.FullName)
-					return derivedType;
+			var derivedType = DerivedTypeModelBinderCache.GetDerivedType(typeValue);
+
+			if (derivedType != null)
+				return derivedType;
 
 			throw new InvalidOperationException(string.Format("unable to located identified type '{0}' as a variant of '{1}'", typeValue, typeToCreate.FullName));
 		}

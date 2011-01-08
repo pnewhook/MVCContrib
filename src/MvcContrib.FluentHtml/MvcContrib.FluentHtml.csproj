@@ -132,7 +132,6 @@
     <Compile Include="Elements\RadioButtonBase.cs" />
     <Compile Include="Elements\RadioSet.cs" />
     <Compile Include="Elements\RadioSetBase.cs" />
-    <Compile Include="Elements\TypeStamp.cs" />
     <Compile Include="ModelStateDictionaryExtensions.cs" />
     <Compile Include="ModelWebViewPage.cs" />
     <Compile Include="PartialNameConventionService.cs" />
