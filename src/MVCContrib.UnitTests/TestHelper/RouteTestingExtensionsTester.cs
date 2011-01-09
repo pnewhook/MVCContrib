@@ -321,6 +321,36 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test]
+		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter() {
+			OutBoundUrl.Of<OptionalExampleController>(c => c.NullableInt(24))
+				.ShouldMapToUrl("/optional/nullableint/24");
+		}
+
+		[Test]
+		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter_with_null() {
+			OutBoundUrl.Of<OptionalExampleController>(c => c.NullableInt(null))
+				.ShouldMapToUrl("/optional/nullableint");
+		}
+
+		[Test]
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter() {
+			OutBoundUrl.Of<OptionalExampleController>(c => c.String("foo"))
+				.ShouldMapToUrl("/optional/string/foo");
+		}
+
+		[Test]
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_empty_string() {
+			OutBoundUrl.Of<OptionalExampleController>(c => c.String(""))
+				.ShouldMapToUrl("/optional/string");
+		}
+
+		[Test]
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_null() {
+			OutBoundUrl.Of<OptionalExampleController>(c => c.String(null))
+				.ShouldMapToUrl("/optional/string");
+		}
+
+		[Test]
 		public void should_match_datetime()
 		{
 			"~/funky/DateTime/2009-1-1".Route().ShouldMapTo<FunkyController>(x => x.DateTime(new DateTime(2009, 1, 1)));
