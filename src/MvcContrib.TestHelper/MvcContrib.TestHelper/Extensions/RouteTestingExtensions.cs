@@ -181,7 +181,10 @@ namespace MvcContrib.TestHelper
 			for (int i = 0; i < methodCall.Arguments.Count; i++)
 			{
 				ParameterInfo param = methodCall.Method.GetParameters()[i];
-				bool isNullable = param.ParameterType.UnderlyingSystemType.IsGenericType && param.ParameterType.UnderlyingSystemType.GetGenericTypeDefinition() == typeof(Nullable<>);
+				bool isReferenceType = !param.ParameterType.IsValueType;
+				bool isNullable = isReferenceType ||
+					(param.ParameterType.UnderlyingSystemType.IsGenericType && param.ParameterType.UnderlyingSystemType.GetGenericTypeDefinition() == typeof(Nullable<>));
+					
 				string controllerParameterName = param.Name;
 				bool routeDataContainsValueForParameterName = routeData.Values.ContainsKey(controllerParameterName);
 				object actualValue = routeData.Values.GetValue(controllerParameterName);
