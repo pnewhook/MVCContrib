@@ -5,9 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
-
-using Assert=NUnit.Framework.Assert;
-using AssertionException=MvcContrib.TestHelper.AssertionException;
+using AssertionException = MvcContrib.TestHelper.AssertionException;
 
 namespace MvcContrib.UnitTests.TestHelper
 {
@@ -73,33 +71,28 @@ namespace MvcContrib.UnitTests.TestHelper
 				return null;
 			}
 
-			public ActionResult ParameterNameDoesntMatch(string someParameter) 
+			public ActionResult ParameterNameDoesntMatch(string someParameter)
 			{
 				return null;
 			}
 		}
 
-		public class OptionalExampleController : Controller 
+		public class OptionalExampleController : Controller
 		{
-			public ActionResult NullableInt(int? id) 
+			public ActionResult NullableInt(int? id)
 			{
 				return null;
 			}
 
-			public ActionResult String(string id) 
+			public ActionResult String(string id)
 			{
 				return null;
 			}
 		}
 
-		public class Bar
-		{
-			
-		}
+		public class Bar {}
 
-		public class AwesomeController : Controller
-		{
-		}
+		public class AwesomeController : Controller {}
 
 		[SetUp]
 		public void Setup()
@@ -107,19 +100,19 @@ namespace MvcContrib.UnitTests.TestHelper
 			RouteTable.Routes.Clear();
 			RouteTable.Routes.IgnoreRoute("{resource}.gif/{*pathInfo}");
 			RouteTable.Routes.MapRoute(
-			   "optional-nullable",
-			   "optional/nullableint/{id}",
-			   new { controller = "OptionalExample", Action = "NullableInt", id = UrlParameter.Optional }
-			   );
+				"optional-nullable",
+				"optional/nullableint/{id}",
+				new {controller = "OptionalExample", Action = "NullableInt", id = UrlParameter.Optional}
+				);
 			RouteTable.Routes.MapRoute(
 				"optional-string",
 				"optional/string/{id}",
-				new { controller = "OptionalExample", Action = "String", id = UrlParameter.Optional }
+				new {controller = "OptionalExample", Action = "String", id = UrlParameter.Optional}
 				);
 			RouteTable.Routes.MapRoute(
 				"default",
-				"{controller}/{action}/{id}", 
-				new { controller = "Funky", Action = "Index", id ="" });
+				"{controller}/{action}/{id}",
+				new {controller = "Funky", Action = "Index", id = ""});
 		}
 
 		[TearDown]
@@ -141,13 +134,13 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void should_be_able_to_match_controller_from_route_data()
 		{
-			"~/".Route().ShouldMapTo<FunkyController>();			
+			"~/".Route().ShouldMapTo<FunkyController>();
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void should_be_able_to_detect_when_a_controller_doesnt_match()
 		{
-			"~/".Route().ShouldMapTo<AwesomeController>();			
+			"~/".Route().ShouldMapTo<AwesomeController>();
 		}
 
 		[Test]
@@ -159,7 +152,7 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void should_be_able_to_detect_an_incorrect_action()
 		{
-			"~/".Route().ShouldMapTo<FunkyController>(x=>x.New());
+			"~/".Route().ShouldMapTo<FunkyController>(x => x.New());
 		}
 
 		[Test]
@@ -183,7 +176,7 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void should_be_able_to_test_routes_directly_from_a_string()
 		{
-			"~/funky/bar/widget".ShouldMapTo<FunkyController>( x => x.Bar( "widget" ) );
+			"~/funky/bar/widget".ShouldMapTo<FunkyController>(x => x.Bar("widget"));
 		}
 
 		[Test]
@@ -191,14 +184,12 @@ namespace MvcContrib.UnitTests.TestHelper
 		{
 			var widget = "widget";
 
-			"~/funky/bar/widget".ShouldMapTo<FunkyController>( x => x.Bar( widget ) );
+			"~/funky/bar/widget".ShouldMapTo<FunkyController>(x => x.Bar(widget));
 		}
 
 		[Test]
 		public void should_be_able_to_test_routes_with_member_expressions_being_used_but_ignore_null_complex_parameteres()
 		{
-			
-
 			"~/funky/List".ShouldMapTo<FunkyController>(x => x.List(null));
 		}
 
@@ -223,20 +214,18 @@ namespace MvcContrib.UnitTests.TestHelper
 		[Test]
 		public void assertion_exception_should_hide_the_test_helper_frames_in_the_call_stack()
 		{
-			IEnumerable<string> callstack=new string[0];
+			IEnumerable<string> callstack = new string[0];
 			try
 			{
 				"~/badroute that is not configures/foo/1234".Route().ShouldMapTo<FunkyController>(x => x.Foo(1234));
 			}
 			catch(Exception ex)
 			{
-
-				callstack = ex.StackTrace.Split(new string[] { Environment.NewLine },StringSplitOptions.None);
+				callstack = ex.StackTrace.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
 			}
 			callstack.Count().ShouldEqual(1);
-			
 		}
-		
+
 		[Test]
 		public void should_be_able_to_generate_url_from_named_route()
 		{
@@ -244,7 +233,7 @@ namespace MvcContrib.UnitTests.TestHelper
 			RouteTable.Routes.MapRoute(
 				"namedRoute",
 				"{controller}/{action}/{id}",
-				new { controller = "Funky", Action = "Index", id = "" });
+				new {controller = "Funky", Action = "Index", id = ""});
 
 			OutBoundUrl.OfRouteNamed("namedRoute").ShouldMapToUrl("/");
 		}
@@ -274,10 +263,9 @@ namespace MvcContrib.UnitTests.TestHelper
 			RouteTable.Routes.MapRoute(
 				"zordoRoute",
 				"{controller}/{action}/{id}",
-				new { controller = "Funky", Action = "Zordo", id = "0" },
+				new {controller = "Funky", Action = "Zordo", id = "0"},
 				new {httpMethod = new HttpMethodConstraint("POST")});
 			"~/Funky/Zordo/0".WithMethod(HttpVerbs.Post).ShouldMapTo<FunkyController>(x => x.Zordo(0));
-
 		}
 
 		[Test]
@@ -287,11 +275,10 @@ namespace MvcContrib.UnitTests.TestHelper
 			RouteTable.Routes.MapRoute(
 				"zordoRoute",
 				"{controller}/{action}/{id}",
-				new { controller = "Funky", Action = "Zordo", id = "0" },
-				new { httpMethod = new HttpMethodConstraint("POST") });
+				new {controller = "Funky", Action = "Zordo", id = "0"},
+				new {httpMethod = new HttpMethodConstraint("POST")});
 			var routeData = "~/Funky/Zordo/0".WithMethod(HttpVerbs.Get);
 			Assert.IsNull(routeData);
-
 		}
 
 		[Test]
@@ -314,7 +301,7 @@ namespace MvcContrib.UnitTests.TestHelper
 			RouteTable.Routes.MapRoute(
 				"default",
 				"{controller}/{action}/{id}",
-				new { controller = "Funky", Action = "Index", id = (int?)null });
+				new {controller = "Funky", Action = "Index", id = (int?)null});
 
 			"~/funky/nullable".Route().ShouldMapTo<FunkyController>(c => c.Nullable(null));
 		}
@@ -326,31 +313,36 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test]
-		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter() {
+		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter()
+		{
 			OutBoundUrl.Of<OptionalExampleController>(c => c.NullableInt(24))
 				.ShouldMapToUrl("/optional/nullableint/24");
 		}
 
 		[Test]
-		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter_with_null() {
+		public void should_be_able_to_generate_url_with_optional_nullable_int_action_parameter_with_null()
+		{
 			OutBoundUrl.Of<OptionalExampleController>(c => c.NullableInt(null))
 				.ShouldMapToUrl("/optional/nullableint");
 		}
 
 		[Test]
-		public void should_be_able_to_generate_url_with_optional_string_action_parameter() {
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter()
+		{
 			OutBoundUrl.Of<OptionalExampleController>(c => c.String("foo"))
 				.ShouldMapToUrl("/optional/string/foo");
 		}
 
 		[Test]
-		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_empty_string() {
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_empty_string()
+		{
 			OutBoundUrl.Of<OptionalExampleController>(c => c.String(""))
 				.ShouldMapToUrl("/optional/string");
 		}
 
 		[Test]
-		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_null() {
+		public void should_be_able_to_generate_url_with_optional_string_action_parameter_with_null()
+		{
 			OutBoundUrl.Of<OptionalExampleController>(c => c.String(null))
 				.ShouldMapToUrl("/optional/string");
 		}
@@ -374,25 +366,29 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_missing_expected_value() {
+		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_missing_expected_value()
+		{
 			"~/optional/nullableint".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(null));
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value() {
+		public void should_be_able_to_match_optional_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value()
+		{
 			"~/optional/nullableint/".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(null));
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_correct_expected_value() {
+		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_correct_expected_value()
+		{
 			"~/optional/nullableint/3".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(3));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void should_throw_with_match_optional_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+		public void should_throw_with_match_optional_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value()
+		{
 			"~/optional/nullableint/5".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(3));
 		}
@@ -405,31 +401,36 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_missing_expected_value() {
+		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_missing_expected_value()
+		{
 			"~/optional/string".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String(null));
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_string_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value() {
+		public void should_be_able_to_match_optional_string_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value()
+		{
 			"~/optional/string/".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String(null));
 		}
 
 		[Test]
-		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_correct_expected_value() {
+		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_correct_expected_value()
+		{
 			"~/optional/string/foo".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void should_throw_with_an_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+		public void should_throw_with_an_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value()
+		{
 			"~/optional/string/bar".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "Value for parameter 'someParameter' did not match: expected 'foo' but was ''; no value found in the route context action parameter named 'someParameter' - does your matching route contain a token called 'someParameter'?")]
-		public void should_provide_detailed_exception_message_when_detecting_a_parameter_name_that_doesnt_match() {
+		public void should_provide_detailed_exception_message_when_detecting_a_parameter_name_that_doesnt_match()
+		{
 			"~/funky/parameterNameDoesntMatch/foo".Route().ShouldMapTo<FunkyController>(x => x.ParameterNameDoesntMatch("foo"));
 		}
 	}
