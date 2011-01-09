@@ -73,6 +73,20 @@ namespace MvcContrib.UnitTests.TestHelper
 				return null;
 			}
 		}
+
+		public class OptionalExampleController : Controller 
+		{
+			public ActionResult NullableInt(int? id) 
+			{
+				return null;
+			}
+
+			public ActionResult String(string id) 
+			{
+				return null;
+			}
+		}
+
 		public class Bar
 		{
 			
@@ -87,6 +101,16 @@ namespace MvcContrib.UnitTests.TestHelper
 		{
 			RouteTable.Routes.Clear();
 			RouteTable.Routes.IgnoreRoute("{resource}.gif/{*pathInfo}");
+			RouteTable.Routes.MapRoute(
+			   "optional-nullable",
+			   "optional/nullableint/{id}",
+			   new { controller = "OptionalExample", Action = "NullableInt", id = UrlParameter.Optional }
+			   );
+			RouteTable.Routes.MapRoute(
+				"optional-string",
+				"optional/string/{id}",
+				new { controller = "OptionalExample", Action = "String", id = UrlParameter.Optional }
+				);
 			RouteTable.Routes.MapRoute(
 				"default",
 				"{controller}/{action}/{id}", 
@@ -314,5 +338,52 @@ namespace MvcContrib.UnitTests.TestHelper
 			"~/funky/ActionName".Route().ShouldMapTo<FunkyController>(x => x.MethodNameDoesntMatch());
 		}
 
+		[Test]
+		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_missing_expected_value() {
+			"~/optional/nullableint".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(null));
+		}
+
+		[Test]
+		public void should_be_able_to_match_optional_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value() {
+			"~/optional/nullableint/".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(null));
+		}
+
+		[Test]
+		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_correct_expected_value() {
+			"~/optional/nullableint/3".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(3));
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+			"~/optional/nullableint/5".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(3));
+		}
+
+		[Test]
+		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_missing_expected_value() {
+			"~/optional/string".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.String(null));
+		}
+
+		[Test]
+		public void should_be_able_to_match_optional_string_parameter_with_a_slash_against_a_lambda_with_a_nullable_missing_expected_value() {
+			"~/optional/string/".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.String(null));
+		}
+
+		[Test]
+		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_correct_expected_value() {
+			"~/optional/string/foo".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+			"~/optional/string/bar".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
+		}
 	}
 }
