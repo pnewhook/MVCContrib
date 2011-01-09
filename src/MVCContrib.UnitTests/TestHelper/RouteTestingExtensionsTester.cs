@@ -387,9 +387,16 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void should_be_able_to_match_optional_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+		public void should_throw_with_match_optional_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
 			"~/optional/nullableint/5".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.NullableInt(3));
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void should_throw_with_optional_string_parameter_against_a_lambda_with_an_actual_expected_value()
+		{
+			"~/optional/string".Route()
+				.ShouldMapTo<OptionalExampleController>(x => x.String("charlie"));
 		}
 
 		[Test]
@@ -411,7 +418,7 @@ namespace MvcContrib.UnitTests.TestHelper
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void should_be_able_to_match_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
+		public void should_throw_with_an_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
 			"~/optional/string/bar".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
 		}
