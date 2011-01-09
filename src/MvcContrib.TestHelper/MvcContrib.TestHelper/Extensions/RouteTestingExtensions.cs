@@ -182,8 +182,9 @@ namespace MvcContrib.TestHelper
 			{
 				ParameterInfo param = methodCall.Method.GetParameters()[i];
 				bool isNullable = param.ParameterType.UnderlyingSystemType.IsGenericType && param.ParameterType.UnderlyingSystemType.GetGenericTypeDefinition() == typeof(Nullable<>);
-				string name = param.Name;
-				object actualValue = routeData.Values.GetValue(name);
+				string controllerParameterName = param.Name;
+				bool routeDataContainsValueForParameterName = routeData.Values.ContainsKey(controllerParameterName);
+				object actualValue = routeData.Values.GetValue(controllerParameterName);
 				object expectedValue = null;
 				Expression expressionToEvaluate = methodCall.Arguments[i];
 
@@ -229,9 +230,17 @@ namespace MvcContrib.TestHelper
 					expectedValue = (expectedValue == null ? expectedValue : expectedValue.ToString());
 				}
 
-				actualValue.ShouldEqual(expectedValue, 
-					String.Format("Value for parameter '{0}' did not match: expected '{1}' but was '{2}'.", 
-										name, expectedValue, actualValue));
+				string errorMsgFmt = "Value for parameter '{0}' did not match: expected '{1}' but was '{2}'";
+				if (routeDataContainsValueForParameterName) 
+				{
+					errorMsgFmt += ".";
+				}
+				else 
+				{
+					errorMsgFmt += "; no value found in the route context action parameter named '{0}' - does your matching route contain a token called '{0}'?";
+				}
+
+				actualValue.ShouldEqual(expectedValue, String.Format(errorMsgFmt, controllerParameterName, expectedValue, actualValue));
 			}
 
 			return routeData;

@@ -72,6 +72,11 @@ namespace MvcContrib.UnitTests.TestHelper
 			{
 				return null;
 			}
+
+			public ActionResult ParameterNameDoesntMatch(string someParameter) 
+			{
+				return null;
+			}
 		}
 
 		public class OptionalExampleController : Controller 
@@ -421,6 +426,11 @@ namespace MvcContrib.UnitTests.TestHelper
 		public void should_throw_with_an_optional_string_parameter_against_a_lambda_with_a_nullable_incorrect_expected_value() {
 			"~/optional/string/bar".Route()
 				.ShouldMapTo<OptionalExampleController>(x => x.String("foo"));
+		}
+
+		[Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "Value for parameter 'someParameter' did not match: expected 'foo' but was ''; no value found in the route context action parameter named 'someParameter' - does your matching route contain a token called 'someParameter'?")]
+		public void should_provide_detailed_exception_message_when_detecting_a_parameter_name_that_doesnt_match() {
+			"~/funky/parameterNameDoesntMatch/foo".Route().ShouldMapTo<FunkyController>(x => x.ParameterNameDoesntMatch("foo"));
 		}
 	}
 }
