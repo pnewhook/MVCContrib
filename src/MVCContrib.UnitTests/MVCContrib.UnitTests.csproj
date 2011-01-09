@@ -248,6 +248,7 @@
     <Compile Include="TestHelper\MockFactories\RhinoMocksProxyTests.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
+    <Compile Include="TestHelper\TempDataTestExtensionsTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
