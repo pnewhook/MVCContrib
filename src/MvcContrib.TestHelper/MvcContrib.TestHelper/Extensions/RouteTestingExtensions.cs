@@ -213,6 +213,13 @@ namespace MvcContrib.TestHelper
 					continue;
 				}
 
+				// HACK: this is only sufficient while System.Web.Mvc.UrlParameter has only a single value.
+				if (actualValue == UrlParameter.Optional ||
+					(actualValue != null && actualValue.ToString().Equals("System.Web.Mvc.UrlParameter"))) 
+				{
+					actualValue = null;
+				}
+
 				if (expectedValue is DateTime)
 				{
 					actualValue = Convert.ToDateTime(actualValue);

@@ -98,10 +98,12 @@ namespace MvcContrib.TestHelper
             {
                 return;
             }
-            if (!actual.Equals(expected))
-            {
-                throw new AssertionException(message);
-            }
+            if ((actual == null && expected != null)
+                || (actual != null && expected == null) 
+                || actual.Equals(expected) == false)
+             {
+                 throw new AssertionException(message);
+             }
         }
     }
 }
