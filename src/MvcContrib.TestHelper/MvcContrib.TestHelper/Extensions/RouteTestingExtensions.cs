@@ -183,8 +183,8 @@ namespace MvcContrib.TestHelper
 				ParameterInfo param = methodCall.Method.GetParameters()[i];
 				bool isNullable = param.ParameterType.UnderlyingSystemType.IsGenericType && param.ParameterType.UnderlyingSystemType.GetGenericTypeDefinition() == typeof(Nullable<>);
 				string name = param.Name;
-				object expectedValue = routeData.Values.GetValue(name);
-				object actualValue = null;
+				object actualValue = routeData.Values.GetValue(name);
+				object expectedValue = null;
 				Expression expressionToEvaluate = methodCall.Arguments[i];
 
 				// If the parameter is nullable and the expression is a Convert UnaryExpression, 
@@ -198,31 +198,31 @@ namespace MvcContrib.TestHelper
 				switch (expressionToEvaluate.NodeType)
 				{
 					case ExpressionType.Constant:
-						actualValue = ((ConstantExpression)expressionToEvaluate).Value;
+						expectedValue = ((ConstantExpression)expressionToEvaluate).Value;
 						break;
 
 					case ExpressionType.New:
 					case ExpressionType.MemberAccess:
-						actualValue = Expression.Lambda(expressionToEvaluate).Compile().DynamicInvoke();
+						expectedValue = Expression.Lambda(expressionToEvaluate).Compile().DynamicInvoke();
 						break;
 				}
 
-				if (isNullable && (string)expectedValue == String.Empty && actualValue == null)
+				if (isNullable && (string)actualValue == String.Empty && expectedValue == null)
 				{
 					// The parameter is nullable so an expected value of '' is equivalent to null;
 					continue;
 				}
 
-				if (actualValue is DateTime)
+				if (expectedValue is DateTime)
 				{
-					expectedValue = Convert.ToDateTime(expectedValue);
+					actualValue = Convert.ToDateTime(actualValue);
 				}
 				else
 				{
-					actualValue = (actualValue == null ? actualValue : actualValue.ToString());
+					expectedValue = (expectedValue == null ? expectedValue : expectedValue.ToString());
 				}
 
-				expectedValue.ShouldEqual(actualValue, 
+				actualValue.ShouldEqual(expectedValue, 
 					String.Format("Value for parameter '{0}' did not match: expected '{1}' but was '{2}'.", 
 										name, expectedValue, actualValue));
 			}

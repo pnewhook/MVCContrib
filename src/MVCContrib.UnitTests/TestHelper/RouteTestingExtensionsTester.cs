@@ -145,7 +145,7 @@ namespace MvcContrib.UnitTests.TestHelper
             "~/funky/bar/widget".Route().ShouldMapTo<FunkyController>(x => x.Bar("something_else"));
         }
 
-        [Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "Value for parameter 'id' did not match: expected 'widget' but was 'something_else'.")]
+        [Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "Value for parameter 'id' did not match: expected 'something_else' but was 'widget'.")]
         public void should_provide_detailed_exception_message_when_detecting_invalid_action_parameters()
         {
             "~/funky/bar/widget".Route().ShouldMapTo<FunkyController>(x => x.Bar("something_else"));
