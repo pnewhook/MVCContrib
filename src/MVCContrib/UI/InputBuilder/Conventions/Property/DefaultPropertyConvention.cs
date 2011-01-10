@@ -56,7 +56,7 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			{
 				return propertyInfo.GetAttribute<LabelAttribute>().Label;
 			}
-			else if (propertyInfo.AttributeExists<DisplayNameAttribute>())
+			if (propertyInfo.AttributeExists<DisplayNameAttribute>())
 			{
 				return propertyInfo.GetAttribute<DisplayNameAttribute>().DisplayName;
 			}
