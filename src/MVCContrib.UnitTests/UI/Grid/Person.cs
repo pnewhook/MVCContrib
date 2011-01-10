@@ -13,5 +13,8 @@ namespace MvcContrib.UnitTests.UI.Grid
 		public DateTime DateOfBirth { get; set; }
 
 		public int Id { get; set; }
+
+		[ScaffoldColumn(false), DisplayFormat(DataFormatString = "{0:dd}")]
+		public DateTime DateWithAttribute { get; set; }
 	}
 }

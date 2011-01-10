@@ -36,16 +36,20 @@ namespace MvcContrib.UI.Grid
 			var memberExpression = GetMemberExpression(propertySpecifier);
 			var type = GetTypeFromMemberExpression(memberExpression);
 			var inferredName = memberExpression == null ? null : memberExpression.Member.Name;
-
 			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
 
-			if(! string.IsNullOrEmpty(inferredName))
+			if(!string.IsNullOrEmpty(inferredName))
 			{
 				var metadata = _metadataProvider.GetMetadataForProperty(null, typeof(T), inferredName);
-
-				if(! string.IsNullOrEmpty(metadata.DisplayName))
+				
+				if (!string.IsNullOrEmpty(metadata.DisplayName))
 				{
 					column.Named(metadata.DisplayName);
+				}
+
+				if (!string.IsNullOrEmpty(metadata.DisplayFormatString)) 
+				{
+					column.Format(metadata.DisplayFormatString);
 				}
 			}
 

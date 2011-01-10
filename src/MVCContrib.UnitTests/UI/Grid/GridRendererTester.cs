@@ -522,6 +522,18 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Infers_format_from_DisplayFormAttribute()
+		{
+			ColumnFor(x => x.DateWithAttribute);
+			
+			string expected =
+				"<table class=\"grid\"><thead><tr><th>Date With Attribute</th></tr></thead><tbody><tr class=\"gridrow\"><td>01</td></tr></tbody></table>";
+
+			RenderGrid().ShouldEqual(expected);
+			
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);
