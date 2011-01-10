@@ -56,10 +56,10 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			{
 				return propertyInfo.GetAttribute<LabelAttribute>().Label;
 			}
-            else if (propertyInfo.AttributeExists<DisplayNameAttribute>())
-            {
-                return propertyInfo.GetAttribute<DisplayNameAttribute>().DisplayName;
-            }
+			else if (propertyInfo.AttributeExists<DisplayNameAttribute>())
+			{
+				return propertyInfo.GetAttribute<DisplayNameAttribute>().DisplayName;
+			}
 			return propertyInfo.Name.ToSeparatedWords();
 		}
 

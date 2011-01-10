@@ -24,15 +24,15 @@ namespace MvcContrib.UI.Grid
 			var type = GetTypeFromMemberExpression(memberExpression);
 			var inferredName = memberExpression == null ? null : memberExpression.Member.Name;
 
-            //attempt to get DisplayName Attribute
-            if (inferredName != null)
-            {
-                var customAttribute = memberExpression.Member.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                if (customAttribute.Length > 0)
-                {
-                    inferredName = ((DisplayNameAttribute)customAttribute[0]).DisplayName;
-                }
-            }
+			//attempt to get DisplayName Attribute
+			if (inferredName != null)
+			{
+				var customAttribute = memberExpression.Member.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+				if (customAttribute.Length > 0)
+				{
+					inferredName = ((DisplayNameAttribute)customAttribute[0]).DisplayName;
+				}
+			}
 
 			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
 			Add(column);
