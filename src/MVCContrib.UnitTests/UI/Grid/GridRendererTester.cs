@@ -466,7 +466,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test] 
 		public void Should_not_automatically_encode_IHtmlString_instances()
 		{
-			ColumnFor(x => MvcHtmlString.Create("<script></script>")).Named("foo");
+			ColumnFor(x => new HtmlString("<script></script>")).Named("foo");
 			string expected = "<table class=\"grid\"><thead><tr><th>foo</th></tr></thead><tbody><tr class=\"gridrow\"><td><script></script></td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
 		}
