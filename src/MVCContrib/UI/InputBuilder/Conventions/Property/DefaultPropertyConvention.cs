@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Web.Mvc;
@@ -54,6 +55,10 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			if(propertyInfo.AttributeExists<LabelAttribute>())
 			{
 				return propertyInfo.GetAttribute<LabelAttribute>().Label;
+			}
+			if (propertyInfo.AttributeExists<DisplayNameAttribute>())
+			{
+				return propertyInfo.GetAttribute<DisplayNameAttribute>().DisplayName;
 			}
 			return propertyInfo.Name.ToSeparatedWords();
 		}

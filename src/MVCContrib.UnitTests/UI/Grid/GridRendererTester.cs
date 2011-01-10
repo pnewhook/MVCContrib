@@ -471,6 +471,15 @@ namespace MvcContrib.UnitTests.UI.Grid
 			RenderGrid().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Should_render_custom_name_with_DisplayNameAttribute() 
+		{
+			ColumnFor(x => x.NameWithAttribute);
+			string expected =
+				"<table class=\"grid\"><thead><tr><th>Name2</th></tr></thead><tbody><tr class=\"gridrow\"><td></td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);
