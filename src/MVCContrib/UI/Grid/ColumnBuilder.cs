@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace MvcContrib.UI.Grid
 {
@@ -12,7 +13,19 @@ namespace MvcContrib.UI.Grid
 	/// </summary>
 	public class ColumnBuilder<T> : IList<GridColumn<T>> where T : class 
 	{
+		private readonly ModelMetadataProvider _metadataProvider;
 		private readonly List<GridColumn<T>> _columns = new List<GridColumn<T>>();
+
+		public ColumnBuilder() : this(ModelMetadataProviders.Current)
+		{
+			
+		}
+
+		private ColumnBuilder(ModelMetadataProvider metadataProvider)
+		{
+			_metadataProvider = metadataProvider;
+		}
+
 
 		/// <summary>
 		/// Specifies a column should be constructed for the specified property.
@@ -24,18 +37,20 @@ namespace MvcContrib.UI.Grid
 			var type = GetTypeFromMemberExpression(memberExpression);
 			var inferredName = memberExpression == null ? null : memberExpression.Member.Name;
 
-			//attempt to get DisplayName Attribute
-			if (inferredName != null)
+			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
+
+			if(! string.IsNullOrEmpty(inferredName))
 			{
-				var customAttribute = memberExpression.Member.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-				if (customAttribute.Length > 0)
+				var metadata = _metadataProvider.GetMetadataForProperty(null, typeof(T), inferredName);
+
+				if(! string.IsNullOrEmpty(metadata.DisplayName))
 				{
-					inferredName = ((DisplayNameAttribute)customAttribute[0]).DisplayName;
+					column.Named(metadata.DisplayName);
 				}
 			}
 
-			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
 			Add(column);
+
 			return column;
 		}
 
