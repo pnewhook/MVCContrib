@@ -1,6 +1,6 @@
 ﻿T4MVC readme file
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
-Discuss on the T4MVC forum: http://forums.asp.net/1215.aspx
+Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
 david.ebbo@microsoft.com
@@ -55,8 +55,24 @@ TODO:
 
 HISTORY:
 
-2.6.22 (07-31-2010):
+2.6.40 (01-05-2011):
+- Added BeginForm overload that just takes an ActionResult
+- Fix MapRouteArea to use UseNamespaceFallback when there are no namespaces
+
+2.6.32 (12-15-2010):
+- Fix bug in controller name generation when IncludeAreasToken is true
+
+2.6.31 (11-15-2010):
+- Improve error message when T4MVC generated files are out of date.
+- Changed some 'const bool' settings to 'static bool' to avoid unused code warnings.
+- Disabled regen optimization added in 2.6.14 since it doesn't catch view changes
+
+2.6.30 (09-05-2010):
+- Changed ExplicitHtmlHelpersForPartials flag to be off by default (and fix a small issue when it's off)
 - Handled System.NotImplementedException if project type (e.g. Installer) does not implement CodeModel property
+- Fixed issue when action method params are all optional (http://stackoverflow.com/questions/3488610/t4mvc-and-named-parameters)
+- Exclude Area related methods when using MVC 1.0, as that was breaking things
+- Added logic to special case DisplayTemplates/EditorTemplates folders, since they need short view names passed in
 
 2.6.21 (07-20-2010):
 - Fix to the partial extension feature added in 2.6.20 to deal with conflicts

@@ -232,7 +232,7 @@
             reflection.
             </para>
             </remarks>
-            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         </member>
         <member name="T:NAnt.Core.Attributes.BuildElementCollectionAttribute">
             <summary>
@@ -1043,7 +1043,25 @@
             Initializes a new instance of the <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/>
             class for a given <see cref="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly"/>.
             </summary>
+            <remarks>
+            The <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> instance is not cached for
+            future use. If this is required, use <see cref="M:NAnt.Core.Extensibility.ExtensionAssembly.Create(System.Reflection.Assembly)"/>.
+            </remarks>
             <param name="assembly">The <see cref="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly"/> for which to construct an <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/>.</param>
+        </member>
+        <member name="M:NAnt.Core.Extensibility.ExtensionAssembly.Create(System.Reflection.Assembly)">
+            <summary>
+            Creates an  <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the specified
+            <see cref="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly"/> and caches it for future use.
+            </summary>
+            <remarks>
+            If an <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the same assembly is
+            available in the cache, then this cached instance is returned.
+            </remarks>
+            <param name="assembly">The <see cref="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly"/> for which to construct an <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/>.</param>
+            <returns>
+            The <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the specified <see cref="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly"/>.
+            </returns>
         </member>
         <member name="P:NAnt.Core.Extensibility.ExtensionAssembly.Assembly">
             <summary>
@@ -1057,6 +1075,14 @@
             </summary>
             <param name="extensionAssembly">The <see cref="P:NAnt.Core.Extensibility.ExtensionBuilder.ExtensionAssembly"/> in which the extension is found.</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="extensionAssembly"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:NAnt.Core.Extensibility.ExtensionBuilder.#ctor(System.Reflection.Assembly)">
+            <summary>
+            Initializes a instance of the <see cref="T:NAnt.Core.Extensibility.ExtensionBuilder"/> 
+            class for an extension in a given <see cref="P:NAnt.Core.Extensibility.ExtensionBuilder.Assembly"/>.
+            </summary>
+            <param name="assembly">The <see cref="P:NAnt.Core.Extensibility.ExtensionBuilder.Assembly"/> in which the extension is found.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="assembly"/> is <see langword="null"/>.</exception>
         </member>
         <member name="P:NAnt.Core.Extensibility.ExtensionBuilder.ExtensionAssembly">
             <summary>
@@ -1189,6 +1215,19 @@
             then the filter will be executed; otherwise, skipped. The default 
             is <see langword="false"/>.
             </summary>
+        </member>
+        <member name="M:NAnt.Core.Filters.FilterBuilder.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:NAnt.Core.Filters.FilterBuilder"/> class
+            for the specified <see cref="T:NAnt.Core.Filters.Filter"/> class in the specified
+            <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+            <remarks>
+            An <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the specified <see cref="T:System.Reflection.Assembly"/>
+            is cached for future use.
+            </remarks>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> containing the <see cref="T:NAnt.Core.Filters.Filter"/>.</param>
+            <param name="className">The class representing the <see cref="T:NAnt.Core.Filters.Filter"/>.</param>
         </member>
         <member name="M:NAnt.Core.Filters.FilterBuilder.#ctor(NAnt.Core.Extensibility.ExtensionAssembly,System.String)">
             <summary>
@@ -2228,7 +2267,7 @@
             </summary>
             <param name="s">A string containing the value to convert.</param>
             <returns>
-            <see langword="true"/> if <paramref name="value"/> is equivalent to 
+            <see langword="true"/> if <paramref name="s"/> is equivalent to 
             "True"; otherwise, <see langword="false"/>.
             </returns>
             <exception cref="T:System.FormatException"><paramref name="s"/> is not equivalent to <see cref="F:System.Boolean.TrueString"/> or <see cref="F:System.Boolean.FalseString"/>.</exception>
@@ -2737,6 +2776,23 @@
               </code>
             </example>
         </member>
+        <member name="M:NAnt.Core.Functions.EnvironmentFunctions.NewLine">
+            <summary>
+            Gets the newline string defined for this environment.
+            </summary>
+            <returns>
+            A string containing CRLF for non-Unix platforms, or LF for Unix
+            platforms.
+            </returns>
+            <example>
+              <para>Output two lines in a log file.</para>
+              <code>
+                <![CDATA[
+            <echo file="build.log" message="First line${environment::newline()}Second line" />
+                ]]>
+              </code>
+            </example>
+        </member>
         <member name="T:NAnt.Core.Functions.FileFunctions">
             <summary>
             Groups a set of functions for dealing with files.
@@ -2940,6 +2996,15 @@
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetRuntimeFramework"/>
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
         </member>
+        <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetVersion">
+            <summary>
+            Gets the version of the current target framework.
+            </summary>
+            <returns>
+            The version of the current target framework.
+            </returns>
+            <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
+        </member>
         <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetVersion(System.String)">
             <summary>
             Gets the version of the specified framework.
@@ -2952,6 +3017,15 @@
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetRuntimeFramework"/>
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
         </member>
+        <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetDescription">
+            <summary>
+            Gets the description of the current target framework.
+            </summary>
+            <returns>
+            The description of the current target framework.
+            </returns>
+            <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
+        </member>
         <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetDescription(System.String)">
             <summary>
             Gets the description of the specified framework.
@@ -2962,6 +3036,16 @@
             </returns>
             <exception cref="T:System.ArgumentException"><paramref name="framework"/> is not a valid framework identifier.</exception>
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetRuntimeFramework"/>
+            <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
+        </member>
+        <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetClrVersion">
+            <summary>
+            Gets the Common Language Runtime version of the current target
+            framework.
+            </summary>
+            <returns>
+            The Common Language Runtime version of the current target framework.
+            </returns>
             <seealso cref="M:NAnt.Core.Functions.FrameworkFunctions.GetTargetFramework"/>
         </member>
         <member name="M:NAnt.Core.Functions.FrameworkFunctions.GetClrVersion(System.String)">
@@ -3232,6 +3316,56 @@
             <exception cref="T:System.IO.FileNotFoundException"><paramref name="fileName"/> could not be found in the configured probing paths.</exception>
             <remarks>
               <para>
+              The (relative) probing paths are resolved relative to the base
+              directory of the appdomain in which NAnt is running.
+              </para>
+              <para>
+              The configured probing paths are scanned recursively in the order
+              in which they are defined in the framework configuration.
+              </para>
+              <para>
+              The file name to search should include the extension.
+              </para>
+            </remarks>
+            <example>
+              <para>
+              Compile an assembly referencing the <c>nunit.framework</c> assembly
+              for the current target framework that is shipped as part of the
+              NAnt distribution.
+              </para>
+              <code>
+                <![CDATA[
+            <csc target="library" output="NAnt.Core.Tests.dll">
+                <sources basedir="NAnt.Core">
+                    <include name="**/*.cs" />
+                </sources>
+                <references>
+                    <include name="NAnt.Core.dll" />
+                    <include name="${framework::get-lib-path('nunit.framework.dll')}" />
+                </references>
+            </csc>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Core.Functions.NAntFunctions.ScanProbingPaths(System.String,System.String)">
+            <summary>
+            Searches the probing paths of the current target framework for the
+            specified file.
+            </summary>
+            <param name="baseDirectory">The directory to use a base directory for the probing paths.</param>
+            <param name="fileName">The name of the file to search for.</param>
+            <returns>
+            The absolute path to <paramref name="fileName"/> if found in one of the
+            configured probing; otherwise, an error is reported.
+            </returns>
+            <exception cref="T:System.IO.FileNotFoundException"><paramref name="fileName"/> could not be found in the configured probing paths.</exception>
+            <remarks>
+              <para>
+              The (relative) probing paths are resolved relative to the specified
+              base directory.
+              </para>
+              <para>
               The configured probing paths are scanned recursively in the order
               in which they are defined in the framework configuration.
               </para>
@@ -3437,19 +3571,29 @@
         </member>
         <member name="M:NAnt.Core.Functions.PlatformFunctions.IsWin32">
             <summary>
-            Checks whether NAnt is running on the win32 platform.
+            Checks whether NAnt is running on Windows (and not just 32-bit Windows
+            as the name may lead you to believe).
             </summary>
             <returns>
-            <see langword="true" /> if NAnt is running on the win32 platform;
+            <see langword="true" /> if NAnt is running on Windows;
+            otherwise, <see langword="false" />.
+            </returns>
+        </member>
+        <member name="M:NAnt.Core.Functions.PlatformFunctions.IsWindows">
+            <summary>
+            Checks whether NAnt is running on Windows.
+            </summary>
+            <returns>
+            <see langword="true" /> if NAnt is running on Windows;
             otherwise, <see langword="false" />.
             </returns>
         </member>
         <member name="M:NAnt.Core.Functions.PlatformFunctions.IsUnix">
             <summary>
-            Checks whether NAnt is running on unix.
+            Checks whether NAnt is running on Unix.
             </summary>
             <returns>
-            <see langword="true" /> if NAnt is running on unix;
+            <see langword="true" /> if NAnt is running on Unix;
             otherwise, <see langword="false" />.
             </returns>
         </member>
@@ -5419,8 +5563,9 @@
             </summary>
             <remarks>
               <para>
-              The message can be specified using the <see cref="P:NAnt.Core.Tasks.EchoTask.Message"/> attribute 
-              or as inline content.
+              The message can be specified using the <see cref="P:NAnt.Core.Tasks.EchoTask.Message"/> attribute
+              or as inline content. If neither is included - or the message contains
+              only whitespace - then an empty message will be emitted in the output.
               </para>
               <para>
               Macros in the message will be expanded.
@@ -5429,6 +5574,10 @@
               When writing to a file, the <see cref="P:NAnt.Core.Tasks.EchoTask.MessageLevel"/> attribute is
               ignored.
               </para>
+              <note>
+              Since NAnt 0.86, a newline will no longer be implictly added when
+              writing a message to a file.
+              </note>
             </remarks>
             <example>
               <para>
@@ -5437,6 +5586,28 @@
               <code>
                 <![CDATA[
             <echo message="Hello, World!" level="Debug" />
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Writes a two-line message to the build log using inline content.
+              </para>
+              <code>
+                <![CDATA[
+            <echo>First line
+            Second line</echo>
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Writes a two-line message to the build log using the <see cref="P:NAnt.Core.Tasks.EchoTask.Message"/> attribute.
+              </para>
+              <code>
+                <![CDATA[
+            <echo message='First line
+            Second line</echo>
                 ]]>
               </code>
             </example>
@@ -5475,6 +5646,12 @@
         <member name="M:NAnt.Core.Tasks.EchoTask.ExecuteTask">
             <summary>
             Outputs the message to the build log or the specified file.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.EchoTask.Encoding">
+            <summary>
+            The encoding to use when writing message to a file. The default is
+            UTF-8 encoding without a Byte Order Mark (BOM).
             </summary>
         </member>
         <member name="P:NAnt.Core.Tasks.EchoTask.Message">
@@ -7822,6 +7999,67 @@
             The string to prefix the property names with. The default is "sys.".
             </summary>
         </member>
+        <member name="T:NAnt.Core.Tasks.TouchTask">
+            <summary>
+            Touches a file or set of files -- corresponds to the Unix touch command.  
+            </summary>
+            <remarks>
+            <para>
+            If the file specified does not exist, the task will create it.
+            </para>
+            </remarks>
+            <example>
+              <para>Touch the <c>Main.cs</c> file.  The current time is used.</para>
+              <code>
+                <![CDATA[
+            <touch file="Main.cs" />
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Touch all executable files in the project base directory and its 
+              subdirectories.
+              </para>
+              <code>
+                <![CDATA[
+            <touch>
+                <fileset>
+                    <include name="**/*.exe" />
+                    <include name="**/*.dll" />
+                </fileset>
+            </touch>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Core.Tasks.TouchTask.Initialize">
+            <summary>
+            Ensures the supplied attributes are valid.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.TouchTask.File">
+            <summary>
+            The file to touch.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.TouchTask.Millis">
+            <summary>
+            Specifies the new modification time of the file(s) in milliseconds 
+            since midnight Jan 1 1970.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.TouchTask.Datetime">
+            <summary>
+            Specifies the new modification time of the file in the format 
+            MM/DD/YYYY HH:MM:SS.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.TouchTask.TouchFileSet">
+            <summary>
+            Used to select files that should be touched.
+            </summary>
+        </member>
         <member name="T:NAnt.Core.Tasks.TStampTask">
             <summary>
             Sets properties with the current date and time.
@@ -7943,67 +8181,6 @@
                 <item><description>\ c</description><description>Pattern Where c is any character. Displays the character literally. To display the backslash character, use "\\". </description></item>
               </list>
             </remarks>
-        </member>
-        <member name="T:NAnt.Core.Tasks.TouchTask">
-            <summary>
-            Touches a file or set of files -- corresponds to the Unix touch command.  
-            </summary>
-            <remarks>
-            <para>
-            If the file specified does not exist, the task will create it.
-            </para>
-            </remarks>
-            <example>
-              <para>Touch the <c>Main.cs</c> file.  The current time is used.</para>
-              <code>
-                <![CDATA[
-            <touch file="Main.cs" />
-                ]]>
-              </code>
-            </example>
-            <example>
-              <para>
-              Touch all executable files in the project base directory and its 
-              subdirectories.
-              </para>
-              <code>
-                <![CDATA[
-            <touch>
-                <fileset>
-                    <include name="**/*.exe" />
-                    <include name="**/*.dll" />
-                </fileset>
-            </touch>
-                ]]>
-              </code>
-            </example>
-        </member>
-        <member name="M:NAnt.Core.Tasks.TouchTask.Initialize">
-            <summary>
-            Ensures the supplied attributes are valid.
-            </summary>
-        </member>
-        <member name="P:NAnt.Core.Tasks.TouchTask.File">
-            <summary>
-            The file to touch.
-            </summary>
-        </member>
-        <member name="P:NAnt.Core.Tasks.TouchTask.Millis">
-            <summary>
-            Specifies the new modification time of the file(s) in milliseconds 
-            since midnight Jan 1 1970.
-            </summary>
-        </member>
-        <member name="P:NAnt.Core.Tasks.TouchTask.Datetime">
-            <summary>
-            Specifies the new modification time of the file in the format 
-            MM/DD/YYYY HH:MM:SS.
-            </summary>
-        </member>
-        <member name="P:NAnt.Core.Tasks.TouchTask.TouchFileSet">
-            <summary>
-            Used to select files that should be touched.
-            </summary>
         </member>
         <member name="T:NAnt.Core.Tasks.UpToDateTask">
             <summary>
@@ -8216,12 +8393,15 @@
             Executes the XML poke task.
             </summary>
         </member>
-        <member name="M:NAnt.Core.Tasks.XmlPokeTask.LoadDocument(System.String)">
+        <member name="M:NAnt.Core.Tasks.XmlPokeTask.LoadDocument(System.String,System.Boolean)">
             <summary>
             Loads an XML document from a file on disk.
             </summary>
             <param name="fileName">
             The file name of the file to load the XML document from.
+            </param>
+            <param name="preserveWhitespace">
+            Value for XmlDocument.PreserveWhitespace that is set before the xml is loaded.
             </param>
             <returns>
             An <see cref="T:System.Xml.XmlDocument"/> containing
@@ -8283,6 +8463,11 @@
             </summary>
         </member>
         <member name="P:NAnt.Core.Tasks.XmlPokeTask.Namespaces">
+            <summary>
+            Namespace definitions to resolve prefixes in the XPath expression.
+            </summary>
+        </member>
+        <member name="P:NAnt.Core.Tasks.XmlPokeTask.PreserveWhitespace">
             <summary>
             Namespace definitions to resolve prefixes in the XPath expression.
             </summary>
@@ -8789,6 +8974,11 @@
                 <item>
                     <description>
                     **/vssver.scc
+                    </description>
+                </item>
+                <item>
+                    <description>
+                    **/vssver2.scc
                     </description>
                 </item>
                 <item>
@@ -12531,10 +12721,23 @@
             </summary>
             <param name="cause">The <see cref="T:System.Exception"/> to write to <see cref="P:System.Console.Error"/>.</param>
         </member>
+        <member name="M:NAnt.Core.DataTypeBaseBuilder.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:NAnt.Core.DataTypeBaseBuilder"/> class
+            for the specified <see cref="T:NAnt.Core.DataTypeBase"/> class in the specified
+            <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+            <remarks>
+            An <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the specified <see cref="T:System.Reflection.Assembly"/>
+            is cached for future use.
+            </remarks>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> containing the <see cref="T:NAnt.Core.DataTypeBase"/>.</param>
+            <param name="className">The class representing the <see cref="T:NAnt.Core.DataTypeBase"/>.</param>
+        </member>
         <member name="M:NAnt.Core.DataTypeBaseBuilder.#ctor(NAnt.Core.Extensibility.ExtensionAssembly,System.String)">
             <summary>
-            Creates a new instance of the <see cref="T:NAnt.Core.DataTypeBaseBuilder"/> 
-            class for the specified <see cref="T:NAnt.Core.DataTypeBase"/> class in the 
+            Creates a new instance of the <see cref="T:NAnt.Core.DataTypeBaseBuilder"/>
+            class for the specified <see cref="T:NAnt.Core.DataTypeBase"/> class in the
             <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> specified.
             </summary>
             <param name="extensionAssembly">The <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> containing the <see cref="T:NAnt.Core.DataTypeBase"/>.</param>
@@ -13032,6 +13235,14 @@
             The description of the framework.
             </value>
         </member>
+        <member name="P:NAnt.Core.FrameworkInfo.Vendor">
+            <summary>
+            Gets the vendor of the framework.
+            </summary>
+            <value>
+            The vendor of the framework.
+            </value>
+        </member>
         <member name="P:NAnt.Core.FrameworkInfo.Version">
             <summary>
             Gets the version of the framework.
@@ -13414,6 +13625,30 @@
             <remarks>
             No events should be logged with this <see cref="T:NAnt.Core.Level"/>.
             </remarks>
+        </member>
+        <member name="T:NAnt.Core.LevelConverter">
+            <summary>
+            Specialized <see cref="T:System.ComponentModel.EnumConverter"/> for <see cref="T:NAnt.Core.Level"/>
+            that ignores case when converting from string.
+            </summary>
+        </member>
+        <member name="M:NAnt.Core.LevelConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NAnt.Core.LevelConverter"/>
+            class.
+            </summary>
+        </member>
+        <member name="M:NAnt.Core.LevelConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the given object to the type of this converter, using the 
+            specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"/> object. If a <see langword="null"/> is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"/> to convert.</param>
+            <returns>
+            An <see cref="T:System.Object"/> that represents the converted value.
+            </returns>
         </member>
         <member name="T:NAnt.Core.BuildEventArgs">
             <summary>
@@ -14210,6 +14445,37 @@
             A shallow copy of the specified <see cref="T:System.Collections.Specialized.StringCollection"/>.
             </returns>
         </member>
+        <member name="P:NAnt.Core.PlatformHelper.Is64Bit">
+            <summary>
+            Returns a value indicating whether NAnt is running in 64-bit mode.
+            </summary>
+            <value>
+            <see langword="true" /> if NAnt is running in 64-bit mode; otherwise,
+            <see langword="false" />.
+            </value>
+        </member>
+        <member name="P:NAnt.Core.PlatformHelper.Is32Bit">
+            <summary>
+            Returns a value indicating whether NAnt is running in 32-bit mode.
+            </summary>
+            <remarks>
+            Note that even if the platform is 64-bit, NAnt may be running in
+            32-bit mode.
+            </remarks>
+            <value>
+            <see langword="true" /> if NAnt is running in 32-bit mode; otherwise,
+            <see langword="false" />.
+            </value>
+        </member>
+        <member name="P:NAnt.Core.PlatformHelper.IsWindows">
+            <summary>
+            Returns a value indicating whether NAnt is running on Windows.
+            </summary>
+            <value>
+            <see langword="true" /> if NAnt is running on Windows;
+            otherwise, <see langword="false" />.
+            </value>
+        </member>
         <member name="T:NAnt.Core.Project">
             <summary>
             Central representation of a NAnt project.
@@ -14358,6 +14624,52 @@
             frameworks specified by the <paramref name="types"/> parameter,
             sorted on name.
             </returns>
+        </member>
+        <member name="M:NAnt.Core.Project.GetLocation(System.Xml.XmlNode)">
+            <summary>
+            Returns the <see cref="T:NAnt.Core.Location"/> of the given node in an XML
+            file loaded by NAnt.
+            </summary>
+            <remarks>
+              <para>
+              The <paramref name="node"/> must be from an <see cref="T:System.Xml.XmlDocument"/>
+              that has been loaded by NAnt.
+              </para>
+              <para>
+              NAnt also does not process any of the following node types:
+              </para>
+              <list type="bullet">
+                <item>
+                    <description><see cref="F:System.Xml.XmlNodeType.Whitespace"/></description>
+                </item>
+                <item>
+                    <description><see cref="F:System.Xml.XmlNodeType.EndElement"/></description>
+                </item>
+                <item>
+                    <description><see cref="F:System.Xml.XmlNodeType.ProcessingInstruction"/></description>
+                </item>
+                <item>
+                    <description><see cref="F:System.Xml.XmlNodeType.XmlDeclaration"/></description>
+                </item>
+                <item>
+                    <description><see cref="F:System.Xml.XmlNodeType.DocumentType"/></description>
+                </item>
+              </list>
+              <para>
+              As a result, no location information is available for these nodes.
+              </para>
+            </remarks>
+            <param name="node">The <see cref="T:System.Xml.XmlNode"/> to get the <see cref="T:NAnt.Core.Location"/> for.</param>
+            <returns>
+            <see cref="T:NAnt.Core.Location"/> of the given node in an XML file loaded by NAnt, or
+            <see cref="F:NAnt.Core.Location.UnknownLocation"/> if the node was not loaded from
+            an XML file.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+              <para><paramref name="node"/> is from an XML file that was not loaded by NAnt.</para>
+              <para>-or</para>
+              <para><paramref name="node"/> was not processed by NAnt (eg. an XML declaration).</para>
+            </exception>
         </member>
         <member name="M:NAnt.Core.Project.OnBuildStarted(System.Object,NAnt.Core.BuildEventArgs)">
             <summary>
@@ -15331,6 +15643,19 @@
             names of the targets in the <see cref="T:NAnt.Core.TargetCollection"/>.
             </returns>
         </member>
+        <member name="M:NAnt.Core.TaskBuilder.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:NAnt.Core.TaskBuilder"/> class
+            for the specified <see cref="T:NAnt.Core.Task"/> class in the specified
+            <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+            <remarks>
+            An <see cref="T:NAnt.Core.Extensibility.ExtensionAssembly"/> for the specified <see cref="T:System.Reflection.Assembly"/>
+            is cached for future use.
+            </remarks>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> containing the <see cref="T:NAnt.Core.Task"/>.</param>
+            <param name="className">The class representing the <see cref="T:NAnt.Core.Task"/>.</param>
+        </member>
         <member name="M:NAnt.Core.TaskBuilder.#ctor(NAnt.Core.Extensibility.ExtensionAssembly,System.String)">
             <summary>
             Creates a new instance of the <see cref="T:NAnt.Core.TaskBuilder"/> class
@@ -15554,16 +15879,17 @@
             <param name="project">The project to work from.</param>
             <param name="scan">Specified whether to scan the <see cref="P:NAnt.Core.Project.BaseDirectory"/> for extension assemblies.</param>
         </member>
-        <member name="M:NAnt.Core.TypeFactory.LookupFunction(System.String,NAnt.Core.Project)">
+        <member name="M:NAnt.Core.TypeFactory.LookupFunction(System.String,NAnt.Core.Extensibility.FunctionArgument[],NAnt.Core.Project)">
             <summary>
-            Looks up a function by name.
+            Looks up a function by name and argument count.
             </summary>
-            <param name="methodName">The name of the function to lookup, including namespace prefix.</param>
+            <param name="functionName">The name of the function to lookup, including namespace prefix.</param>
+            <param name="args">The argument of the function to lookup.</param>
             <param name="project">The <see cref="T:NAnt.Core.Project"/> in which the function is invoked.</param>
             <returns>
             A <see cref="T:System.Reflection.MethodInfo"/> representing the function, or 
-            <see langword="null"/> if a function with the given name does not
-            exist.
+            <see langword="null"/> if a function with the given name and
+            arguments does not exist.
             </returns>
         </member>
         <member name="M:NAnt.Core.TypeFactory.CreateTask(System.Xml.XmlNode,NAnt.Core.Project)">

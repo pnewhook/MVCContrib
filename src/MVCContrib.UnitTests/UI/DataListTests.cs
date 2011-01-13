@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
@@ -8,7 +9,7 @@ using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.DataList
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class DataListTests
 	{
 		private IList<string> _datasource;

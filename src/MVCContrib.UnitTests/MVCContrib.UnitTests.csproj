@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcContrib.UnitTests</RootNamespace>
     <AssemblyName>MVCContrib.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,7 +42,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,7 +51,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Boo.Lang, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
@@ -62,17 +61,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\boo\Boo.Lang.Compiler.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Components.Binder, Version=1.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\castle\Castle.Components.Binder.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\castle\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\castle\Castle.MicroKernel.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Services.Transaction, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -86,14 +77,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\HtmlAgilityPack\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=0.0.31208.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\unity\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=0.0.31208.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\unity\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="Mvp.Xml, Version=2.0.2158.1055, Culture=neutral, PublicKeyToken=dd92544dc05f5671, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\mvpxml\Mvp.Xml.dll</HintPath>
@@ -101,10 +84,6 @@
     <Reference Include="nunit.framework, Version=2.4.3.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\nunit\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\castle\NVelocity.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -134,10 +113,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -146,11 +121,10 @@
       <HintPath>..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Routing.dll</HintPath>
+      <HintPath>..\..\bin\WebPages\System.Web.WebPages.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -168,8 +142,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ActionResults\PermanentRedirectResultTester.cs" />
-    <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
     <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="Binders\DerivedTypeBinderAwareAttributeTests.cs" />
@@ -178,25 +150,17 @@
     <Compile Include="Binders\TypeStampOperatorTests.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
-    <Compile Include="Filters\DebugAttributeTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
-    <Compile Include="Binders\SubControllerBinderTester.cs" />
-    <Compile Include="Binders\WindsorModelBinderTester.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
-    <Compile Include="ControllerFactories\ControllerFactoryTestExtension.cs" />
-    <Compile Include="ControllerFactories\UnityControllerFactoryTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
-    <Compile Include="ConventionController\TestBinder.cs" />
     <Compile Include="ConventionController\TestController.cs" />
     <Compile Include="ConventionController\TestFilter.cs" />
     <Compile Include="EnumerableExtensionTests.cs" />
     <Compile Include="Filters\ModelStateToTempDataAttributeTests.cs" />
     <Compile Include="Filters\MvcTransactionAttributeTester.cs" />
     <Compile Include="Filters\PassParametersDuringRedirectAttributeTester.cs" />
-    <Compile Include="Filters\SubControllerActionToViewDataAttributeTester.cs" />
     <Compile Include="Filters\TempDataToViewDataTester.cs" />
-    <Compile Include="Filters\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="FluentHtml\AutoLabelTests.cs" />
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
@@ -226,7 +190,6 @@
     <Compile Include="FluentHtml\RadioSetTests.cs" />
     <Compile Include="FluentHtml\RequiredCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
-    <Compile Include="FluentHtml\TypeStampTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />
     <Compile Include="FluentHtml\ModelViewPageTests.cs" />
     <Compile Include="FluentHtml\ModelViewUserControlPageTests.cs" />
@@ -245,11 +208,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HashTester.cs" />
-    <Compile Include="HttpContextExtensionsTester.cs" />
+    <Compile Include="IncludeHandling\DebugAttributeTester.cs" />
     <Compile Include="IncludeHandling\FileSystemIncludeReaderTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinationResultInteractionTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinationResultStateTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinerHtmlExtensionsTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinerInteractionTester.cs" />
     <Compile Include="IncludeHandling\IncludeCombinerStateTester.cs" />
@@ -257,27 +220,14 @@
     <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerTester.cs" />
     <Compile Include="IncludeHandling\IncludeStorageTester.cs" />
     <Compile Include="IncludeHandling\KeyGeneratorTester.cs" />
-    <Compile Include="IoC\DependencyResolverTester.cs" />
+    <Compile Include="IncludeHandling\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />
     <Compile Include="IoC\NestedDependency.cs" />
     <Compile Include="IoC\SimpleDependency.cs" />
-    <Compile Include="IoC\SpringDependencyResolverTester.cs" />
-    <Compile Include="IoC\StructureMapDependencyResolverTester.cs" />
-    <Compile Include="ControllerFactories\IoCControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\SpecBase.cs" />
-    <Compile Include="ControllerFactories\SpringControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\StructureMapControllerFactoryTester.cs" />
-    <Compile Include="ControllerFactories\WindsorControllerFactoryTester.cs" />
-    <Compile Include="IoC\UnityDependencyTesterResolver.cs" />
-    <Compile Include="IoC\WindsorDependencyResolverTester.cs" />
     <Compile Include="IoC\WindsorExtensionTester.cs" />
     <Compile Include="EmailTemplateServiceTest.cs" />
-    <Compile Include="MetaData\CastleBinderTester.cs" />
-    <Compile Include="MetaData\DefaultConvertibleTester.cs" />
-    <Compile Include="MetaData\DeserializeAttributeTester.cs" />
     <Compile Include="MetaData\FilterTester.cs" />
-    <Compile Include="MetaData\NameValueDeserializerTester.cs" />
     <Compile Include="ActionResults\XmlActionResultTester.cs" />
     <Compile Include="MvcRouteTester.cs" />
     <Compile Include="ConventionController\RescueTester.cs" />
@@ -287,19 +237,10 @@
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistrationTester.cs" />
     <Compile Include="PortableAreas\PortableAreaContentTester.cs" />
-    <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
-    <Compile Include="Routing\RouteAttributeUtilityTester.cs" />
-    <Compile Include="Routing\UrlRouteAttributeTester.cs" />
-    <Compile Include="SimplyRestful\RestfulActionResolverTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteHandlerTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteMatchTester.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulSpecs.cs" />
     <Compile Include="SortingExtensionsTester.cs" />
-    <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
-    <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
     <Compile Include="TestHelper\MockFactories\FirstAvailableMockFactoryTests.cs" />
     <Compile Include="TestHelper\MockFactories\MoqFactoryTests.cs" />
     <Compile Include="TestHelper\MockFactories\MoqProxyTests.cs" />
@@ -311,9 +252,9 @@
     <Compile Include="TestHelper\TestHelperController.cs" />
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\HtmlExtensionTests.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\TestClass.cs" />
     <Compile Include="UI\Grid\AutoColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\ColumnBuilderTester.cs" />
     <Compile Include="UI\Grid\GridExtensionTester.cs" />
@@ -341,8 +282,6 @@
     <Compile Include="UrlHelperExtensionsTester.cs" />
     <Compile Include="ViewDataExtensionsForIDictionaryTester.cs" />
     <Compile Include="ViewDataExtensionsForViewDataTester.cs" />
-    <Compile Include="ViewFactories\FileSystemViewSourceLoaderTester.cs" />
-    <Compile Include="ViewFactories\FileViewSourceTester.cs" />
     <Compile Include="MvcMockHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -358,21 +297,9 @@
       <Project>{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}</Project>
       <Name>MvcContrib.IncludeHandling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.Spring\MvcContrib.Spring.csproj">
-      <Project>{5CE100F1-E229-43A2-9564-90C4B90558C6}</Project>
-      <Name>MvcContrib.Spring</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.StructureMap\MvcContrib.StructureMap.csproj">
-      <Project>{6DE6FAEF-F974-4641-990E-FFE8728E5E16}</Project>
-      <Name>MvcContrib.StructureMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvcContrib.TestHelper\MvcContrib.TestHelper\MvcContrib.TestHelper.csproj">
       <Project>{F2A3F400-A20E-4B83-959B-EBD14D6C143E}</Project>
       <Name>MvcContrib.TestHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.Unity\MvcContrib.Unity.csproj">
-      <Project>{B4C170B6-2FC7-4F4D-B7BF-B3E39D1030B4}</Project>
-      <Name>MvcContrib.Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">
       <Project>{2E29C28C-B0B7-4D8C-A06F-67AD70C765EA}</Project>
@@ -383,21 +310,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\exists.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="PortableAreas\images\arrow.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +332,23 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\exists.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

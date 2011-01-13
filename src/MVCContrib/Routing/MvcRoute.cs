@@ -10,6 +10,7 @@ namespace MvcContrib.Routing
 	///<summary>
 	/// Use this class to define url->controller action mappings
 	///</summary>
+	[Obsolete]
 	public class MvcRoute : Route
 	{
 		private MvcRoute(string url)
@@ -23,6 +24,16 @@ namespace MvcContrib.Routing
 		/// Fluent interface start method
 		///</summary>
 		///<param name="url">The url pattern</param>
+		public static MvcRoute MapUrl(string url)
+		{
+			return new MvcRoute(url);
+		}
+
+		///<summary>
+		/// Fluent interface start method
+		///</summary>
+		///<param name="url">The url pattern</param>
+		[Obsolete("Use MapUrl instead")]
 		public static MvcRoute MappUrl(string url)
 		{
 			return new MvcRoute(url);

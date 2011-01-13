@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using MvcContrib.Attributes;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.Mvc;
 
 namespace MvcContrib.Binders
 {
@@ -11,8 +13,22 @@ namespace MvcContrib.Binders
 	/// </summary>
 	public static class DerivedTypeModelBinderCache
 	{
-		private static readonly ThreadSafeDictionary<Type, IEnumerable<Type>> TypeCache =
+		private static readonly ThreadSafeDictionary<Type, IEnumerable<Type>> _typeCache =
 			new ThreadSafeDictionary<Type, IEnumerable<Type>>();
+
+		private static readonly ConcurrentDictionary<string, Type> _hashToTypeDictionary =
+			new ConcurrentDictionary<string, Type>();
+
+		private static readonly ConcurrentDictionary<Type, string> _typeToHashDictionary =
+			new ConcurrentDictionary<Type, string>();
+		
+		private static string _typeStampFieldName = "_xTypeStampx_";
+
+		public static string TypeStampFieldName
+		{
+			get { return _typeStampFieldName; } 
+			set { _typeStampFieldName = value; }
+		}
 
 		/// <summary>
 		/// Registers the attached set of derived types by the indicated base type
@@ -23,38 +39,64 @@ namespace MvcContrib.Binders
 		{
 			try
 			{
-				TypeCache.Add(baseType, derivedTypes);
-
-				return true;
+				// register the types based on the base type
+				_typeCache.Add(baseType, derivedTypes);
 			}
 			catch (ArgumentException)
 			{
 				return false;
 			}
+
+			foreach (var item in derivedTypes)
+			{
+				// this step is needed to make sure the closure behaves properly
+				var currentItem = item;
+				var encryptedName = EncryptStringToBase64(currentItem.FullName);
+
+				_hashToTypeDictionary.AddOrUpdate(encryptedName, name => currentItem,
+				                               (name, itemValue) => currentItem);
+
+				_typeToHashDictionary.AddOrUpdate(currentItem, type => encryptedName, (type, name) => encryptedName);
+			}
+			// register the base type with the derived type modelbinder for binding purposes
+			ModelBinders.Binders.Add(baseType, new DerivedTypeModelBinder());
+
+			return true;
+
 		}
 
-		/// <summary>
-		/// Searches for the requested base type in the cache
-		/// </summary>
-		/// <param name="baseType">type used to located the set of registered alternate types</param>
-		/// <returns>the set of matching alternate types or null when a set is not found</returns>
-		public static IEnumerable<Type> GetDerivedTypes(Type baseType)
+		private static readonly byte[] _originalEncryptionSalt = new byte[]
+                                                          {
+                                                              0xc5, 0x10, 0x53, 0xe3, 0xc4, 0x17, 0x47, 0xc9,
+                                                              0x85, 0x5d, 0xf1, 0x62, 0x73, 0x94, 0x12, 0x9e
+                                                          };
+
+		private static byte[] _activeEncryptionSalt = _originalEncryptionSalt;
+
+
+		public static void SetTypeStampSaltValue(Guid guid)
 		{
-			if( TypeCache.ContainsKey(baseType))
-				return TypeCache[baseType];
+			_activeEncryptionSalt = guid.ToByteArray();
+		}
 
-			// next we'll search for the derived type aware attributes on the type.
-			// letting go of the lock as this operation can be longer lived
+		private static string EncryptStringToBase64(this string value)
+		{
+			if (string.IsNullOrEmpty(value))
+				return value;
 
-			var attributes =
-				baseType.GetCustomAttributes(typeof(DerivedTypeBinderAwareAttribute), true) as
-				DerivedTypeBinderAwareAttribute[];
+			var passwordData = Encoding.UTF8.GetBytes(value);
 
-			var types = from a in attributes select a.DerivedType;
+			var hashAlgorithm = new HMACSHA256(_activeEncryptionSalt);
 
-			RegisterDerivedTypes(baseType, types);
+			var hashBytes = hashAlgorithm.ComputeHash(passwordData);
 
-			return types;
+			return Convert.ToBase64String(hashBytes);
+		}
+
+		public static Type GetDerivedType(string typeValue)
+		{
+			Type type;
+			return _hashToTypeDictionary.TryGetValue(typeValue, out type) ? type : null;
 		}
 
 		/// <summary>
@@ -62,7 +104,36 @@ namespace MvcContrib.Binders
 		/// </summary>
 		public static void Reset()
 		{
-			TypeCache.Clear();
+			// first, remove all type registrations in Mvc's binder registry
+			foreach (var type in _typeCache)
+				ModelBinders.Binders.Remove(type.Key);
+
+			_hashToTypeDictionary.Clear();
+			_typeToHashDictionary.Clear();
+
+			// clear the cache
+			_typeCache.Clear();
+
+			// reset salt value
+			_activeEncryptionSalt = _originalEncryptionSalt;
+		}
+
+		/// <summary>
+		/// Gets a hashed name for the given type and also checks to see if the type has been registered.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
+		public static string GetTypeName(Type type)
+		{
+			try
+			{
+				return _typeToHashDictionary[type];
+			}
+			catch( KeyNotFoundException keyNotFoundException)
+			{
+				throw new KeyNotFoundException(
+					string.Format("Type {0} is not registered with the DerivedTypeModelBinder", type.Name), keyNotFoundException);
+			}
 		}
 	}
 }

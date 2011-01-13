@@ -21,6 +21,7 @@ namespace MvcContrib.UI.DataList
     /// </code>
     /// </example>
     /// <typeparam name="T"></typeparam>
+	[Obsolete]
     public class DataList<T>
     {
         private readonly IEnumerable<T> _dataSource;

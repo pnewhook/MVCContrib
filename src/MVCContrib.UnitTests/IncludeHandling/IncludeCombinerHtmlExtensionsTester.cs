@@ -4,8 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
-using MvcContrib.Interfaces;
-using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -33,13 +31,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_html = WebTestUtility.BuildHtmlHelper(_mocks, _viewData, null);
 			_mocks.ReplayAll();
 			var resolver = new QnDDepResolver(_mockHttpContextProvider, _mockSettings, new Controller[] { });
-			DependencyResolver.InitializeWith(resolver);
-		}
-
-		[TearDown]
-		public void Teardown()
-		{
-			DependencyResolver.InitializeWith(null);
+			DependencyResolver.SetResolver(resolver);
 		}
 
 		[Test]
@@ -191,24 +183,15 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			}
 		}
 
-		public Interface GetImplementationOf<Interface>()
+
+		public object GetService(Type serviceType)
 		{
-			return (Interface)types[typeof(Interface)];
+			return types.ContainsKey(serviceType) ? types[serviceType] : null;
 		}
 
-		public Interface GetImplementationOf<Interface>(Type type)
+		public IEnumerable<object> GetServices(Type serviceType)
 		{
-			return (Interface)types[type];
-		}
-
-		public object GetImplementationOf(Type type)
-		{
-			return types[type];
-		}
-
-		public void DisposeImplementation(object instance)
-		{
-			throw new NotImplementedException();
+			yield break;
 		}
 	}
 }

@@ -32,11 +32,6 @@ namespace MvcContrib.Samples.UI.Controllers
 			return View(_peopleFactory.CreatePeople());
 		}
 
-		public ActionResult WithActionSections()
-		{
-			return View(_peopleFactory.CreatePeople());
-		}
-
 		public ActionResult UsingGridModel()
 		{
 			return View(_peopleFactory.CreatePeople());

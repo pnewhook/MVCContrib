@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 
 namespace MvcContrib.Filters
@@ -10,6 +11,7 @@ namespace MvcContrib.Filters
 	/// 
 	/// To specify no layout, use [Layout(null)] or [Layout("")].
 	/// </summary>
+	[Obsolete]
 	public class LayoutAttribute : ActionFilterAttribute
 	{
 		/// <summary>

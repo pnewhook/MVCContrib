@@ -10,6 +10,7 @@ namespace MvcContrib.Filters
     /// More info <see href="http://blog.troyd.net/ASPNET+MVC+Controller+Action+Precondition+Filter+V2+Now+Part+Of+MVCContrib+Project.aspx">here</see>.
 	/// </summary>
 
+	[Obsolete]
 	[AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.Interface, AllowMultiple = true)]
 	public abstract class PreconditionFilter : ActionFilterAttribute
 	{

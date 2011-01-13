@@ -15,7 +15,7 @@ namespace T4MVCHostMvcApp.Tests {
         private static HtmlHelper Html { get; set; }
 
         // Change to true if testing 'UseLowercaseRoutes = true' mode (in T4MVC.settings.t4)
-        const bool UseLowerCaseNames = false;
+        static bool UseLowerCaseNames = false;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -192,6 +192,13 @@ namespace T4MVCHostMvcApp.Tests {
             Assert.AreEqual("~/Views/NoControllerMatchingFolder/Abcd.txt", MVC.NoControllerMatchingFolder.Views.Abcd);
         }
 
+        [TestMethod()]
+        public void TestTemplateFolders() {
+            Assert.AreEqual("SomeDisplayTemplate", MVC.Home.Views.DisplayTemplates.SomeDisplayTemplate);
+            Assert.AreEqual("SomeEditorTemplate", MVC.Home.Views.EditorTemplates.SomeEditorTemplate);
+            Assert.AreEqual("SomeAreaEditorTemplate", MVC.HomeArea.Home.Views.EditorTemplates.SomeAreaEditorTemplate);
+        }
+
 
 
         // ROUTE VALUES TESTS
@@ -219,6 +226,23 @@ namespace T4MVCHostMvcApp.Tests {
             TestAreaControllerActionNames(actionRes, "", "Home", "New-Name for Blah");
             TestRouteValue(actionRes, "name", null);
             TestRouteValue(actionRes, "age", null);
+        }
+
+        [TestMethod()]
+        public void TestDontGeneratedNoParamOverloadWhenAllParamsAreOptional() {
+            var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithAllOptionalParams();
+
+            TestAreaControllerActionNames(actionRes, "", "Home", "ActionWithAllOptionalParams");
+            TestRouteValue(actionRes, "someString", "Hello");
+            TestRouteValue(actionRes, "n", 5);
+        }
+
+        [TestMethod()]
+        public void TestGeneratedNoParamOverloadWhenOnlySomeParamsAreOptional() {
+            var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithSomeOptionalParams();
+
+            TestAreaControllerActionNames(actionRes, "", "Home", "ActionWithSomeOptionalParams");
+            TestRouteValue(actionRes, "n", null);
         }
 
 #if NOTYET

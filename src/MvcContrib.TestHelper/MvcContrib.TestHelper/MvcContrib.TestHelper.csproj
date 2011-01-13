@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcContrib.TestHelper</RootNamespace>
     <AssemblyName>MvcContrib.TestHelper</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -37,25 +38,23 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TESTHELPER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\MvcContrib.TestHelper.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591 1574 1711 1572</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;TESTHELPER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MvcContrib.TestHelper.XML</DocumentationFile>
     <NoWarn>1591 1574 1711 1572</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
@@ -68,23 +67,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\AspNetMvc\System.Web.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\AspNetMvc\System.Web.Routing.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\..\MVCContrib\UI\InputBuilder\Helpers\ReflectionHelper.cs">
+      <Link>ReflectionHelper.cs</Link>
     </Compile>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
@@ -99,29 +90,19 @@
     <Compile Include="MockFactories\RhinoMocksFactory.cs" />
     <Compile Include="MockFactories\RhinoMocksProxy.cs" />
     <Compile Include="NameAndDescriptionIdentifier.cs" />
-    <Compile Include="FluentController\ActionExpectations.cs" />
-    <Compile Include="FluentController\ActionRedirect.cs" />
-    <Compile Include="FluentController\ActionRender.cs" />
-    <Compile Include="FluentController\ActionReturn.cs" />
-    <Compile Include="FluentController\CallSuccess.cs" />
-    <Compile Include="FluentController\ControllerRedirect.cs" />
-    <Compile Include="FluentController\ControllerRender.cs" />
     <Compile Include="Fakes\FakeHttpContext.cs" />
     <Compile Include="Fakes\FakeHttpRequest.cs" />
     <Compile Include="Fakes\FakeHttpResponse.cs" />
     <Compile Include="Fakes\FakeHttpSessionState.cs" />
     <Compile Include="Fakes\FakeIdentity.cs" />
     <Compile Include="Fakes\FakePrincipal.cs" />
-    <Compile Include="FluentController\GivenController.cs" />
-    <Compile Include="FluentController\ModelStateHelper.cs" />
-    <Compile Include="FluentController\ViewRender.cs" />
-    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="AssertionException.cs" />
     <Compile Include="Extensions\GeneralTestExtensions.cs" />
     <Compile Include="MockSession.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\RouteTestingExtensions.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="OutBoundUrl.cs" />
     <Compile Include="Ui\AssertExtensions.cs" />
     <Compile Include="Ui\DisplayTable.cs" />
@@ -143,12 +124,6 @@
     <Compile Include="Ui\IBrowserDriver.cs" />
     <Compile Include="WebTestUtility.cs" />
     <Compile Include="WriteableHttpFileCollection.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MVCContrib\MVCContrib.csproj">
-      <Project>{2E29C28C-B0B7-4D8C-A06F-67AD70C765EA}</Project>
-      <Name>MVCContrib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

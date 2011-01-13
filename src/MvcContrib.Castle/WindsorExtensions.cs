@@ -8,6 +8,7 @@ using System.Reflection;
 
 namespace MvcContrib.Castle
 {
+	[Obsolete]
 	public static class WindsorExtensions
 	{
 		public static IWindsorContainer RegisterController<T>(this IWindsorContainer container) where T : IController
@@ -22,7 +23,7 @@ namespace MvcContrib.Castle
 			{
 				if(ControllerExtensions.IsController(type))
 				{
-					container.AddComponentLifeStyle(type.FullName.ToLower(), type, LifestyleType.Transient);
+					container.Register(Component.For(type).Named(type.FullName.ToLower()).LifeStyle.Is(LifestyleType.Transient));
 				}
 			}
 

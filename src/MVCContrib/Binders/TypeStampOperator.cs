@@ -5,11 +5,10 @@ namespace MvcContrib.Binders
 {
     public class TypeStampOperator : ITypeStampOperator
     {
-        public const string TypeStampKey = "_xTypeStampx_";
-
         public string DetectTypeStamp(ModelBindingContext bindingContext, IPropertyNameProvider propertyNameProvider)
         {
-            var propertyName = propertyNameProvider.CreatePropertyName(bindingContext.ModelName, TypeStampKey);
+
+			var propertyName = propertyNameProvider.CreatePropertyName(bindingContext.ModelName, DerivedTypeModelBinderCache.TypeStampFieldName);
 
             if (bindingContext.ValueProvider.ContainsPrefix(propertyName))
             {

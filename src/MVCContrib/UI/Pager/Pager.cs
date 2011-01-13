@@ -12,7 +12,7 @@ namespace MvcContrib.UI.Pager
 	/// <summary>
 	/// Renders a pager component from an IPagination datasource.
 	/// </summary>
-	public class Pager
+	public class Pager : IHtmlString
 	{
 		private readonly IPagination _pagination;
 		private readonly ViewContext _viewContext;
@@ -119,9 +119,15 @@ namespace MvcContrib.UI.Pager
 			return this;
 		}
 
+		// For backwards compatibility with WebFormViewEngine
 		public override string ToString()
 		{
-			if(_pagination.TotalItems == 0)
+			return ToHtmlString();
+		}
+
+		public string ToHtmlString()
+		{
+			if (_pagination.TotalItems == 0) 
 			{
 				return null;
 			}
@@ -131,7 +137,7 @@ namespace MvcContrib.UI.Pager
 			builder.Append("<div class='pagination'>");
 			RenderLeftSideOfPager(builder);
 
-			if(_pagination.TotalPages > 1)
+			if (_pagination.TotalPages > 1)
 			{
 				RenderRightSideOfPager(builder);
 			}

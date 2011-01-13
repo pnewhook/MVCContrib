@@ -14,6 +14,7 @@ namespace MvcContrib.UI.DataList
 		/// <param name="helper">The helper.</param>
 		/// <param name="dataSource">The data source.</param>
 		/// <returns></returns>
+		[Obsolete]
 		public static DataList<T> DataList<T>(this HtmlHelper helper, IEnumerable<T> dataSource)
 		{
 			var list = new DataList<T>(dataSource, helper.ViewContext.Writer);
@@ -28,6 +29,7 @@ namespace MvcContrib.UI.DataList
 		/// <param name="dataSource">The data source.</param>
 		/// <param name="tableAttributes">The table attributes.</param>
 		/// <returns></returns>
+		[Obsolete]
 		public static DataList<T> DataList<T>(this HtmlHelper helper, IEnumerable<T> dataSource,
 		                                      params Func<object, object>[] tableAttributes)
 		{

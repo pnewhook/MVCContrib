@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.Filters;
-using MvcContrib.Services;
 
 namespace MvcContrib.IncludeHandling
 {
@@ -19,7 +18,7 @@ namespace MvcContrib.IncludeHandling
 
 		public static string RenderIncludes(this HtmlHelper helper, IEnumerable<string> includes, IncludeType type, bool isInDebugMode) 
 		{
-			var combiner = DependencyResolver.GetImplementationOf<IIncludeCombiner>();
+			var combiner = DependencyResolver.Current.GetService<IIncludeCombiner>();
 			var toRender = combiner.RenderIncludes(includes, type, isInDebugMode);
 			return toRender;
 		}

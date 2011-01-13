@@ -23,7 +23,7 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		public static IGrid<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> dataSource) where T : class
 		{
-			return new Grid<T>(dataSource, helper.ViewContext.Writer, helper.ViewContext);
+			return new Grid<T>(dataSource, helper.ViewContext);
 		}
 
 		/// <summary>
@@ -123,29 +123,6 @@ namespace MvcContrib.UI.Grid
 			};
 		}
 
-		/// <summary>
-		/// Renders the specified text at the start of every row instead of the default output.
-		/// </summary>
-		/// <param name="grid">The grid</param>
-		/// <param name="rowStart">Lambda takes an instance of GridRowViewData and returns the string to render</param>
-		/// <returns></returns>
-		public static IGridWithOptions<T> RowStart<T>(this IGridWithOptions<T> grid, Func<GridRowViewData<T>, string> rowStart) where T : class 
-		{
-			grid.Model.Sections.RowStart(rowStart);
-			return grid;
-		}
-
-		/// <summary>
-		/// Renders the specified text at the start of every row instead of the default output.
-		/// </summary>
-		/// <param name="grid">The grid</param>
-		/// <param name="rowEnd">Lambda takes an instance of GridRowViewData and returns the string to render</param>
-		/// <returns></returns>
-		public static IGridWithOptions<T> RowEnd<T>(this IGridWithOptions<T> grid, Func<GridRowViewData<T>, string> rowEnd) where T : class 
-		{
-			grid.Model.Sections.RowEnd(rowEnd);
-			return grid;
-		}
 
 		/// <summary>
 		/// The HTML that should be used to render the header for the column. This should include TD tags. 
@@ -153,28 +130,10 @@ namespace MvcContrib.UI.Grid
 		/// <param name="column">The current column</param>
 		/// <param name="header">The format to use.</param>
 		/// <returns></returns>
+		[Obsolete("Please use the overload of column.Header that accepts a razor template. Eg, column.For(x => x.Foo).Header(@<div>Custom markup here</div>)")]
 		public static IGridColumn<T> Header<T>(this IGridColumn<T> column, string header) where T : class 
 		{
-			column.CustomHeaderRenderer = c => c.Writer.Write(header);
-			return column;
-		}
-
-		/// <summary>
-		/// Specifies that a partial view should be used to render the contents of this column.
-		/// </summary>
-		/// <param name="column">The current column</param>
-		/// <param name="partialName">The name of the partial view</param>
-		/// <returns></returns>
-		[Obsolete("Rendering a partial view using the Partial method is deprecated. Instead, you should define a custom column that calls Html.Partial, eg: column.For(customer => Html.Partial(\"MyPartialView\", customer)).Named(\"Foo\")")]
-		public static IGridColumn<T> Partial<T>(this IGridColumn<T> column, string partialName) where T : class 
-		{
-			column.CustomItemRenderer = (context, item) => {
-				var view = context.ViewEngines.TryLocatePartial(context.ViewContext, partialName);
-				var newViewData = new ViewDataDictionary<T>(item);
-				var newContext = new ViewContext(context.ViewContext, context.ViewContext.View, newViewData, context.ViewContext.TempData, context.ViewContext.Writer);
-				view.Render(newContext, context.Writer);
-			};
-			return column;
+			return column.Header(x => header);
 		}
 
 		/// <summary>
@@ -202,5 +161,39 @@ namespace MvcContrib.UI.Grid
 				}
 			});
 		}
+
+
+
+		/// <summary>
+		/// Executes a delegate that can be used to specify custom HTML to replace the built in rendering of the start of the row.
+		/// </summary>
+		/// <param name="grid">The grid</param>
+		/// <param name="template">Razor template to use.</param>
+		public static IGridWithOptions<T> RowStart<T>(this IGridWithOptions<T> grid, Func<T, object> template) where T : class 
+		{
+			grid.Model.Sections.Row.StartSectionRenderer = (rowData, context) => 
+			{
+				context.Writer.Write(template(rowData.Item));
+				return true;
+			};
+			return grid;
+		}
+
+		/// <summary>
+		/// Executes a delegate that can be used to specify custom HTML to replace the built in rendering of the end of the row.
+		/// </summary>
+		/// <param name="grid">The grid</param>
+		/// <param name="template">Razor template to use.</param>
+		public static IGridWithOptions<T> RowEnd<T>(this IGridWithOptions<T> grid, Func<T, object> template) where T : class 
+		{
+			grid.Model.Sections.Row.EndSectionRenderer = (rowData, context) => 
+			{
+				context.Writer.Write(template(rowData.Item));
+				return true;
+			};
+
+			return grid;
+		}
+
 	}
 }

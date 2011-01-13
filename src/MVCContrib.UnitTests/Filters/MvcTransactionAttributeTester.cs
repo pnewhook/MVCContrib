@@ -6,16 +6,18 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Core.Configuration;
 using Castle.MicroKernel;
+using Castle.MicroKernel.Registration;
 using Castle.Services.Transaction;
 using Castle.Windsor;
 using MvcContrib.Castle;
 using MvcContrib.Services;
 using NUnit.Framework;
 using Rhino.Mocks;
+using IDependencyResolver = Castle.MicroKernel.IDependencyResolver;
 
 namespace MvcContrib.UnitTests.Filters
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class MvcTransactionAttributeTester
 	{
 		private ITransactionManager manager;
@@ -25,9 +27,9 @@ namespace MvcContrib.UnitTests.Filters
 		public void SetUp()
 		{
 			var container = new WindsorContainer();
-			DependencyResolver.InitializeWith(new WindsorDependencyResolver(container));
-			container.AddComponent("transaction.manager", typeof(ITransactionManager), typeof(TestITransactionManager));
-			manager = DependencyResolver.Resolver.GetImplementationOf<ITransactionManager>();
+			DependencyResolver.SetResolver(new WindsorDependencyResolver(container));
+			container.Register(Component.For<ITransactionManager>().ImplementedBy<TestITransactionManager>().Named("transaction.manager"));
+			manager = DependencyResolver.Current.GetService<ITransactionManager>();
             attribute = new MvcTransactionAttribute();
 		}
 
@@ -144,7 +146,6 @@ namespace MvcContrib.UnitTests.Filters
 		{
 		}
 
-
 		internal class TestITransactionManager : ITransactionManager, IFacility
 		{
 			public int CreateTransactionCalled { get; set; }
@@ -155,7 +156,8 @@ namespace MvcContrib.UnitTests.Filters
 				return CreateTransaction(transactionMode, isolationMode, false);
 			}
 
-			public ITransaction CreateTransaction(TransactionMode transactionMode, IsolationMode isolationMode, bool distributedTransaction)
+			public ITransaction CreateTransaction(TransactionMode transactionMode, IsolationMode isolationMode,
+			                                      bool distributedTransaction)
 			{
 				CreateTransactionCalled++;
 				return (CurrentTransaction = new TestITransaction());
@@ -168,47 +170,83 @@ namespace MvcContrib.UnitTests.Filters
 
 			public ITransaction CurrentTransaction { get; set; }
 
-			public void Init(IKernel kernel, IConfiguration facilityConfig) { }
-			public void Terminate() { }
+			public void Init(IKernel kernel, IConfiguration facilityConfig) {}
+			public void Terminate() {}
 
-			public event TransactionCreationInfoDelegate TransactionCreated;
-			public event TransactionCreationInfoDelegate ChildTransactionCreated;
-			public event TransactionDelegate TransactionCommitted;
-			public event TransactionDelegate TransactionRolledback;
-			public event TransactionDelegate TransactionDisposed;
-			public event TransactionErrorDelegate TransactionFailed;
+			#region ITransactionManager Members
 
-			//these invokers below are there to remove teh "Warning as Error" message. If you have a better way of removing this message, go for it.
-			private void InvokeTransactionFailed(ITransaction transaction, TransactionException transactionError)
+			public event EventHandler<TransactionEventArgs> ChildTransactionCreated;
+
+			protected void OnChildTransactionCreated(TransactionEventArgs e)
 			{
-				TransactionErrorDelegate Delegate = TransactionFailed;
+				if(ChildTransactionCreated != null)
+				{
+					ChildTransactionCreated(this, e);
+				}
 			}
-			private void InvokeTransactionCreated(ITransaction transaction, TransactionMode transactionMode, IsolationMode isolationMode, bool distributedTransaction)
+
+
+			public event EventHandler<TransactionEventArgs> TransactionCreated;
+
+			protected void OnTransactionCreated(TransactionEventArgs e)
 			{
-				TransactionCreationInfoDelegate Delegate = TransactionCreated;
+				if(TransactionCreated != null)
+				{
+					TransactionCreated(this, e);
+				}
 			}
-			private void InvokeChildTransactionCreated(ITransaction transaction, TransactionMode transactionMode, IsolationMode isolationMode, bool distributedTransaction)
+
+			public event EventHandler<TransactionEventArgs> TransactionDisposed;
+
+			protected void OnTransactionDisposed(TransactionEventArgs e)
 			{
-				TransactionCreationInfoDelegate Delegate = ChildTransactionCreated;
+				if(TransactionDisposed != null)
+				{
+					TransactionDisposed(this, e);
+				}
 			}
-			private void InvokeTransactionCommitted(ITransaction transaction)
+
+			#endregion
+
+			#region IEventPublisher Members
+
+			public event EventHandler<TransactionEventArgs> TransactionCompleted;
+
+			protected void OnTransactionCompleted(TransactionEventArgs e)
 			{
-				TransactionDelegate Delegate = TransactionCommitted;
+				if(TransactionCompleted != null)
+				{
+					TransactionCompleted(this, e);
+				}
 			}
-			private void InvokeTransactionDisposed(ITransaction transaction)
+
+			public event EventHandler<TransactionFailedEventArgs> TransactionFailed;
+
+			protected void OnTransactionFailed(TransactionFailedEventArgs e)
 			{
-				TransactionDelegate Delegate = TransactionDisposed;
+				if(TransactionFailed != null)
+				{
+					TransactionFailed(this, e);
+				}
 			}
-			private void InvokeTransactionRolledback(ITransaction transaction)
+
+			public event EventHandler<TransactionEventArgs> TransactionRolledBack;
+
+			protected void OnTransactionRolledBack(TransactionEventArgs e)
 			{
-				TransactionDelegate Delegate = TransactionRolledback;
+				if(TransactionRolledBack != null)
+				{
+					TransactionRolledBack(this, e);
+				}
 			}
+
+			#endregion
 		}
 
 		internal class TestITransaction : ITransaction
 		{
 			public int BeginCalled { get; set; }
-			public int	CommitCalled { get; set; }
+			public int CommitCalled { get; set; }
 			public int RollbackCalled { get; set; }
 
 			public void Begin()
@@ -231,59 +269,81 @@ namespace MvcContrib.UnitTests.Filters
 				IsRollbackOnlySet = true;
 			}
 
-			public void Enlist(IResource resource)
-			{
-				throw new System.NotImplementedException();
-			}
 
-			public void RegisterSynchronization(ISynchronization synchronization)
-			{
-				throw new System.NotImplementedException();
-			}
+			public bool IsRollbackOnlySet { get; set; }
 
-			public TransactionStatus Status
-			{
-				get { throw new System.NotImplementedException(); }
-			}
+			#region ITransaction Members
 
 			public IDictionary Context
 			{
-				get { throw new System.NotImplementedException(); }
+				get { throw new NotImplementedException(); }
+			}
+
+			public void Enlist(IResource resource)
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool IsAmbient
+			{
+				get { throw new NotImplementedException(); }
 			}
 
 			public bool IsChildTransaction
 			{
-				get { throw new System.NotImplementedException(); }
-			}
-
-			public bool IsRollbackOnlySet
-			{
-				get; set;
-			}
-
-			public TransactionMode TransactionMode
-			{
-				get { throw new System.NotImplementedException(); }
+				get { throw new NotImplementedException(); }
 			}
 
 			public IsolationMode IsolationMode
 			{
-				get { throw new System.NotImplementedException(); }
-			}
-
-			public bool DistributedTransaction
-			{
-				get { throw new System.NotImplementedException(); }
+				get { throw new NotImplementedException(); }
 			}
 
 			public string Name
 			{
-				get { throw new System.NotImplementedException(); }
+				get { throw new NotImplementedException(); }
 			}
 
-			public IResource[] Resources
+			public void RegisterSynchronization(ISynchronization synchronization)
 			{
-				get { throw new System.NotImplementedException(); }
+				throw new NotImplementedException();
+			}
+
+			public IEnumerable<IResource> Resources()
+			{
+				throw new NotImplementedException();
+			}
+
+			public TransactionStatus Status
+			{
+				get { throw new NotImplementedException(); }
+			}
+
+			public TransactionMode TransactionMode
+			{
+				get { throw new NotImplementedException(); }
+			}
+
+			#endregion
+		}
+	
+		private class WindsorDependencyResolver : System.Web.Mvc.IDependencyResolver
+		{
+			IWindsorContainer _container;
+			public WindsorDependencyResolver(IWindsorContainer container)
+			{
+				_container = container;
+			}
+
+
+			public object GetService(Type serviceType)
+			{
+				return _container.Resolve(serviceType);
+			}
+
+			public IEnumerable<object> GetServices(Type serviceType)
+			{
+				yield break;
 			}
 		}
 	}

@@ -35,7 +35,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Calling_AutoGenerateColumns_should_add_columns()
 		{
-			IGrid<Person> grid = new Grid<Person>(new Person[0], new StringWriter(), new ViewContext());
+			IGrid<Person> grid = new Grid<Person>(new Person[0], new ViewContext());
 			grid.AutoGenerateColumns();
 
 			((Grid<Person>)grid).Model.Columns.Count.ShouldEqual(2);
@@ -72,7 +72,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Supports_adding_additional_columns()
 		{
-			var grid = new Grid<Person>(new List<Person>(), new StringWriter(), new ViewContext());
+			var grid = new Grid<Person>(new List<Person>(), new ViewContext());
 			grid
 				.AutoGenerateColumns()
 				.Columns(column => {
@@ -99,7 +99,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 
 		private class DisplayNamePerson
 		{
-			[DisplayName("Foo")]
+			[Display(Name = "Foo")]
 			public string Name { get; set; }
 		}
 

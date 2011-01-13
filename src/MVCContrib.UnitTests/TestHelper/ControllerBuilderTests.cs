@@ -2,8 +2,8 @@
 using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
+using System.Web.Mvc;
 using System.Web.Routing;
-using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using MvcContrib.TestHelper.MockFactories;
@@ -162,9 +162,9 @@ namespace MvcContrib.UnitTests.TestHelper
 			using(mocks.Record())
 			{
 				var resolver = mocks.DynamicMock<IDependencyResolver>();
-				Expect.Call(resolver.GetImplementationOf(typeof(TestHelperWithArgsController))).Return(
+				Expect.Call(resolver.GetService(typeof(TestHelperWithArgsController))).Return(
 					new TestHelperWithArgsController(new TestService()));
-				DependencyResolver.InitializeWith(resolver);
+				DependencyResolver.SetResolver(resolver);
 			}
 			using(mocks.Playback())
 			{

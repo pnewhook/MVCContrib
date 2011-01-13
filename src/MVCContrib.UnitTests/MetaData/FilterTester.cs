@@ -7,9 +7,10 @@ using MvcContrib.Filters;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace MvcContrib.UnitTests.MetaData
-{
-	[TestFixture]
+namespace MvcContrib.UnitTests.MetaData {
+#pragma warning disable 612,618
+
+	[TestFixture, Obsolete]
 	public class FilterTester
 	{
 		private FilteredController _controller;
@@ -275,4 +276,5 @@ namespace MvcContrib.UnitTests.MetaData
 
 		}
 	}
+#pragma warning restore 612,618
 }

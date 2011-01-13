@@ -10,7 +10,7 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.UI.MenuBuilder
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class MenuBuilderTests
 	{
 		[SetUp]

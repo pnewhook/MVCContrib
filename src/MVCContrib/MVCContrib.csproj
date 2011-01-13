@@ -10,13 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcContrib</RootNamespace>
     <AssemblyName>MvcContrib</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -45,7 +46,6 @@
     <DocumentationFile>bin\Debug\MvcContrib.XML</DocumentationFile>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <NoWarn>1591 1574 1711</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,10 +58,9 @@
     <DocumentationFile>bin\Release\MvcContrib.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591 1574 1711</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\AspNetMvc\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
@@ -81,20 +80,29 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Abstractions.dll</HintPath>
+      <HintPath>..\..\bin\WebPages\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Extensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\AspNetMvc\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\AspNetMvc\System.Web.Routing.dll</HintPath>
+      <HintPath>..\..\bin\WebPages\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\WebPages\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\WebPages\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -105,23 +113,15 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ActionResults\PermanentRedirectResult.cs" />
-    <Compile Include="ActionResults\PermanentRedirectToActionResult.cs" />
     <Compile Include="ActionResults\RedirectToRouteResult.cs" />
     <Compile Include="ActionResults\XmlResult.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
     <Compile Include="Attributes\DerivedTypeBinderAwareAttribute.cs" />
-    <Compile Include="Attributes\DeserializeAttribute.cs" />
     <Compile Include="Binders\DerivedTypeModelBinder.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
     <Compile Include="Binders\IPropertyNameProvider.cs" />
     <Compile Include="Binders\ITypeStampOperator.cs" />
-    <Compile Include="Binders\SubControllerBinder.cs" />
     <Compile Include="Binders\TypeStampOperator.cs" />
-    <Compile Include="ConversionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="Filters\DebugAttribute.cs" />
     <Compile Include="Filters\LayoutAttribute.cs" />
     <Compile Include="Filters\ModelStateToTempDataAttribute.cs" />
     <Compile Include="Filters\PassParametersDuringRedirectAttribute.cs" />
@@ -130,23 +130,9 @@
     <Compile Include="Filters\PreconditionFilter.cs" />
     <Compile Include="Filters\PredicatePreconditionFilter.cs" />
     <Compile Include="Filters\RegExPreconditionFilter.cs" />
-    <Compile Include="Filters\SubControllerActionToViewDataAttribute.cs" />
     <Compile Include="Filters\TempDataToViewData.cs" />
-    <Compile Include="FluentController\AbstractFluentController.cs" />
-    <Compile Include="FluentController\AbstractRestfulFluentController.cs" />
-    <Compile Include="FluentController\FluentControllerAction.cs" />
-    <Compile Include="HeadResult.cs" />
-    <Compile Include="FluentController\IRestfulController.cs" />
+    <Compile Include="ActionResults\HeadResult.cs" />
     <Compile Include="Hash.cs" />
-    <Compile Include="HttpContextExtensions.cs" />
-    <Compile Include="HttpContextProvider.cs" />
-    <Compile Include="HttpHeaders.cs" />
-    <Compile Include="IHttpContextProvider.cs" />
-    <Compile Include="Interfaces\IDependencyResolver.cs" />
-    <Compile Include="ControllerFactories\IoCControllerFactory.cs" />
-    <Compile Include="ISubController.cs" />
-    <Compile Include="MimeTypes.cs" />
-    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Pagination\CustomPagination.cs" />
     <Compile Include="Pagination\IPagination.cs" />
     <Compile Include="Pagination\LazyPagination.cs" />
@@ -170,45 +156,19 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Routing\CompressResponseAttribute.cs" />
-    <Compile Include="Routing\DebugHttpHandler.cs" />
-    <Compile Include="Routing\DebugRoute.cs" />
-    <Compile Include="Routing\DebugRouteHandler.cs" />
     <Compile Include="Routing\MvcRoute.cs" />
     <Compile Include="Routing\RegexRoute.cs" />
-    <Compile Include="Routing\RouteAttributeUtility.cs" />
-    <Compile Include="Routing\RouteDebugger.cs" />
-    <Compile Include="Routing\UrlRouteAttribute.cs" />
-    <Compile Include="Routing\UrlRouteParameterConstraintAttribute.cs" />
-    <Compile Include="Routing\UrlRouteParameterDefaultAttribute.cs" />
     <Compile Include="Services\EmailMetadata.cs" />
     <Compile Include="Services\EmailTemplateService.cs" />
-    <Compile Include="MetaData\DefaultConvertible.cs" />
-    <Compile Include="MetaData\NameValueDeserializer.cs" />
-    <Compile Include="Services\DependencyResolver.cs" />
     <Compile Include="Services\IViewStreamReader.cs" />
     <Compile Include="Services\IEmailTemplateService.cs" />
-    <Compile Include="SimplyRestful\IRestfulActionResolver.cs" />
-    <Compile Include="SimplyRestful\RestfulAction.cs" />
-    <Compile Include="SimplyRestful\RestfulActionResolver.cs" />
-    <Compile Include="SimplyRestful\RestfulGetAction.cs" />
-    <Compile Include="SimplyRestful\RestfulPostAction.cs" />
-    <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
     <Compile Include="Sorting\SortDirection.cs" />
     <Compile Include="Sorting\SortExtensions.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="SubController.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\ASPXViewEngine\AutoTypingHelper.cs" />
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
+    <Compile Include="UI\DerivedTypeModelBinder\HtmlExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnBuilder.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
@@ -269,7 +229,6 @@
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceVirtualFile.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
-    <Compile Include="UI\Html\HtmlStringExtensions.cs" />
     <Compile Include="UI\InputBuilder\Views\TypeViewModelExtensions.asax.cs" />
     <Compile Include="UI\MenuBuilder\ActionMenuItem.cs" />
     <Compile Include="UI\MenuBuilder\MenuHelpText.cs" />
@@ -289,9 +248,6 @@
     <Compile Include="UI\ReturnUrl\ReturnUrlManager.cs" />
     <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="ViewDataExtensions.cs" />
-    <Compile Include="ViewFactories\FileSystemViewSourceLoader.cs" />
-    <Compile Include="ViewFactories\FileViewSource.cs" />
-    <Compile Include="ViewFactories\IViewSourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PortableAreas\Web.config" />
@@ -371,9 +327,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

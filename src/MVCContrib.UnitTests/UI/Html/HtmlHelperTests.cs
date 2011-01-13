@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -8,7 +9,7 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.UI.Html
 {
-    [TestFixture]
+    [TestFixture, Obsolete]
     public class HtmlHelperTests
     {
         private MockRepository _mocks;

@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MvcContrib.Services;
 using MvcContrib.TestHelper.MockFactories;
 
 namespace MvcContrib.TestHelper
@@ -188,7 +187,7 @@ namespace MvcContrib.TestHelper
 		/// <returns>A new controller of the specified type</returns>
 		public T CreateIoCController<T>() where T : Controller
 		{
-			var controller = DependencyResolver.GetImplementationOf<T>();
+			var controller = DependencyResolver.Current.GetService<T>();
 			InitializeController(controller);
 			return controller;
 		}

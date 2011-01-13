@@ -16,10 +16,10 @@
                 <a href="">My Sample MVC Application</a></p>
             <ul id="mainMenu">
                 <li>
-                    <%= Html.ActionLink<StarsController>(c => c.List(), "Home") %>
+                    <%= Html.ActionLink("Home", "List", "Stars") %>
                 </li>
                 <li>
-                    <%= Html.ActionLink<StarsController>(c => c.ListWithLinks(), "Nearby") %>
+                    <%= Html.ActionLink("Nearby", "ListWithLinks", "Stars") %>
                 </li>
             </ul>
         </div>

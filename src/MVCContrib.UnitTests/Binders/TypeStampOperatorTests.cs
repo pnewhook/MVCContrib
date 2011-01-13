@@ -16,7 +16,7 @@ namespace MvcContrib.UnitTests.Binders
             var valueProvider = MockRepository.GenerateMock<IValueProvider>();
             var propertyNameProvider = MockRepository.GenerateMock<IPropertyNameProvider>();
 
-            propertyNameProvider.Expect(e => e.CreatePropertyName("test", TypeStampOperator.TypeStampKey)).Return("foo");
+            propertyNameProvider.Expect(e => e.CreatePropertyName("test", DerivedTypeModelBinderCache.TypeStampFieldName)).Return("foo");
             valueProvider.Expect(b => b.ContainsPrefix("foo"))
                 .Return(true);
             valueProvider.Expect(e => e.GetValue("foo")).Return(new ValueProviderResult(new[] { "bar" }, "foo",
@@ -44,7 +44,7 @@ namespace MvcContrib.UnitTests.Binders
             var valueProvider = MockRepository.GenerateMock<IValueProvider>();
             var propertyNameProvider = MockRepository.GenerateMock<IPropertyNameProvider>();
 
-            propertyNameProvider.Expect(e => e.CreatePropertyName("test", TypeStampOperator.TypeStampKey)).Return("foo");
+			propertyNameProvider.Expect(e => e.CreatePropertyName("test", DerivedTypeModelBinderCache.TypeStampFieldName)).Return("foo");
             valueProvider.Expect(b => b.ContainsPrefix("foo"))
                 .Return(false);
 
@@ -68,7 +68,7 @@ namespace MvcContrib.UnitTests.Binders
             var valueProvider = MockRepository.GenerateMock<IValueProvider>();
             var propertyNameProvider = MockRepository.GenerateMock<IPropertyNameProvider>();
 
-            propertyNameProvider.Expect(e => e.CreatePropertyName("test", TypeStampOperator.TypeStampKey)).Return("foo");
+			propertyNameProvider.Expect(e => e.CreatePropertyName("test", DerivedTypeModelBinderCache.TypeStampFieldName)).Return("foo");
             valueProvider.Expect(b => b.ContainsPrefix("foo"))
                 .Return(true);
             valueProvider.Expect(e => e.GetValue("foo")).Return(new ValueProviderResult(new DerivedTypeModelBinder(), "foo",

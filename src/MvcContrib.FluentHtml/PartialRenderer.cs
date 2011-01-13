@@ -86,61 +86,6 @@ namespace MvcContrib.FluentHtml
                 : modelExpression.GetNameFor(view);
         }
 
-        /// <summary>
-        /// Responsible for getting the derived partial, setting up associated data and
-        /// invoking the partial.
-        /// </summary>
-        /// <param name="instanceType">instanceType being passed to the partial</param>
-        public void RenderTypedPartial(Type instanceType)
-        {
-            var viewModelContainerType = typeof(IViewModelContainer<>);
-
-            Type[] typeArgs = { instanceType };
-            var containerType = viewModelContainerType.MakeGenericType(typeArgs);
-            
-            var partialPath = string.Empty;
-
-            try
-            {
-                partialPath = GetPartialPath();
-            }
-            catch (InvalidOperationException invalidOperationException)
-            {
-                throw new InvalidOperationException(
-                    string.Format("IViewModelContainer<T>.RenderTypedPartial only supports WebFormViewEngine"),
-                    invalidOperationException);
-            }
-
-            var partial = BuildManager.CreateInstanceFromVirtualPath(partialPath, containerType);
-
-            if (partial == null)
-                throw new InvalidOperationException("Partial not found and was not caught by MVC");
-
-            // make sure the container is properly typed
-            var targetType = (from p in partial.GetType().GetInterfaces()
-                              where p.IsGenericType
-                                 && p.GetGenericTypeDefinition() == viewModelContainerType
-                                 && p.GetGenericArguments()[0] == instanceType
-                              select p).FirstOrDefault();
-
-            if (targetType == null)
-                throw new InvalidOperationException("IViewModelContainer<T>.RenderPartial can only be used to render views that implement IViewModelContainer<T>");
-
-            // set up the partial for rendering with prefix data
-            targetType.GetProperty("HtmlNamePrefix").SetValue(partial, GetHtmlNamePrefix(), null);
-            typeof(IViewDataContainer).GetProperty("ViewData").SetValue(partial, GetViewData(), null);
-
-            // render the partial
-            var control = partial as ViewUserControl;
-
-            if (control == null)
-                throw new InvalidOperationException("Partials must be derived from ViewUserControl");
-
-            view.Html.ViewContext.Writer.Write(new TypeStamp(GetHtmlNamePrefix(), instanceType).ToString());
-
-            control.RenderView(view.Html.ViewContext);
-        }
-
 
         private ViewDataDictionary GetViewData()
         {

@@ -22,7 +22,6 @@ namespace MvcContrib.Samples.UI.Navigation
 							Menu.Action<GridController>(c => c.Paged(null), "Paged Grid"),
 							Menu.Action<GridController>(c => c.UsingGridModel(), "Using a GridModel"),
 							Menu.Action<GridController>(c => c.WithSections(), "Using Grid Sections"),
-							Menu.Action<GridController>(c => c.WithActionSections(), "Using Grid Action Sections"),
 							Menu.Action<GridController>(c => c.AutoColumns(), "Auto-Generated Columns"),
 							Menu.Action<GridController>(c => c.Sorting(null), "Sorting"),
 							Menu.Action<GridController>(c => c.SortingAndPaging(null,null), "Sorting and Paging")
@@ -30,6 +29,10 @@ namespace MvcContrib.Samples.UI.Navigation
 
 						Menu.Items("FluentHtml Samples", 
 							Menu.Action<FluentHtmlController>(c=>c.Index(), "FluentHtml Samples")
+						),
+
+						Menu.Items("DerivedTypeModelBinder Samples",
+							Menu.Action<DerivedTypeModelBinderController>(c=>c.Index(), "DerivedTypeModelBinder Samples")
 						),
 
 						Menu.Items("Secure",

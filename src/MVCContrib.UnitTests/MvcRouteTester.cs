@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Routing;
@@ -5,14 +6,14 @@ using NUnit.Framework;
 
 namespace MvcContrib.UnitTests
 {
-	[TestFixture]
+	[TestFixture, Obsolete]
 	public class MvcRouteTester
 	{
 		[Test]
 		public void Can_create_mvc_route_with_default_controller_action_and_additional_defaults()
 		{
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}/{id}")
+				.MapUrl("test/{controller}/{action}/{id}")
 				.ToDefaultAction<MvcRouteController>(x => x.Index(), new {id = "def"});
 
 			Assert.AreEqual("MvcRoute", route.Defaults["controller"]);
@@ -24,7 +25,7 @@ namespace MvcContrib.UnitTests
 		public void Can_create_mvc_route_with_default_controller_action_and_parameter_defaults()
 		{
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.ToDefaultAction<MvcRouteController>(x => x.WithTwoArgs("mupp", null));
 
 			Assert.AreEqual("MvcRoute", route.Defaults["controller"]);
@@ -37,7 +38,7 @@ namespace MvcContrib.UnitTests
 		public void Can_create_mvc_route_with_constraints()
 		{
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.WithConstraints(new {action = "^[a-Z]+$"})
 				.ToDefaultAction<MvcRouteController>(x => x.WithTwoArgs("mupp", null));
 
@@ -50,7 +51,7 @@ namespace MvcContrib.UnitTests
 			var namespaces = new[] {"Namespace.One", "Namespace.Two"};
 
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.WithNamespaces(namespaces)
 				.ToDefaultAction<MvcRouteController>(x => x.WithTwoArgs("mupp", null));
 
@@ -63,7 +64,7 @@ namespace MvcContrib.UnitTests
 			var routes = new RouteCollection();
 
 			MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.ToDefaultAction<MvcRouteController>(x => x.WithTwoArgs("mupp", null))
 				.AddWithName("TestName", routes);
 
@@ -74,7 +75,7 @@ namespace MvcContrib.UnitTests
 		public void Can_create_mvc_route_to_method_with_actionName()
 		{
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.ToDefaultAction<MvcRouteController>(x => x.WithActionNameAttribute());
 
 
@@ -85,7 +86,7 @@ namespace MvcContrib.UnitTests
 		public void Can_create_mvc_route_to_method_with_string_defaults()
 		{
 			var route = MvcRoute
-				.MappUrl("test/{controller}/{action}")
+				.MapUrl("test/{controller}/{action}")
 				.WithDefaults(new {controller = "home", action = "index"});
 
 			Assert.AreEqual("home", route.Defaults["controller"]);

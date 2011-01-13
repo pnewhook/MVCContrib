@@ -224,7 +224,8 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 
 			var element = html.ShouldHaveHtmlNode("Id");
-			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true}");
+			var expectedMetadata = HttpUtility.HtmlEncode("{'required':true}");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain(expectedMetadata);
 		}
 
 		[Test]
@@ -236,7 +237,8 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).Class("MyOtherClass").ToString();
 
 			var element = html.ShouldHaveHtmlNode("Id");
-			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true}");
+			var expectedMetadata = HttpUtility.HtmlEncode("{'required':true}");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain(expectedMetadata);
 			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("MyOtherClass");
 		}
 
@@ -247,7 +249,8 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var behaviors = new List<IBehaviorMarker> { new AppyJsonMetadataToCssBehavior(1), new CustomRequiredInMetadataBehavior(0), new CustomMaxLengthInMetadataBehavior(0) };
 			var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
 			var element = html.ShouldHaveHtmlNode("MultiAttributedProperty");
-			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("{'required':true,'maximum':50,'minimum':0}");
+			var expectedMetadata = HttpUtility.HtmlEncode("{'required':true,'maximum':50,'minimum':0}");
+			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain(expectedMetadata);
 		}
 
 		[Test]

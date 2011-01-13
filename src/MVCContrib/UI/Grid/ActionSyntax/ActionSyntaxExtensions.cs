@@ -13,6 +13,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// </summary>
 		/// <param name="grid">The grid</param>
 		/// <param name="block">Action that renders the HTML.</param>
+		[Obsolete("Please use the RowStart overload that takes a razor template.")]		
 		public static IGridWithOptions<T> RowStart<T>(this IGridWithOptions<T> grid, Action<T> block) where T : class
 		{
 			grid.Model.Sections.RowStart(block);
@@ -25,6 +26,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// </summary>
 		/// <param name="grid">The grid</param>
 		/// <param name="block">Action that renders the HTML.</param>
+		[Obsolete("Please use the RowStart overload that takes a razor template.")]		
 		public static IGridWithOptions<T> RowStart<T>(this IGridWithOptions<T> grid, Action<T, GridRowViewData<T>> block) where T : class
 		{
 			grid.Model.Sections.RowStart(block);
@@ -36,12 +38,14 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// </summary>
 		/// <param name="grid">The grid</param>
 		/// <param name="block">Action that renders the HTML.</param>
+		[Obsolete("Please use the RowEnd overload that takes a razor template.")]
 		public static IGridWithOptions<T> RowEnd<T>(this IGridWithOptions<T> grid, Action<T> block) where T : class
 		{
 			grid.Model.Sections.RowEnd(block);
 			return grid;
 		}
 
+		[Obsolete("Please use the RowStart overload that takes a razor template.")]
 		public static void RowStart<T>(this IGridSections<T> sections, Action<T> block) where T : class
 		{
 			sections.Row.StartSectionRenderer = (rowData, context) =>
@@ -51,6 +55,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 			};
 		}
 
+		[Obsolete("Please use the RowStart overload that takes a razor template.")]
 		public static void RowStart<T>(this IGridSections<T> sections, Action<T, GridRowViewData<T>> block) where T : class
 		{
 			sections.Row.StartSectionRenderer = (rowData, context) => 
@@ -60,6 +65,7 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 			};
 		}
 
+		[Obsolete("Please use the RowEnd overload that takes a razor template.")]
 		public static void RowEnd<T>(this IGridSections<T> sections, Action<T> block) where T : class 
 		{
 			sections.Row.EndSectionRenderer = (rowData, context) =>
@@ -75,7 +81,9 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// <param name="column">The current column</param>
 		/// <param name="action">The action to render</param>
 		/// <returns></returns>
-		public static IGridColumn<T> HeaderAction<T>(this IGridColumn<T> column, Action action) {
+		[Obsolete("Action Syntax extensions have been deprecated. Please use column.Header with the Razor view engine instead of using HeaderAction.")]		
+		public static IGridColumn<T> HeaderAction<T>(this IGridColumn<T> column, Action action)
+		{
 			column.CustomHeaderRenderer = context => action();
 			return column;
 		}
@@ -86,7 +94,9 @@ namespace MvcContrib.UI.Grid.ActionSyntax
 		/// <param name="column">The current column</param>
 		/// <param name="action">The action to render</param>
 		/// <returns></returns>
-		public static IGridColumn<T> Action<T>(this IGridColumn<T> column, Action<T> action) {
+		[Obsolete("Action Syntax extensions have been deprecated. Please use column.Custom with the Razor view engine instead of using Action.")]
+		public static IGridColumn<T> Action<T>(this IGridColumn<T> column, Action<T> action) 
+		{
 			column.CustomItemRenderer = (context, item) => action(item);
 			return column;
 		}

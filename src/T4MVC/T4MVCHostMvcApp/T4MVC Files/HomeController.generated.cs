@@ -11,6 +11,7 @@ using System;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Hosting;
@@ -43,6 +44,11 @@ namespace T4MVCHostMvcApp.Controllers {
         public System.Web.Mvc.ActionResult ActionWithArrayParam() {
             return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithArrayParam);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public System.Web.Mvc.ActionResult ActionWithSomeOptionalParams() {
+            return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public HomeController Actions { get { return MVC.Home; } }
@@ -66,6 +72,8 @@ namespace T4MVCHostMvcApp.Controllers {
             public readonly string SomeFileResultAction = "SomeFileResultAction";
             public readonly string SomeCustomResultAction = "SomeCustomResultAction";
             public readonly string ActionWithArrayParam = "ActionWithArrayParam";
+            public readonly string ActionWithAllOptionalParams = "ActionWithAllOptionalParams";
+            public readonly string ActionWithSomeOptionalParams = "ActionWithSomeOptionalParams";
         }
 
 
@@ -76,6 +84,7 @@ namespace T4MVCHostMvcApp.Controllers {
         public class ViewNames {
             public readonly string _7_Some_Home_View_Hello = "~/Views/Home/7 Some Home.View-Hello.txt";
             public readonly string About = "~/Views/Home/About.aspx";
+            public readonly string DuplicateControl = "~/Views/Home/DuplicateControl.ascx";
             public readonly string Index = "~/Views/Home/Index.aspx";
             public readonly string Qqq = "~/Views/Home/Qqq.txt";
             public readonly string QqQ = "~/Views/Home/QqQ.txt2";
@@ -83,6 +92,16 @@ namespace T4MVCHostMvcApp.Controllers {
             static readonly _default s_default = new _default();
             public _default @default { get { return s_default; } }
             public partial class _default{
+            }
+            static readonly _DisplayTemplates s_DisplayTemplates = new _DisplayTemplates();
+            public _DisplayTemplates DisplayTemplates { get { return s_DisplayTemplates; } }
+            public partial class _DisplayTemplates{
+                public readonly string SomeDisplayTemplate = "SomeDisplayTemplate";
+            }
+            static readonly _EditorTemplates s_EditorTemplates = new _EditorTemplates();
+            public _EditorTemplates EditorTemplates { get { return s_EditorTemplates; } }
+            public partial class _EditorTemplates{
+                public readonly string SomeEditorTemplate = "SomeEditorTemplate";
             }
             static readonly _Sub_Home s_Sub_Home = new _Sub_Home();
             public _Sub_Home Sub_Home { get { return s_Sub_Home; } }
@@ -153,6 +172,20 @@ namespace T4MVCHostMvcApp.Controllers {
         public override System.Web.Mvc.ActionResult ActionWithArrayParam(string[] someStrings) {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithArrayParam);
             callInfo.RouteValueDictionary.Add("someStrings", someStrings);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionWithAllOptionalParams(string someString, int n) {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithAllOptionalParams);
+            callInfo.RouteValueDictionary.Add("someString", someString);
+            callInfo.RouteValueDictionary.Add("n", n);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionWithSomeOptionalParams(string someString, int n) {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
+            callInfo.RouteValueDictionary.Add("someString", someString);
+            callInfo.RouteValueDictionary.Add("n", n);
             return callInfo;
         }
 

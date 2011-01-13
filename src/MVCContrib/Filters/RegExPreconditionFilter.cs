@@ -17,7 +17,7 @@ namespace MvcContrib.Filters
 	/// [RegExPreconditionFilter("id", PreconditionFilter.ParamType.Request, "^[1-9][0-9]*$", typeof(ArgumentOutOfRangeException))]
 	/// </code>
 	/// </example>
-
+	[Obsolete]
 	public class RegExPreconditionFilter : PreconditionFilter
 	{
 

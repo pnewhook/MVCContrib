@@ -40,6 +40,7 @@ namespace MvcContrib.Filters
 	/// </example>
 	/// </summary>
 	[Serializable]
+	[Obsolete("Use System.Web.Mvc.HandleErrorAttribute instead.")]
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 	public class RescueAttribute : FilterAttribute, IExceptionFilter
 	{
@@ -86,7 +87,7 @@ namespace MvcContrib.Filters
 		{
 			Type baseExceptionType = filterContext.Exception.GetBaseException().GetType();
 
-			if(IgnoreAjax && filterContext.HttpContext.Request.IsAjax())
+			if(IgnoreAjax && filterContext.HttpContext.Request.IsAjaxRequest())
 			{
 				return;
 			}

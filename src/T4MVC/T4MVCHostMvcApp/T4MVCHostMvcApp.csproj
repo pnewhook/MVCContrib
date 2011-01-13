@@ -95,9 +95,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Home\Views\Home\EditorTemplates\SomeAreaEditorTemplate.ascx" />
     <Content Include="Global.asax" />
     <Content Include="T4MVC Files\readme.txt" />
+    <Content Include="Views\Home\DisplayTemplates\SomeDisplayTemplate.ascx" />
     <Content Include="Views\Home\DuplicateControl.ascx" />
+    <Content Include="Views\Home\EditorTemplates\SomeEditorTemplate.ascx" />
     <Content Include="Views\NoControllerMatchingFolder\DuplicateControl.ascx" />
     <Content Include="Views\Shared\AnotherPartial.ascx" />
     <Content Include="Views\Shared\DuplicateControl.ascx" />
@@ -155,9 +158,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4Ctrl.cs</LastGenOutput>
     </None>
-    <Compile Include="T4MVC Files\NoControllerMatchingFolderController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <None Include="T4MVC Files\T4MVC.settings.t4" />
     <Compile Include="Areas\break\Controllers\PostController.cs" />
     <Compile Include="Areas\Home\Controllers\HomeController.cs" />
@@ -169,6 +169,10 @@
       <DependentUpon>T4Ctrl.tt</DependentUpon>
     </Compile>
     <Compile Include="Misc\MyCustomResult.cs" />
+    <None Include="T4MVC Files\T4MVC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4MVC.cs</LastGenOutput>
+    </None>
     <Compile Include="T4MVC Files\break.MyAbstractBaseController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -187,6 +191,9 @@
     <Compile Include="T4MVC Files\HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="T4MVC Files\NoControllerMatchingFolderController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="T4MVC Files\SharedController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -196,13 +203,6 @@
     <Compile Include="T4MVC Files\T4MVC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <None Include="T4MVC Files\T4MVC.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>T4MVC.cs</LastGenOutput>
-    </None>
-    <Compile Include="T4MVC Files\T4MVC.ExplicitExtensions.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\Home\Sub Home\T4View.cs">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project name="MVCContrib" default="build" xmlns="http://nant.sf.net/release/0.85/nant.xsd">
+<project name="MVCContrib" default="build" xmlns="http://nant.sf.net/release/0.91-alpha1/nant.xsd">
 	<property name="solution.dir" value="src"/>
 	<property name="solution.file" value="${solution.dir}/MVCContrib.sln"/>
 	<property name="trunk.dir" value="."/>
@@ -8,7 +8,7 @@
 	<property name="build.base" value="build"/>
 	<property name="results.dir" value="${build.base}\results" />
 	<property name="samples.dir" value="src\samples"/>
-	<property name="project.fullversion" value="2.0.0.99" />
+	<property name="project.fullversion" value="3.0.0.99" />
 	<property name="project.fullversion" value="${build.number}" if="${property::exists('build.number')}"/>
 	<!--
 		<property name="revisionnumber" value="0" dynamic="true"/>
@@ -19,7 +19,7 @@
 		<property name="version.revision" value="0"/>
 		<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 	-->
-	<property name="nant.settings.currentframework" value="net-3.5" />
+	<property name="nant.settings.currentframework" value="net-4.0" />
 	<property name="msbuild.path" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
 	<property name="nunit.path" value="bin\nunit\nunit-console-x86.exe" />
 	<property name="runtests" value="true" unless="${property::exists('runtests')}" />
@@ -29,7 +29,7 @@
 	<!-- debug|release -->
 	<property name="build.dir" value="${build.base}/${nant.settings.currentframework}.${platform::get-name()}-${project::get-name()}-${project.config}/"/>
 
-	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples"/>
+	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples, nuget"/>
 	<target name="cruise" depends="build, help, package"/> <!-- previously included commitPackage -->
 	<target name="commiter" depends="build, help, package"/> <!-- previously included analyze -->
 
@@ -361,5 +361,37 @@
 				  commandline="Documentation\DocumentationProject\MvcContrib.shfbproj" workingdir="." />
     <copy file="build\Help\Output\documentation.chm" tofile="LatestVersion\MvcContribDocumentation.chm"/>
 	-->
+  </target>
+  <target name="nuget">
+    <property name="package.dir" value="${build.base}\packages" />
+    <property name="packagetemp" value="${package.dir}\temp" />
+   
+    <!-- Create the directory structure for the packages -->
+    <copy todir="${packagetemp}\MvcContrib" file="nuspecs\MvcContrib.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib\lib" file="${build.dir}\MvcContrib.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.FluentHtml" file="nuspecs\MvcContrib.FluentHtml.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.FluentHtml\lib" file="${build.dir}\MvcContrib.FluentHtml.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.TestHelper" file="nuspecs\MvcContrib.TestHelper.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.TestHelper\lib" file="${build.dir}\MvcContrib.TestHelper.dll" />
+    
+    <copy todir="${packagetemp}\MvcContrib.WatiN" file="nuspecs\MvcContrib.WatiN.nuspec" />
+    <copy todir="${packagetemp}\MvcContrib.WatiN\lib" file="${build.dir}\MvcContrib.TestHelper.WatiN.dll" />
+    <!-- TODO: There isn't a watin package on nuget, so we package it as well for now -->
+    <copy todir="${packagetemp}\MvcContrib.WatiN\lib" file="${build.dir}\WatiN.Core.dll" />
+    
+    <!-- Replace the version numbers -->
+    <xmlpoke file="${packagetemp}\MvcContrib\MvcContrib.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/dependencies/dependency[@id='MvcContrib.TestHelper']/@version" value="${project.fullversion}" />
+    
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib\MvcContrib.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" />
+    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" />
+    
   </target>
 </project>

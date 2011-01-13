@@ -38,6 +38,7 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		IGridColumn<T> Visible(bool isVisible);
 
+		IGridColumn<T> Header(Func<object, object> customHeaderRenderer);
 
 		/// <summary>
 		/// Determines whether or not the column should be encoded. Default is true.
@@ -84,12 +85,14 @@ namespace MvcContrib.UI.Grid
 		/// Custom header renderer
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface
+		[Obsolete("CustomHeaderRenderer has been deprecated. Please use Header instead.")]
 		Action<RenderingContext> CustomHeaderRenderer { get; set; }
 
 		/// <summary>
 		/// Custom item renderer
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)] //hide from intellisense in fluent interface
+		[Obsolete("CustomItemRenderer has been deprecated. Please use column.Custom instead.")]
 		Action<RenderingContext, T> CustomItemRenderer { get; set; }
 
 		/// <summary>

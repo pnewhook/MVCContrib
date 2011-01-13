@@ -8,6 +8,7 @@ namespace MvcContrib.UI.MenuBuilder
 	/// Use this class to build fluent menus, with Menu.Begin
 	/// See the MvcContrib.Samples.UI for details
 	///</summary>
+	[Obsolete]
 	public static class Menu
 	{
 		///<summary>
@@ -213,7 +214,7 @@ namespace MvcContrib.UI.MenuBuilder
 		/// <param name="menu">The menu to render</param>
 		public static void Menu(this HtmlHelper helper, MenuItem menu)
 		{
-			menu.RenderHtml(helper.ViewContext, helper.ViewContext.HttpContext.Response.Output);
+			menu.RenderHtml(helper.ViewContext, helper.ViewContext.Writer);
 		}
 	}
 }

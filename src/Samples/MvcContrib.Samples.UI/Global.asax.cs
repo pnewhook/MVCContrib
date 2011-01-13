@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
+using MvcContrib.Binders;
+using MvcContrib.Samples.UI.Models.DerivedTypeModelBinder;
 
 namespace MvcContrib.Samples.UI
 {
@@ -14,6 +12,8 @@ namespace MvcContrib.Samples.UI
 	{
 		public static void RegisterRoutes(RouteCollection routes)
 		{
+			DerivedTypeModelBinderCache.RegisterDerivedTypes(typeof (IContent), new[] {typeof (AddressInfo), typeof (User)});
+
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(

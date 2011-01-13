@@ -63,11 +63,11 @@ namespace MvcContrib.FluentHtml.Elements
 			}
 		}
 
-		public override string ToString()
+		public override string ToHtmlString()
 		{
 			return _format == null
-				? base.ToString()
-				: string.Format(_format, base.ToString());
+				? base.ToHtmlString()
+				: string.Format(_format, base.ToHtmlString());
 		}
 	}
 }
