@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
  <metadata>
-   <id>MvcContrib.WatiN</id>
+   <id>MvcContrib.Mvc3.WatiN-ci</id>
    <version></version>
    <authors>Outercurve Foundation</authors>
    <requireLicenseAcceptance>false</requireLicenseAcceptance>

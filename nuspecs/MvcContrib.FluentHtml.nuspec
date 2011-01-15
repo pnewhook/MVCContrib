@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
  <metadata>
-   <id>MvcContrib.FluentHtml</id>
+   <id>MvcContrib.Mvc3.FluentHtml-ci</id>
    <version></version>
    <authors>Outercurve Foundation</authors>
    <requireLicenseAcceptance>false</requireLicenseAcceptance>

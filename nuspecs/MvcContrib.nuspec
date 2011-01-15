@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
  <metadata>
-   <id>MvcContrib</id>
+   <id>MvcContrib.Mvc3-ci</id>
    <version></version>
    <authors>Outercurve Foundation</authors>
    <requireLicenseAcceptance>false</requireLicenseAcceptance>

@@ -392,6 +392,12 @@
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" />
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" />
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" />
-    
+
+    <foreach item="File" in="${package.dir}" property="filename">
+      <echo message="${filename}" />
+      <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="push ${filename} baf7d791-cbaf-49ea-96de-960d8c6d27bd" />
+    </foreach>
+
+
   </target>
 </project>
