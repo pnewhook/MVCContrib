@@ -1,1 +1,1 @@
-build.bat commiter & pause
+build.bat cruise & pause
