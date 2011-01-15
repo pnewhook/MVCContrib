@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
 using MvcContrib.TestHelper.Fakes;
-using Rhino.Mocks;
+using MvcContrib.TestHelper.MockFactories;
 
 namespace MvcContrib.TestHelper
 {
@@ -126,15 +126,15 @@ namespace MvcContrib.TestHelper
 			if (!httpMethod.HasValue)
 				httpMethod = HttpVerbs.Get;
 
-			var request = MockRepository.GenerateStub<HttpRequestBase>();
-
-			request.Stub(x => x.AppRelativeCurrentExecutionFilePath).Return(url).Repeat.Any();
-			request.Stub(x => x.PathInfo).Return(string.Empty).Repeat.Any();
-			request.Stub(x => x.Form).Return(form).Repeat.Any();
-			request.Stub(x => x.HttpMethod).Return(httpMethod.Value.ToString().ToUpper()).Repeat.Any();
+			var mockFactory = new FirstAvailableMockFactory();
+			var request = mockFactory.DynamicMock<HttpRequestBase>();
+			request.ReturnFor(x => x.AppRelativeCurrentExecutionFilePath, url);
+			request.ReturnFor(x => x.PathInfo, string.Empty);
+			request.ReturnFor(x => x.Form, form);
+			request.ReturnFor(x => x.HttpMethod, httpMethod.Value.ToString().ToUpper());
 
 			var context = new FakeHttpContext(url);
-			context.SetRequest(request);
+			context.SetRequest(request.Object);
 
 			return context;
 		}
