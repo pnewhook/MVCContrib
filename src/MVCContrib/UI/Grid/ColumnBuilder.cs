@@ -45,13 +45,14 @@ namespace MvcContrib.UI.Grid
 		public IGridColumn<T> For(Expression<Func<T, object>> propertySpecifier)
 		{
 			var memberExpression = GetMemberExpression(propertySpecifier);
-			var type = GetTypeFromMemberExpression(memberExpression);
+			var propertyType = GetTypeFromMemberExpression(memberExpression);
+			var declaringType = memberExpression == null ? null : memberExpression.Expression.Type;
 			var inferredName = memberExpression == null ? null : memberExpression.Member.Name;
-			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
+			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, propertyType);
 
-			if(!string.IsNullOrEmpty(inferredName))
+			if(declaringType != null)
 			{
-				var metadata = _metadataProvider.GetMetadataForProperty(null, typeof(T), inferredName);
+				var metadata = _metadataProvider.GetMetadataForProperty(null, declaringType, inferredName);
 				
 				if (!string.IsNullOrEmpty(metadata.DisplayName))
 				{
@@ -84,7 +85,7 @@ namespace MvcContrib.UI.Grid
 		{
 			return GetEnumerator();
 		}
-
+		
 		public static MemberExpression GetMemberExpression(LambdaExpression expression)
 		{
 			return RemoveUnary(expression.Body) as MemberExpression;

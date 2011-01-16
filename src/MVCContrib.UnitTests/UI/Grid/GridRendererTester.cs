@@ -492,6 +492,18 @@ namespace MvcContrib.UnitTests.UI.Grid
 			
 		}
 
+		[Test]
+		public void Can_render_nested_properties()
+		{
+			_people[0].Address = new Address { Line1 = "Foo" };
+			ColumnFor(x => x.Address.Line1);
+
+			string expected =
+				"<table class=\"grid\"><thead><tr><th>Line1</th></tr></thead><tbody><tr class=\"gridrow\"><td>Foo</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+
+		}
+
 		private string RenderGrid()
 		{
 			return RenderGrid(_people);
