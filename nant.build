@@ -382,16 +382,18 @@
     <copy todir="${packagetemp}\MvcContrib.WatiN\lib" file="${build.dir}\WatiN.Core.dll" />
     
     <!-- Replace the version numbers -->
-    <xmlpoke file="${packagetemp}\MvcContrib\MvcContrib.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
-    <xmlpoke file="${packagetemp}\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
-    <xmlpoke file="${packagetemp}\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
-    <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+
+    <foreach item="Folder" in="${packagetemp}" property="foldername">
+      <xmlpoke file="${foldername}\${path::get-file-name(foldername)}.nuspec" xpath="/package/metadata/version" value="${project.fullversion}" />
+    </foreach>
+
     <xmlpoke file="${packagetemp}\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" xpath="/package/metadata/dependencies/dependency[@id='MvcContrib.TestHelper']/@version" value="${project.fullversion}" />
     
-    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib\MvcContrib.nuspec" />
-    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" />
-    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" />
-    <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" />
+    <foreach item="Folder" in="${packagetemp}" property="foldername">
+      <echo message="${foldername}" />
+      <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack ${foldername}\${path::get-file-name(foldername)}.nuspec" />
+    </foreach>
+
   </target>
   <target name="push-nuget">
     <foreach item="File" in="${package.dir}" property="filename">
