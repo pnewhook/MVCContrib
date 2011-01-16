@@ -30,7 +30,7 @@
 	<property name="build.dir" value="${build.base}/${nant.settings.currentframework}.${platform::get-name()}-${project::get-name()}-${project.config}/"/>
 
 	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples, nuget"/>
-	<target name="cruise" depends="build package"/> <!-- previously included commitPackage -->
+	<target name="cruise" depends="build,push-nuget,package"/> <!-- previously included commitPackage -->
 	<target name="commiter" depends="build, help, package"/> <!-- previously included analyze -->
 
 	<target name="init" description="Initializes build properties">
@@ -392,12 +392,11 @@
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.FluentHtml\MvcContrib.FluentHtml.nuspec" />
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.TestHelper\MvcContrib.TestHelper.nuspec" />
     <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="pack temp\MvcContrib.WatiN\MvcContrib.WatiN.nuspec" />
-
+  </target>
+  <target name="push-nuget">
     <foreach item="File" in="${package.dir}" property="filename">
       <echo message="${filename}" />
-      <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="push ${filename} baf7d791-cbaf-49ea-96de-960d8c6d27bd" />
+      <exec program="bin\nuget\nuget.exe" workingdir="${package.dir}" commandline="push ${filename} ${nuget.key}" />
     </foreach>
-
-
   </target>
 </project>
