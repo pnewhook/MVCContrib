@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.41 (01-17-2011):
+- Added AJAX BeginForm overloads
+
 2.6.40 (01-05-2011):
 - Added BeginForm overload that just takes an ActionResult
 - Fix MapRouteArea to use UseNamespaceFallback when there are no namespaces

@@ -110,6 +110,19 @@ namespace System.Web.Mvc {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions, htmlAttributes);
         }
 
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions) {
+            return ajaxHelper.BeginForm(result, ajaxOptions, null);
+        }
+
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions, object htmlAttributes) {
+            return BeginForm(ajaxHelper, result, ajaxOptions, new RouteValueDictionary(htmlAttributes));
+        }
+
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes) {
+            var callInfo = result.GetT4MVCResult();
+            return ajaxHelper.BeginForm(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary, ajaxOptions, htmlAttributes);
+        }
+
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result) {
             return MapRoute(routes, name, url, result, null /*namespaces*/);
         }
