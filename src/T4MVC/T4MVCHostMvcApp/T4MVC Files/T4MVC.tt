@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.40
+T4MVC Version 2.6.41
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -150,6 +150,19 @@ namespace System.Web.Mvc {
 
         public static <#=HtmlStringType #> ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes) {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions, htmlAttributes);
+        }
+
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions) {
+            return ajaxHelper.BeginForm(result, ajaxOptions, null);
+        }
+
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions, object htmlAttributes) {
+            return BeginForm(ajaxHelper, result, ajaxOptions, new RouteValueDictionary(htmlAttributes));
+        }
+
+        public static MvcForm BeginForm(this AjaxHelper ajaxHelper, ActionResult result, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes) {
+            var callInfo = result.GetT4MVCResult();
+            return ajaxHelper.BeginForm(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary, ajaxOptions, htmlAttributes);
         }
 
         public static Route MapRoute(this RouteCollection routes, string name, string url, ActionResult result) {

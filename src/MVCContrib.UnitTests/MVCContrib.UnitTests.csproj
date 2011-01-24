@@ -208,19 +208,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HashTester.cs" />
-    <Compile Include="IncludeHandling\DebugAttributeTester.cs" />
-    <Compile Include="IncludeHandling\FileSystemIncludeReaderTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationResultInteractionTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationResultStateTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerHtmlExtensionsTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerInteractionTester.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerStateTester.cs" />
-    <Compile Include="IncludeHandling\IncludeControllerTester.cs" />
-    <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerTester.cs" />
-    <Compile Include="IncludeHandling\IncludeStorageTester.cs" />
-    <Compile Include="IncludeHandling\KeyGeneratorTester.cs" />
-    <Compile Include="IncludeHandling\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />
     <Compile Include="IoC\NestedDependency.cs" />
@@ -293,10 +280,6 @@
       <Project>{35AFBC04-8C09-42B7-A56A-EA404688A5B1}</Project>
       <Name>MvcContrib.FluentHtml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.IncludeHandling\MvcContrib.IncludeHandling.csproj">
-      <Project>{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}</Project>
-      <Name>MvcContrib.IncludeHandling</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvcContrib.TestHelper\MvcContrib.TestHelper\MvcContrib.TestHelper.csproj">
       <Project>{F2A3F400-A20E-4B83-959B-EBD14D6C143E}</Project>
       <Name>MvcContrib.TestHelper</Name>
@@ -332,23 +315,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IncludeHandling\exists.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

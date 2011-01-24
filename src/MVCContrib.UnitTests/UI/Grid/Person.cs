@@ -16,5 +16,13 @@ namespace MvcContrib.UnitTests.UI.Grid
 
 		[ScaffoldColumn(false), DisplayFormat(DataFormatString = "{0:dd}")]
 		public DateTime DateWithAttribute { get; set; }
+
+		[ScaffoldColumn(false)]
+		public Address Address { get; set; }
+	}
+
+	public class Address
+	{
+		public string Line1 { get; set; }
 	}
 }
