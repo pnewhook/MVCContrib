@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74D2502B-22E0-469A-A207-EDBD5DDE5842}"
 	ProjectSection(SolutionItems) = preProject
 		..\build.bat = ..\build.bat
+		..\nant.build = ..\nant.build
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extras", "Extras", "{51307952-3A70-4F96-B994-E60DC8A510AC}"

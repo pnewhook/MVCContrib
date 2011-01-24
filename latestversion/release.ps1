@@ -6,10 +6,10 @@ function DownloadFiles {
     remove-item "MVCContrib.source.zip"  -ErrorAction:SilentlyContinue
     remove-item "MVCContrib.dll"  -ErrorAction:SilentlyContinue
     
-    $extrasUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.Extras.release.zip"
-    $releaseUrl = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.release.zip"
-    $sourceUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/MVCContrib.source.zip"
-    $verDll =  "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt2/.lastPinned/Mvc"
+    $extrasUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt10/.lastPinned/MVCContrib.Extras.release.zip"
+    $releaseUrl = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt10/.lastPinned/MVCContrib.release.zip"
+    $sourceUrl  = "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt10/.lastPinned/MVCContrib.source.zip"
+    $verDll =  "http://build-oss.headspringlabs.com/guestAuth/repository/download/bt10/.lastPinned/MvcContrib.dll"
     $clnt = new-object System.Net.WebClient
 
     $clnt.DownloadFile($extrasUrl,"$($dir)\MVCContrib.Extras.release.zip")
@@ -19,8 +19,8 @@ function DownloadFiles {
     
 }
 
-#DownloadFiles 
+DownloadFiles 
 
 $ver = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$($dir)\MvcContrib.dll").FileVersion
 
-& "..\bin\codeplex\createrelease.exe" $ver 
+& "..\bin\codeplex\createrelease.exe" $ver
