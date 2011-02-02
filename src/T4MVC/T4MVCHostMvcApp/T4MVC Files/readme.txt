@@ -55,6 +55,10 @@ TODO:
 
 HISTORY:
 
+2.6.42 (02-01-2011):
+- Fix partial view support for MVC
+- Fix partial view support when name has periods (http://mvccontrib.codeplex.com/workitem/7113)
+
 2.6.41 (01-17-2011):
 - Added AJAX BeginForm overloads
 
