@@ -36,6 +36,10 @@ readonly string[]  NonQualifiedViewFolders = new string[] {
   "EditorTemplates"
 };
 
+// Set this to true if you *never* want view names to be fully qualified paths
+// This may be needed if you are using Spark
+static bool UseNonQualifiedViewNames = false;
+
 // The name of the interface that all T4MVC action results will implement
 const string ActionResultInterfaceName = "IT4MVCActionResult";
 

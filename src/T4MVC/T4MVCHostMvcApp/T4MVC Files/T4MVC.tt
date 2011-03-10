@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.42
+T4MVC Version 2.6.44
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -503,7 +503,7 @@ namespace System.Web.Mvc {
 <#manager.EndBlock(); #>
 <#manager.Process(SplitIntoMultipleFiles); #>
 
-<#@ Include File="T4MVC.settings.t4" #>
+<#@ Include File="T4MVC.tt.settings.t4" #>
 
 <#+ 
 const string T4MVCNamespace = "T4MVC";
@@ -876,7 +876,7 @@ void ProcessAllViews(ProjectItem viewsProjectItem, AreaInfo area) {
 }
 
 void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder) {
-  AddViewsRecursive(items, viewsFolder, false);
+  AddViewsRecursive(items, viewsFolder, UseNonQualifiedViewNames);
 }
 void AddViewsRecursive(ProjectItems items, ViewsFolderInfo viewsFolder, bool useNonQualifiedViewNames) {
     // Go through all the files in the subfolder to get the view names
