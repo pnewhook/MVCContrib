@@ -58,6 +58,13 @@ const string LinksNamespace = "Links";
 // e.g. when true, the link looks like: "/Content/nerd.jpg?2009-09-04T12:25:48"
 static bool AddTimestampToStaticLinks = false;
 
+static bool AddTimestampToStaticLink(ProjectItem projectItem) {
+    // By default, this just returns the static flag, but you can add additional logic to make more complex
+    // decisions about which files should have the timestamp
+    // See http://mvccontrib.codeplex.com/workitem/7129 for details
+    return AddTimestampToStaticLinks;
+}
+
 // Folders containing static files for which links are generated (e.g. Links.Scripts.Map_js)
 readonly string[] StaticFilesFolders = new string[] {
     "Scripts",

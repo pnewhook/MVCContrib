@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.44
+T4MVC Version 2.6.50
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -962,13 +962,13 @@ PopIndent();
 if (!ExcludedStaticFileExtensions.Any(extension => projectItem.Name.EndsWith(extension, StringComparison.OrdinalIgnoreCase))) {
     // if it's a non-minified javascript file
     if (projectItem.Name.EndsWith(".js") && !projectItem.Name.EndsWith(".min.js")) { 
-        if (AddTimestampToStaticLinks) { #>
+        if (AddTimestampToStaticLink(projectItem)) { #>
     public static readonly string <#=Sanitize(projectItem.Name)#> = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/<#=projectItem.Name.Replace(".js", ".min.js")#>") ? Url("<#=projectItem.Name.Replace(".js", ".min.js")#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>") : Url("<#=projectItem.Name#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>");
         <#+} else {#>
     public static readonly string <#=Sanitize(projectItem.Name)#> = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/<#=projectItem.Name.Replace(".js", ".min.js")#>") ? Url("<#=projectItem.Name.Replace(".js", ".min.js")#>") : Url("<#=projectItem.Name#>");
         <#+}  #>          
 <#+}
-    else if (AddTimestampToStaticLinks) { #>
+    else if (AddTimestampToStaticLink(projectItem)) { #>
     public static readonly string <#=Sanitize(projectItem.Name)#> = Url("<#=projectItem.Name#>")+"?"+T4Extensions.TimestampString(URLPATH + "/<#=projectItem.Name#>");
 <#+}
     else { #>

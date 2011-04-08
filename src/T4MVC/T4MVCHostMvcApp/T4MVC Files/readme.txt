@@ -55,6 +55,15 @@ TODO:
 
 HISTORY:
 
+2.6.50 (04-??-2011):
+- Added AddTimestampToStaticLink() method to settings file to allow more granular decision (per http://mvccontrib.codeplex.com/workitem/7129)
+
+2.6.44 (03-10-2011):
+- Added UseNonQualifiedViewNames flag which when set to true causes view names never to be fully qualified. Spark users may need that.
+
+2.6.43 (02-24-2011):
+- Renamed T4MVC.settings.t4 to T4MVC.tt.settings.t4 so it feels more like a 'child' file of T4MVC.tt
+
 2.6.42 (02-01-2011):
 - Fix partial view support for MVC
 - Fix partial view support when name has periods (http://mvccontrib.codeplex.com/workitem/7113)
