@@ -57,6 +57,8 @@ HISTORY:
 
 2.6.50 (04-??-2011):
 - Added AddTimestampToStaticLink() method to settings file to allow more granular decision (per http://mvccontrib.codeplex.com/workitem/7129)
+- Added GenerateMvcT4Extensions settings flag to omit the generation of the System.Web.Mvc.T4Extensions class, which can be
+  useful if it is already defined in a referenced library (see http://stackoverflow.com/questions/5563163/t4mvc-use-extension-methods-in-control-library/5574227)
 
 2.6.44 (03-10-2011):
 - Added UseNonQualifiedViewNames flag which when set to true causes view names never to be fully qualified. Spark users may need that.

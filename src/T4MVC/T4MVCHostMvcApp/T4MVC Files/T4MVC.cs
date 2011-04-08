@@ -48,6 +48,7 @@ namespace T4MVC {
     }
 }
 
+   
 namespace System.Web.Mvc {
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
     public static class T4Extensions {
@@ -269,6 +270,7 @@ namespace System.Web.Mvc {
         }
     }
 }
+  
 
    
 [GeneratedCode("T4MVC", "2.0")]   

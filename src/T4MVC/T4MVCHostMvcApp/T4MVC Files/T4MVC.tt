@@ -88,6 +88,7 @@ namespace <#=T4MVCNamespace #> {
 <#} #>
 }
 
+<#if (GenerateMvcT4Extensions) { #>   
 namespace System.Web.Mvc {
     [<#= GeneratedCode #>, DebuggerNonUserCode]
     public static class T4Extensions {
@@ -313,6 +314,7 @@ namespace System.Web.Mvc {
         }
     }
 }
+<#} #>  
 
 <#if (GenerateActionResultInterface) { #>   
 [<#= GeneratedCode #>]   
