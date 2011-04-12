@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.50
+T4MVC Version 2.6.51
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -824,6 +824,11 @@ void ProcessControllerActionMethods(ControllerInfo controllerInfo, CodeClass2 cu
                 Warning(String.Format("{0} doesn't support {1}.{2} because it doesn't return a supported ActionResult type", T4FileName, type.Name, method.Name));
                 continue;
             }
+
+            // Ignore async completion methods as they can't really be used in T4MVC, and can cause issues.
+            // See http://stackoverflow.com/questions/5419173/t4mvc-asynccontroller
+            if (method.Name.EndsWith("Completed", StringComparison.OrdinalIgnoreCase))
+                continue;
 
             // If we haven't yet seen this return type, keep track of it
             if (!ResultTypes.ContainsKey(method.Type.CodeType.Name)) {

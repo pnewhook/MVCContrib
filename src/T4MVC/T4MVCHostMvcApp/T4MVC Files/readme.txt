@@ -55,7 +55,10 @@ TODO:
 
 HISTORY:
 
-2.6.50 (04-??-2011):
+2.6.51 (04-12-2011):
+- Ignore async completion methods as they can't really be used in T4MVC, and can cause issues (http://stackoverflow.com/questions/5419173/t4mvc-asynccontroller)
+
+2.6.50 (04-08-2011):
 - Added AddTimestampToStaticLink() method to settings file to allow more granular decision (per http://mvccontrib.codeplex.com/workitem/7129)
 - Added GenerateMvcT4Extensions settings flag to omit the generation of the System.Web.Mvc.T4Extensions class, which can be
   useful if it is already defined in a referenced library (see http://stackoverflow.com/questions/5563163/t4mvc-use-extension-methods-in-control-library/5574227)
