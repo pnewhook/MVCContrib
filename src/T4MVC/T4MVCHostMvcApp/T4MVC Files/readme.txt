@@ -55,6 +55,10 @@ TODO:
 
 HISTORY:
 
+2.6.52 (04-14-2011):
+- Moved the 'Dummy' class under the GenerateMvcT4Extensions check
+- Always include the area token in the route values unless running on MVC 1.x
+
 2.6.51 (04-12-2011):
 - Ignore async completion methods as they can't really be used in T4MVC, and can cause issues (http://stackoverflow.com/questions/5419173/t4mvc-asynccontroller)
 

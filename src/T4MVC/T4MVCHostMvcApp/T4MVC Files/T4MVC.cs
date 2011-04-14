@@ -270,6 +270,18 @@ namespace System.Web.Mvc {
         }
     }
 }
+
+
+
+namespace T4MVC {
+    [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+    public class Dummy {
+        private Dummy() { }
+        public static Dummy Instance = new Dummy();
+    }
+}
+
+
   
 
    
@@ -448,14 +460,6 @@ static class T4MVCHelpers {
 
 
 
-
-namespace T4MVC {
-    [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public class Dummy {
-        private Dummy() { }
-        public static Dummy Instance = new Dummy();
-    }
-}
 
 	
 

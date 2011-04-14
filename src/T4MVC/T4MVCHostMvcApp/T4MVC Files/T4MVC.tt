@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.51
+T4MVC Version 2.6.52
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -295,7 +295,7 @@ namespace System.Web.Mvc {
             result.Controller = controller;
             result.Action = action;
             result.RouteValueDictionary = new RouteValueDictionary();
-            <# if (Areas.Count > 1) { #>result.RouteValueDictionary.Add("Area", area ?? "");<# } #> 
+            <# if (MvcVersion >= 2) { #>result.RouteValueDictionary.Add("Area", area ?? "");<# } #> 
             result.RouteValueDictionary.Add("Controller", controller);
             result.RouteValueDictionary.Add("Action", action);
         }
@@ -314,6 +314,18 @@ namespace System.Web.Mvc {
         }
     }
 }
+
+
+
+namespace <#=T4MVCNamespace #> {
+    [<#= GeneratedCode #>, DebuggerNonUserCode]
+    public class Dummy {
+        private Dummy() { }
+        public static Dummy Instance = new Dummy();
+    }
+}
+
+
 <#} #>  
 
 <#if (GenerateActionResultInterface) { #>   
@@ -459,14 +471,6 @@ namespace <#=controller.Namespace #> {
 <#manager.EndBlock(); #>
 <#} #>
 
-
-namespace <#=T4MVCNamespace #> {
-    [<#= GeneratedCode #>, DebuggerNonUserCode]
-    public class Dummy {
-        private Dummy() { }
-        public static Dummy Instance = new Dummy();
-    }
-}
 
 <# if (ExplicitHtmlHelpersForPartials) {	
         manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
