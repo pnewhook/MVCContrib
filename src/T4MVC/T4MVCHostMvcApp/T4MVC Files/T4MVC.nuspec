@@ -11,4 +11,8 @@
     <projectUrl>http://mvccontrib.codeplex.com/wikipage?title=T4MVC</projectUrl>
     <tags>t4 mvc</tags>
   </metadata>
+  <files>
+    <file src="T4MVC.tt" target="Content" />
+    <file src="T4MVC.tt.settings.t4" target="Content" />
+  </files>
 </package>
