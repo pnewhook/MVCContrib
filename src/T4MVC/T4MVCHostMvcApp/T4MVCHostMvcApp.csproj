@@ -169,6 +169,7 @@
       <DependentUpon>T4Ctrl.tt</DependentUpon>
     </Compile>
     <Compile Include="Misc\MyCustomResult.cs" />
+    <None Include="T4MVC Files\T4MVC.nuspec" />
     <None Include="T4MVC Files\T4MVC.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4MVC.cs</LastGenOutput>
