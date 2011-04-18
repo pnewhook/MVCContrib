@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.53 (04-18-2011):
+- Ignore actions marked as obsolete (http://mvccontrib.codeplex.com/workitem/7133)
+
 2.6.52 (04-14-2011):
 - Moved the 'Dummy' class under the GenerateMvcT4Extensions check
 - Always include the area token in the route values unless running on MVC 1.x

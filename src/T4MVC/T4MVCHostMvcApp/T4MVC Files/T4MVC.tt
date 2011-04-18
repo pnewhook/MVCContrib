@@ -819,6 +819,10 @@ void ProcessControllerActionMethods(ControllerInfo controllerInfo, CodeClass2 cu
             if (GetAttribute(method.Attributes, "System.Web.Mvc.NonActionAttribute") != null)
                 continue;
 
+            // Ignore methods that are marked as Obsolete
+            if (GetAttribute(method.Attributes, "System.ObsoleteAttribute") != null)
+                continue;
+
             // This takes care of avoiding generic types which cause method.Type.CodeType to blow up
             if (method.Type.TypeKind != vsCMTypeRef.vsCMTypeRefCodeType)
                 continue;

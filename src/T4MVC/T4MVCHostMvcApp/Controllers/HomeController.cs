@@ -68,9 +68,14 @@ namespace T4MVCHostMvcApp.Controllers {
         public void GetSomethingAsync() {
         }
 
-        // This async commpletion method is ignored by T4MVC, as it can't make use of it meaningfully
+        // This async completion method is ignored by T4MVC, as it can't make use of it meaningfully
         public virtual JsonResult GetSomethingCompleted(string clientDocuments) {
             return new JsonResult();
+        }
+
+        [Obsolete]
+        public virtual ActionResult SomeObsoleteAction() {
+            return new EmptyResult();
         }
     }
 }
