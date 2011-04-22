@@ -109,10 +109,13 @@ namespace MvcContrib.UnitTests.TestHelper
 				"optional/string/{id}",
 				new {controller = "OptionalExample", Action = "String", id = UrlParameter.Optional}
 				);
+
 			RouteTable.Routes.MapRoute(
 				"default",
 				"{controller}/{action}/{id}",
 				new {controller = "Funky", Action = "Index", id = ""});
+
+
 		}
 
 		[TearDown]
@@ -432,6 +435,36 @@ namespace MvcContrib.UnitTests.TestHelper
 		public void should_provide_detailed_exception_message_when_detecting_a_parameter_name_that_doesnt_match()
 		{
 			"~/funky/parameterNameDoesntMatch/foo".Route().ShouldMapTo<FunkyController>(x => x.ParameterNameDoesntMatch("foo"));
+		}
+
+		[Test]
+		public void ShouldMapToPage_detects_route_is_for_webforms()
+		{
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.MapPageRoute("webform-page", "web/forms/route", "~/MyPage.aspx");
+
+			"~/web/forms/route".ShouldMapToPage("~/MyPage.aspx");
+		}
+
+		[Test]
+		public void ShouldMapToPage_Throws_when_WebForm_route_maps_to_wrong_page()
+		{
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.MapPageRoute("webform-page", "web/forms/route", "~/MyPage.aspx");
+
+			Assert.Throws<MvcContrib.TestHelper.AssertionException>(() => "~/web/forms/route".ShouldMapToPage("~/Foo.aspx"));
+			
+		}
+
+		[Test]
+		public void ShouldMapToPage_throws_when_route_does_not_use_PageRouteHandler()
+		{
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.MapRoute("broken-route", "web/forms/route", new { controller = "Broken", action = "Index" });
+
+			
+			Assert.Throws<MvcContrib.TestHelper.AssertionException>(() => "~/web/forms/route".ShouldMapToPage("~/MyPage.aspx"));
+
 		}
 	}
 }

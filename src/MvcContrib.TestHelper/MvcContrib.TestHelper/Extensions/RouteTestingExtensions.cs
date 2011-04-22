@@ -262,6 +262,28 @@ namespace MvcContrib.TestHelper
 		}
 
 		/// <summary>
+		/// Converts the URL to matching RouteData and verifies that it will match a route for a Web Form page.
+		/// </summary>
+		/// <param name="relativeUrl">The ~/ based URL</param>
+		/// <param name="pathToWebForm">The ~/ based path to the web form</param>
+		/// <returns></returns>
+		public static RouteData ShouldMapToPage(this string relativeUrl, string pathToWebForm)
+		{
+			return relativeUrl.Route().ShouldMapToPage(pathToWebForm);
+		}
+
+		/// <summary>
+		/// Verifies the <see cref="RouteData">routeData</see> maps to a web form page.
+		/// </summary>
+		public static RouteData ShouldMapToPage(this RouteData route, string pathToWebForm) {
+			var handler = route.RouteHandler.ShouldBe<PageRouteHandler>("The route does not map to a Web Form page.");
+			handler.VirtualPath.ShouldEqual(pathToWebForm, "The route does not map to the correct Web Form page.");
+
+			return route;
+		}
+
+
+		/// <summary>
 		/// Verifies the <see cref="RouteData">routeData</see> maps to the controller type specified.
 		/// </summary>
 		/// <typeparam name="TController"></typeparam>
