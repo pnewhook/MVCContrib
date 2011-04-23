@@ -5,7 +5,7 @@ Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 Maintained by David Ebbo, with much feedback from the MVC community (thanks all!)
 david.ebbo@microsoft.com
 http://twitter.com/davidebbo
-http://blogs.msdn.com/davidebb
+http://blog.davidebbo.com/ (previously: http://blogs.msdn.com/davidebb)
 
 Related blog posts:
 http://blogs.msdn.com/davidebb/archive/tags/T4MVC/default.aspx
@@ -54,6 +54,9 @@ TODO:
 - Support controllers in different project (http://forums.asp.net/t/1500812.aspx)
 
 HISTORY:
+
+2.6.54 (04-23-2011):
+- Added missing license to NuGet package and fixed some links. No actual template changes!
 
 2.6.53 (04-18-2011):
 - Ignore actions marked as obsolete (http://mvccontrib.codeplex.com/workitem/7133)
