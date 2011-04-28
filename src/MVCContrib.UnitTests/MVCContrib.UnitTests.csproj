@@ -287,6 +287,10 @@
       <Project>{F2A3F400-A20E-4B83-959B-EBD14D6C143E}</Project>
       <Name>MvcContrib.TestHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MVCContrib.VB.UnitTests\MVCContrib.VB.UnitTests.vbproj">
+      <Project>{49CA25E8-C0C6-4007-9E5A-44AE4828E92E}</Project>
+      <Name>MVCContrib.VB.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">
       <Project>{2E29C28C-B0B7-4D8C-A06F-67AD70C765EA}</Project>
       <Name>MVCContrib</Name>
