@@ -1,10 +1,9 @@
 ﻿Imports MVCContrib.PortableAreas
-Imports MVCContrib.UnitTests.VB.PortableAreas
 
 
 <CLSCompliant(False)>
 Public Class PortableAreaRegistrationAtRoot
-    Inherits PortableAreaRegistrationUnderSubnamespace
+    Inherits PortableAreaRegistration
 
     Public Const PortableAreaName = "FooAreaVB"
 
