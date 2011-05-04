@@ -223,10 +223,12 @@
     <Compile Include="ConventionController\RescueTester.cs" />
     <Compile Include="LazyPaginationTester.cs" />
     <Compile Include="PortableAreas\ApplicationBusTester.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceStoreTester.cs" />
     <Compile Include="PortableAreas\EmbeddedResourceControllerTester.cs" />
     <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistrationTester.cs" />
     <Compile Include="PortableAreas\PortableAreaContentTester.cs" />
+    <Compile Include="PortableAreas\TestingAreaRegistration.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="SortingExtensionsTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />

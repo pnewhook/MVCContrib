@@ -131,7 +131,7 @@ namespace MvcContrib.UnitTests.PortableAreas
         private void RegisterTestArea(PortableAreaRegistration areaRegistration, string areaName)
         {
             var registrationContext = new AreaRegistrationContext(areaName, new RouteCollection());
-            areaRegistration.RegisterArea(registrationContext);
+            TestingAreaRegistration.Register(areaRegistration, registrationContext);
         }
 
         private void RegisterTestAreaForVbAtRoot()

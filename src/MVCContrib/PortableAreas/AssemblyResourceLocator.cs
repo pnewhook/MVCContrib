@@ -44,15 +44,10 @@ namespace MvcContrib.PortableAreas
             bool exists;
 
             resourceName = GetFullyQualifiedTypeFromPath(path);
-            exists = ResourcesContainsType(resourceName);
+            exists = (ResourcesContainsType(resourceName) ||
+                      TryGetPartialResourceName(path, ref resourceName));
             if (exists)
-            {
                 resourceName = resources[resourceName];
-            }
-            else
-            {
-                exists = TryGetPartialResourceName(path, ref resourceName);
-            }
             return exists;
         }
 
@@ -93,14 +88,14 @@ namespace MvcContrib.PortableAreas
             var exists = false;
             var partial = "";
 
-            while(keepGoingToRootNamespace && !exists)
+            while (keepGoingToRootNamespace && !exists)
             {
                 partial = GetPartiallyQualifiedTypeFromPath(path, rootLevel, ref keepGoingToRootNamespace);
                 exists = ResourcesContainsType(partial);
                 rootLevel++;
             }
             if (exists)
-                resourceName = resources[partial];
+                resourceName = partial;
             return exists;
         }
 
@@ -109,7 +104,7 @@ namespace MvcContrib.PortableAreas
             string resourceName = "";
             var exists = TryGetPartialResourceName(path, ref resourceName);
 
-            return (!exists || ResourcesContainsType(resourceName));
+            return (exists && ResourcesContainsType(resourceName));
         }
 
         private bool ResourcesContainsType(string typeString)
