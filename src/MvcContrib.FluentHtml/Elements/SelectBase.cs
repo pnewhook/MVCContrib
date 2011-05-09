@@ -147,7 +147,7 @@ namespace MvcContrib.FluentHtml.Elements
 			return sb.ToString();
 		}
 
-		private virtual StringBuilder RenderOptions( System.Collections.IEnumerable options, int i )
+		private StringBuilder RenderOptions( System.Collections.IEnumerable options, int i )
 		{
 			var sb = new StringBuilder();
 			foreach ( var opt in options )
