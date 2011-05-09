@@ -17,6 +17,7 @@ namespace MvcContrib.FluentHtml.Elements
 		protected Option _firstOption;
 		protected bool _hideFirstOption;
 		protected Action<Option, object, int> _optionModifier;
+		protected Func<object, object> _groupSelectory;
 
 		protected SelectBase(string name) : base(HtmlTag.Select, name) {}
 
@@ -98,6 +99,14 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
+		public virtual T Options<TSource, TKey>( IEnumerable<TSource> values, string valueField, string textField, Func<TSource, TKey> groupSelector )
+		{
+			_options = values;
+			_groupSelectory = x => groupSelector( ( TSource )x );
+			SetFieldExpressions( valueField, textField );
+			return ( T )this;
+		}
+
 		protected override TagRenderMode TagRenderMode
 		{
 			get { return TagRenderMode.Normal; }
@@ -120,18 +129,38 @@ namespace MvcContrib.FluentHtml.Elements
 				i++;
 			}
 
-			foreach(var opt in _options)
+			if ( _groupSelectory != null )
 			{
-				var option = GetOption(opt);
-				if (_optionModifier != null)
+				var options = System.Linq.Enumerable.Cast<object>( _options ); 
+				foreach( var group in System.Linq.Enumerable.GroupBy( options, _groupSelectory ) )
 				{
-					_optionModifier(option, opt, i);
+					sb.AppendFormat( "<optgroup label=\"{0}\">", group.Key );
+					sb.Append( RenderOptions( System.Linq.Enumerable.AsEnumerable( group ), i ) );
+					sb.Append( "</optgroup>" );
 				}
-				sb.Append(option);
-				i++;
+			}
+			else
+			{
+				sb.Append( RenderOptions( _options, i ) );
 			}
 
 			return sb.ToString();
+		}
+
+		private virtual StringBuilder RenderOptions( System.Collections.IEnumerable options, int i )
+		{
+			var sb = new StringBuilder();
+			foreach ( var opt in options )
+			{
+				var option = GetOption( opt );
+				if ( _optionModifier != null )
+				{
+					_optionModifier( option, opt, i );
+				}
+        		sb.Append( option );
+				i++;
+			}
+			return sb;
 		}
 
 		protected virtual Option GetFirstOption()
