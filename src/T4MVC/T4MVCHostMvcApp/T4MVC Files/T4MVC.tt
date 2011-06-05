@@ -559,7 +559,7 @@ IDictionary<string, string> GetPartials() {
 
     foreach(var part in parts) {
         string viewName = Sanitize(part.Key);
-		
+        
         // Check if we already have a partial view by that name (e.g. if two Views folders have the same ascx)
         int keyCollisionCount = partsDic.Where(m => m.Key == viewName || m.Value.Key == viewName).Count();
 
@@ -579,7 +579,7 @@ bool IsPartialView(string viewFilePath) {
     string viewFileName = Path.GetFileName(viewFilePath);
 
     if (viewFileName.EndsWith(".ascx")) return true;
-	
+    
     if ((viewFileName.EndsWith(".cshtml") || viewFileName.EndsWith(".vbhtml")) && viewFileName.StartsWith("_")) {
         return true;
     }
