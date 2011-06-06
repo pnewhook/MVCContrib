@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.55 (06-05-2011):
+- Added optional Url.Action parameters for protocol and hostname (http://stackoverflow.com/questions/6240568/t4mvc-doesnt-work-property-with-url-action)
+
 2.6.54 (04-23-2011):
 - Added missing license to NuGet package and fixed some links. No actual template changes!
 

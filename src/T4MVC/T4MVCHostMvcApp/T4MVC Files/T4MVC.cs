@@ -90,8 +90,8 @@ namespace System.Web.Mvc {
             var callInfo = result.GetT4MVCResult();
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
-        public static string Action(this UrlHelper urlHelper, ActionResult result) {
-            return urlHelper.RouteUrl(result.GetRouteValueDictionary());
+        public static string Action(this UrlHelper urlHelper, ActionResult result, string protocol = null, string hostName = null) {
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol, hostName);
         }
 
         public static string ActionAbsolute(this UrlHelper urlHelper, ActionResult result) {
