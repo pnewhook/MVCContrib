@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.56 (06-05-2011):
+- Added optional Html.ActionLink parameters for protocol, hostname and fragment (http://stackoverflow.com/questions/6280347/how-can-i-add-a-hash-fragment-to-t4mvc-route-dictionary-actionresult/6302703)
+
 2.6.55 (06-05-2011):
 - Added optional Url.Action parameters for protocol and hostname (http://stackoverflow.com/questions/6240568/t4mvc-doesnt-work-property-with-url-action)
 
