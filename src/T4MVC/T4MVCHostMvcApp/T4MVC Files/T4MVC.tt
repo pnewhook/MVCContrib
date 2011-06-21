@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.56
+T4MVC Version 2.6.57
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -96,6 +96,10 @@ namespace System.Web.Mvc {
             return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
         }
 
+        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes) {
+            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
+        }
+
         public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
             return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
         }
@@ -132,6 +136,10 @@ namespace System.Web.Mvc {
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
 <#} #>
+        public static string Action(this UrlHelper urlHelper, ActionResult result) {
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
+        }
+
         public static string Action(this UrlHelper urlHelper, ActionResult result, string protocol = null, string hostName = null) {
             return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol, hostName);
         }

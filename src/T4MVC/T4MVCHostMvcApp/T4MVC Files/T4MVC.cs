@@ -56,6 +56,10 @@ namespace System.Web.Mvc {
             return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
         }
 
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes) {
+            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
+        }
+
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
             return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
         }
@@ -90,6 +94,10 @@ namespace System.Web.Mvc {
             var callInfo = result.GetT4MVCResult();
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
+        public static string Action(this UrlHelper urlHelper, ActionResult result) {
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
+        }
+
         public static string Action(this UrlHelper urlHelper, ActionResult result, string protocol = null, string hostName = null) {
             return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol, hostName);
         }
