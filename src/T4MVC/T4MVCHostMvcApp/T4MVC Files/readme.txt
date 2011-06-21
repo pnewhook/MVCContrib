@@ -57,6 +57,7 @@ HISTORY:
 
 2.6.57 (06-21-2011):
 - Re-added Html.ActionLink/Url.Action overload without default params to avoid running into "CS0854: An expression tree may not contain a call or invocation that uses optional arguments"
+- Make ProcessControllerActionMethods look for ControllerBase instead of Controller to support controllers like MailerBase (from ActionMailer) which extend ControllerBase.
 
 2.6.56 (06-05-2011):
 - Added optional Html.ActionLink parameters for protocol, hostname and fragment (http://stackoverflow.com/questions/6280347/how-can-i-add-a-hash-fragment-to-t4mvc-route-dictionary-actionresult/6302703)

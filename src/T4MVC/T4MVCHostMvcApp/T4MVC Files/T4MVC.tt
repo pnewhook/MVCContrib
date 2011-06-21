@@ -783,7 +783,7 @@ void ProcessControllerActionMethods(ControllerInfo controllerInfo, CodeClass2 cu
 
     // We want to process not just the controller class itself, but also its parents, as they
     // may themselves define actions
-    for (CodeClass2 type = current; type != null && type.FullName != "System.Web.Mvc.Controller"; type = (CodeClass2)type.Bases.Item(1)) {
+    for (CodeClass2 type = current; type != null && type.FullName != "System.Web.Mvc.ControllerBase"; type = (CodeClass2)type.Bases.Item(1)) {
 
         // If the type doesn't come from this project, some actions on it will fail. Try to get a real project type if possible.
         if (type.InfoLocation != vsCMInfoLocation.vsCMInfoLocationProject) {
