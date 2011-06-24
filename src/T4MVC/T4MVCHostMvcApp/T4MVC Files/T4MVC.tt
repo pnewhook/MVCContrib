@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.57
+T4MVC Version 2.6.58
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -729,9 +729,8 @@ void ProcessControllersRecursive(ProjectItem projectItem, AreaInfo area) {
 }
 
 void ProcessControllerType(CodeClass2 type, AreaInfo area, DateTime controllerLastWriteTime) {
-    // Only process types that end with Controller
-    // REVIEW: this check is not super reliable. Should look at base class.
-    if (!type.Name.EndsWith(ControllerSuffix, StringComparison.OrdinalIgnoreCase))
+    // Only process controllers
+    if (!IsController(type))
         return;
 
     // Don't process generic classes (their concrete derived classes will be processed)
@@ -783,7 +782,7 @@ void ProcessControllerActionMethods(ControllerInfo controllerInfo, CodeClass2 cu
 
     // We want to process not just the controller class itself, but also its parents, as they
     // may themselves define actions
-    for (CodeClass2 type = current; type != null && type.FullName != "System.Web.Mvc.ControllerBase"; type = (CodeClass2)type.Bases.Item(1)) {
+    for (CodeClass2 type = current; type != null && type.FullName != "System.Web.Mvc.Controller"; type = (CodeClass2)type.Bases.Item(1)) {
 
         // If the type doesn't come from this project, some actions on it will fail. Try to get a real project type if possible.
         if (type.InfoLocation != vsCMInfoLocation.vsCMInfoLocationProject) {
@@ -1027,6 +1026,14 @@ ProjectItem GetProjectItem(ProjectItems items, string subPath) {
     }
 
     return current;
+}
+
+static bool IsController(CodeClass2 type) {
+    for (; type.FullName != "System.Web.Mvc.Controller"; type = (CodeClass2)type.Bases.Item(1)) {
+        if (type.Bases.Count == 0)
+            return false;
+    }
+    return true;
 }
 
 static string GetVirtualPath(ProjectItem item) {

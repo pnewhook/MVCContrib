@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.58 (06-23-2011):
+- Change the controller detection logic to be more reliable and ignore anything that doesn't extend Controller
+
 2.6.57 (06-21-2011):
 - Re-added Html.ActionLink/Url.Action overload without default params to avoid running into "CS0854: An expression tree may not contain a call or invocation that uses optional arguments"
 - Make ProcessControllerActionMethods look for ControllerBase instead of Controller to support controllers like MailerBase (from ActionMailer) which extend ControllerBase.
