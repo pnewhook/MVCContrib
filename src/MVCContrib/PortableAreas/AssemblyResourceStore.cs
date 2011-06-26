@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MvcContrib.PortableAreas;
 
 namespace MvcContrib.UI.InputBuilder.ViewEngine
@@ -13,52 +14,52 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
         private Dictionary<string, string> resources;
         private Type typeToLocateAssembly;
         private string namespaceName;
-		private PortableAreaMap map;
+        private PortableAreaMap map;
+        private AssemblyResourceLocator resourceLocator;
 
         public string VirtualPath { get; private set; }
 
-		public AssemblyResourceStore(Type typeToLocateAssembly, string virtualPath, string namespaceName)
-		{
-			Initialize(typeToLocateAssembly, virtualPath, namespaceName, null);
-		}
+        public AssemblyResourceStore(Type typeToLocateAssembly, string virtualPath, string namespaceName)
+        {
+            Initialize(typeToLocateAssembly, virtualPath, namespaceName, null);
+        }
 
         public AssemblyResourceStore(Type typeToLocateAssembly, string virtualPath, string namespaceName, PortableAreaMap map)
         {
-			Initialize(typeToLocateAssembly, virtualPath, namespaceName, map);
-		}
+            Initialize(typeToLocateAssembly, virtualPath, namespaceName, map);
+        }
 
-		private void Initialize(Type typeToLocateAssembly, string virtualPath, string namespaceName, PortableAreaMap map)
-		{
-			this.map = map;
-			this.typeToLocateAssembly = typeToLocateAssembly;
-			// should we disallow an empty virtual path?
-			this.VirtualPath = virtualPath.ToLower();
-			this.namespaceName = namespaceName.ToLower();
+        private void Initialize(Type typeToLocateAssembly, string virtualPath, string namespaceName, PortableAreaMap map)
+        {
+            this.map = map;
+            this.typeToLocateAssembly = typeToLocateAssembly;
+            // should we disallow an empty virtual path?
+            this.VirtualPath = virtualPath.ToLower();
+            this.namespaceName = namespaceName.ToLower();
 
-			var resourceNames = this.typeToLocateAssembly.Assembly.GetManifestResourceNames();
-			resources = new Dictionary<string, string>(resourceNames.Length);
-			foreach (var name in resourceNames)
-			{
-				resources.Add(name.ToLower(), name);
-			}
-		}
+            var resourceNames = this.typeToLocateAssembly.Assembly.GetManifestResourceNames();
+            resources = new Dictionary<string, string>(resourceNames.Length);
+            foreach (var name in resourceNames)
+            {
+                resources.Add(name.ToLower(), name);
+            }
+            resourceLocator = new AssemblyResourceLocator(this.resources, this.namespaceName, this.VirtualPath);
+        }
 
         public Stream GetResourceStream(string resourceName)
         {
-            var fullResourceName = GetFullyQualifiedTypeFromPath(resourceName);
-
             string actualResourceName = null;
 
-            if (resources.TryGetValue(fullResourceName, out actualResourceName))
+            if (resourceLocator.TryGetActualResourceName(resourceName, out actualResourceName))
             {
-				Stream stream = this.typeToLocateAssembly.Assembly.GetManifestResourceStream(actualResourceName);
+                Stream stream = this.typeToLocateAssembly.Assembly.GetManifestResourceStream(actualResourceName);
 
-				if (map != null &&
-					(resourceName.ToLower().EndsWith(".aspx")
-					 || resourceName.ToLower().EndsWith(".master")))
-					return map.Transform(stream);
-				else
-					return stream;
+                if (map != null &&
+                    (resourceName.ToLower().EndsWith(".aspx")
+                     || resourceName.ToLower().EndsWith(".master")))
+                    return map.Transform(stream);
+                else
+                    return stream;
             }
             else
             {
@@ -68,17 +69,13 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 
         public string GetFullyQualifiedTypeFromPath(string path)
         {
-            string resourceName = path.ToLower().Replace("~", this.namespaceName);
-            // we can make this more succinct if we don't have to check for emtpy virtual path (by preventing in constuctor)
-            if (!string.IsNullOrEmpty(VirtualPath))
-                resourceName = resourceName.Replace(VirtualPath, "");
-            return resourceName.Replace("/", ".");
+            return resourceLocator.GetFullyQualifiedTypeFromPath(path);
         }
 
         public bool IsPathResourceStream(string path)
         {
-            var fullResourceName = GetFullyQualifiedTypeFromPath(path);
-            return resources.ContainsKey(fullResourceName);
+            return resourceLocator.IsPathResourceStream(path);
         }
+
     }
 }

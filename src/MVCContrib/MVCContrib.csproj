@@ -139,6 +139,7 @@
     <Compile Include="PortableAreas\ApplicationBus.cs" />
     <Compile Include="PortableAreas\AssemblyResourceManager.cs" />
     <Compile Include="PortableAreas\AssemblyResourceStore.cs" />
+    <Compile Include="PortableAreas\AssemblyResourceLocator.cs" />
     <Compile Include="PortableAreas\PortableAreaContent.cs" />
     <Compile Include="PortableAreas\EmbeddedResourceController.cs" />
     <Compile Include="PortableAreas\IApplicationBus.cs" />
