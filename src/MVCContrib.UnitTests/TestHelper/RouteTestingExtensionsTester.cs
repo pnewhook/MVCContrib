@@ -94,6 +94,11 @@ namespace MvcContrib.UnitTests.TestHelper
 
 		public class AwesomeController : Controller {}
 
+		public class HasControllerInMiddleOfNameController : Controller
+		{
+			public ActionResult Index() { return null; }
+		}
+
 		[SetUp]
 		public void Setup()
 		{
@@ -465,6 +470,15 @@ namespace MvcContrib.UnitTests.TestHelper
 			
 			Assert.Throws<MvcContrib.TestHelper.AssertionException>(() => "~/web/forms/route".ShouldMapToPage("~/MyPage.aspx"));
 
+		}
+
+		[Test]
+		public void ShouldMapTo_DoesNotStripControllerFromMiddleOfName()
+		{
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.MapRoute("test", "foo", new { controller = "HasControllerInMiddleOfName", action = "index" });
+
+			"~/foo".ShouldMapTo<HasControllerInMiddleOfNameController>(x => x.Index());
 		}
 	}
 }

@@ -292,7 +292,11 @@ namespace MvcContrib.TestHelper
 		public static RouteData ShouldMapTo<TController>(this RouteData routeData) where TController : Controller
 		{
 			//strip out the word 'Controller' from the type
-			string expected = typeof(TController).Name.Replace("Controller", "");
+			string expected = typeof(TController).Name;
+			if(expected.EndsWith("Controller"))
+			{
+				expected = expected.Substring(0, expected.LastIndexOf("Controller"));
+			}
 
 			//get the key (case insensitive)
 			string actual = routeData.Values.GetValue("controller").ToString();
