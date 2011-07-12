@@ -57,6 +57,7 @@ HISTORY:
 
 2.6.59 (07-12-2011):
 - Added commented out logic to show how to debug into the template (http://mvccontrib.codeplex.com/workitem/7144)
+- Ignore any class which name doesn't end with "Controller"
 
 2.6.58 (06-23-2011):
 - Change the controller detection logic to be more reliable and ignore anything that doesn't extend Controller

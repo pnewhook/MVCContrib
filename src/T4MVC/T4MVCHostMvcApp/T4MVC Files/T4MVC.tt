@@ -1033,6 +1033,9 @@ ProjectItem GetProjectItem(ProjectItems items, string subPath) {
 }
 
 static bool IsController(CodeClass2 type) {
+    // Ignore any class which name doesn't end with "Controller"
+    if (!type.FullName.EndsWith(ControllerSuffix)) return false;
+
     for (; type.FullName != "System.Web.Mvc.Controller"; type = (CodeClass2)type.Bases.Item(1)) {
         if (type.Bases.Count == 0)
             return false;
