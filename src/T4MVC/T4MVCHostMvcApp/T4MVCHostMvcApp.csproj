@@ -93,12 +93,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="SomePortableArea\Controllers\HomeController.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Home\Views\Home\EditorTemplates\SomeAreaEditorTemplate.ascx" />
     <Content Include="Global.asax" />
+    <Content Include="SomePortableArea\Views\Home\SomeHomeView.txt" />
     <Content Include="T4MVC Files\readme.txt" />
     <Content Include="Views\Home\DisplayTemplates\SomeDisplayTemplate.ascx" />
     <Content Include="Views\Home\DuplicateControl.ascx" />

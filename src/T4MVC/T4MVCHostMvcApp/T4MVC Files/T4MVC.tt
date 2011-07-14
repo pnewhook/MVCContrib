@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.59
+T4MVC Version 2.6.60
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -679,6 +679,18 @@ void ProcessAreas(Project project) {
     foreach (ProjectItem item in areaProjectItem.ProjectItems) {
         if (IsFolder(item)) {
             ProcessArea(item.ProjectItems, item.Name);
+        }
+    }
+
+    // Process portable areas
+    foreach (string portableArea in PortableAreas) {
+        ProjectItem portableAreaProjectItem = GetProjectItem(project, portableArea);
+
+        if (portableAreaProjectItem == null)
+            return;
+
+        if (IsFolder(portableAreaProjectItem)) {
+            ProcessArea(portableAreaProjectItem.ProjectItems, portableAreaProjectItem.Name);
         }
     }
 }
