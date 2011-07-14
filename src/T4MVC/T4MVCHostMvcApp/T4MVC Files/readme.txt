@@ -144,7 +144,7 @@ HISTORY:
 - Added AddTimestampToStaticLinks flag to T4MVC.settings.t4 to generate static links that change when the file changes.
 - Added support for [Bind(Prefix = "newParamName")] attribute so it generates the correct route value
 - Added an AddRouteValues overload that takes NameValueCollection, e.g.
-	- MVC.Home.About().AddRouteValues(Request.QueryString)
+    - MVC.Home.About().AddRouteValues(Request.QueryString)
 - Added MapRoute overload that supports contraints
 - Removed some logic to support VS2010 Beta 2.  VS2010 RC or later should now be used.
 
@@ -163,11 +163,11 @@ HISTORY:
 
 2.6.10 (01-04-2010):
 - Added support for adding arbitrary route parameters to T4MVC actions. e.g.
-	- MVC.Home.About().AddRouteValue("fooKey", bar.Foo.Key)
-	- MVC.Home.About().AddRouteValues(new {fooKey = bar.Foo.Key, barKey = bar.Key})
+    - MVC.Home.About().AddRouteValue("fooKey", bar.Foo.Key)
+    - MVC.Home.About().AddRouteValues(new {fooKey = bar.Foo.Key, barKey = bar.Key})
 - Added shorter to refer to controller actions from with the controller itself. e.g.
-	- return RedirectToAction(MVC.MyController.Actions.About());		BECOMES:
-	- return RedirectToAction(Actions.About());
+    - return RedirectToAction(MVC.MyController.Actions.About());		BECOMES:
+    - return RedirectToAction(Actions.About());
 - What was previously called Actions was renamed to ActionNames (note, that's a BREAKING CHANGE if you used Actions before!)
 - Ignore controller methods that are marked as [NonAction]
 - Renamed IT4MVCActionResult.RouteValues to avoid conflict (this should not break anything, as it's only used internally)
@@ -179,7 +179,7 @@ HISTORY:
 
 2.6.02 (12-04-2009):
 - Added way to get area name from both Area and Controller objects
-	e.g. MVC.MyArea.Name and MVC.MyArea.MyController.Area
+    e.g. MVC.MyArea.Name and MVC.MyArea.MyController.Area
 - Added support for controllers in the default namespace (i.e. no namespace)
 - Always include the area in the route data, even when it's null/empty
 
