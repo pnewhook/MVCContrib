@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+2.6.60 (07-14-2011):
+- Added support for portable areas. Enabled by adding area named to PortableAreas in T4MVC.tt.settings.t4
+
 2.6.59 (07-12-2011):
 - Added commented out logic to show how to debug into the template (http://mvccontrib.codeplex.com/workitem/7144)
 - Ignore any class which name doesn't end with "Controller"
