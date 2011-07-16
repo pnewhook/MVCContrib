@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using MvcContrib.Sorting;
 
 namespace MvcContrib.UI.Grid
 {
@@ -80,6 +81,14 @@ namespace MvcContrib.UI.Grid
 		/// <param name="name"></param>
 		/// <returns></returns>
 		IGridColumn<T> SortColumnName(string name);
+
+		/// <summary>
+		/// Specifies the direction of the sort link when this column is not currently sorted.  
+		/// The direction will continue to toggle when it is the currently sorted column. 
+		/// </summary>
+		/// <param name="initialDirection"></param>
+		/// <returns></returns>
+		IGridColumn<T> SortInitialDirection(SortDirection initialDirection);
 
 		/// <summary>
 		/// Custom header renderer

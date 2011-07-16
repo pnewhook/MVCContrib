@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
+using MvcContrib.Sorting;
+
 namespace MvcContrib.UI.Grid
 {
 	/// <summary>
@@ -27,6 +29,7 @@ namespace MvcContrib.UI.Grid
 		private List<Func<GridRowViewData<T>, IDictionary<string, object>>> _attributes = new List<Func<GridRowViewData<T>, IDictionary<string, object>>>();
 		private bool _sortable = true;
 		private string _sortColumnName = null;
+		private SortDirection? _initialDirection; 
 		private int? _position;
 		private Func<object, object> _headerRenderer = x => null;
 
@@ -54,6 +57,11 @@ namespace MvcContrib.UI.Grid
 		public string SortColumnName
 		{
 			get { return _sortColumnName; }
+		}
+
+		public SortDirection? InitialDirection
+		{
+			get { return _initialDirection; }
 		}
 
 		/// <summary>
@@ -108,6 +116,12 @@ namespace MvcContrib.UI.Grid
 		IGridColumn<T> IGridColumn<T>.SortColumnName(string name)
 		{
 			_sortColumnName = name;
+			return this;
+		}
+
+		IGridColumn<T> IGridColumn<T>.SortInitialDirection(SortDirection initialDirection)
+		{
+			_initialDirection = initialDirection;
 			return this;
 		}
 
