@@ -431,6 +431,21 @@ namespace Links {
     
         public static readonly string Site_css = Url("Site.css");
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public static class SomeRandomName {
+            private const string URLPATH = "~/Content/SomeRandomName";
+            public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }
+            public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(URLPATH + "/" + fileName); }
+            [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+            public static class SomeRandomName_ {
+                private const string URLPATH = "~/Content/SomeRandomName/SomeRandomName";
+                public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }
+                public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(URLPATH + "/" + fileName); }
+                public static readonly string SomeRandomName_txt = Url("SomeRandomName.txt");
+            }
+        
+        }
+    
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public static class Sub_Content_folder_test {
             private const string URLPATH = "~/Content/Sub Content-folder.test";
             public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }

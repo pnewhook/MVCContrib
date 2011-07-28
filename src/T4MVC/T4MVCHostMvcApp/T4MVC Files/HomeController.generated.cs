@@ -103,6 +103,15 @@ namespace T4MVCHostMvcApp.Controllers {
             public partial class _EditorTemplates{
                 public readonly string SomeEditorTemplate = "SomeEditorTemplate";
             }
+            static readonly _SomeName s_SomeName = new _SomeName();
+            public _SomeName SomeName { get { return s_SomeName; } }
+            public partial class _SomeName{
+                static readonly _SomeName_ s_SomeName = new _SomeName_();
+                public _SomeName_ SomeName { get { return s_SomeName; } }
+                public partial class _SomeName_{
+                    public readonly string SomeName = "~/Views/Home/SomeName/SomeName/SomeName.txt";
+                }
+            }
             static readonly _Sub_Home s_Sub_Home = new _Sub_Home();
             public _Sub_Home Sub_Home { get { return s_Sub_Home; } }
             public partial class _Sub_Home{

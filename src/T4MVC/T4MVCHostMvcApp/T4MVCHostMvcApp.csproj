@@ -99,12 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Home\Views\Home\EditorTemplates\SomeAreaEditorTemplate.ascx" />
+    <Content Include="Content\SomeRandomName\SomeRandomName\SomeRandomName.txt" />
     <Content Include="Global.asax" />
     <Content Include="SomePortableArea\Views\Home\SomeHomeView.txt" />
     <Content Include="T4MVC Files\readme.txt" />
     <Content Include="Views\Home\DisplayTemplates\SomeDisplayTemplate.ascx" />
     <Content Include="Views\Home\DuplicateControl.ascx" />
     <Content Include="Views\Home\EditorTemplates\SomeEditorTemplate.ascx" />
+    <Content Include="Views\Home\SomeName\SomeName\SomeName.txt" />
     <Content Include="Views\NoControllerMatchingFolder\DuplicateControl.ascx" />
     <Content Include="Views\Shared\AnotherPartial.ascx" />
     <Content Include="Views\Shared\DuplicateControl.ascx" />

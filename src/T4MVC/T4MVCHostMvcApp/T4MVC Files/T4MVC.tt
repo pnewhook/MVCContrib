@@ -952,10 +952,17 @@ void RenderViewsRecursive(ViewsFolderInfo viewsFolder, ControllerInfo controller
 
     // For each sub folder, generate a class and recurse
     foreach (var subFolder in viewsFolder.SubFolders) {
-        string newClassName = Sanitize(subFolder.Name);#>
-static readonly _<#=newClassName#> s_<#=newClassName#> = new _<#=newClassName#>();
-public _<#=newClassName#> <#=EscapeID(newClassName)#> { get { return s_<#=newClassName#>; } }
-public partial class _<#=newClassName#>{
+        string name = Sanitize(subFolder.Name);
+        string className = "_" + name;
+
+        // If the folder name is the same as the parent, add a modifier to avoid class name conflicts
+        // http://mvccontrib.codeplex.com/workitem/7153
+        if (name == Sanitize(viewsFolder.Name)) {
+            className += "_";
+        }#>
+static readonly <#=className#> s_<#=name#> = new <#=className#>();
+public <#=className#> <#=EscapeID(name)#> { get { return s_<#=name#>; } }
+public partial class <#=className#>{
 <#+
 PushIndent("    ");
 RenderViewsRecursive(subFolder, controller);
@@ -974,10 +981,20 @@ void ProcessStaticFiles(Project project, string folder) {
 }
 
 void ProcessStaticFilesRecursive(ProjectItem projectItem, string path) {
+    ProcessStaticFilesRecursive(projectItem, path, false /*hasSameNameAsParent*/);
+}
 
-    if (IsFolder(projectItem)) { #>
+void ProcessStaticFilesRecursive(ProjectItem projectItem, string path, bool hasSameNameAsParent) {
+
+    if (IsFolder(projectItem)) {
+        string className = EscapeID(Sanitize(projectItem.Name));
+        // If the folder name is the same as the parent, add a modifier to avoid class name conflicts
+        // http://mvccontrib.codeplex.com/workitem/7153
+        if (hasSameNameAsParent) {
+            className += "_";
+        } #>
     [<#= GeneratedCode #>, DebuggerNonUserCode]
-    public static class <#=EscapeID(Sanitize(projectItem.Name)) #> {
+    public static class <#=className #> {
         private const string URLPATH = "<#=path#>/<#=projectItem.Name#>";
         public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }
         public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(URLPATH + "/" + fileName); }
@@ -986,7 +1003,10 @@ PushIndent("    ");
 
 // Recurse into all the items in the folder
 foreach (ProjectItem item in projectItem.ProjectItems) {
-    ProcessStaticFilesRecursive(item, path + "/" + projectItem.Name);
+    ProcessStaticFilesRecursive(
+        item,
+        path + "/" + projectItem.Name,
+        item.Name == projectItem.Name);
 }
 
 PopIndent();
@@ -1114,6 +1134,8 @@ static string MakeClassName(string ns, string classname) {
 }
 
 static string Sanitize(string token) {
+    if (token == null) return null;
+
     // Replace all invalid chars by underscores
     token = Regex.Replace(token, @"[\W\b]", "_", RegexOptions.IgnoreCase);
 
