@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.61 (08-01-2011):
+* Ignore generic action methods (http://mvccontrib.codeplex.com/workitem/7156)
+
 !!! 2.6.60 (07-28-2011):
 * Added support for portable areas. Enabled by adding area names to PortableAreas in T4MVC.tt.settings.t4
 * When generating links and views, if the folder name is the same as the parent, add a modifier to avoid class name conflicts (http://mvccontrib.codeplex.com/workitem/7153)
