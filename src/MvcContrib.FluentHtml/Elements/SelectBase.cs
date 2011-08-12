@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
@@ -99,12 +101,16 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public virtual T Options<TSource, TKey>( IEnumerable<TSource> values, string valueField, string textField, Func<TSource, TKey> groupSelector )
+		public virtual T Options<TSource, TKey>(IEnumerable<TSource> values, string valueField, string textField, Func<TSource, TKey> groupSelector)
 		{
-			_options = values;
-			_groupSelectory = x => groupSelector( ( TSource )x );
-			SetFieldExpressions( valueField, textField );
-			return ( T )this;
+			_groupSelectory = x => groupSelector((TSource)x);
+			return Options(values, valueField, textField);
+		}
+
+		public virtual T Options<TSource>(IEnumerable<TSource> values, Func<TSource, object> valueFieldSelector, Func<TSource, object> textFieldSelector, Func<TSource, object> groupSelector)
+		{
+			_groupSelectory = x => groupSelector((TSource)x);
+			return Options(values, valueFieldSelector, textFieldSelector);
 		}
 
 		protected override TagRenderMode TagRenderMode
@@ -129,25 +135,25 @@ namespace MvcContrib.FluentHtml.Elements
 				i++;
 			}
 
-			if ( _groupSelectory != null )
+			if (_groupSelectory != null)
 			{
-				var options = System.Linq.Enumerable.Cast<object>( _options ); 
-				foreach( var group in System.Linq.Enumerable.GroupBy( options, _groupSelectory ) )
+				var options = _options.Cast<object>();
+				foreach (var group in options.GroupBy(_groupSelectory))
 				{
-					sb.AppendFormat( "<optgroup label=\"{0}\">", group.Key );
-					sb.Append( RenderOptions( System.Linq.Enumerable.AsEnumerable( group ), i ) );
-					sb.Append( "</optgroup>" );
+					sb.AppendFormat("<optgroup label=\"{0}\">", group.Key);
+					sb.Append(RenderOptions(group.AsEnumerable(), i));
+					sb.Append("</optgroup>");
 				}
 			}
 			else
 			{
-				sb.Append( RenderOptions( _options, i ) );
+				sb.Append(RenderOptions(_options, i));
 			}
 
 			return sb.ToString();
 		}
 
-		private StringBuilder RenderOptions( System.Collections.IEnumerable options, int i )
+		private StringBuilder RenderOptions(IEnumerable options, int i)
 		{
 			var sb = new StringBuilder();
 			foreach ( var opt in options )
@@ -157,7 +163,7 @@ namespace MvcContrib.FluentHtml.Elements
 				{
 					_optionModifier( option, opt, i );
 				}
-        		sb.Append( option );
+				sb.Append( option );
 				i++;
 			}
 			return sb;
