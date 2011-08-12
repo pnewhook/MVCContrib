@@ -60,8 +60,12 @@ namespace System.Web.Mvc {
             return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
         }
 
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes) {
-            return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary(), htmlAttributes);
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
+            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
+        }
+
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
+            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), htmlAttributes);
         }
 
         public static MvcForm BeginForm(this HtmlHelper htmlHelper, ActionResult result) {
@@ -91,7 +95,11 @@ namespace System.Web.Mvc {
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
         public static string Action(this UrlHelper urlHelper, ActionResult result) {
-            return urlHelper.RouteUrl(result.GetRouteValueDictionary());
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
+        }
+
+        public static string Action(this UrlHelper urlHelper, ActionResult result, string protocol = null, string hostName = null) {
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol, hostName);
         }
 
         public static string ActionAbsolute(this UrlHelper urlHelper, ActionResult result) {
@@ -422,6 +430,21 @@ namespace Links {
         }
     
         public static readonly string Site_css = Url("Site.css");
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public static class SomeRandomName {
+            private const string URLPATH = "~/Content/SomeRandomName";
+            public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }
+            public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(URLPATH + "/" + fileName); }
+            [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+            public static class SomeRandomName_ {
+                private const string URLPATH = "~/Content/SomeRandomName/SomeRandomName";
+                public static string Url() { return T4MVCHelpers.ProcessVirtualPath(URLPATH); }
+                public static string Url(string fileName) { return T4MVCHelpers.ProcessVirtualPath(URLPATH + "/" + fileName); }
+                public static readonly string SomeRandomName_txt = Url("SomeRandomName.txt");
+            }
+        
+        }
+    
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public static class Sub_Content_folder_test {
             private const string URLPATH = "~/Content/Sub Content-folder.test";

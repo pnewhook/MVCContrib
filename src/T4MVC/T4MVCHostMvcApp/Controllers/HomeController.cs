@@ -65,6 +65,10 @@ namespace T4MVCHostMvcApp.Controllers {
             return new EmptyResult();
         }
 
+        public virtual ActionResult ActionWithGenericParam<T>(string someString) {
+            return new EmptyResult();
+        }
+
         public void GetSomethingAsync() {
         }
 

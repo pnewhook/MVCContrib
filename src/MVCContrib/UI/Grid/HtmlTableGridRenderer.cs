@@ -81,7 +81,7 @@ namespace MvcContrib.UI.Grid
 				}
 				else //default sort order
 				{
-					sortOptions.Direction = GridModel.SortOptions.Direction;
+					sortOptions.Direction = column.InitialDirection ?? GridModel.SortOptions.Direction;
 				}
 
 				var routeValues = CreateRouteValuesForSortOptions(sortOptions, GridModel.SortPrefix);

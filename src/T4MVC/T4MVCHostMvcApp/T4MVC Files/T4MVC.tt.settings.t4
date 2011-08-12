@@ -17,6 +17,11 @@ readonly string[] ReferencedNamespaces = new string[] {
 // The folder under the project that contains the areas
 const string AreasFolder = "Areas";
 
+// You can list folders containing portable areas here
+readonly string[] PortableAreas = new string[] {
+    //"SomePortableArea"
+};
+
 // Choose whether you want to include an 'Areas' token when referring to areas.
 // e.g. Assume the Area is called Blog and the Controller is Post:
 // - When false use MVC.Blog.Post.etc...

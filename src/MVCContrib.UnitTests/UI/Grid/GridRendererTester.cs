@@ -399,12 +399,57 @@ namespace MvcContrib.UnitTests.UI.Grid
 		[Test]
 		public void Should_render_grid_with_sort_direction_descending_as_the_default()
 		{
+			ColumnFor(x => x.Id);
 			ColumnFor(x => x.Name);
-			_model.Sort(new GridSortOptions() {Direction = SortDirection.Descending});
-			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>Jeremy</td></tr></tbody></table>";
+			ColumnFor(x => x.DateOfBirth).Format("{0:M/d/yyyy}");
+			_model.Sort(new GridSortOptions() { Direction = SortDirection.Descending });
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Descending\">Id</a></th><th><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th><th><a href=\"/?Column=DateOfBirth&amp;Direction=Descending\">Date Of Birth</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td><td>4/19/1987</td></tr></tbody></table>";
 			RenderGrid().ShouldEqual(expected);
-
 		}
+
+		[Test]
+		public void Should_render_all_sort_links_ascending_when_option_is_ascending_and_no_column_currently_sorted()
+		{
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name);
+			ColumnFor(x => x.DateOfBirth).Format("{0:M/d/yyyy}");
+			_model.Sort(new GridSortOptions() { Direction = SortDirection.Ascending });
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th><th><a href=\"/?Column=DateOfBirth&amp;Direction=Ascending\">Date Of Birth</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td><td>4/19/1987</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_render_initial_direction_descending_when_it_is_not_the_currently_sorted_column()
+		{
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name).SortInitialDirection(SortDirection.Descending);
+			ColumnFor(x => x.DateOfBirth).Format("{0:M/d/yyyy}");
+			_model.Sort(new GridSortOptions() { Direction = SortDirection.Ascending });
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Ascending\">Id</a></th><th><a href=\"/?Column=Name&amp;Direction=Descending\">Name</a></th><th><a href=\"/?Column=DateOfBirth&amp;Direction=Ascending\">Date Of Birth</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td><td>4/19/1987</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_render_initial_direction_ascending_when_it_is_not_the_currently_sorted_column()
+		{
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name).SortInitialDirection(SortDirection.Ascending);
+			ColumnFor(x => x.DateOfBirth).Format("{0:M/d/yyyy}");
+			_model.Sort(new GridSortOptions() { Direction = SortDirection.Descending });
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Descending\">Id</a></th><th><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th><th><a href=\"/?Column=DateOfBirth&amp;Direction=Descending\">Date Of Birth</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td><td>4/19/1987</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+		}
+
+		[Test]
+		public void Should_ignore_initial_direction_ascending_when_it_is_the_currently_sorted_column()
+		{
+			ColumnFor(x => x.Id);
+			ColumnFor(x => x.Name).SortInitialDirection(SortDirection.Descending);
+			ColumnFor(x => x.DateOfBirth).Format("{0:M/d/yyyy}");
+			_model.Sort(new GridSortOptions() { Column = "Name", Direction = SortDirection.Descending });
+			string expected = "<table class=\"grid\"><thead><tr><th><a href=\"/?Column=Id&amp;Direction=Descending\">Id</a></th><th class=\"sort_desc\"><a href=\"/?Column=Name&amp;Direction=Ascending\">Name</a></th><th><a href=\"/?Column=DateOfBirth&amp;Direction=Descending\">Date Of Birth</a></th></tr></thead><tbody><tr class=\"gridrow\"><td>1</td><td>Jeremy</td><td>4/19/1987</td></tr></tbody></table>";
+			RenderGrid().ShouldEqual(expected);
+ 		}
 
 		[Test]
 		public void Sorting_Maintains_existing_querystring_parameters()
