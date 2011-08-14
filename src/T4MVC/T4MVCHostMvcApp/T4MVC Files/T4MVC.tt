@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.61
+T4MVC Version 2.6.62
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -484,8 +484,8 @@ namespace <#=controller.Namespace #> {
 <#} #>
 
 
-<# if (ExplicitHtmlHelpersForPartials) {	
-        manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>	
+<# if (ExplicitHtmlHelpersForPartials) {
+        manager.StartNewFile("T4MVC.ExplicitExtensions.cs"); #>
 
 namespace System.Web.Mvc {
     [<#= GeneratedCode #>]
@@ -495,7 +495,7 @@ namespace System.Web.Mvc {
             string partialName = partialView.Key;
             string partialPath = partialView.Value;
             string partialRenderMethod = string.Format(ExplicitHtmlHelpersForPartialsFormat, partialName);
-    #>		 
+    #> 
         ///<summary>
         ///Render the <b><#= partialName #></b> partial.
         ///</summary>
@@ -505,15 +505,15 @@ namespace System.Web.Mvc {
         
         ///<summary>
         ///Render the <b><#= partialName #></b> partial.
-        ///</summary>		
+        ///</summary>
         public static void <#= partialRenderMethod #>(this HtmlHelper html, object model) {
             html.RenderPartial("<#= partialPath #>", model);
         }
-    <# } #>	 
+    <# } #> 
     }
 }
-<#	manager.EndBlock(); #>	
-<#	}	#>	
+<#  manager.EndBlock(); #>
+<#  }   #>
 
 <#manager.StartFooter(); #>
 #endregion T4MVC

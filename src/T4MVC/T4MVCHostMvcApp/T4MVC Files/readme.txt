@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.62 (08-13-2011):
+* Replace some unwanted tab characters with whitespace
+
 !!! 2.6.61 (08-01-2011):
 * Ignore generic action methods (http://mvccontrib.codeplex.com/workitem/7156)
 
