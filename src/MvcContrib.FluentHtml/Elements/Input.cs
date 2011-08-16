@@ -28,7 +28,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <summary>
 		/// Set the 'value' attribute.
 		/// </summary>
-		/// <param name="value">The value for the attribute.</param>
+		/// <param name="value">The value of the attribute.</param>
 		public virtual T Value(object value)
 		{
 			elementValue = value;
@@ -38,17 +38,45 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <summary>
 		/// Set the 'size' attribute.
 		/// </summary>
-		/// <param name="value">The value for the attribute.</param>
+		/// <param name="value">The value of the attribute.</param>
 		public virtual T Size(int value)
 		{
 			Attr(HtmlAttribute.Size, value);
 			return (T)this;
 		}
 
+		/// <summary>
+		/// Set the 'autofocus' attribute to 'autofocus.'
+		/// </summary>
+		public T AutoFocus(bool value)
+		{
+			if (value)
+			{
+				Attr(HtmlAttribute.Autofocus, HtmlAttribute.Autofocus);
+			}
+			else
+			{
+				((IElement)this).RemoveAttr(HtmlAttribute.Autofocus);
+			}
+			return (T)this;
+		}
+
+		/// <summary>
+		///Associate this element with one or more forms.
+		/// </summary>
+		public T Form(params string[] formIds)
+		{
+			if (formIds != null)
+			{
+				builder.MergeAttribute(HtmlAttribute.Form, string.Join(" ", formIds), false);
+			}
+			return (T)this;
+		}
+
 		protected override void PreRender()
 		{
 			Attr(HtmlAttribute.Value, elementValue);
-			base.PreRender();
+		    base.PreRender();
 		}
 
 		protected override void ApplyModelState(ModelState state)

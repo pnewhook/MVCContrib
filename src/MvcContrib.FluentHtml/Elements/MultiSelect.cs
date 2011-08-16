@@ -39,7 +39,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <param name="selectedValues">Values matching the values of options to be selected.</param>
 		public virtual MultiSelect Selected(IEnumerable selectedValues)
 		{
-			_selectedValues = selectedValues;
+			_optionChoices.SelectedValues = selectedValues;
 			return this;
 		}
 
@@ -82,7 +82,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <param name="selectedValues">Values matching the values of options to be selected.</param>
 		public virtual MultiSelect<TModel> Selected(IEnumerable selectedValues)
 		{
-			_selectedValues = selectedValues;
+			_optionChoices.SelectedValues = selectedValues;
 			return this;
 		}
 

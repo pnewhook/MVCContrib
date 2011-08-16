@@ -7,7 +7,7 @@ namespace MvcContrib.FluentHtml.Elements
 	/// <summary>
 	/// Generates an input element of type 'file.'
 	/// </summary>
-	public class FileUpload : TextInput<FileUpload>
+	public class FileUpload : Input<FileUpload>, ISupportsMaxLength
 	{
 		/// <summary>
 		/// Generates an input element of type 'file.'
@@ -22,5 +22,32 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <param name="behaviors">Behaviors to apply to the element.</param>
 		public FileUpload(string name, IEnumerable<IBehaviorMarker> behaviors)
 			: base(HtmlInputType.File, name, null, behaviors) { }
+
+		/// <summary>
+		/// Set the 'maxlength' attribute.
+		/// </summary>
+		/// <param name="value">The value of the attribute.</param>
+		public virtual FileUpload MaxLength(int value)
+		{
+			Attr(HtmlAttribute.MaxLength, value);
+			return this;
+		}
+
+		/// <summary>
+		/// Add or remove the 'multiple' attribute. 
+		/// </summary>
+		/// <param name="value">Whether to add or remove the attribute.</param>
+		public virtual FileUpload Multiple(bool value)
+		{
+			if (value)
+			{
+				Attr(HtmlAttribute.Multiple, HtmlAttribute.Multiple);
+			}
+			else
+			{
+				((IElement)this).RemoveAttr(HtmlAttribute.Multiple);
+			}
+			return this;
+		}
 	}
 }

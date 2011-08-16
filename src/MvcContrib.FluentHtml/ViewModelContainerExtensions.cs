@@ -177,6 +177,151 @@ namespace MvcContrib.FluentHtml
 				.Selected(expression.GetValueFrom(view.ViewModel));
 		}
 
+
+		/// <summary>
+		/// Generate an HTML input element of type 'number' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <typeparam name="T">The type of the ViewModel.</typeparam>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static NumberBox NumberBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new NumberBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.Behaviors)
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'search' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static SearchBox SearchBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new SearchBox(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'range' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static RangeBox RangeBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new RangeBox(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'tel' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static TelephoneBox TelephoneBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new TelephoneBox(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'date' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static DatePicker DatePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new DatePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'month' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static MonthPicker MonthPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new MonthPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'week' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static WeekPicker WeekPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new WeekPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'datetime' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static DateTimePicker DateTimePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new DateTimePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'datetime-local' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static DateTimeLocalPicker DateTimeLocalPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new DateTimeLocalPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'time' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static TimePicker TimePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new TimePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'color' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static ColorPicker ColorPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new ColorPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'url' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static UrlBox UrlBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new UrlBox(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
+		/// <summary>
+		/// Generate an HTML input element of type 'email' and set its value from the ViewModel based on the expression provided.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
+		public static EmailBox EmailBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
+		{
+			return new EmailBox(expression.GetNameFor(view), null, view.GetBehaviors())
+				.Value(expression.GetValueFrom(view.ViewModel));
+		}
+
 		/// <summary>
 		/// If ModelState contains an error for the specified view model member, generate an HTML span element with the 
 		/// ModelState error message is the specified message is null.   If no class is specified the class attribute 
@@ -279,8 +424,6 @@ namespace MvcContrib.FluentHtml
 			return new SubmitButton(text, view.Behaviors);
 		}
 
-       
-
 		/// <summary>
 		/// Renders a partial
 		/// </summary>
@@ -313,25 +456,25 @@ namespace MvcContrib.FluentHtml
 			new PartialRenderer<T, TPartialViewModel>(view, partialViewName, modelExpression).Render();
 		}
 
-        /// <summary>
-        /// Renders a partial
-        /// </summary>
-        /// <typeparam name="T">The type of the ViewModel.</typeparam>
-        /// <typeparam name="TPartialViewModel">The type of model of the partial.</typeparam>
-        /// <param name="view">The view.</param>
-        /// <param name="partialViewName">The name of the partial to render.</param>
-        /// <param name="modelExpression">Expression of the model for the partial.</param>
-        /// <param name="viewDataItems">A list of funcs, each epxressing a weakly typed view data item for the partial.  For example: index => i</param>
-        public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, params Func<string, object>[] viewDataItems)
-            where T : class
-            where TPartialViewModel : class
-        {
-            var viewDataDictionary = new ViewDataDictionary();
-            foreach (var item in viewDataItems)
-            {
-                viewDataDictionary.Add(new KeyValuePair<string, object>(item.Method.GetParameters()[0].Name, item(null)));
-            }
-            new PartialRenderer<T, TPartialViewModel>(view, partialViewName, modelExpression).ViewData(viewDataDictionary).Render();
-        }
+		/// <summary>
+		/// Renders a partial
+		/// </summary>
+		/// <typeparam name="T">The type of the ViewModel.</typeparam>
+		/// <typeparam name="TPartialViewModel">The type of model of the partial.</typeparam>
+		/// <param name="view">The view.</param>
+		/// <param name="partialViewName">The name of the partial to render.</param>
+		/// <param name="modelExpression">Expression of the model for the partial.</param>
+		/// <param name="viewDataItems">A list of funcs, each epxressing a weakly typed view data item for the partial.  For example: index => i</param>
+		public static void RenderPartial<T, TPartialViewModel>(this IViewModelContainer<T> view, string partialViewName, Expression<Func<T, TPartialViewModel>> modelExpression, params Func<string, object>[] viewDataItems)
+			where T : class
+			where TPartialViewModel : class
+		{
+			var viewDataDictionary = new ViewDataDictionary();
+			foreach (var item in viewDataItems)
+			{
+				viewDataDictionary.Add(new KeyValuePair<string, object>(item.Method.GetParameters()[0].Name, item(null)));
+			}
+			new PartialRenderer<T, TPartialViewModel>(view, partialViewName, modelExpression).ViewData(viewDataDictionary).Render();
+		}
 	}
 }

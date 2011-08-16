@@ -270,5 +270,101 @@ namespace MvcContrib.UnitTests.FluentHtml
 				.ShouldHaveHtmlNode("x")
 				.ShouldHaveAttribute(HtmlAttribute.Value).WithValue(HttpUtility.HtmlAttributeEncode(value));
 		}
+
+		[Test]
+		public void textbox_autocomplete_true_renders_autocomplete_on()
+		{
+			new TextBox("x").Autocomplete(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Autocomplete).WithValue("on");
+		}
+
+		[Test]
+		public void textbox_autocomplete_false_renders_autocomplete_off()
+		{
+			new TextBox("x").Autocomplete(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Autocomplete).WithValue("off");
+		}
+
+		[Test]
+		public void textbox_autofocus_true_renders_autofocus()
+		{
+			new TextBox("x").AutoFocus(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Autofocus).WithValue(HtmlAttribute.Autofocus);
+		}
+		
+		[Test]
+		public void textbox_autofocus_false_does_not_render_autofocus()
+		{
+			new TextBox("x").AutoFocus(true).AutoFocus(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldNotHaveAttribute(HtmlAttribute.Autofocus);
+		}
+
+		[Test]
+		public void textbox_novalidate_true_renders_novalidate()
+		{
+			new TextBox("x").Novalidate(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.NoValidate).WithValue(HtmlAttribute.NoValidate);
+		}
+
+		[Test]
+		public void textbox_novalidate_false_does_not_render_novalidate()
+		{
+			new TextBox("x").Novalidate(true).Novalidate(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldNotHaveAttribute(HtmlAttribute.NoValidate);
+		}
+		
+		[Test]
+		public void textbox_pattern_renders_pattern()
+		{
+			new TextBox("x").Pattern("test").ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Pattern).WithValue("test");
+		}
+
+		[Test]
+		public void textbox_placeholder_renders_placeholder()
+		{
+			new TextBox("x").Placeholder("test").ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Placeholder).WithValue("test");
+		}
+		
+		[Test]
+		public void textbox_required_true_renders_required()
+		{
+			new TextBox("x").Required(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Required).WithValue(HtmlAttribute.Required);
+		}
+
+		[Test]
+		public void textbox_required_false_does_not_render_required()
+		{
+			new TextBox("x").Required(true).Required(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldNotHaveAttribute(HtmlAttribute.Required);
+		}
+
+		[Test]
+		public void textbox_forms_renders_forms()
+		{
+			new TextBox("x").Form("form1", "form2").ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Form).WithValue("form1 form2");
+		}
+
+		[Test]
+		public void textbox_list_renders_list()
+		{
+			var html = new TextBox("foo").List("list1").ToString();
+			html.ShouldHaveHtmlNode("foo")
+				.ShouldHaveAttribute(HtmlAttribute.List).WithValue("list1");
+		}
 	}
 }

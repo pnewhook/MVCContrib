@@ -38,6 +38,23 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
+		/// <summary>
+		/// Add or remove the 'required' attribute. 
+		/// </summary>
+		/// <param name="value">Whether to add or remove the attribute.</param>
+		public virtual T Required(bool value)
+		{
+			if (value)
+			{
+				Attr(HtmlAttribute.Required, HtmlAttribute.Required);
+			}
+			else
+			{
+				((IElement)this).RemoveAttr(HtmlAttribute.Required);
+			}
+			return (T)this;
+		}
+
 		public override string ToHtmlString()
 		{
 			var html = ToCheckBoxOnlyHtml();

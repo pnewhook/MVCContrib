@@ -33,7 +33,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual Select Selected(object selectedValue)
 		{
-			_selectedValues = new List<object> { selectedValue };
+			_optionChoices.SelectedValues = new List<object> { selectedValue };
 			return this;
 		}
 
@@ -70,7 +70,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual Select<TModel> Selected(object selectedValue)
 		{
-			_selectedValues = new List<object> { selectedValue };
+			_optionChoices.SelectedValues = new List<object> { selectedValue };
 			return this;
 		}
 

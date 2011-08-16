@@ -21,7 +21,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <summary>
 		/// Set the 'maxlength' attribute. 
 		/// </summary>
-		/// <param name="value">Value for the maxlength attribute.</param>
+		/// <param name="value">The value of the attribute.</param>
 		public virtual T MaxLength(int value)
 		{
 			Attr(HtmlAttribute.MaxLength, value);
@@ -36,6 +36,70 @@ namespace MvcContrib.FluentHtml.Elements
 		public T Format(string value)
 		{
 			_format = value;
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Set the 'autocomplete' attribute to 'on' or 'off.' 
+		/// </summary>
+		/// <param name="value">Whether to set the attribute to 'off' or 'on.'</param>
+		public virtual T Autocomplete(bool value)
+		{
+			Attr(HtmlAttribute.Autocomplete, value ? "on" : "off");
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Add or remove the 'novalidate' attribute. 
+		/// </summary>
+		/// <param name="value">Whether to add or remove the attribute.</param>
+		public virtual T Novalidate(bool value)
+		{
+			if (value)
+			{
+				Attr(HtmlAttribute.NoValidate, HtmlAttribute.NoValidate);
+			}
+			else
+			{
+				((IElement)this).RemoveAttr(HtmlAttribute.NoValidate);
+			}
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Set the 'pattern' attribute. 
+		/// </summary>
+		/// <param name="value">The value of the attribute.</param>
+		public T Pattern(string value)
+		{
+			Attr(HtmlAttribute.Pattern, value);
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Set the 'placeholder' attribute. 
+		/// </summary>
+		/// <param name="value">The value of the attribute.</param>
+		public T Placeholder(string value)
+		{
+			Attr(HtmlAttribute.Placeholder, value);
+			return (T)this;
+		}
+
+		/// <summary>
+		/// Add or remove the 'required' attribute. 
+		/// </summary>
+		/// <param name="value">Whether to add or remove the attribute.</param>
+		public virtual T Required(bool value)
+		{
+			if (value)
+			{
+				Attr(HtmlAttribute.Required, HtmlAttribute.Required);
+			}
+			else
+			{
+				((IElement)this).RemoveAttr(HtmlAttribute.Required);
+			}
 			return (T)this;
 		}
 

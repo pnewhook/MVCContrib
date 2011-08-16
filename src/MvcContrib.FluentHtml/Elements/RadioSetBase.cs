@@ -30,7 +30,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual T Selected(object selectedValue)
 		{
-			_selectedValues = new List<object> { selectedValue };
+			_optionChoices.SelectedValues = new List<object> { selectedValue };
 			return (T)this;
 		}
 
@@ -77,17 +77,17 @@ namespace MvcContrib.FluentHtml.Elements
 			builder.Attributes.Remove(HtmlAttribute.Name);
 			var sb = new StringBuilder();
 			var i = 0;
-			foreach (var option in _options)
+			foreach (var option in _optionChoices.Items)
 			{
-				var value = _valueFieldSelector(option);
+				var value = _optionChoices.ValueFieldSelector(option);
 				var behaviorsToPassDown = behaviors == null
 					? null :
 					behaviors.Where(x => (x is ValidationBehavior) == false);
 				var radioButton = (new RadioButton(name, forMember, behaviorsToPassDown)
 					.Value(value)
 					.Format(_format))
-					.LabelAfter(_textFieldSelector(option).ToString(), _itemClass)
-					.Checked(IsSelectedValue(value));
+					.LabelAfter(_optionChoices.TextFieldSelector(option).ToString(), _itemClass)
+					.Checked(_optionChoices.IsSelectedValue(value));
 				if (_itemClass != null)
 				{
 					radioButton.Class(_itemClass);

@@ -64,5 +64,21 @@ namespace MvcContrib.UnitTests.FluentHtml
 			hidden.ShouldHaveAttribute(HtmlAttribute.Type).WithValue(HtmlInputType.Hidden);
 			hidden.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("false");
 		}
+
+		[Test]
+		public void checkbox_required_true_renders_required()
+		{
+			new CheckBox("x").Required(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Required).WithValue(HtmlAttribute.Required);
+		}
+
+		[Test]
+		public void checkbox_required_false_does_not_render_required()
+		{
+			new CheckBox("x").Required(true).Required(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldNotHaveAttribute(HtmlAttribute.Required);
+		}
 	}
 }

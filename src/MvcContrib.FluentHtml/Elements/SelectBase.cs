@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Web.Mvc;
 using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Html;
@@ -16,15 +13,10 @@ namespace MvcContrib.FluentHtml.Elements
 	/// <typeparam name="T">The derived type.</typeparam>
 	public abstract class SelectBase<T> : OptionsElementBase<T> where T : SelectBase<T>
 	{
-		protected Option _firstOption;
-		protected bool _hideFirstOption;
-		protected Action<Option, object, int> _optionModifier;
-		protected Func<object, object> _groupSelectory;
-
-		protected SelectBase(string name) : base(HtmlTag.Select, name) {}
+		protected SelectBase(string name) : base(HtmlTag.Select, name) { }
 
 		protected SelectBase(string name, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors)
-			: base(HtmlTag.Select, name, forMember, behaviors) {}
+			: base(HtmlTag.Select, name, forMember, behaviors) { }
 
 		/// <summary>
 		/// Set the 'size' attribute.
@@ -44,7 +36,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual T FirstOption(Option firstOption)
 		{
-			_firstOption = firstOption;
+			_optionChoices.FirstOption(firstOption);
 			return (T)this;
 		}
 
@@ -67,7 +59,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual T FirstOption(string value, string text)
 		{
-			_firstOption = new Option().Text(text ?? string.Empty).Value(value ?? string.Empty).Selected(false);
+			_optionChoices.FirstOption(value, text);
 			return (T)this;
 		}
 
@@ -85,7 +77,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <returns></returns>
 		public virtual T HideFirstOptionWhen(bool hideFirstOption)
 		{
-			_hideFirstOption = hideFirstOption;
+			_optionChoices.HideFirstOptionWhen(hideFirstOption);
 			return (T)this;
 		}
 
@@ -97,20 +89,37 @@ namespace MvcContrib.FluentHtml.Elements
 		/// the option item, and the position of the option.</param>
 		public virtual T EachOption(Action<Option, object, int> action)
 		{
-			_optionModifier = action;
+			_optionChoices.EachOption(action);
 			return (T)this;
 		}
 
+		/// <summary>
+		/// Set the options for the select list.
+		/// </summary>
+		/// <typeparam name="TSource">The type of the source item.</typeparam>
+		/// <typeparam name="TKey">The key for the group selector.</typeparam>
+		/// <param name="values">The items used to create the select list.</param>
+		/// <param name="valueField">The name of the member to use as the value of the select list.</param>
+		/// <param name="textField">The name of the member to use as the text of the select list.</param>
+		/// <param name="groupSelector">Function used to group items in the select list.</param>
 		public virtual T Options<TSource, TKey>(IEnumerable<TSource> values, string valueField, string textField, Func<TSource, TKey> groupSelector)
 		{
-			_groupSelectory = x => groupSelector((TSource)x);
-			return Options(values, valueField, textField);
+			_optionChoices.Set(values, valueField, textField, groupSelector);
+			return (T)this;
 		}
 
+		/// <summary>
+		/// Set the options for the select list.
+		/// </summary>
+		/// <typeparam name="TSource">The type of the source item.</typeparam>
+		/// <param name="values">The items used to create the select list.</param>
+		/// <param name="valueFieldSelector">The member to use as the value of the select list.</param>
+		/// <param name="textFieldSelector">The member to use as the text of the select list.</param>
+		/// <param name="groupSelector">Function used to group items in the select list.</param>
 		public virtual T Options<TSource>(IEnumerable<TSource> values, Func<TSource, object> valueFieldSelector, Func<TSource, object> textFieldSelector, Func<TSource, object> groupSelector)
 		{
-			_groupSelectory = x => groupSelector((TSource)x);
-			return Options(values, valueFieldSelector, textFieldSelector);
+			_optionChoices.Set(values, valueFieldSelector, textFieldSelector, groupSelector);
+			return (T)this;
 		}
 
 		protected override TagRenderMode TagRenderMode
@@ -120,69 +129,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 		protected override string RenderOptions()
 		{
-			var sb = new StringBuilder();
-
-			var i = 0;
-
-			if(_firstOption != null && _hideFirstOption == false)
-			{
-				var option = GetFirstOption();
-				if (_optionModifier != null)
-				{
-					_optionModifier(option, _firstOption, i);
-				}
-				sb.Append(option);
-				i++;
-			}
-
-			if (_groupSelectory != null)
-			{
-				var options = _options.Cast<object>();
-				foreach (var group in options.GroupBy(_groupSelectory))
-				{
-					sb.AppendFormat("<optgroup label=\"{0}\">", group.Key);
-					sb.Append(RenderOptions(group.AsEnumerable(), i));
-					sb.Append("</optgroup>");
-				}
-			}
-			else
-			{
-				sb.Append(RenderOptions(_options, i));
-			}
-
-			return sb.ToString();
-		}
-
-		private StringBuilder RenderOptions(IEnumerable options, int i)
-		{
-			var sb = new StringBuilder();
-			foreach ( var opt in options )
-			{
-				var option = GetOption( opt );
-				if ( _optionModifier != null )
-				{
-					_optionModifier( option, opt, i );
-				}
-				sb.Append( option );
-				i++;
-			}
-			return sb;
-		}
-
-		protected virtual Option GetFirstOption()
-		{
-			return _firstOption;
-		}
-
-		protected virtual Option GetOption(object option)
-		{
-			var value = _valueFieldSelector(option);
-			var text = _textFieldSelector(option);
-
-			return new Option()
-				.Value(value == null ? string.Empty : value.ToString())
-				.Text(text == null ? string.Empty : text.ToString())
-				.Selected(IsSelectedValue(value));
+			return _optionChoices.Render();
 		}
 	}
 }

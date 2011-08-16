@@ -33,8 +33,8 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 			var options = element.ShouldHaveChildNodesCount(4);
 
-            VerifyOption("foo.Bar", items[0].Price, items[0].Title, options[0], options[1], false);
-            VerifyOption("foo.Bar", items[1].Price, items[1].Title, options[2], options[3], false);
+			VerifyOption("foo.Bar", items[0].Price, items[0].Title, options[0], options[1], false);
+			VerifyOption("foo.Bar", items[1].Price, items[1].Title, options[2], options[3], false);
 		}
 
 		[Test]
@@ -44,24 +44,24 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 			var options = element.ShouldHaveChildNodesCount(8);
 
-            VerifyOption("foo.Bar", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1], false);
-            VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[2], options[3], false);
-            VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5], false);
+			VerifyOption("foo.Bar", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1], false);
+			VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[2], options[3], false);
+			VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5], false);
 			VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7],true);
 		}
 
 
 		[Test]
-        	public void can_generate_radio_set_from_subset_of_enum()
-        	{
-            		var html = new RadioSet("foo.Bar").Options(new []{FakeEnum.One,FakeEnum.Two,FakeEnum.Three}).Selected(FakeEnum.Three).ToString();
-            		var element = html.ShouldHaveHtmlNode("foo_Bar");
-            		var options = element.ShouldHaveChildNodesCount(6);
+			public void can_generate_radio_set_from_subset_of_enum()
+			{
+					var html = new RadioSet("foo.Bar").Options(new []{FakeEnum.One,FakeEnum.Two,FakeEnum.Three}).Selected(FakeEnum.Three).ToString();
+					var element = html.ShouldHaveHtmlNode("foo_Bar");
+					var options = element.ShouldHaveChildNodesCount(6);
 
-            		VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[0], options[1], false);
-            		VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[2], options[3], false);
-            		VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[4], options[5], true);
-        	}
+					VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[0], options[1], false);
+					VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[2], options[3], false);
+					VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[4], options[5], true);
+			}
 		
 
 		[Test]
@@ -122,14 +122,14 @@ namespace MvcContrib.UnitTests.FluentHtml
 			input.ShouldHaveAttribute(HtmlAttribute.Name).WithValue(name);
 			input.ShouldHaveAttribute(HtmlAttribute.Type).WithValue(HtmlInputType.Radio);
 			input.ShouldHaveAttribute(HtmlAttribute.Value).WithValue(value.ToString());
-            if(isChecked)
-            {
-                input.ShouldHaveAttribute(HtmlAttribute.Checked).WithValue(HtmlAttribute.Checked);
-            }
-            else
-            {
-                input.ShouldNotHaveAttribute(HtmlAttribute.Checked);
-            }
+			if(isChecked)
+			{
+				input.ShouldHaveAttribute(HtmlAttribute.Checked).WithValue(HtmlAttribute.Checked);
+			}
+			else
+			{
+				input.ShouldNotHaveAttribute(HtmlAttribute.Checked);
+			}
 			label.ShouldBeNamed(HtmlTag.Label);
 			label.ShouldHaveInnerTextEqual(text.ToString());
 		}

@@ -168,5 +168,103 @@ namespace MvcContrib.UnitTests.FluentHtml
 			enumerator.MoveNext();
 			enumerator.Current.ShouldEqual(fake.Numbers[1]);
 		}
+
+		[Test]
+		public void can_get_numberbox_with_value()
+		{
+			var element = target.NumberBox("fake.Id");
+			element.ValueAttributeShouldEqual(fake.Id.ToString());
+		}
+
+		[Test]
+		public void can_get_searchbox_with_value()
+		{
+			var element = target.SearchBox("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_rangebox_with_value()
+		{
+			var element = target.RangeBox("fake.Id");
+			element.ValueAttributeShouldEqual(fake.Id.ToString());
+		}
+
+		[Test]
+		public void can_get_telephonebox_with_value()
+		{
+			var element = target.TelephoneBox("fake.TelephoneNumber");
+			element.ValueAttributeShouldEqual(fake.TelephoneNumber);
+		}
+
+		[Test]
+		public void can_get_datepicker_with_value()
+		{
+			var element = target.DatePicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_monthpicker_with_value()
+		{
+			var element = target.MonthPicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_weekpicker_with_value()
+		{
+			var element = target.WeekPicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datetimepicker_with_value()
+		{
+			var element = target.DateTimePicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datetimelocalpicker_with_value()
+		{
+			var element = target.DateTimeLocalPicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_timepicker_with_value()
+		{
+			var element = target.TimePicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_colorpicker_with_value()
+		{
+			var element = target.ColorPicker("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+		
+		[Test]
+		public void can_get_urlbox_with_value()
+		{
+			var element = target.UrlBox("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_emailbox_with_value()
+		{
+			var element = target.EmailBox("fake.Title");
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datalist()
+		{
+			var element = target.DataList();
+			element.ShouldNotBeNull();
+		}
 	}
 }

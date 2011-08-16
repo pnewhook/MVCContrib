@@ -41,5 +41,21 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var br = doc.ShouldHaveChildNodesCount(2)[1];
 			br.ShouldBeNamed("br");
 		}
+		
+		[Test]
+		public void radiobutton_required_true_renders_required()
+		{
+			new RadioButton("x").Required(true).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldHaveAttribute(HtmlAttribute.Required).WithValue(HtmlAttribute.Required);
+		}
+
+		[Test]
+		public void radiobutton_required_false_does_not_render_required()
+		{
+			new RadioButton("x").Required(true).Required(false).ToString()
+				.ShouldHaveHtmlNode("x")
+				.ShouldNotHaveAttribute(HtmlAttribute.Required);
+		}
 	}
 }

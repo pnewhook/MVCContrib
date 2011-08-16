@@ -168,6 +168,14 @@
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
     <Compile Include="FluentHtml\CheckboxTests.cs" />
+    <Compile Include="FluentHtml\ColorPickerTests.cs" />
+    <Compile Include="FluentHtml\DataListTests.cs" />
+    <Compile Include="FluentHtml\EmailBoxTests.cs" />
+    <Compile Include="FluentHtml\NumberBoxTests.cs" />
+    <Compile Include="FluentHtml\DateAndTimePickerTests.cs" />
+    <Compile Include="FluentHtml\RangeBoxTests.cs" />
+    <Compile Include="FluentHtml\SearchBoxTests.cs" />
+    <Compile Include="FluentHtml\TelephoneBoxTests.cs" />
     <Compile Include="FluentHtml\TypeCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\AppyJsonMetadataToCssBehavior.cs" />
     <Compile Include="FluentHtml\CustomBehaviors\CustomMaxLengthInMetadataBehavior.cs" />
@@ -193,6 +201,7 @@
     <Compile Include="FluentHtml\RadioSetTests.cs" />
     <Compile Include="FluentHtml\RequiredCssClassBehaviorTests.cs" />
     <Compile Include="FluentHtml\ResetButtonTests.cs" />
+    <Compile Include="FluentHtml\UrlBoxTests.cs" />
     <Compile Include="FluentHtml\ValidationMemberBehaviorTests.cs" />
     <Compile Include="FluentHtml\ModelViewPageTests.cs" />
     <Compile Include="FluentHtml\ModelViewUserControlPageTests.cs" />

@@ -41,6 +41,8 @@ namespace MvcContrib.UnitTests.FluentHtml.Fakes
 
 		public string Password { get; set; }
 
+		public string TelephoneNumber { get; set; }
+
         public FakeEnum Selection { get; set; }
 
         [Required]

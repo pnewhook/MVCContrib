@@ -16,7 +16,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = html.ShouldRenderHtmlDocument();
 
 			var hidden = element.ShouldHaveChildNode("foo_Bar");
-            hidden.ShouldBeNamed(HtmlTag.Input);
+			hidden.ShouldBeNamed(HtmlTag.Input);
 			hidden.ShouldHaveAttribute(HtmlAttribute.Type).WithValue(HtmlInputType.Hidden);
 			hidden.ShouldHaveAttribute(HtmlAttribute.Name).WithValue("foo.Bar");
 			hidden.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("123");

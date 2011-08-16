@@ -19,5 +19,22 @@ namespace MvcContrib.FluentHtml.Html
 		public const string Class = "class";
 		public const string For = "for";
 		public const string HRef = "href";
+		public const string Autocomplete = "autocomplete";
+		public const string Autofocus = "autofocus";
+		public const string Form = "form";
+		public const string NoValidate = "novalidate";
+		public const string Pattern = "pattern";
+		public const string Placeholder = "placeholder";
+		public const string Required = "required";
+		public const string Data = "data";
+		public const string List = "list";
+		public const string Min = "min";
+		public const string Max = "max";
+		public const string Step = "step";
+		public const string FormAction = "formaction";
+		public const string FormEncType = "formenctype";
+		public const string FormMethod = "formmethod";
+		public const string FormNoValidate = "formnovalidate";
+		public const string FormTarget = "formtarget";
 	}
 }

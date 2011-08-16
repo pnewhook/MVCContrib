@@ -243,5 +243,95 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = target.SubmitButton("Push Me");
 			element.ValueAttributeShouldEqual("Push Me");
 		}
+
+		[Test]
+		public void can_get_numberbox_with_value_from_simple_property()
+		{
+			var element = target.NumberBox(x => x.Id);
+			element.ValueAttributeShouldEqual(fake.Id.ToString());
+		}
+
+		[Test]
+		public void can_get_searchbox_with_value_from_simple_property()
+		{
+			var element = target.SearchBox(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_rangebox_with_value_from_simple_property()
+		{
+			var element = target.RangeBox(x => x.Id);
+			element.ValueAttributeShouldEqual(fake.Id.ToString());
+		}
+
+		[Test]
+		public void can_get_telephonebox_with_value_from_simple_property()
+		{
+			var element = target.TelephoneBox(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datepicker_with_value_from_simple_property()
+		{
+			var element = target.DatePicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_monthpicker_with_value_from_simple_property()
+		{
+			var element = target.MonthPicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_weekpicker_with_value_from_simple_property()
+		{
+			var element = target.WeekPicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datetimepicker_with_value_from_simple_property()
+		{
+			var element = target.DateTimePicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_datetimelocalpicker_with_value_from_simple_property()
+		{
+			var element = target.DateTimeLocalPicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_timepicker_with_value_from_simple_property()
+		{
+			var element = target.TimePicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_colorpicker_with_value_from_simple_property()
+		{
+			var element = target.ColorPicker(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test]
+		public void can_get_urlbox_with_value_from_simple_property()
+		{
+			var element = target.UrlBox(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
+
+		[Test] public void can_get_emailbox_with_value_from_simple_property()
+		{
+			var element = target.EmailBox(x => x.Title);
+			element.ValueAttributeShouldEqual(fake.Title);
+		}
 	}
 }
