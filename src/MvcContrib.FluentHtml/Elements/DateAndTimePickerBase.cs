@@ -62,7 +62,28 @@ namespace MvcContrib.FluentHtml.Elements
 			return (T)this;
 		}
 
-		public override T Limit(object min, object max, long? step)
+		/// <summary>
+		/// Limit what input values are presented.
+		/// </summary>
+		/// <param name="min">The minimium value</param>
+		/// <param name="max">The maximum value</param>
+		/// <param name="step">The step increment</param>
+		public override T Limit(object min, object max, long step)
+		{
+			return SetLimit(min, max, step);
+		}
+
+		/// <summary>
+		/// Limit what input values are presented.
+		/// </summary>
+		/// <param name="min">The minimium value</param>
+		/// <param name="max">The maximum value</param>
+		public override T Limit(object min, object max)
+		{
+			return SetLimit(min, max, null);
+		}
+
+		private T SetLimit(object min, object max, long? step)
 		{
 			if (min != null)
 			{

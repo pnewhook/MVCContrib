@@ -337,9 +337,9 @@ namespace MvcContrib.FluentHtml
 		/// Generate an HTML datalist element.
 		/// </summary>
 		/// <param name="view">The view.</param>
-		public static DataList DataList(this IViewDataContainer view)
+		public static DataList DataList(this IViewDataContainer view, string id)
 		{
-			return new DataList(view.GetBehaviors());
+			return new DataList(id, view.GetBehaviors());
 		}
 
 		public static IEnumerable<IBehaviorMarker> GetBehaviors(this IViewDataContainer view)

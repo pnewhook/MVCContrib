@@ -8,9 +8,15 @@ namespace MvcContrib.FluentHtml.Elements
 	/// </summary>
 	public class DataList : DataListBase<DataList>
 	{
-		public DataList() {}
+		public DataList(string id)
+		{
+			Id(id);
+		}
 
-		public DataList(IEnumerable<IBehaviorMarker> behaviors)
-			: base(behaviors) { }
+		public DataList(string id, IEnumerable<IBehaviorMarker> behaviors)
+			: base(behaviors)
+		{
+			Id(id);
+		}
 	}
 }

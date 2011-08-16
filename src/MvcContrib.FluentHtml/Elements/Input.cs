@@ -48,7 +48,7 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <summary>
 		/// Set the 'autofocus' attribute to 'autofocus.'
 		/// </summary>
-		public T AutoFocus(bool value)
+		public T Autofocus(bool value)
 		{
 			if (value)
 			{

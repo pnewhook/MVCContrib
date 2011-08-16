@@ -290,7 +290,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void textbox_autofocus_true_renders_autofocus()
 		{
-			new TextBox("x").AutoFocus(true).ToString()
+			new TextBox("x").Autofocus(true).ToString()
 				.ShouldHaveHtmlNode("x")
 				.ShouldHaveAttribute(HtmlAttribute.Autofocus).WithValue(HtmlAttribute.Autofocus);
 		}
@@ -298,7 +298,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void textbox_autofocus_false_does_not_render_autofocus()
 		{
-			new TextBox("x").AutoFocus(true).AutoFocus(false).ToString()
+			new TextBox("x").Autofocus(true).Autofocus(false).ToString()
 				.ShouldHaveHtmlNode("x")
 				.ShouldNotHaveAttribute(HtmlAttribute.Autofocus);
 		}

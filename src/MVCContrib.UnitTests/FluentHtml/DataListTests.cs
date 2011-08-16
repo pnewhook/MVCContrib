@@ -15,7 +15,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void basic_datalist_render()
 		{
-			var html = new DataList().Id("test").ToString();
+			var html = new DataList("test").ToString();
 			html.ShouldHaveHtmlNode("test")
 				.ShouldBeNamed(HtmlTag.DataList);
 		}
@@ -23,7 +23,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void datalist_set_data_should_render_data()
 		{
-			var html = new DataList().Id("test").Data("http://www.test.com/data").ToString();
+			var html = new DataList("test").Data("http://www.test.com/data").ToString();
 			html.ShouldHaveHtmlNode("test")
 				.ShouldHaveAttribute(HtmlAttribute.Data).WithValue("http://www.test.com/data");
 		}
@@ -32,7 +32,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void basic_datalist_renders_with_options_from_dictionary()
 		{
 			var options = new Dictionary<int, string> { { 1, "One" }, { 2, "Two" } };
-			var html = new DataList().Id("test").Options(options).ToString();
+			var html = new DataList("test").Options(options).ToString();
 			var element = html.ShouldHaveHtmlNode("test");
 			var optionNodes = element.ShouldHaveChildNodesCount(2);
 			optionNodes[0].ShouldBeUnSelectedOption(1, "One");
@@ -42,7 +42,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void can_render_options_from_enumerable_of_simple_objects()
 		{
-			var optionNodes = new DataList().Id("test").Options(new[] { 1, 2 }).ToString()
+			var optionNodes = new DataList("test").Options(new[] { 1, 2 }).ToString()
 				.ShouldHaveHtmlNode("test")
 				.ShouldHaveChildNodesCount(2);
 			optionNodes[0].ShouldBeUnSelectedOption("1", "1");
@@ -58,7 +58,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 				new FakeModel {Id = 2, Title = "Two"}
 			};
 			var selectList = new SelectList(items, "Id", "Title", items[0].Id);
-			var html = new DataList().Id("test").Options(selectList).ToString();
+			var html = new DataList("test").Options(selectList).ToString();
 			var element = html.ShouldHaveHtmlNode("test");
 			var optionNodes = element.ShouldHaveChildNodesCount(2);
 			optionNodes[0].ShouldBeSelectedOption(items[0].Id, items[0].Title);
@@ -68,7 +68,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void datalist_with_options_for_enum_renders_enum_values_as_options()
 		{
-			var html = new DataList().Id("test").Options<FakeEnum>().ToString();
+			var html = new DataList("test").Options<FakeEnum>().ToString();
 			var element = html.ShouldHaveHtmlNode("test");
 			var optionNodes = element.ShouldHaveChildNodesCount(4);
 			optionNodes[0].ShouldBeUnSelectedOption((int)FakeEnum.Zero, FakeEnum.Zero);
@@ -80,7 +80,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void datalist_with_options_for_subset_enum_renders_enum_values_as_options()
 		{
-			var html = new DataList().Id("test").Options(new[] { FakeEnum.One, FakeEnum.Two, FakeEnum.Three }).ToString();
+			var html = new DataList("test").Options(new[] { FakeEnum.One, FakeEnum.Two, FakeEnum.Three }).ToString();
 			var element = html.ShouldHaveHtmlNode("test");
 			var optionNodes = element.ShouldHaveChildNodesCount(3);
 			optionNodes[0].ShouldBeUnSelectedOption((int)FakeEnum.One, FakeEnum.One);
@@ -96,7 +96,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 				new FakeModel {Price = 1, Title = "One"},
 				new FakeModel {Price = 2, Title = "Two", Done = true},
 			};
-			var optionNodes = new DataList().Id("test").Options(items, x => x.Price, x => x.Title)
+			var optionNodes = new DataList("test").Options(items, x => x.Price, x => x.Title)
 				.EachOption((cb, opt, i) => cb.Disabled(((FakeModel)opt).Done)).ToString()
 				.ShouldHaveHtmlNode("test")
 				.ShouldHaveChildNodesCount(2);
@@ -108,7 +108,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void datalist_with_lambda_selector_for_options_should_render()
 		{
 			var items = new List<FakeModel> { new FakeModel { Price = 1, Title = "One" } };
-			var options = new DataList().Id("x").Options(items, x => x.Price, x => x.Title).ToString()
+			var options = new DataList("x").Options(items, x => x.Price, x => x.Title).ToString()
 				.ShouldHaveHtmlNode("x")
 				.ShouldHaveChildNodesCount(1);
 			options[0].ShouldBeUnSelectedOption("1", "One");
@@ -122,7 +122,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 				new FakeModel {Price = 1, Title = "One"},
 				new FakeModel {Price = 2, Title = "Two"}
 			};
-			var optionNodes = new DataList().Id("test").Options(items, "Price", "Title").ToString()
+			var optionNodes = new DataList("test").Options(items, "Price", "Title").ToString()
 				.ShouldHaveHtmlNode("test")
 				.ShouldHaveChildNodesCount(2);
 			optionNodes[0].ShouldBeUnSelectedOption(items[0].Price, items[0].Title);
@@ -138,7 +138,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 				new SelectListItem {Value = "2", Text = "Two", Selected = true},
 				new SelectListItem {Value = "3", Text = "Three", Selected = true}
 			};
-			var html = new DataList().Id("test").Options(items).ToString();
+			var html = new DataList("test").Options(items).ToString();
 			var element = html.ShouldHaveHtmlNode("test");
 			var optionNodes = element.ShouldHaveChildNodesCount(3);
 			optionNodes[0].ShouldBeUnSelectedOption(items[0].Value, items[0].Text);

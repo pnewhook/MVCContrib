@@ -248,5 +248,17 @@ namespace MvcContrib.UnitTests.FluentHtml
 			element.ShouldHaveAttribute(HtmlAttribute.Max).WithValue("2000-W02");
 			element.ShouldHaveAttribute(HtmlAttribute.Step).WithValue("3");
 		}
+
+		[Test]
+		public void weekpicker_limit_sets_limits_without_step()
+		{
+			var element = new WeekPicker("x")
+				.Evaluation(CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday)
+				.Limit(new DateTime(2000, 1, 2), new DateTime(2000, 01, 9)).ToString()
+				.ShouldHaveHtmlNode("x");
+			element.ShouldHaveAttribute(HtmlAttribute.Min).WithValue("2000-W01");
+			element.ShouldHaveAttribute(HtmlAttribute.Max).WithValue("2000-W02");
+			element.ShouldNotHaveAttribute(HtmlAttribute.Step);
+		}
 	}
 }

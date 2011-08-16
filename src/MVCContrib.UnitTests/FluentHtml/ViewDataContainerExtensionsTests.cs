@@ -263,7 +263,7 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void can_get_datalist()
 		{
-			var element = target.DataList();
+			var element = target.DataList("x");
 			element.ShouldNotBeNull();
 		}
 	}

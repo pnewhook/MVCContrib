@@ -18,7 +18,25 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <summary>
 		/// Limit what input values are presented.
 		/// </summary>
-		public virtual T Limit(object min, object max, long? step)
+		/// <param name="min">The minimium value</param>
+		/// <param name="max">The maximum value</param>
+		public virtual T Limit(object min, object max)
+		{
+			return SetLimit(min, max, null);
+		}
+
+		/// <summary>
+		/// Limit what input values are presented.
+		/// </summary>
+		/// <param name="min">The minimium value</param>
+		/// <param name="max">The maximum value</param>
+		/// <param name="step">The step increment</param>
+		public virtual T Limit(object min, object max, long step)
+		{
+			return SetLimit(min, max, step);
+		}
+
+		private T SetLimit(object min, object max, long? step)
 		{
 			if (min != null)
 			{

@@ -50,5 +50,15 @@ namespace MvcContrib.UnitTests.FluentHtml
 			element.ShouldHaveAttribute(HtmlAttribute.Max).WithValue("50");
 			element.ShouldHaveAttribute(HtmlAttribute.Step).WithValue("5");
 		}
+
+		[Test]
+		public void numberbox_limit_sets_limits_without_step()
+		{
+			var element = new NumberBox("x").Limit(0, 50).ToString()
+				.ShouldHaveHtmlNode("x");
+			element.ShouldHaveAttribute(HtmlAttribute.Min).WithValue("0");
+			element.ShouldHaveAttribute(HtmlAttribute.Max).WithValue("50");
+			element.ShouldNotHaveAttribute(HtmlAttribute.Step);
+		}
 	}
 }
