@@ -89,5 +89,21 @@ namespace MvcContrib.UnitTests.FluentHtml
 			html.ShouldHaveHtmlNode("foo")
 				.ShouldHaveAttribute(HtmlAttribute.FormTarget).WithValue("_self");
 		}
+
+        [Test]
+        public void submit_button_with_formnovalidate_attr_renders_attribute()
+        {
+            var html = new SubmitButton("foo").Attr("formnovalidate", "formnovalidate").ToString();
+
+            html.ShouldHaveHtmlNode("foo").ShouldHaveAttribute("formnovalidate").WithValue("formnovalidate");
+        }
+
+        [Test]
+        public void submit_button_with_formnovalidate_renders_attribute()
+        {
+            var html = new SubmitButton("foo").FormNoValidate(true).ToString();
+
+            html.ShouldHaveHtmlNode("foo").ShouldHaveAttribute(HtmlAttribute.FormNoValidate).WithValue("formnovalidate");
+        }
 	}
 }
