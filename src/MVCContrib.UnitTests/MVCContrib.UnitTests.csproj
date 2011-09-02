@@ -169,6 +169,9 @@
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
     <Compile Include="FluentHtml\CheckboxTests.cs" />
     <Compile Include="FluentHtml\ColorPickerTests.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomExpressionHtmlBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomRangeHtmlBehavior.cs" />
+    <Compile Include="FluentHtml\CustomBehaviors\CustomRequiredHtml5Behavior.cs" />
     <Compile Include="FluentHtml\DataListTests.cs" />
     <Compile Include="FluentHtml\EmailBoxTests.cs" />
     <Compile Include="FluentHtml\NumberBoxTests.cs" />

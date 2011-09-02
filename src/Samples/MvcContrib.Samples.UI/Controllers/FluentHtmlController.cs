@@ -24,6 +24,11 @@ namespace MvcContrib.Samples.UI.Controllers
 			return View("ViewPerson", GetViewModel(person));
 		}
 
+        public ViewResult Order()
+        {
+            return View(new Order());
+        }
+
 		private PersonEditModel GetEditModel(Person person)
 		{
 			return new PersonEditModel

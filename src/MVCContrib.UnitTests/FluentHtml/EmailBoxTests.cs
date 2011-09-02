@@ -1,5 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Elements;
+using MvcContrib.FluentHtml.Expressions;
 using MvcContrib.FluentHtml.Html;
+using MvcContrib.UnitTests.FluentHtml.CustomBehaviors;
+using MvcContrib.UnitTests.FluentHtml.Fakes;
 using MvcContrib.UnitTests.FluentHtml.Helpers;
 using NUnit.Framework;
 
@@ -40,5 +47,17 @@ namespace MvcContrib.UnitTests.FluentHtml
 			html.ShouldHaveHtmlNode("foo")
 				.ShouldHaveAttribute(HtmlAttribute.List).WithValue("list1");
 		}
+
+        [Test]
+        public void emailbox_for_member_with_required_attibute_adds_required_attribute_using_custom_behavior()
+        {
+            Expression<Func<FakeModel, object>> expression = x => x.Email;
+            var behaviors = new List<IBehaviorMarker> { new CustomRequiredHtml5Behavior() };
+
+            var html = new EmailBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+
+            var element = html.ShouldHaveHtmlNode("Email");
+            element.ShouldHaveAttribute(HtmlAttribute.Required).ValueShouldContain(HtmlAttribute.Required);
+        }
 	}
 }

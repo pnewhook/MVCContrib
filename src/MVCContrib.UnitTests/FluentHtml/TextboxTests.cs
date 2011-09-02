@@ -215,8 +215,44 @@ namespace MvcContrib.UnitTests.FluentHtml
 			element.ShouldHaveAttribute(HtmlAttribute.Class).ValueShouldContain("req");
 		}
 
-		[Test]
-		public void text_box_for_member_with_required_attribute_adds_metadata_to_class_using_custom_behavior()
+        [Test]
+        public void text_box_for_member_with_required_attibute_adds_required_attribute_using_custom_behavior()
+        {
+            Expression<Func<FakeModel, object>> expression = x => x.Id;
+            var behaviors = new List<IBehaviorMarker> { new CustomRequiredHtml5Behavior() };
+
+            var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+
+            var element = html.ShouldHaveHtmlNode("Id");
+            element.ShouldHaveAttribute(HtmlAttribute.Required).ValueShouldContain("required");
+        }
+
+        [Test]
+        public void text_box_for_member_with_expression_attribute_adds_pattern_attribute_using_custom_behavior()
+        {
+            Expression<Func<FakeModel, object>> expression = x => x.Telephone;
+            var behaviors = new List<IBehaviorMarker> {new CustomExpressionHtmlBehavior()};
+
+            var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+
+            var element = html.ShouldHaveHtmlNode("telephone");
+            element.ShouldHaveAttribute(HtmlAttribute.Pattern).ValueShouldContain(@"\(\d\d\d\) \d\d\d\-\d\d\d\d");
+        }
+
+        [Test]
+        public void text_box_for_member_with_range_attribute_adds_min_and_max_attributes_using_custom_behavior()
+        {
+            Expression<Func<FakeModel, object>> expression = x => x.Quantity;
+            var behaviors = new List<IBehaviorMarker> { new CustomRangeHtmlBehavior() };
+
+            var html = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), behaviors).ToString();
+
+            var element = html.ShouldHaveHtmlNode("quantity");
+            element.ShouldHaveAttribute(HtmlAttribute.Min).ValueShouldContain("1");
+            element.ShouldHaveAttribute(HtmlAttribute.Max).ValueShouldContain("10");
+        }
+
+	    public void text_box_for_member_with_required_attribute_adds_metadata_to_class_using_custom_behavior()
 		{
 			Expression<Func<FakeModel, object>> expression = x => x.Id;
 			var behaviors = new List<IBehaviorMarker> { new CustomRequiredInMetadataBehavior(0), new AppyJsonMetadataToCssBehavior(1) };

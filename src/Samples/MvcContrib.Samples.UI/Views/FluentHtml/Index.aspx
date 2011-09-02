@@ -19,7 +19,6 @@
 			The names and IDs of elements are automatically generated based on the lambda expression.
 			As with the framework's built in HTML Helpers, databinding is automatic:
 		</p>
-		
 		<%= this.TextBox(x => x.Person.Name).Title("Enter the person's name").Label("Name:") %><br />
 		
 		<p>

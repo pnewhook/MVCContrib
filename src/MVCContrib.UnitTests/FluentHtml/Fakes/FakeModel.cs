@@ -21,7 +21,16 @@ namespace MvcContrib.UnitTests.FluentHtml.Fakes
 		[Required]
 		public decimal? Price { get; set; }
 
-		public IList<int> Numbers { get; set; }
+        [Range(1, 10)]
+        public int Quantity { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [RegularExpression(@"\(\d\d\d\) \d\d\d\-\d\d\d\d")]
+        public string Telephone { get; set; }
+
+        public IList<int> Numbers { get; set; }
 
 		private IList<FakeChildModel> customers = new List<FakeChildModel>();
 		public IList<FakeChildModel> Customers
