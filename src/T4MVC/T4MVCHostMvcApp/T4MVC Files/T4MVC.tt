@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.62
+T4MVC Version 2.6.63
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -524,7 +524,6 @@ namespace System.Web.Mvc {
 <#@ Include File="T4MVC.tt.settings.t4" #>
 
 <#+ 
-const string T4MVCNamespace = "T4MVC";
 const string ControllerSuffix = "Controller";
 
 static DTE Dte;

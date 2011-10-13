@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.63 (10-13-2011):
+* Move hard coded T4MVC namespace into settings file
+
 !!! 2.6.62 (08-13-2011):
 * Replace some unwanted tab characters with whitespace
 

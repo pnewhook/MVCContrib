@@ -7,6 +7,9 @@ to fork the 'official' template in order to achieve what they want.
 */
 
 
+// The namespace used by some of T4MVC's generated code
+const string T4MVCNamespace = "T4MVC";
+
 // The prefix used for things like MVC.Dinners.Name and MVC.Dinners.Delete(Model.DinnerID)
 const string HelpersPrefix = "MVC";
 
