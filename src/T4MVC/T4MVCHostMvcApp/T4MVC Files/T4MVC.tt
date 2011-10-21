@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.63
+T4MVC Version 2.6.64
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -1367,7 +1367,8 @@ class FunctionInfo {
                 CanBeCalledWithoutParameters = false;
             }
 
-            string routeNameExpression = "\"" + p.Name + "\"";
+            // Note: if the param name starts with @ (e.g. to escape a keyword), we need to trim that
+            string routeNameExpression = "\"" + p.Name.TrimStart('@') + "\"";
 
             // If there is a [Bind(Prefix = "someName")] attribute, use it
             if (p.InfoLocation != vsCMInfoLocation.vsCMInfoLocationExternal) {

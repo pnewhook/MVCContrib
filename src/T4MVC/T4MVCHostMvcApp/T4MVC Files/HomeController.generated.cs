@@ -49,6 +49,11 @@ namespace T4MVCHostMvcApp.Controllers {
         public System.Web.Mvc.ActionResult ActionWithSomeOptionalParams() {
             return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public System.Web.Mvc.ActionResult ActionWithParamUsingAtSyntax() {
+            return new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithParamUsingAtSyntax);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public HomeController Actions { get { return MVC.Home; } }
@@ -74,6 +79,7 @@ namespace T4MVCHostMvcApp.Controllers {
             public readonly string ActionWithArrayParam = "ActionWithArrayParam";
             public readonly string ActionWithAllOptionalParams = "ActionWithAllOptionalParams";
             public readonly string ActionWithSomeOptionalParams = "ActionWithSomeOptionalParams";
+            public readonly string ActionWithParamUsingAtSyntax = "ActionWithParamUsingAtSyntax";
         }
 
 
@@ -195,6 +201,12 @@ namespace T4MVCHostMvcApp.Controllers {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
             callInfo.RouteValueDictionary.Add("someString", someString);
             callInfo.RouteValueDictionary.Add("n", n);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionWithParamUsingAtSyntax(int @event) {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithParamUsingAtSyntax);
+            callInfo.RouteValueDictionary.Add("event", @event);
             return callInfo;
         }
 

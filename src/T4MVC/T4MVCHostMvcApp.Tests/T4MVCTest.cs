@@ -245,6 +245,13 @@ namespace T4MVCHostMvcApp.Tests {
             TestRouteValue(actionRes, "n", null);
         }
 
+        [TestMethod()]
+        public void TestRouteValuesForParamUsingAtSyntax() {
+            var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithParamUsingAtSyntax(8);
+
+            TestRouteValue(actionRes, "event", 8);
+        }
+
 #if NOTYET
         [TestMethod()]
         public void TestRouteValuesForActionWithObjectParam() {

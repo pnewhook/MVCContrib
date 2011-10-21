@@ -81,5 +81,9 @@ namespace T4MVCHostMvcApp.Controllers {
         public virtual ActionResult SomeObsoleteAction() {
             return new EmptyResult();
         }
+
+        public virtual ActionResult ActionWithParamUsingAtSyntax(int @event) {
+            return new EmptyResult();
+        }
     }
 }

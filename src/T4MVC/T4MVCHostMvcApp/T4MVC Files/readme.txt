@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.64 (10-21-2011):
+* Fix issue when action parameter name is escaped using @ syntax (e.g. int @event)
+
 !!! 2.6.63 (10-13-2011):
 * Move hard coded T4MVC namespace into settings file
 
