@@ -61,6 +61,8 @@ namespace T4MVCHostMvcApp.Controllers {
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Name = "Home";
+        [GeneratedCode("T4MVC", "2.0")]
+        public const string NameConst = "Home";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -80,6 +82,25 @@ namespace T4MVCHostMvcApp.Controllers {
             public readonly string ActionWithAllOptionalParams = "ActionWithAllOptionalParams";
             public readonly string ActionWithSomeOptionalParams = "ActionWithSomeOptionalParams";
             public readonly string ActionWithParamUsingAtSyntax = "ActionWithParamUsingAtSyntax";
+            public readonly string ActionThatUsesActionNameConstantInAttribute = "ActionThatUsesActionNameConstantInAttribute";
+        }
+
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionNameConstants {
+            public const string Index = "Index";
+            public const string About = firstConst + " " + secondConst;
+            public const string Blah = "New-Name for Blah";
+            public const string SomeViewResultAction = "SomeViewResultAction";
+            public const string SomeJsonResultAction = "SomeJsonResultAction";
+            public const string SomeFileContentResultAction = "SomeFileContentResultAction";
+            public const string SomeFileStreamResultAction = "SomeFileStreamResultAction";
+            public const string SomeFileResultAction = "SomeFileResultAction";
+            public const string SomeCustomResultAction = "SomeCustomResultAction";
+            public const string ActionWithArrayParam = "ActionWithArrayParam";
+            public const string ActionWithAllOptionalParams = "ActionWithAllOptionalParams";
+            public const string ActionWithSomeOptionalParams = "ActionWithSomeOptionalParams";
+            public const string ActionWithParamUsingAtSyntax = "ActionWithParamUsingAtSyntax";
+            public const string ActionThatUsesActionNameConstantInAttribute = "ActionThatUsesActionNameConstantInAttribute";
         }
 
 
@@ -207,6 +228,11 @@ namespace T4MVCHostMvcApp.Controllers {
         public override System.Web.Mvc.ActionResult ActionWithParamUsingAtSyntax(int @event) {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithParamUsingAtSyntax);
             callInfo.RouteValueDictionary.Add("event", @event);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.ActionResult ActionThatUsesActionNameConstantInAttribute() {
+            var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionThatUsesActionNameConstantInAttribute);
             return callInfo;
         }
 

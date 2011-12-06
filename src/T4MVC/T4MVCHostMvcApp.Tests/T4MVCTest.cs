@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using System.Collections.Specialized;
+using T4MVCHostMvcApp.Controllers;
 
 namespace T4MVCHostMvcApp.Tests {
     /// <summary>
@@ -113,24 +114,29 @@ namespace T4MVCHostMvcApp.Tests {
         [TestMethod()]
         public void TestSimpleActionName() {
             TestAreaControllerActionName("Index", MVC.Home.ActionNames.Index);
+            TestAreaControllerActionName("Index", HomeController.ActionNameConstants.Index);
         }
 
         [TestMethod()]
         public void TestRenamedActionName() {
             TestAreaControllerActionName("The About Action", MVC.Home.ActionNames.About);
             TestAreaControllerActionName("New-Name for Blah", MVC.Home.ActionNames.Blah);
+            TestAreaControllerActionName("The About Action", HomeController.ActionNameConstants.About);
+            TestAreaControllerActionName("New-Name for Blah", HomeController.ActionNameConstants.Blah);
         }
 
         [TestMethod()]
         public void TestT4SubFolderControlleActionName() {
             TestAreaControllerActionName("Qqq", MVC.T4Ctrl.ActionNames.Qqq);
+            TestAreaControllerActionName("Qqq", T4CtrlController.ActionNameConstants.Qqq);
         }
 
         [TestMethod()]
-        public void TestAreaActionName() {
+        public void TestAreaActionName()
+        {
             TestAreaControllerActionName("The Index", MVC.HomeArea.Home.ActionNames.Index);
+            TestAreaControllerActionName("The Index", T4MVCHostMvcApp.Areas.Home.Controllers.HomeController.ActionNameConstants.Index);
         }
-
 
 
         // VIEW PATHS TESTS

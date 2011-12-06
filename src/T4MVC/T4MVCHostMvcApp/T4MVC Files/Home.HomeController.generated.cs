@@ -41,6 +41,8 @@ namespace T4MVCHostMvcApp.Areas.Home.Controllers {
         public readonly string Area = "Home";
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Name = "Home";
+        [GeneratedCode("T4MVC", "2.0")]
+        public const string NameConst = "Home";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -48,6 +50,11 @@ namespace T4MVCHostMvcApp.Areas.Home.Controllers {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass {
             public readonly string Index = "The Index";
+        }
+
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionNameConstants {
+            public const string Index = "The Index";
         }
 
 

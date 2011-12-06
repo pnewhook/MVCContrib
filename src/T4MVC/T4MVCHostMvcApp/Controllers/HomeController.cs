@@ -85,5 +85,15 @@ namespace T4MVCHostMvcApp.Controllers {
         public virtual ActionResult ActionWithParamUsingAtSyntax(int @event) {
             return new EmptyResult();
         }
+
+        [Dummy(ActionNameConstants.ActionThatUsesActionNameConstantInAttribute)]
+        public virtual ActionResult ActionThatUsesActionNameConstantInAttribute() {
+            return new EmptyResult();
+        }
+    }
+
+    sealed class DummyAttribute : Attribute {
+        public DummyAttribute(string actionName) {
+        }
     }
 }

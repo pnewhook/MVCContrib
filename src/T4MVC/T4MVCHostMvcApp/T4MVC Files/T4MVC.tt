@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.64
+T4MVC Version 2.6.65
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -431,6 +431,8 @@ namespace <#=controller.Namespace #> {
         public readonly string Area = "<#=ProcessAreaOrControllerName(controller.AreaName) #>";
         [<#= GeneratedCode #>]
         public readonly string Name = "<#=ProcessAreaOrControllerName(controller.Name) #>";
+        [<#= GeneratedCode #>]
+        public const string NameConst = "<#=ProcessAreaOrControllerName(controller.Name) #>";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [<#= GeneratedCode #>, DebuggerNonUserCode]
@@ -442,6 +444,17 @@ namespace <#=controller.Namespace #> {
             public readonly string <#=method.ActionName #> = (<#=method.ActionNameValueExpression #>).ToLowerInvariant();
 <#  } else { #>
             public readonly string <#=method.ActionName #> = <#=method.ActionNameValueExpression #>;
+<#  }
+} #>
+        }
+
+        [<#= GeneratedCode #>, DebuggerNonUserCode]
+        public class ActionNameConstants {
+<#foreach (var method in controller.ActionMethodsWithUniqueNames) { #>
+<#  if (UseLowercaseRoutes) { #>
+            public const string <#=method.ActionName #> = (<#=method.ActionNameValueExpression #>).ToLowerInvariant();
+<#  } else { #>
+            public const string <#=method.ActionName #> = <#=method.ActionNameValueExpression #>;
 <#  }
 } #>
         }

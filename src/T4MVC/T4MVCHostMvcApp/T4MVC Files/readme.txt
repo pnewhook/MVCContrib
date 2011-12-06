@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.65 (12-06-2011):
+* Add true constant strings for use in attributes (http://mvccontrib.codeplex.com/workitem/7177)
+
 !!! 2.6.64 (10-21-2011):
 * Fix issue when action parameter name is escaped using @ syntax (e.g. int @event)
 

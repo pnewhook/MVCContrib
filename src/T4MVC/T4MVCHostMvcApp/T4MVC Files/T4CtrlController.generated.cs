@@ -38,6 +38,8 @@ namespace T4MVCHostMvcApp.Controllers {
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Name = "T4Ctrl";
+        [GeneratedCode("T4MVC", "2.0")]
+        public const string NameConst = "T4Ctrl";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -45,6 +47,11 @@ namespace T4MVCHostMvcApp.Controllers {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass {
             public readonly string Qqq = "Qqq";
+        }
+
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionNameConstants {
+            public const string Qqq = "Qqq";
         }
 
 

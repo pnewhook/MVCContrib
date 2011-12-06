@@ -68,6 +68,8 @@ namespace T4MVCHostMvcApp.Areas.Break.Controllers {
         public readonly string Area = "break";
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Name = "Post";
+        [GeneratedCode("T4MVC", "2.0")]
+        public const string NameConst = "Post";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -81,6 +83,17 @@ namespace T4MVCHostMvcApp.Areas.Break.Controllers {
             public readonly string CompiledControllerVirtualMethod2 = "CompiledControllerVirtualMethod2";
             public readonly string SameProjectBaseControllerMethod = "SameProjectBaseControllerMethod";
             public readonly string CompiledControllerVirtualMethod = "CompiledControllerVirtualMethod";
+        }
+
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionNameConstants {
+            public const string Index = "Index";
+            public const string ActionWithBindPrefixAttribute = "ActionWithBindPrefixAttribute";
+            public const string ActionWithBindNoPrefixAttribute = "ActionWithBindNoPrefixAttribute";
+            public const string ActionThatTakesAnObject = "ActionThatTakesAnObject";
+            public const string CompiledControllerVirtualMethod2 = "CompiledControllerVirtualMethod2";
+            public const string SameProjectBaseControllerMethod = "SameProjectBaseControllerMethod";
+            public const string CompiledControllerVirtualMethod = "CompiledControllerVirtualMethod";
         }
 
 
