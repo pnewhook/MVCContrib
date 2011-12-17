@@ -62,8 +62,6 @@ namespace T4MVCHostMvcApp.Areas.Break.Controllers {
             return new T4MVC_ActionResult(Area, Name, ActionNames.CompiledControllerVirtualMethod);
         }
 
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public PostController Actions { get { return MVC.@break.Post; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "break";
         [GeneratedCode("T4MVC", "2.0")]

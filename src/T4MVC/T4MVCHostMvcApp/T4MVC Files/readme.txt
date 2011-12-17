@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.66 (12-??-2011):
+* Remove obsolete Actions token (http://stackoverflow.com/questions/8536269/what-is-the-difference-between-these-2-definitions-in-t4mvc/8543510)
+
 !!! 2.6.65 (12-06-2011):
 * Add true constant strings for use in attributes (http://mvccontrib.codeplex.com/workitem/7177)
 
