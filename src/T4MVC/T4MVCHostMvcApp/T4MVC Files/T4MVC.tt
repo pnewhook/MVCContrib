@@ -446,18 +446,19 @@ namespace <#=controller.Namespace #> {
 } #>
         }
 
+<#
+// Issue: we can't honor UseLowercaseRoutes here because ToLowerInvariant() is not valid in constants!
+if (!UseLowercaseRoutes) { #>
         [<#= GeneratedCode #>, DebuggerNonUserCode]
         public class ActionNameConstants {
 <#foreach (var method in controller.ActionMethodsWithUniqueNames) { #>
-<#  if (UseLowercaseRoutes) { #>
-            public const string <#=method.ActionName #> = (<#=method.ActionNameValueExpression #>).ToLowerInvariant();
-<#  } else { #>
             public const string <#=method.ActionName #> = <#=method.ActionNameValueExpression #>;
-<#  }
+<#
 } #>
         }
 
-<#} #>
+<#}
+} #>
 
         static readonly ViewNames s_views = new ViewNames();
         [<#= GeneratedCode #>, DebuggerNonUserCode]
@@ -1129,9 +1130,15 @@ static CodeFunction2 GetMethod(CodeClass2 codeClass, string name) {
 // Find an attribute of a given type on an attribute collection
 static CodeAttribute2 GetAttribute(CodeElements attributes, string attributeType) {
     for (int i = 1; i <= attributes.Count; i++) {
-        var attrib = (CodeAttribute2)attributes.Item(i);
-        if (attrib.FullName == attributeType) {
-            return attrib;
+        try {
+            var attrib = (CodeAttribute2)attributes.Item(i);
+            if (attrib.FullName == attributeType) {
+                return attrib;
+            }
+        }
+        catch {
+            // FullName can throw in some cases, so just ignore those attributes
+            continue;
         }
     }
     return null;
