@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.67 (12-24-2011):
+* Restore Actions token that wasn't obsolete after all. Oops. (http://stackoverflow.com/questions/8625462/t4mvc-actions-token)
+
 !!! 2.6.66 (12-22-2011):
 * Disable constant generation in UseLowercaseRoutes mode (http://stackoverflow.com/questions/8605868/t4mvc-2-6-65-and-uselowercaseroutes-true-error)
 * Remove obsolete Actions token (http://stackoverflow.com/questions/8536269/what-is-the-difference-between-these-2-definitions-in-t4mvc/8543510)

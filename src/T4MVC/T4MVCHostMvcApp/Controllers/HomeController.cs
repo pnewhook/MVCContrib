@@ -9,6 +9,8 @@ namespace T4MVCHostMvcApp.Controllers {
     [HandleError]
     public partial class HomeController : Controller {
         public virtual ActionResult Index() {
+            //RedirectToAction()
+
             ViewData["Message"] = "Welcome to ASP.NET MVC!";
 
             return View();
@@ -18,7 +20,7 @@ namespace T4MVCHostMvcApp.Controllers {
         const string secondConst = "Action";
         [ActionName(firstConst + " " + secondConst)]
         public virtual ActionResult About() {
-            return View();
+            return RedirectToAction(Actions.Index());
         }
 
         [ActionName("New-Name for Blah")]

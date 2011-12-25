@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.66
+T4MVC Version 2.6.67
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -425,6 +425,8 @@ namespace <#=controller.Namespace #> {
         }
 <#} #>
 
+        [<#= GeneratedCode #>, DebuggerNonUserCode]
+        public <#=controller.ClassName #> Actions { get { return <#=controller.T4MVCControllerFullName #>; } }
         [<#= GeneratedCode #>]
         public readonly string Area = "<#=ProcessAreaOrControllerName(controller.AreaName) #>";
         [<#= GeneratedCode #>]

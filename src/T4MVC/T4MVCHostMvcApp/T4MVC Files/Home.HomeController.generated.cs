@@ -35,6 +35,8 @@ namespace T4MVCHostMvcApp.Areas.Home.Controllers {
         }
 
 
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public HomeController Actions { get { return MVC.HomeArea.Home; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "Home";
         [GeneratedCode("T4MVC", "2.0")]

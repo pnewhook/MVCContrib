@@ -32,6 +32,8 @@ namespace T4MVCHostMvcApp.Controllers {
         }
 
 
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public T4CtrlController Actions { get { return MVC.T4Ctrl; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
