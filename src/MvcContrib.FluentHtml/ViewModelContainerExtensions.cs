@@ -197,7 +197,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static SearchBox SearchBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new SearchBox(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new SearchBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -208,7 +208,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static RangeBox RangeBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new RangeBox(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new RangeBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -219,7 +219,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static TelephoneBox TelephoneBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new TelephoneBox(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new TelephoneBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -230,7 +230,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static DatePicker DatePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new DatePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new DatePicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -241,7 +241,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static MonthPicker MonthPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new MonthPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new MonthPicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -252,7 +252,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static WeekPicker WeekPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new WeekPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new WeekPicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -263,7 +263,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static DateTimePicker DateTimePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new DateTimePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new DateTimePicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -274,7 +274,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static DateTimeLocalPicker DateTimeLocalPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new DateTimeLocalPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new DateTimeLocalPicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -285,7 +285,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static TimePicker TimePicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new TimePicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new TimePicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -296,7 +296,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static ColorPicker ColorPicker<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new ColorPicker(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new ColorPicker(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -307,7 +307,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static UrlBox UrlBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new UrlBox(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new UrlBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 
@@ -318,7 +318,7 @@ namespace MvcContrib.FluentHtml
 		/// <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
 		public static EmailBox EmailBox<T>(this IViewModelContainer<T> view, Expression<Func<T, object>> expression) where T : class
 		{
-			return new EmailBox(expression.GetNameFor(view), null, view.GetBehaviors())
+            return new EmailBox(expression.GetNameFor(view), expression.GetMemberExpression(), view.GetBehaviors())
 				.Value(expression.GetValueFrom(view.ViewModel));
 		}
 

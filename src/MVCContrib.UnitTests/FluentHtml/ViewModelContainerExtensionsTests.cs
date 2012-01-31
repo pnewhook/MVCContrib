@@ -1,5 +1,7 @@
 using System;
+using System.Linq.Expressions;
 using MvcContrib.FluentHtml;
+using MvcContrib.FluentHtml.Elements;
 using MvcContrib.UnitTests.FluentHtml.Fakes;
 using MvcContrib.UnitTests.FluentHtml.Helpers;
 using NUnit.Framework;
@@ -247,91 +249,86 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void can_get_numberbox_with_value_from_simple_property()
 		{
-			var element = target.NumberBox(x => x.Id);
-			element.ValueAttributeShouldEqual(fake.Id.ToString());
+            VerifyIMemberElement(x => target.NumberBox(x));
 		}
 
 		[Test]
 		public void can_get_searchbox_with_value_from_simple_property()
 		{
-			var element = target.SearchBox(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.SearchBox(x));
 		}
 
 		[Test]
 		public void can_get_rangebox_with_value_from_simple_property()
 		{
-			var element = target.RangeBox(x => x.Id);
-			element.ValueAttributeShouldEqual(fake.Id.ToString());
+            VerifyIMemberElement(x => target.RangeBox(x));
 		}
 
 		[Test]
 		public void can_get_telephonebox_with_value_from_simple_property()
 		{
-			var element = target.TelephoneBox(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.TelephoneBox(x));
 		}
 
 		[Test]
 		public void can_get_datepicker_with_value_from_simple_property()
 		{
-			var element = target.DatePicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+		    VerifyIMemberElement(x => target.DatePicker(x));
 		}
 
-		[Test]
+	    [Test]
 		public void can_get_monthpicker_with_value_from_simple_property()
 		{
-			var element = target.MonthPicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.MonthPicker(x));
 		}
 
 		[Test]
 		public void can_get_weekpicker_with_value_from_simple_property()
 		{
-			var element = target.WeekPicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.WeekPicker(x));
 		}
 
 		[Test]
 		public void can_get_datetimepicker_with_value_from_simple_property()
 		{
-			var element = target.DateTimePicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.DateTimePicker(x));
 		}
 
 		[Test]
 		public void can_get_datetimelocalpicker_with_value_from_simple_property()
 		{
-			var element = target.DateTimeLocalPicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.DateTimeLocalPicker(x));
 		}
 
 		[Test]
 		public void can_get_timepicker_with_value_from_simple_property()
 		{
-			var element = target.TimePicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.TimePicker(x));
 		}
 
 		[Test]
 		public void can_get_colorpicker_with_value_from_simple_property()
 		{
-			var element = target.ColorPicker(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.ColorPicker(x));
 		}
 
 		[Test]
 		public void can_get_urlbox_with_value_from_simple_property()
 		{
-			var element = target.UrlBox(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.UrlBox(x));
 		}
 
 		[Test] public void can_get_emailbox_with_value_from_simple_property()
 		{
-			var element = target.EmailBox(x => x.Title);
-			element.ValueAttributeShouldEqual(fake.Title);
+            VerifyIMemberElement(x => target.EmailBox(x));
 		}
+
+        private void VerifyIMemberElement(Func<Expression<Func<FakeModel, object>>, IMemberElement> createElementFunc)
+        {
+            Expression<Func<FakeModel, object>> expression = x => x.Title;
+            var element = createElementFunc(expression);
+            element.ValueAttributeShouldEqual(fake.Title);
+            element.ForMember.ShouldEqual(expression.Body);
+        }
 	}
 }
