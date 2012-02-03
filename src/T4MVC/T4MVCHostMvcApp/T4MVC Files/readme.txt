@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.6.68 (02-03-2011):
+* Ignore static ctors when looking for ctors (http://mvccontrib.codeplex.com/workitem/7185)
+
 !!! 2.6.67 (12-24-2011):
 * Restore Actions token that wasn't obsolete after all. Oops. (http://stackoverflow.com/questions/8625462/t4mvc-actions-token)
 

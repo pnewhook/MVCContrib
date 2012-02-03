@@ -8,6 +8,8 @@ using T4MVCHostMvcApp.Misc;
 namespace T4MVCHostMvcApp.Controllers {
     [HandleError]
     public partial class HomeController : Controller {
+        static HomeController() { }
+
         public virtual ActionResult Index() {
             //RedirectToAction()
 

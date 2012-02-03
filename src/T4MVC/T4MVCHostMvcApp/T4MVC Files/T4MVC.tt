@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.67
+T4MVC Version 2.6.68
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -1115,13 +1115,13 @@ static IEnumerable<CodeFunction2> GetMethods(CodeClass2 codeClass) {
 // Check if the class has any explicit constructor
 static bool HasExplicitConstructor(CodeClass2 codeClass) {
     return codeClass.Members.OfType<CodeFunction2>().Any(
-        f => f.FunctionKind == vsCMFunction.vsCMFunctionConstructor);
+        f => !f.IsShared && f.FunctionKind == vsCMFunction.vsCMFunctionConstructor);
 }
 
 // Check if the class has a default (i.e. no params) constructor
 static bool HasExplicitDefaultConstructor(CodeClass2 codeClass) {
     return codeClass.Members.OfType<CodeFunction2>().Any(
-        f => f.FunctionKind == vsCMFunction.vsCMFunctionConstructor && f.Parameters.Count == 0);
+        f => !f.IsShared && f.FunctionKind == vsCMFunction.vsCMFunctionConstructor && f.Parameters.Count == 0);
 }
 
 // Find a method with a given name
