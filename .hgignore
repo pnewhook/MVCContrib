@@ -6,6 +6,7 @@ bin
 !/bin
 obj
 _ReSharper*
+*.ReSharper
 *.csproj.user
 *.resharper.user
 *.suo
