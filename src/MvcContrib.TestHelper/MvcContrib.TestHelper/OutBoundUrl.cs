@@ -26,23 +26,24 @@ namespace MvcContrib.TestHelper
 
 			for(int i = 0; i < methodCall.Arguments.Count; i++)
 			{
-				string name = methodCall.Method.GetParameters()[i].Name;
-				object value = null;
+			    var methodParameter = methodCall.Method.GetParameters()[i];
+				object argumentValue = null;
 
 				switch(methodCall.Arguments[i].NodeType)
 				{
 					case ExpressionType.Constant:
-						value = ((ConstantExpression)methodCall.Arguments[i]).Value;
+						argumentValue = ((ConstantExpression)methodCall.Arguments[i]).Value;
 						break;
 
                     case ExpressionType.New:
 					case ExpressionType.MemberAccess:
 					case ExpressionType.Convert:
-						value = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
+						argumentValue = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
 						break;
 				}
 
-				routeValues.Add(name, value);
+                if (!methodParameter.IsOptional || !Equals(argumentValue, methodParameter.DefaultValue))
+                    routeValues.Add(methodParameter.Name, argumentValue);
 			}
 
 			return new OutBoundUrlContext
