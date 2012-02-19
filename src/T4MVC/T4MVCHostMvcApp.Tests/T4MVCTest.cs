@@ -239,8 +239,8 @@ namespace T4MVCHostMvcApp.Tests {
             var actionRes = (IT4MVCActionResult)MVC.Home.ActionWithAllOptionalParams();
 
             TestAreaControllerActionNames(actionRes, "", "Home", "ActionWithAllOptionalParams");
-            TestRouteValue(actionRes, "someString", "Hello");
-            TestRouteValue(actionRes, "n", 5);
+            TestRouteValue(actionRes, "someString", null);
+            TestRouteValue(actionRes, "n", null);
         }
 
         [TestMethod()]
