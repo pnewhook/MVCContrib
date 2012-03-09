@@ -55,6 +55,10 @@ TODO:
 
 HISTORY:
 
+!!! 2.7.0 (03-09-2012):
+* Removed support for MVC earlier than 3, and for CLR earlier than 4.0
+* Fix ActionLink to work with MVC4 (http://mvccontrib.codeplex.com/workitem/7191)
+
 !!! 2.6.68 (02-03-2011):
 * Ignore static ctors when looking for ctors (http://mvccontrib.codeplex.com/workitem/7185)
 

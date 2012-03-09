@@ -56,12 +56,8 @@ namespace System.Web.Mvc {
             return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
         }
 
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes) {
-            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
-        }
-
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
-            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
+            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
@@ -94,6 +90,7 @@ namespace System.Web.Mvc {
             var callInfo = result.GetT4MVCResult();
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
+
         public static string Action(this UrlHelper urlHelper, ActionResult result) {
             return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
         }
@@ -259,7 +256,7 @@ namespace System.Web.Mvc {
             result.Controller = controller;
             result.Action = action;
             result.RouteValueDictionary = new RouteValueDictionary();
-            result.RouteValueDictionary.Add("Area", area ?? ""); 
+            result.RouteValueDictionary.Add("Area", area ?? "");
             result.RouteValueDictionary.Add("Controller", controller);
             result.RouteValueDictionary.Add("Action", action);
         }

@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.68
+T4MVC Version 2.6.70
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -15,7 +15,7 @@ Related blog posts: http://blogs.msdn.com/davidebb/archive/tags/T4MVC/default.as
 Please use in accordance to the MvcContrib license (http://mvccontrib.codeplex.com/license)
 */
 #>
-<#@ template language="C#v3.5" debug="true" hostspecific="true" #>
+<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop.8.0" #>
 <#@ assembly name="EnvDTE" #>
@@ -96,19 +96,15 @@ namespace <#=T4MVCNamespace #> {
 namespace System.Web.Mvc {
     [<#= GeneratedCode #>, DebuggerNonUserCode]
     public static class T4Extensions {
-        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result) {
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result) {
             return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
         }
 
-        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes) {
-            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
+            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
-            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
-        }
-
-        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
             return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), htmlAttributes);
         }
 
@@ -129,7 +125,6 @@ namespace System.Web.Mvc {
             return htmlHelper.BeginForm(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary, formMethod, htmlAttributes);
         }
 
-<#if (MvcVersion >= 2) {#>
         public static void RenderAction(this HtmlHelper htmlHelper, ActionResult result) {
             var callInfo = result.GetT4MVCResult();
             htmlHelper.RenderAction(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
@@ -139,7 +134,7 @@ namespace System.Web.Mvc {
             var callInfo = result.GetT4MVCResult();
             return htmlHelper.Action(callInfo.Action, callInfo.Controller, callInfo.RouteValueDictionary);
         }
-<#} #>
+
         public static string Action(this UrlHelper urlHelper, ActionResult result) {
             return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
         }
@@ -153,15 +148,15 @@ namespace System.Web.Mvc {
                 urlHelper.RouteUrl(result.GetRouteValueDictionary()));
         }
 
-        public static <#=HtmlStringType #> ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions) {
+        public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions) {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions);
         }
 
-        public static <#=HtmlStringType #> ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions, object htmlAttributes) {
+        public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions, object htmlAttributes) {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions, new RouteValueDictionary(htmlAttributes));
         }
 
-        public static <#=HtmlStringType #> ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes) {
+        public static MvcHtmlString ActionLink(this AjaxHelper ajaxHelper, string linkText, ActionResult result, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes) {
             return ajaxHelper.RouteLink(linkText, result.GetRouteValueDictionary(), ajaxOptions, htmlAttributes);
         }
 
@@ -205,7 +200,6 @@ namespace System.Web.Mvc {
             return route;
         }
 
-<#if (MvcVersion >= 2) {#>
         // Note: can't name the AreaRegistrationContext methods 'MapRoute', as that conflicts with the existing methods
         public static Route MapRouteArea(this AreaRegistrationContext context, string name, string url, ActionResult result) {
             return MapRouteArea(context, name, url, result, null /*namespaces*/);
@@ -239,7 +233,6 @@ namespace System.Web.Mvc {
             route.DataTokens["UseNamespaceFallback"] = useNamespaceFallback;
             return route;
         }
-<#} #>
 
         private static Route CreateRoute(string url, ActionResult result, object defaults, object constraints, string[] namespaces) {
             // Start by adding the default values from the anonymous object (if any)
@@ -307,7 +300,7 @@ namespace System.Web.Mvc {
             result.Controller = controller;
             result.Action = action;
             result.RouteValueDictionary = new RouteValueDictionary();
-            <# if (MvcVersion >= 2) { #>result.RouteValueDictionary.Add("Area", area ?? "");<# } #> 
+            result.RouteValueDictionary.Add("Area", area ?? "");
             result.RouteValueDictionary.Add("Controller", controller);
             result.RouteValueDictionary.Add("Action", action);
         }
@@ -550,7 +543,6 @@ static TextTransformation TT;
 static string T4FileName;
 static string T4Folder;
 static string GeneratedCode = @"GeneratedCode(""T4MVC"", ""2.0"")";
-static float MvcVersion;
 static string HtmlStringType;
 static Microsoft.CSharp.CSharpCodeProvider codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
 
@@ -640,25 +632,7 @@ void PrepareDataToRender(TextTransformation tt) {
     // Get the path of the root folder of the app
     AppRoot = Path.GetDirectoryName(Project.FullName) + '\\';
 
-    MvcVersion = GetMvcVersion();
-
-    // Use the proper return type of render helpers
-    HtmlStringType = MvcVersion < 2 ? "string" : "MvcHtmlString";
-
     ProcessAreas(Project);
-}
-
-float GetMvcVersion() {
-    var vsProject = (VSLangProj.VSProject)Project.Object;
-
-    foreach (VSLangProj.Reference r in vsProject.References) {
-        if (r.Name.Equals("System.Web.Mvc", StringComparison.OrdinalIgnoreCase)) {
-            return r.MajorVersion + (r.MinorVersion / 10);
-        }
-    }
-
-    // We should never get here, but default to v1 just in case
-    return 1;
 }
 
 Project GetProjectContainingT4File(DTE dte) {
