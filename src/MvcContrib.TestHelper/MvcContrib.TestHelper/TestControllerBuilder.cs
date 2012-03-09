@@ -74,7 +74,6 @@ namespace MvcContrib.TestHelper
 			request.CallbackFor(r => r.ApplicationPath, () => ApplicationPath);
 			request.CallbackFor(r => r.PathInfo, () => PathInfo);
 			request.CallbackFor(r => r.RawUrl, () => RawUrl);
-            request.CallbackFor(r => r.Url, () => new Uri(RawUrl));
 			response.SetupProperty(r => r.Status);
 
 			httpContext.ReturnFor(c => c.Request, request.Object);

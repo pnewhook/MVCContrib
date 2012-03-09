@@ -213,18 +213,15 @@ namespace T4MVCHostMvcApp.Controllers {
 
         public override System.Web.Mvc.ActionResult ActionWithAllOptionalParams(string someString, int n) {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithAllOptionalParams);
-            if (someString != "Hello")
-                callInfo.RouteValueDictionary.Add("someString", someString);
-            if (n != 5)
-                callInfo.RouteValueDictionary.Add("n", n);
+            callInfo.RouteValueDictionary.Add("someString", someString);
+            callInfo.RouteValueDictionary.Add("n", n);
             return callInfo;
         }
 
         public override System.Web.Mvc.ActionResult ActionWithSomeOptionalParams(string someString, int n) {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.ActionWithSomeOptionalParams);
             callInfo.RouteValueDictionary.Add("someString", someString);
-            if (n != 5)
-                callInfo.RouteValueDictionary.Add("n", n);
+            callInfo.RouteValueDictionary.Add("n", n);
             return callInfo;
         }
 

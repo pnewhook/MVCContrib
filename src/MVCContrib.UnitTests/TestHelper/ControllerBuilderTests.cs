@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using MvcContrib.TestHelper.MockFactories;
 using NUnit.Framework;
@@ -105,15 +106,6 @@ namespace MvcContrib.UnitTests.TestHelper
 			_builder.InitializeController(testController);
 			Assert.AreEqual("someUrl", testController.Request.RawUrl);
 		}
-
-        [Test]
-        public void When_specifying_raw_url_it_should_propogate_to_url()
-        {
-            _builder.RawUrl = "http://localhost";
-            var testController = new TestHelperController();
-            _builder.InitializeController(testController);
-            Assert.AreEqual(new Uri("http://localhost"), testController.Request.Url);
-        }
 
 		[Test]
 		public void CanSpecifyRequestAcceptTypes()

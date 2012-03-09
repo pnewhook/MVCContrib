@@ -26,24 +26,22 @@ namespace MvcContrib.TestHelper
 
 			for(int i = 0; i < methodCall.Arguments.Count; i++)
 			{
-			    var methodParameter = methodCall.Method.GetParameters()[i];
-				object argumentValue = null;
+				string name = methodCall.Method.GetParameters()[i].Name;
+				object value = null;
 
 				switch(methodCall.Arguments[i].NodeType)
 				{
 					case ExpressionType.Constant:
-						argumentValue = ((ConstantExpression)methodCall.Arguments[i]).Value;
+						value = ((ConstantExpression)methodCall.Arguments[i]).Value;
 						break;
 
-                    case ExpressionType.New:
 					case ExpressionType.MemberAccess:
 					case ExpressionType.Convert:
-						argumentValue = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
+						value = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
 						break;
 				}
 
-                if (!methodParameter.IsOptional || !Equals(argumentValue, methodParameter.DefaultValue))
-                    routeValues.Add(methodParameter.Name, argumentValue);
+				routeValues.Add(name, value);
 			}
 
 			return new OutBoundUrlContext
@@ -51,21 +49,6 @@ namespace MvcContrib.TestHelper
 				RouteType = new DerivedRoute(controllerName, methodName, routeValues)
 			};
 		}
-
-        public static OutBoundUrlContext Of<TController>(string action, object routeValues) where TController : Controller
-        {
-            return Of<TController>(action, new RouteValueDictionary(routeValues));
-        }
-
-        public static OutBoundUrlContext Of<TController>(string action, RouteValueDictionary routeValues) where TController : Controller
-        {
-            var controller = typeof(TController).Name.Replace("Controller", "");
-
-            return new OutBoundUrlContext
-            {
-                RouteType = new DerivedRoute(controller, action, routeValues)
-            };
-        }
 	}
 
 	public class DerivedRoute : IRouteType
@@ -104,20 +87,18 @@ namespace MvcContrib.TestHelper
 
 	public class OutBoundUrlContext
 	{
-		public void ShouldMapToUrl(string url, string currentUrl = null)
-        {
-            var builder = new TestControllerBuilder();
-            if (!string.IsNullOrWhiteSpace(currentUrl))
-                builder.RawUrl = currentUrl;
-            var context = new RequestContext(builder.HttpContext, new RouteData());
-            context.HttpContext.Response.Stub(x => x.ApplyAppPathModifier(null)).IgnoreArguments().Do(
-                new Func<string, string>(s => s)).Repeat.Any();
+		public void ShouldMapToUrl(string url)
+		{
+			var builder = new TestControllerBuilder();
+			var context = new RequestContext(builder.HttpContext, new RouteData());
+			context.HttpContext.Response.Stub(x => x.ApplyAppPathModifier(null)).IgnoreArguments().Do(
+				new Func<string, string>(s => s)).Repeat.Any();
 
-            var urlhelper = new UrlHelper(context);
+			var urlhelper = new UrlHelper(context);
 
-            var generatedUrl = RouteType.GetUrl(urlhelper);
-            generatedUrl.AssertSameStringAs(url);
-        }
+			var generatedUrl = RouteType.GetUrl(urlhelper);
+			generatedUrl.AssertSameStringAs(url);
+		}
 
 		public IRouteType RouteType { get; set; }
 	}

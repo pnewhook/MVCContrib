@@ -55,10 +55,7 @@ TODO:
 
 HISTORY:
 
-!!! 2.6.69 (03-07-2012):
-* Fix ActionLink to work with MVC4 (http://mvccontrib.codeplex.com/workitem/7191)
-
-!!! 2.6.68 (02-03-2012):
+!!! 2.6.68 (02-03-2011):
 * Ignore static ctors when looking for ctors (http://mvccontrib.codeplex.com/workitem/7185)
 
 !!! 2.6.67 (12-24-2011):

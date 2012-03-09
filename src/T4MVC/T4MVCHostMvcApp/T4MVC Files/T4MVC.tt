@@ -1,6 +1,6 @@
 ﻿<#
 /*
-T4MVC Version 2.6.69
+T4MVC Version 2.6.68
 Find latest version and documentation at http://mvccontrib.codeplex.com/wikipage?title=T4MVC
 Discuss on StackOverflow or on the MVC forum (http://forums.asp.net/1146.aspx)
 
@@ -15,7 +15,7 @@ Related blog posts: http://blogs.msdn.com/davidebb/archive/tags/T4MVC/default.as
 Please use in accordance to the MvcContrib license (http://mvccontrib.codeplex.com/license)
 */
 #>
-<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ template language="C#v3.5" debug="true" hostspecific="true" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop.8.0" #>
 <#@ assembly name="EnvDTE" #>
@@ -100,8 +100,12 @@ namespace System.Web.Mvc {
             return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
         }
 
+        public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes) {
+            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes));
+        }
+
         public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
-            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), htmlAttributes);
+            return ActionLink(htmlHelper, linkText, result, new RouteValueDictionary(htmlAttributes), protocol, hostName, fragment);
         }
 
         public static <#=HtmlStringType #> ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
@@ -477,12 +481,7 @@ if (!UseLowercaseRoutes) { #>
             var callInfo = new T4MVC_<#=method.ReturnType #>(Area, Name, ActionNames.<#=method.ActionName #>);
 <#if (method.Parameters.Count > 0) { #>
 <#foreach (var p in method.Parameters) { #>
-<#if (p.IsOptional) { #>
-            if (<#=p.Name #> != <#=p.DefaultValue #>)
-                callInfo.RouteValueDictionary.Add(<#=p.RouteNameExpression #>, <#=p.Name #>);
-<#} else { #>
             callInfo.RouteValueDictionary.Add(<#=p.RouteNameExpression #>, <#=p.Name #>);
-<#}#>
 <#} #>
 <#}#>
             return callInfo;
@@ -1405,9 +1404,7 @@ class FunctionInfo {
                 new MethodParamInfo() {
                     Name = p.Name,
                     RouteNameExpression = routeNameExpression,
-                    Type = p.Type.AsString,
-                    IsOptional = p.ParameterKind == vsCMParameterKind.vsCMParameterKindOptional,
-                    DefaultValue = p.DefaultValue
+                    Type = p.Type.AsString
                 });
             _signature += "," + p.Type.AsString;
         }
@@ -1508,8 +1505,6 @@ class MethodParamInfo {
     public string Name { get; set; }
     public string RouteNameExpression { get; set; }
     public string Type { get; set; }
-    public bool IsOptional { get; set; }
-    public string DefaultValue { get; set; }
 }
 
 
