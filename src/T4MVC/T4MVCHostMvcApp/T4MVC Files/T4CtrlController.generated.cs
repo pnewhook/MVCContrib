@@ -31,6 +31,12 @@ namespace T4MVCHostMvcApp.Controllers {
             return RedirectToRoute(callInfo.RouteValueDictionary);
         }
 
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        protected RedirectToRouteResult RedirectToActionPermanent(ActionResult result) {
+            var callInfo = result.GetT4MVCResult();
+            return RedirectToRoutePermanent(callInfo.RouteValueDictionary);
+        }
+
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public T4CtrlController Actions { get { return MVC.T4Ctrl; } }

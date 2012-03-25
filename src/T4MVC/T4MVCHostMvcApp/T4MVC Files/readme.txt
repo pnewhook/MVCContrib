@@ -55,6 +55,10 @@ TODO:
 
 HISTORY:
 
+!!! 2.8 (03-25-2012):
+* Generate parameter constants for action methods. e.g. MVC.MyController.MethodParams.someParam
+* Default to https for Action Methods marked as RequireHttps (either at controller or action level)
+
 !!! 2.7.0 (03-09-2012):
 * Removed support for MVC earlier than 3, and for CLR earlier than 4.0
 * Fix ActionLink to work with MVC4 (http://mvccontrib.codeplex.com/workitem/7191)

@@ -53,15 +53,15 @@ namespace System.Web.Mvc {
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
     public static class T4Extensions {
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result) {
-            return htmlHelper.RouteLink(linkText, result.GetRouteValueDictionary());
+            return htmlHelper.ActionLink(linkText, result, null, null, null, null);
         }
 
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, object htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
-            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return htmlHelper.RouteLink(linkText, null, protocol ?? result.GetT4MVCResult().Protocol, hostName, fragment, result.GetRouteValueDictionary(), HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, ActionResult result, IDictionary<string, object> htmlAttributes, string protocol = null, string hostName = null, string fragment = null) {
-            return htmlHelper.RouteLink(linkText, null, protocol, hostName, fragment, result.GetRouteValueDictionary(), htmlAttributes);
+            return htmlHelper.RouteLink(linkText, null, protocol ?? result.GetT4MVCResult().Protocol, hostName, fragment, result.GetRouteValueDictionary(), htmlAttributes);
         }
 
         public static MvcForm BeginForm(this HtmlHelper htmlHelper, ActionResult result) {
@@ -92,11 +92,11 @@ namespace System.Web.Mvc {
         }
 
         public static string Action(this UrlHelper urlHelper, ActionResult result) {
-            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary());
+            return urlHelper.Action(result, null, null);
         }
 
         public static string Action(this UrlHelper urlHelper, ActionResult result, string protocol = null, string hostName = null) {
-            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol, hostName);
+            return urlHelper.RouteUrl(null, result.GetRouteValueDictionary(), protocol ?? result.GetT4MVCResult().Protocol, hostName);
         }
 
         public static string ActionAbsolute(this UrlHelper urlHelper, ActionResult result) {
@@ -252,9 +252,10 @@ namespace System.Web.Mvc {
             return result;
         }
         
-        public static void InitMVCT4Result(this IT4MVCActionResult result, string area, string controller, string action) {
+        public static void InitMVCT4Result(this IT4MVCActionResult result, string area, string controller, string action, string protocol = null) {
             result.Controller = controller;
             result.Action = action;
+            result.Protocol = T4MVCHelpers.IsProduction() ? protocol : null;
             result.RouteValueDictionary = new RouteValueDictionary();
             result.RouteValueDictionary.Add("Area", area ?? "");
             result.RouteValueDictionary.Add("Controller", controller);
@@ -294,82 +295,90 @@ namespace T4MVC {
 public interface IT4MVCActionResult {   
     string Action { get; set; }   
     string Controller { get; set; }   
-    RouteValueDictionary RouteValueDictionary { get; set; }   
+    RouteValueDictionary RouteValueDictionary { get; set; } 
+    string Protocol {get; set; }  
 }   
   
 
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_ActionResult : System.Web.Mvc.ActionResult, IT4MVCActionResult {
-    public T4MVC_ActionResult(string area, string controller, string action): base()  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_ActionResult(string area, string controller, string action, string protocol = null): base()  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
      
     public override void ExecuteResult(System.Web.Mvc.ControllerContext context) { }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_ViewResult : System.Web.Mvc.ViewResult, IT4MVCActionResult {
-    public T4MVC_ViewResult(string area, string controller, string action): base()  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_ViewResult(string area, string controller, string action, string protocol = null): base()  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_JsonResult : System.Web.Mvc.JsonResult, IT4MVCActionResult {
-    public T4MVC_JsonResult(string area, string controller, string action): base()  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_JsonResult(string area, string controller, string action, string protocol = null): base()  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_FileContentResult : System.Web.Mvc.FileContentResult, IT4MVCActionResult {
-    public T4MVC_FileContentResult(string area, string controller, string action): base(new byte[0], " ")  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_FileContentResult(string area, string controller, string action, string protocol = null): base(new byte[0], " ")  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_FileStreamResult : System.Web.Mvc.FileStreamResult, IT4MVCActionResult {
-    public T4MVC_FileStreamResult(string area, string controller, string action): base(default(System.IO.Stream), " ")  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_FileStreamResult(string area, string controller, string action, string protocol = null): base(default(System.IO.Stream), " ")  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_FileResult : System.Web.Mvc.FileResult, IT4MVCActionResult {
-    public T4MVC_FileResult(string area, string controller, string action): base(" ")  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_FileResult(string area, string controller, string action, string protocol = null): base(" ")  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
      
     protected override void WriteFile(System.Web.HttpResponseBase response) { }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public class T4MVC_MyCustomResult : T4MVCHostMvcApp.Misc.MyCustomResult, IT4MVCActionResult {
-    public T4MVC_MyCustomResult(string area, string controller, string action): base(" ", default(int), default(T4MVCHostMvcApp.Misc.Animal))  {
-        this.InitMVCT4Result(area, controller, action);
+    public T4MVC_MyCustomResult(string area, string controller, string action, string protocol = null): base(" ", default(int), default(T4MVCHostMvcApp.Misc.Animal))  {
+        this.InitMVCT4Result(area, controller, action, protocol);
     }
     
     public string Controller { get; set; }
     public string Action { get; set; }
+    public string Protocol { get; set; }
     public RouteValueDictionary RouteValueDictionary { get; set; }
 }
 
