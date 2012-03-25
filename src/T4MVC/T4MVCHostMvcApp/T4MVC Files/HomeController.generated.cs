@@ -110,6 +110,44 @@ namespace T4MVCHostMvcApp.Controllers {
         }
 
 
+        static readonly ActionParamsClass_Blah s_params_Blah = new ActionParamsClass_Blah();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Blah BlahParams { get { return s_params_Blah; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Blah {
+            public readonly string name = "name";
+            public readonly string age = "age";
+        }
+        static readonly ActionParamsClass_ActionWithArrayParam s_params_ActionWithArrayParam = new ActionParamsClass_ActionWithArrayParam();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ActionWithArrayParam ActionWithArrayParamParams { get { return s_params_ActionWithArrayParam; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ActionWithArrayParam {
+            public readonly string someStrings = "someStrings";
+        }
+        static readonly ActionParamsClass_ActionWithAllOptionalParams s_params_ActionWithAllOptionalParams = new ActionParamsClass_ActionWithAllOptionalParams();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ActionWithAllOptionalParams ActionWithAllOptionalParamsParams { get { return s_params_ActionWithAllOptionalParams; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ActionWithAllOptionalParams {
+            public readonly string someString = "someString";
+            public readonly string n = "n";
+        }
+        static readonly ActionParamsClass_ActionWithSomeOptionalParams s_params_ActionWithSomeOptionalParams = new ActionParamsClass_ActionWithSomeOptionalParams();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ActionWithSomeOptionalParams ActionWithSomeOptionalParamsParams { get { return s_params_ActionWithSomeOptionalParams; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ActionWithSomeOptionalParams {
+            public readonly string someString = "someString";
+            public readonly string n = "n";
+        }
+        static readonly ActionParamsClass_ActionWithParamUsingAtSyntax s_params_ActionWithParamUsingAtSyntax = new ActionParamsClass_ActionWithParamUsingAtSyntax();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ActionWithParamUsingAtSyntax ActionWithParamUsingAtSyntaxParams { get { return s_params_ActionWithParamUsingAtSyntax; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ActionWithParamUsingAtSyntax {
+            public readonly string @event = "event";
+        }
         static readonly ViewNames s_views = new ViewNames();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewNames Views { get { return s_views; } }

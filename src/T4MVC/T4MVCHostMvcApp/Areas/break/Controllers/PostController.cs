@@ -32,7 +32,13 @@ namespace T4MVCHostMvcApp.Areas.Break.Controllers {
             return View();
         }
 
-        public override ActionResult CompiledControllerVirtualMethod2(string s) {
+        public virtual ActionResult ActionWithVariousParams(string myString, int someInt, object someObject)
+        {
+            return View();
+        }
+
+        public override ActionResult CompiledControllerVirtualMethod2(string s)
+        {
             return base.CompiledControllerVirtualMethod2(s);
         }
     }

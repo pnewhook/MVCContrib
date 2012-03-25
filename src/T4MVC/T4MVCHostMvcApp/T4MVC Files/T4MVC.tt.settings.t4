@@ -95,7 +95,7 @@ const string AttributeIndicatingHttps = "System.Web.Mvc.RequireHttpsAttribute";
 const bool GenerateSecureLinksInDebugMode = false;
 
 // Set this to false to omit the generation of parameters for action methods.
-static bool GenerateParamsForActionMethods = false;
+static bool GenerateParamsForActionMethods = true;
 // The suffix added to action method names for the property containing the parameters, for example ImportParams
 // for the Import action method.
 const string ParamsPropertySuffix = "Params";

@@ -138,6 +138,16 @@ namespace T4MVCHostMvcApp.Tests {
             TestAreaControllerActionName("The Index", T4MVCHostMvcApp.Areas.Home.Controllers.HomeController.ActionNameConstants.Index);
         }
 
+        // PARAMETER NAMES TESTS
+
+        [TestMethod()]
+        public void TestParameterName()
+        {
+            Assert.AreEqual("myString", MVC.@break.Post.ActionWithVariousParamsParams.myString);
+            Assert.AreEqual("someInt", MVC.@break.Post.ActionWithVariousParamsParams.someInt);
+            Assert.AreEqual("someObject", MVC.@break.Post.ActionWithVariousParamsParams.someObject);
+        }
+
 
         // VIEW PATHS TESTS
 
