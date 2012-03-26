@@ -55,6 +55,9 @@ TODO:
 
 HISTORY:
 
+!!! 2.8.1 (03-??-2012):
+* Make T4MVCHelpers class public so that test code in a different assembly can access it
+
 !!! 2.8 (03-25-2012):
 * Generate parameter constants for action methods. e.g. MVC.MyController.MethodParams.someParam
 * Default to https for Action Methods marked as RequireHttps (either at controller or action level)
