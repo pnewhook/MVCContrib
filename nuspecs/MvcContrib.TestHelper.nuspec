@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
  <metadata>
-   <id>MvcContrib.Mvc3.TestHelper-ci</id>
+   <id>MvcContrib.Mvc3.TestHelper</id>
    <version></version>
    <authors>Outercurve Foundation</authors>
    <requireLicenseAcceptance>false</requireLicenseAcceptance>
