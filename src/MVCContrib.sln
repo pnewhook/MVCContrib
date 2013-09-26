@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74D2502B-22E0-469A-A207-EDBD5DDE5842}"
 	ProjectSection(SolutionItems) = preProject
 		..\build.bat = ..\build.bat
@@ -30,6 +30,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandProcessor.IntegrationTests", "CommandProcessor\RulesEngine.IntegrationTests\CommandProcessor.IntegrationTests.csproj", "{AF8B01CD-C469-4A35-BA76-3606A3A705AE}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MVCContrib.VB.UnitTests", "MVCContrib.VB.UnitTests\MVCContrib.VB.UnitTests.vbproj", "{49CA25E8-C0C6-4007-9E5A-44AE4828E92E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7EFF6386-C08C-47EA-A9F6-6FD7D6326320}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
